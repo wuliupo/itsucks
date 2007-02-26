@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean 
+		id="Dispatcher" 
+		class="de.phleisch.app.itsucks.Dispatcher" 
+		singleton="false">
+		
+		<property name="jobManager">
+			<ref bean="JobManager"/>
+		</property>
+
+		<property name="workerPool">
+			<ref bean="WorkerPool"/>
+		</property>
+	</bean>
+
+	<bean 
+		id="DispatcherThread" 
+		class="de.phleisch.app.itsucks.DispatcherThread" 
+		singleton="false"
+		parent="Dispatcher">
+	</bean>
+
+	<bean 
+		id="JobManager" 
+		class="de.phleisch.app.itsucks.JobManager" 
+		singleton="false">
+		
+		<property name="jobList">
+			<ref bean="SimpleJobListImpl"/>
+		</property>
+
+<!-- 
+		<property name="jobFilter">
+			<list>
+				<ref bean="DownloadJobFilter"/>
+			</list>
+		</property>
+ -->		
+		
+	</bean>
+
+<!-- 
+	<bean 
+		id="DefaultJobComparator" 
+		class="de.phleisch.app.itsucks.DefaultJobComparator" 
+		singleton="false">
+	</bean>
+ -->	
+	
+	<bean 
+		id="SimpleJobListImpl" 
+		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
+		singleton="false">
+	</bean>
+	
+	<!-- 
+	<bean 
+		id="FastJobListImpl" 
+		class="de.phleisch.app.itsucks.FastJobListImpl" 
+		singleton="false">
+	</bean>	
+	 -->
+
+	<bean 
+		id="WorkerPool" 
+		class="de.phleisch.app.itsucks.WorkerPool" 
+		singleton="false">
+		
+		<!-- Pool size -->
+		<constructor-arg type="int">
+			<value>5</value>
+		</constructor-arg>
+
+	</bean>
+	
+	<bean 
+		id="DataProcessorManager" 
+		class="de.phleisch.app.itsucks.io.DataProcessorManager" 
+		singleton="true">
+		
+		<property name="processors">
+			<list>
+				<idref bean="PersistenceProcessor"/>
+				<idref bean="HttpParser"/>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean 
+		id="PersistenceProcessor" 
+		class="de.phleisch.app.itsucks.io.PersistenceProcessor" 
+		singleton="false">
+	</bean>
+	
+	<bean 
+		id="HttpParser" 
+		class="de.phleisch.app.itsucks.io.http.HttpParser" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="DataRetrieverManager" 
+		class="de.phleisch.app.itsucks.io.DataRetrieverManager" 
+		singleton="true">
+		
+		<property name="retriever">
+			<map>
+				<entry>
+					<key><value>http</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
+				
+				<entry>
+					<key><value>https</value></key>
+					<idref bean="HttpRetriever"/>
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+	
+	<bean 
+		id="HttpRetriever" 
+		class="de.phleisch.app.itsucks.io.http.AdvancedHttpRetriever" 
+		singleton="false">
+		
+		<property name="userAgent">
+			<value>Mozilla/5.0</value>
+		</property>
+	</bean>
+	
+	<bean 
+		id="DownloadJobFilter" 
+		class="de.phleisch.app.itsucks.filter.DownloadJobFilter" 
+		singleton="false">
+	</bean>
+	
+	<bean 
+		id="RegExpJobFilter" 
+		class="de.phleisch.app.itsucks.filter.RegExpJobFilter" 
+		singleton="false">
+	</bean>
+	
+	<bean 
+		id="DownloadJob" 
+		class="de.phleisch.app.itsucks.io.DownloadJob" 
+		singleton="false">
+		
+		<property name="dataProcessorManager">
+			<ref bean="DataProcessorManager"/>
+		</property>
+				
+		<property name="dataRetrieverManager">
+			<ref bean="DataRetrieverManager"/>
+		</property>
+		
+	</bean>
+	
+	
+</beans>
+
+

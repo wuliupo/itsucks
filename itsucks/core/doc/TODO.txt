@@ -1,0 +1,27 @@
+Erledigt:
+* Sortierung in Job Liste einführen für mehr Performance (HashTree)
+* Im Dispatcher einen delay zwischen den einzelnen Jobs einbauen
+
+Prio 1:
+- Einen zusätzlichen Filter bauen: URLFilter
+  Dieser prüft die URL ob die Regexp matcht und kann dann folgende Änderungen am Job machen:
+  * Rauswerfen/Drinlassen
+  * Prio modifizieren +/-
+- Alle checks mit Regexp -> case insensentive
+- Bug mit offenen Verbindungen ansehen
+- Files die nicht geparsed werden und die nicht zum speichern gewählt sind, nicht downloaded
+- GUI
+- Dateien die bereits auf der Platte sind, nicht nochmal runterladen, bzw. resumen.
+
+Prio 2:
+- Prioritäten für bestimmte Charastika vergeben, z.B. 
+  - Auf bestimmten Server gibt es eine höhere Priorität diesen abzugrasen als querverweise zu durchsuchen
+  - Prio darauf die Depth niedrig oder schnell wachsend zu halten
+  - Dateitypen höhere Prio geben
+- Pfade mit vielen .. abfangen, auf keinen Fall das ziel verzeichnis verlassen.
+- Speicherverbrauch ansehen
+- Threads pro Server limitieren
+- Dateigrösse einschränken
+- Statusbalken für Fortschritt
+- robots.txt einlesen
+

@@ -1,0 +1,94 @@
+<html>
+<table>
+
+ <tr align='left'><th colspan='2'>Examples</th></tr>
+
+ <tr><td  valign='top'><tt>.*text.*</tt></td>
+     <td>Fully matches every line containing the text 'text'</td></tr>
+ <tr><td  valign='top'><tt>text</tt></td>
+     <td>Partially matches every line containing the text 'text'</td></tr>
+ <tr><td  valign='top'><tt>.*\.de$</tt></td>
+     <td>Fully matches every line ending with '.de'</td></tr>
+ <tr><td  valign='top'><tt>.*\.de$|.*\.com$</tt></td>
+     <td>Fully matches every line ending with '.de' or '.com'</td></tr>
+     
+     
+ <tr><th>&nbsp;</th></tr>
+
+
+ <tr align='left'><th colspan='2'>Character classes</th></tr>
+
+ <tr><td  valign='top'><tt>[abc]</tt></td>
+     <td><tt>a</tt>, <tt>b</tt>, or <tt>c</tt> (simple class)</td></tr>
+ <tr><td  valign='top'><tt>[^abc]</tt></td>
+     <td>Any character except <tt>a</tt>, <tt>b</tt>, or <tt>c</tt> (negation)</td></tr>
+ <tr><td  valign='top'><tt>[a-zA-Z]</tt></td>
+     <td><tt>a</tt> through <tt>z</tt>
+         or <tt>A</tt> through <tt>Z</tt>, inclusive (range)</td></tr>
+ <tr><td  valign='top'><tt>[a-d[m-p]]</tt></td>
+     <td><tt>a</tt> through <tt>d</tt>,
+      or <tt>m</tt> through <tt>p</tt>: <tt>[a-dm-p]</tt> (union)</td></tr>
+ <tr><td  valign='top'><tt>[a-z&amp;&amp;[def]]</tt></td>
+     <td><tt>d</tt>, <tt>e</tt>, or <tt>f</tt> (intersection)</td></tr>
+ <tr><td  valign='top'><tt>[a-z&amp;&amp;[^bc]]</tt></td>
+     <td><tt>a</tt> through <tt>z</tt>,
+         except for <tt>b</tt> and <tt>c</tt>: <tt>[ad-z]</tt> (subtraction)</td></tr>
+ <tr><td  valign='top'><tt>[a-z&amp;&amp;[^m-p]]</tt></td>
+     <td><tt>a</tt> through <tt>z</tt>,
+          and not <tt>m</tt> through <tt>p</tt>: <tt>[a-lq-z]</tt>(subtraction)</td></tr>
+ <tr><th>&nbsp;</th></tr>
+
+ <tr align='left'><th colspan='2'>Predefined character classes</th></tr>
+ 
+ <tr><td  valign='top'><tt>.</tt></td>
+     <td>Any character (may or may not match line terminators)</td></tr>
+ <tr><td  valign='top'><tt>\d</tt></td>
+     <td>A digit: <tt>[0-9]</tt></td></tr>
+ <tr><td  valign='top'><tt>\D</tt></td>
+     <td>A non-digit: <tt>[^0-9]</tt></td></tr>
+ <tr><td  valign='top'><tt>\s</tt></td>
+     <td>A whitespace character: <tt>[ \t\n\x0B\f\r]</tt></td></tr>
+ <tr><td  valign='top'><tt>\S</tt></td>
+     <td>A non-whitespace character: <tt>[^\s]</tt></td></tr>
+ <tr><td  valign='top'><tt>\w</tt></td>
+     <td>A word character: <tt>[a-zA-Z_0-9]</tt></td></tr>
+ <tr><td  valign='top'><tt>\W</tt></td>
+     <td>A non-word character: <tt>[^\w]</tt></td></tr>
+
+ <tr><th>&nbsp;</th></tr>
+ <tr align="left"><th colspan="2" id="bounds">Boundary matchers</th></tr>
+
+ <tr><td headers="construct bounds" valign="top"><tt>^</tt></td>
+     <td>The beginning of a line</td></tr>
+ <tr><td headers="construct bounds" valign="top"><tt>$</tt></td>
+     <td>The end of a line</td></tr>
+     
+ <tr><th>&nbsp;</th></tr>
+ <tr align="left"><th colspan="2" id="greedy">Greedy quantifiers</th></tr>
+
+ <tr><td  valign="top"><i>X</i><tt>?</tt></td>
+     <td><i>X</i>, once or not at all</td></tr>
+
+ <tr><td  valign="top"><i>X</i><tt>*</tt></td>
+     <td><i>X</i>, zero or more times</td></tr>
+ <tr><td  valign="top"><i>X</i><tt>+</tt></td>
+     <td><i>X</i>, one or more times</td></tr>
+ <tr><td  valign="top"><i>X</i><tt>{</tt><i>n</i><tt>}</tt></td>
+
+     <td><i>X</i>, exactly <i>n</i> times</td></tr>
+ <tr><td  valign="top"><i>X</i><tt>{</tt><i>n</i><tt>,}</tt></td>
+     <td><i>X</i>, at least <i>n</i> times</td></tr>
+
+ <tr><td  valign="top"><i>X</i><tt>{</tt><i>n</i><tt>,</tt><i>m</i><tt>}</tt></td>
+     <td><i>X</i>, at least <i>n</i> but not more than <i>m</i> times</td></tr>
+ <tr><th>&nbsp;</th></tr>
+
+ <tr align="left"><th colspan="2" id="logical">Logical operators</th></tr>
+
+ <tr><td valign="top"><i>XY</i></td>
+     <td><i>X</i> followed by <i>Y</i></td></tr>
+ <tr><td valign="top"><i>X</i><tt>|</tt><i>Y</i></td>
+     <td>Either <i>X</i> or <i>Y</i></td></tr>
+
+</table>
+</html>

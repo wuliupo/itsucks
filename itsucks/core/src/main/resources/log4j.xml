@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration>
+	<appender name="LogFile" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="crawl.log" />
+		<param name="MaxFileSize" value="5MB" />
+		
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%r:%p(%c{2}):%d (%F:%L) [%t] - %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-4r [%t] %-5p (%c{3}) %x - %m%n"/>
+		</layout>
+	</appender>
+	
+	<category name="de.phleisch">
+		<priority value="error"/>
+		<appender-ref ref="STDOUT"/>
+	</category>
+
+	<root>
+		<priority value="info"/>
+		<appender-ref ref="LogFile" />
+	</root>
+</log4j:configuration>
