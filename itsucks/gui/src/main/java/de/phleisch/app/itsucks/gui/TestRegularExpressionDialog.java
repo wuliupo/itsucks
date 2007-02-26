@@ -8,13 +8,14 @@
 
 package de.phleisch.app.itsucks.gui;
 
-import javax.swing.JPanel;
-import java.awt.Frame;
 import java.awt.BorderLayout;
+import java.awt.Frame;
+
 import javax.swing.JDialog;
-import de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel;
-import java.awt.Dimension;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel;
 
 public class TestRegularExpressionDialog extends JDialog {
 

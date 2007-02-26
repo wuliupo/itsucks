@@ -244,7 +244,7 @@ public class EditRegularExpressionPanel extends JPanel {
 	private StringBuffer loadHelpText() throws IOException {
 		StringBuffer text = new StringBuffer();
 		
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("de/phleisch/app/itsucks/gui/panel/EditRegularExpressionHelp.html");
+		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("RegularExpressionHelp.html");
 		if(resourceAsStream == null) {
 			text.append("Error loading help text!");
 			return text;
