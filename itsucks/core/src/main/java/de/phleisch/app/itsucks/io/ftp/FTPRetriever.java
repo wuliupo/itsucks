@@ -7,11 +7,11 @@
 
 package de.phleisch.app.itsucks.io.ftp;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
 
 
-public class FTPRetriever extends DataRetriever {
+public class FTPRetriever extends AbstractDataRetriever {
 
 	public FTPRetriever() {
 		super();
@@ -19,25 +19,25 @@ public class FTPRetriever extends DataRetriever {
 	}
 
 	@Override
-	protected void connect() throws Exception {
+	public void connect() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void retrieve() throws Exception {
+	public void retrieve() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void disconnect() throws Exception {
+	public void disconnect() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -49,15 +49,21 @@ public class FTPRetriever extends DataRetriever {
 	}
 
 	@Override
-	protected long getBytesDownloaded() {
+	public long getBytesDownloaded() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	protected float getProgress() {
+	public float getProgress() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void abort() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

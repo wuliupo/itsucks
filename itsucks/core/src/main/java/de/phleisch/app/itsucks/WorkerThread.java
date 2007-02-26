@@ -35,6 +35,11 @@ public class WorkerThread extends Thread {
 		mPool = pWorkerPool;
 		this.setDaemon(true);
 	}
+	
+	public void abort() {
+		mJob.abort();
+		this.interrupt();
+	}
 
 	@Override
 	public void run() {
@@ -52,7 +57,11 @@ public class WorkerThread extends Thread {
 		while(!mShutdown) {
 			
 			if(mCommandQueue.size() == 0) {
-				Thread.sleep(CMD_POLL_INTERVAL);
+				try {
+					Thread.sleep(CMD_POLL_INTERVAL);
+				} catch(InterruptedException ex) {
+					mLog.info("Worker Thread interrupted", ex);
+				}
 			} else {
 				doWork();
 			}

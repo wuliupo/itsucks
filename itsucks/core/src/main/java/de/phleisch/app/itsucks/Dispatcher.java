@@ -101,6 +101,7 @@ public class Dispatcher implements ApplicationContextAware {
 	 */
 	public void stop() {
 		mStop = true;
+		mWorkerPool.stopRunningWorker();
 	}
 	
 	private void startup() {

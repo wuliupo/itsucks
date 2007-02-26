@@ -15,11 +15,11 @@ import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.io.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.DataProcessor;
-import de.phleisch.app.itsucks.io.DataRetriever;
 
 @Deprecated
-public class HttpRetriever extends DataRetriever {
+public class HttpRetriever extends AbstractDataRetriever {
 
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
@@ -44,7 +44,7 @@ public class HttpRetriever extends DataRetriever {
 	
 
 	@Override
-	protected boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws Exception {
 		return true;
 	}
 	
@@ -109,13 +109,17 @@ public class HttpRetriever extends DataRetriever {
 	}
 
 	@Override
-	protected long getBytesDownloaded() {
+	public long getBytesDownloaded() {
 		return -1;
 	}
 
 	@Override
-	protected float getProgress() {
+	public float getProgress() {
 		return -1;
+	}
+
+	@Override
+	public void abort() {
 	}
 	
 }

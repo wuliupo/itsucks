@@ -18,11 +18,11 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.io.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.DataProcessor;
-import de.phleisch.app.itsucks.io.DataRetriever;
 
 
-public class AdvancedHttpRetriever extends DataRetriever {
+public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
 	
@@ -33,6 +33,8 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
+
+	private boolean mAbort = false;
 	
 	
 	{
@@ -49,6 +51,8 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	
 	@Override
 	public void connect() throws IOException {
+		
+		if(mAbort) return;
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
@@ -93,7 +97,7 @@ public class AdvancedHttpRetriever extends DataRetriever {
 	}
 	
 	@Override
-	protected boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws Exception {
 		return mGet.getStatusCode() < 400;
 	}
 	
@@ -142,6 +146,11 @@ public class AdvancedHttpRetriever extends DataRetriever {
 		int completeContentLenght = mMetadata.getContentLength();
 		
 		while((bytesRead = input.read(buffer)) > 0) {
+			
+			if(mAbort ) {
+				mLog.warn("DownloadJob aborted: " + this);
+				break;
+			}
 			
 			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
 			
@@ -200,6 +209,11 @@ public class AdvancedHttpRetriever extends DataRetriever {
 
 	public float getProgress() {
 		return mProgress;
+	}
+
+	@Override
+	public void abort() {
+		mAbort = true;
 	}
 	
 }

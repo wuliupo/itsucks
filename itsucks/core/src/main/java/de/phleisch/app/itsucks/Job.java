@@ -196,6 +196,11 @@ public abstract class Job extends Observable implements Cloneable {
 		mName = pName;
 	}
 
+	/**
+	 * Aborts the job when running.
+	 */
+	public abstract void abort();
+	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

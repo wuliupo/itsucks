@@ -84,20 +84,23 @@ public class DownloadJob extends Job {
 		}
 		
 		//register an listener to get the progress events
-		mDataRetriever.addObserver(new Observer() {
-
-			public void update(Observable pO, Object pArg) {
-				if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
-					mProgress = mDataRetriever.getProgress();
-					mBytesDownloaded = mDataRetriever.getBytesDownloaded();
-					
-					DownloadJob.this.setChanged();
-					DownloadJob.this.notifyObservers(NOTIFICATION_PROGRESS); // notify observers 
-				}
-			}
-		});
+		mDataRetriever.addObserver(new ProgressObserver());
 		
 		mDataRetriever.setUrl(mUrl);
+		
+		if(isSaveToFile()) {
+			//check if the file is already on disk
+			
+			FileManager fileManager = new FileManager(this.getSavePath());
+			File file = fileManager.buildSavePath(getUrl());
+			if(file.exists()) {
+
+				//ok, it seems the file already exists partially/completly
+				//try to resume the file
+				//mDataRetriever = new DualSourceRetriever(mDataRetriever, file);
+			}
+		}
+		
 		mDataRetriever.connect();
 		
 		if(mDataRetriever.isDataAvailable()) {
@@ -118,6 +121,26 @@ public class DownloadJob extends Job {
 		}
 		
 		mDataRetriever.disconnect();
+	}
+	
+	private class ProgressObserver implements Observer {
+
+		public void update(Observable pO, Object pArg) {
+			if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
+				mProgress = mDataRetriever.getProgress();
+				mBytesDownloaded = mDataRetriever.getBytesDownloaded();
+				
+				DownloadJob.this.setChanged();
+				DownloadJob.this.notifyObservers(NOTIFICATION_PROGRESS); // notify observers 
+			}
+		}
+	}
+	
+	@Override
+	public void abort() {
+		if(mDataRetriever != null) {
+			mDataRetriever.abort();
+		}
 	}
 	
 	/**
@@ -243,6 +266,5 @@ public class DownloadJob extends Job {
 	public String toString() {
 		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";
 	}
-
 
 }

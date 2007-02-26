@@ -127,4 +127,12 @@ public class WorkerPool {
 	public int getBusyWorkerCount() {
 		return mBusyWorker.size();
 	}
+
+	public synchronized void stopRunningWorker() {
+		
+		for (WorkerThread worker : mBusyWorker) {
+			worker.abort();
+		}	
+		
+	}
 }
