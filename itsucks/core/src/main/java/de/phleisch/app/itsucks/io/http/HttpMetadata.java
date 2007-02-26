@@ -50,14 +50,12 @@ public class HttpMetadata extends Metadata {
 		List<String> fields = new ArrayList<String>();
 		
 		HeaderElement[] values = new HeaderElement[0];
-		try {
-			Header requestHeader = mConnection.getRequestHeader(pName);
-			if(requestHeader != null) {
-				values = requestHeader.getValues();
-			}
-		} catch (HttpException e) {
-			throw new RuntimeException(e);
+		
+		Header requestHeader = mConnection.getRequestHeader(pName);
+		if(requestHeader != null) {
+			values = requestHeader.getElements();
 		}
+
 		for (int i = 0; i < values.length; i++) {
 			fields.add(values[i].getValue());
 		}

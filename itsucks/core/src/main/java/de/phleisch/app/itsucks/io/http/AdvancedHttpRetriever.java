@@ -116,15 +116,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	@Override
 	public void disconnect() {
 		if(mGet != null) {
-			try {
-				if(mGet.getResponseBodyAsStream() != null) {
-					mGet.getResponseBodyAsStream().close();
-				}
-			} catch (IOException e) {
-				mLog.error(e);
-			} finally {
-				mGet.releaseConnection();
-			}
+			mGet.releaseConnection();
 			mGet = null;
 		}
 	}
@@ -214,6 +206,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	@Override
 	public void abort() {
 		mAbort = true;
+		if(mGet != null) {
+			mGet.abort();
+		}
 	}
 	
 }
