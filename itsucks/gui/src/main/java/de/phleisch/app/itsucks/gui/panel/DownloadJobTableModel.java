@@ -7,6 +7,7 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -197,17 +198,23 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static long MB = KB * 1024;
 	private static long GB = MB * 1024;
 	
+	private static BigDecimal KB_D = new BigDecimal(1024);
+	private static BigDecimal MB_D = new BigDecimal(KB * 1024);
+	private static BigDecimal GB_D = new BigDecimal(MB * 1024);
+	
     private String formatByteCount(long pBytesDownloaded) {
 		String result = null;
     	
+    	BigDecimal bytesDownloaded = new BigDecimal(pBytesDownloaded);
+		
     	if(pBytesDownloaded <= KB) {
-    		result = pBytesDownloaded + " B";
+    		result = bytesDownloaded + " B";
     	} else if(pBytesDownloaded > KB && pBytesDownloaded <= MB) {
-    		result = (pBytesDownloaded / KB) + " KB";
+    		result = bytesDownloaded.divide(KB_D, 2, BigDecimal.ROUND_HALF_UP) + " KB";
     	} else if(pBytesDownloaded > MB && pBytesDownloaded <= GB) {
-    		result = (pBytesDownloaded / MB) + " MB";
+    		result = bytesDownloaded.divide(MB_D, 2, BigDecimal.ROUND_HALF_UP) + " MB";
     	} else if(pBytesDownloaded > GB) {
-    		result = (pBytesDownloaded / GB) + " GB";
+    		result = bytesDownloaded.divide(GB_D, 2, BigDecimal.ROUND_HALF_UP) + " GB";
     	}
     	
     	if(result == null) {
