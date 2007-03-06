@@ -7,6 +7,8 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -32,10 +34,12 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static final int COLUMN_COUNT 		= 6;
 
 	private Vector<DownloadJob> mRows;
+	private Map<DownloadJob, Integer> mJobPosition;
 	private JobObserver mJobObserver;
 	
 	public DownloadJobTableModel() {
 		mRows = new Vector<DownloadJob>(); //use vector to be thread safe
+		mJobPosition = new HashMap<DownloadJob, Integer>();
 		mJobObserver = new JobObserver();
 	}
 	
@@ -106,6 +110,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	public void addDownloadJob(DownloadJob pJob) {
 		int index = mRows.size();
 		mRows.add(pJob);
+		addRowCache(pJob, index);
 		fireTableRowsInserted(index, index);
 		pJob.addObserver(mJobObserver);
 	}
@@ -114,9 +119,24 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		int index = mRows.indexOf(pJob);
 		if(index > -1) {
 			mRows.remove(index);
+			rebuildRowCache();
 			pJob.deleteObserver(mJobObserver);
 			fireTableRowsDeleted(index, index);
 		}
+	}
+
+	private void rebuildRowCache() {
+		mJobPosition.clear();
+		
+		for (int i = 0; i < mRows.size(); i++) {
+			DownloadJob entry = mRows.get(i);
+			addRowCache(entry, i);
+		}
+		
+	}
+
+	private void addRowCache(DownloadJob pEntry, int pIndex) {
+		mJobPosition.put(pEntry, pIndex);
 	}
 
 	public void removeAllDownloadJobs() {
@@ -124,6 +144,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			job.deleteObserver(mJobObserver);
 		}
 		mRows.clear();
+		mJobPosition.clear();
 		fireTableDataChanged();
 	}
 	
@@ -328,12 +349,24 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		
 		public void update(Observable pO, Object pArg) {
 			
-			if((Integer)pArg == Job.NOTIFICATION_CHANGE) {
+			Integer type = (Integer)pArg; 
+			
+			if(type == Job.NOTIFICATION_CHANGE
+					|| type == Job.NOTIFICATION_PROGRESS) {
 				
 				DownloadJob job = (DownloadJob) pO;
 				
-				int index = mRows.indexOf(job); //TODO this is very expensive, fix it with an cache
-				if(index > -1) {
+				Integer index = mJobPosition.get(job);
+				
+				if(index == null) {
+					index = mRows.indexOf(job); //this is very expensive
+					
+					if(index > -1) {
+						addRowCache(job, index);
+					}
+				}
+				
+				if(index != null && index > -1) {
 					fireTableRowsUpdated(index, index);
 				}
 				

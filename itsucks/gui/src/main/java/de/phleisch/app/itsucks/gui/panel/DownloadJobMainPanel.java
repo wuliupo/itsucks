@@ -94,6 +94,7 @@ public class DownloadJobMainPanel extends JPanel {
 
 	private JTextField jAddHostnameFilter = null;
 
+	@SuppressWarnings("unused")
 	private Dialog mParentDialog = null;
 
 	private JScrollPane jFileFilterListScrollPane = null;
