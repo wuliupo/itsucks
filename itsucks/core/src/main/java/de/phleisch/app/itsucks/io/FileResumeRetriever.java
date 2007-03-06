@@ -25,7 +25,7 @@ public class FileResumeRetriever implements DataRetriever {
 
 	private File mLocalFile;
 	
-	private long mFileSize;
+	private long mResumeOffset;
 	
 	private boolean mReadFromFile;
 	private boolean mFileFinished;
@@ -50,16 +50,16 @@ public class FileResumeRetriever implements DataRetriever {
 		
 		//first check if the file exists
 		if(mLocalFile.exists() && mLocalFile.length() > 0) {
-			mFileSize = mLocalFile.length();
+			mResumeOffset = mLocalFile.length();
 			
 			//try to resume the data stream
-			mDataRetriever.setBytesToSkip(mFileSize);
+			mDataRetriever.setBytesToSkip(mResumeOffset);
 			mDataRetriever.connect();
 			
 		} else {
 			//resume not really possible, read everything from the live stream
 			mReadFromFile = false;
-			mFileSize = 0;
+			mResumeOffset = 0;
 			
 			mDataRetriever.connect();
 		}
@@ -85,7 +85,7 @@ public class FileResumeRetriever implements DataRetriever {
 			//ok, resume is possible, advise every processor to resume at the given position.
 			
 			for (DataProcessor processor : dataProcessors) {
-				processor.resumeAt(mFileSize);
+				processor.resumeAt(mResumeOffset);
 			}
 			mReadFromFile = false;
 			
@@ -97,7 +97,7 @@ public class FileResumeRetriever implements DataRetriever {
 				
 				//skip the persistence processor
 				if(processor instanceof PersistenceProcessor) {
-					processor.resumeAt(mFileSize);
+					processor.resumeAt(mResumeOffset);
 					continue;
 				}
 				
@@ -123,7 +123,7 @@ public class FileResumeRetriever implements DataRetriever {
 			
 			//abort resuming
 			mReadFromFile = false;
-			mFileSize = 0;
+			mResumeOffset = 0;
 		}
 		
 		if(mReadFromFile) {
@@ -150,6 +150,8 @@ public class FileResumeRetriever implements DataRetriever {
 		long bytes = 0;
 		if(mReadFromFile) {
 			bytes += mFileRetriever.getBytesRetrieved();
+		} else {
+			bytes += mResumeOffset;
 		}
 		bytes += mDataRetriever.getBytesRetrieved();
 		
