@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HeaderElement;
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
 
 import de.phleisch.app.itsucks.io.Metadata;

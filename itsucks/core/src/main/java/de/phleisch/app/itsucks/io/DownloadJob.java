@@ -85,9 +85,9 @@ public class DownloadJob extends Job {
 		
 		//register an listener to get the progress events
 		mDataRetriever.addObserver(new ProgressObserver());
-		
 		mDataRetriever.setUrl(mUrl);
 		
+		//check if this file should be saved
 		if(isSaveToFile()) {
 			//check if the file is already on disk
 			
@@ -97,26 +97,28 @@ public class DownloadJob extends Job {
 
 				//ok, it seems the file already exists partially/completly
 				//try to resume the file
-				//mDataRetriever = new DualSourceRetriever(mDataRetriever, file);
+				mDataRetriever = new FileResumeRetriever(mDataRetriever, file);
 			}
 		}
 		
+		//connect the retriever
 		mDataRetriever.connect();
 		
-		if(mDataRetriever.isDataAvailable()) {
+		//build the data processor chain
+		List<DataProcessor> dataProcessors =
+			mDataProcessorManager.getProcessorsForJob(this);
 		
-			List<DataProcessor> dataProcessors =
-				mDataProcessorManager.getProcessorsForJob(this);
-	
-			for (Iterator<DataProcessor> it = dataProcessors.iterator(); it.hasNext();) {
-				DataProcessor dataProcessor = it.next();
-				
-				dataProcessor.setDataRetriever(mDataRetriever);
-				dataProcessor.setJobManager(mJobManager);
-				dataProcessor.setJob(this);
-				mDataRetriever.addDataProcessor(dataProcessor);
-			}
-	
+		//build data processor chain
+		for (Iterator<DataProcessor> it = dataProcessors.iterator(); it.hasNext();) {
+			DataProcessor dataProcessor = it.next();
+			
+			dataProcessor.setDataRetriever(mDataRetriever);
+			dataProcessor.setJobManager(mJobManager);
+			dataProcessor.setJob(this);
+			mDataRetriever.addDataProcessor(dataProcessor);
+		}
+		
+		if(mDataRetriever.isDataAvailable()) {
 			mDataRetriever.retrieve();
 		}
 		
@@ -128,7 +130,7 @@ public class DownloadJob extends Job {
 		public void update(Observable pO, Object pArg) {
 			if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
 				mProgress = mDataRetriever.getProgress();
-				mBytesDownloaded = mDataRetriever.getBytesDownloaded();
+				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
 				
 				DownloadJob.this.setChanged();
 				DownloadJob.this.notifyObservers(NOTIFICATION_PROGRESS); // notify observers 

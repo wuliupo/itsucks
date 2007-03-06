@@ -18,52 +18,54 @@ public class FTPRetriever extends AbstractDataRetriever {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public void connect() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void retrieve() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void disconnect() throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public boolean isDataAvailable() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public Metadata getMetadata() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public long getBytesDownloaded() {
+	public long getBytesRetrieved() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public float getProgress() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public void abort() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setBytesToSkip(long pBytesToSkip) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public long getBytesSkipped() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

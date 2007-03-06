@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.io;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Observer;
 
 public interface DataRetriever {
@@ -20,6 +21,8 @@ public interface DataRetriever {
 
 	public void addDataProcessor(DataProcessor pDataProcessor);
 
+	public List<DataProcessor> getDataProcessors();
+	
 	public URL getUrl();
 
 	public void setUrl(URL pUrl);
@@ -32,17 +35,21 @@ public interface DataRetriever {
 
 	public void disconnect() throws Exception;
 
-	public long getBytesDownloaded();
-
+	public long getBytesRetrieved();
+	
 	public float getProgress();
 
 	public void abort();
 
 	public Metadata getMetadata();
 
+	public void setBytesToSkip(long pBytesToSkip);
+	
+	public long getBytesSkipped();
 	
 	//Observable interface
 	
 	public void addObserver(Observer o);
 	public void deleteObserver(Observer o);
+
 }

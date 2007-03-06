@@ -30,7 +30,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 		super();
 	}
 	
-	@Override
 	public void connect() throws IOException {
 		 mConnection = mUrl.openConnection();
 		 mLog.debug("Connected to: " + mConnection.getURL());
@@ -43,12 +42,10 @@ public class HttpRetriever extends AbstractDataRetriever {
 	}
 	
 
-	@Override
 	public boolean isDataAvailable() throws Exception {
 		return true;
 	}
 	
-	@Override
 	public void retrieve() throws Exception {
 		try {
 			download();
@@ -60,7 +57,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 		}
 	}
 	
-	@Override
 	public void disconnect() {
 		if(mConnection != null) {
 			try {
@@ -108,18 +104,23 @@ public class HttpRetriever extends AbstractDataRetriever {
 		return mMetadata;
 	}
 
-	@Override
-	public long getBytesDownloaded() {
+	public long getBytesRetrieved() {
 		return -1;
 	}
 
-	@Override
 	public float getProgress() {
 		return -1;
 	}
 
-	@Override
 	public void abort() {
+	}
+
+	public void setBytesToSkip(long pBytesToSkip) {
+		throw new IllegalStateException("Not implemented.");
+	}
+
+	public long getBytesSkipped() {
+		throw new IllegalStateException("Not implemented.");
 	}
 	
 }

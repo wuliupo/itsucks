@@ -35,7 +35,8 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	private long mBytesDownloaded = -1;
 
 	private boolean mAbort = false;
-	
+
+	private long mBytesToSkip;
 	
 	{
      	MultiThreadedHttpConnectionManager connectionManager = 
@@ -49,21 +50,24 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		//mClient = new HttpClient();
 	}
 	
-	@Override
 	public void connect() throws IOException {
 		
 		if(mAbort) return;
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
+		
 		if(getUserAgent() != null) {
 			mGet.addRequestHeader("User-Agent", getUserAgent());
 		}
+		if(mBytesToSkip > 0) { //try to resume
+			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
+		}
+		
 		mClient.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " / " + mGet.getStatusCode());
 		
 		//build metadata
-
 		mMetadata = new HttpMetadata();
 		
 		Header contentType = mGet.getResponseHeader("Content-Type");
@@ -96,13 +100,12 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mMetadata.setConnection(mGet);
 	}
 	
-	@Override
 	public boolean isDataAvailable() throws Exception {
 		return mGet.getStatusCode() < 400;
 	}
 	
-	@Override
 	public void retrieve() throws Exception {
+	
 		try {
 			download();
 		} catch (Exception e) {
@@ -113,7 +116,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 	}
 	
-	@Override
 	public void disconnect() {
 		if(mGet != null) {
 			mGet.releaseConnection();
@@ -195,7 +197,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mUserAgent = userAgent;
 	}
 
-	public long getBytesDownloaded() {
+	public long getBytesRetrieved() {
 		return mBytesDownloaded;
 	}
 
@@ -203,12 +205,32 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		return mProgress;
 	}
 
-	@Override
 	public void abort() {
 		mAbort = true;
 		if(mGet != null) {
 			mGet.abort();
 		}
 	}
-	
+
+	public void setBytesToSkip(long pBytesToSkip) {
+		if(mGet != null && mGet.isRequestSent()) {
+			throw new IllegalStateException("Request already sent!");
+		}
+		
+		mBytesToSkip = pBytesToSkip;
+	}
+
+	public long getBytesSkipped() {
+		
+		if(mGet == null || !mGet.isRequestSent()) {
+			throw new IllegalStateException("Request not sent!");
+		}
+		
+		if(mMetadata.getStatusCode() == 206) {
+			return mBytesToSkip;
+		} else {
+			return 0;
+		}
+		
+	}
 }

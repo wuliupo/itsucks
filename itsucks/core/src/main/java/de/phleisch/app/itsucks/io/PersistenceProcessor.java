@@ -25,7 +25,10 @@ public class PersistenceProcessor extends DataProcessor {
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
 	
 	private File mFile;
-	private OutputStream mOut;
+	private FileOutputStream mFileOut;
+	private OutputStream mBufferedOut;
+	
+	private long mResumeAt;
 	
 	public PersistenceProcessor() {
 		super();
@@ -61,19 +64,35 @@ public class PersistenceProcessor extends DataProcessor {
 		
 		mLog.debug("saving file: " + mFile);
 		
-		mOut = new BufferedOutputStream(new FileOutputStream(mFile));
+		if(mResumeAt > 0) { //skip bytes when resuming
+			mFileOut = new FileOutputStream(mFile, true);
+			mFileOut.getChannel().position(mResumeAt);
+		} else {
+			mFileOut = new FileOutputStream(mFile, false);
+		}
+		
+		mBufferedOut = new BufferedOutputStream(mFileOut);
 	}
 
+	@Override
+	public boolean canResume() {
+		return true;
+	}
+
+	@Override
+	public void resumeAt(long pByteOffset) {
+		mResumeAt = pByteOffset;
+	}
 
 	@Override
 	public void process(byte[] pBuffer, int pBytes) throws Exception {
-		mOut.write(pBuffer, 0, pBytes);
+		mBufferedOut.write(pBuffer, 0, pBytes);
 	}
 
 	@Override
 	public void finish() throws Exception {
 		super.finish();
-		mOut.close();
+		mBufferedOut.close();
 	}
 
 

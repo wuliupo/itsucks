@@ -91,8 +91,6 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 			
 			addNewJobs(urlList.toArray(new URI[urlList.size()]));
 		}
-		
-		
 	}
 	
 	@Override

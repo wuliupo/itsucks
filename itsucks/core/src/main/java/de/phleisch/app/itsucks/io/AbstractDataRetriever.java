@@ -28,6 +28,10 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 	public void addDataProcessor(DataProcessor pDataProcessor) {
 		mDataProcessors.add(pDataProcessor);
 	}
+	
+	public List<DataProcessor> getDataProcessors() {
+		return new ArrayList<DataProcessor>(mDataProcessors);
+	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.IDataRetriever#getUrl()
@@ -43,39 +47,4 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 		mUrl = pUrl;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#connect()
-	 */
-	public abstract void connect() throws Exception;
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#isDataAvailable()
-	 */
-	public abstract boolean isDataAvailable() throws Exception;
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#retrieve()
-	 */
-	public abstract void retrieve() throws Exception;
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#disconnect()
-	 */
-	public abstract void disconnect() throws Exception;
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#getBytesDownloaded()
-	 */
-	public abstract long getBytesDownloaded();
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#getProgress()
-	 */
-	public abstract float getProgress();
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#abort()
-	 */
-	public abstract void abort();
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#getMetadata()
-	 */
-	public abstract Metadata getMetadata();
 }
