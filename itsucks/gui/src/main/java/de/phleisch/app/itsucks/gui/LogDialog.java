@@ -31,6 +31,14 @@ public class LogDialog extends JDialog {
 		super(owner);
 		initialize();
 	}
+	
+	/**
+	 * @param owner
+	 */
+	public LogDialog() {
+		super();
+		initialize();
+	}
 
 	/**
 	 * This method initializes this

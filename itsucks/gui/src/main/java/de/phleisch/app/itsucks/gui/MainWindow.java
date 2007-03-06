@@ -449,7 +449,7 @@ public class MainWindow implements AddDownloadJobInterface {
 	}
 	
 	private void openLogDialog() {
-		LogDialog newLogDialog = new LogDialog(jFrame);
+		LogDialog newLogDialog = new LogDialog();
 		newLogDialog.setVisible(true);
 	}
 	
