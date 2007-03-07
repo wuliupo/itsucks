@@ -32,38 +32,14 @@
 		<property name="jobList">
 			<ref bean="SimpleJobListImpl"/>
 		</property>
-
-<!-- 
-		<property name="jobFilter">
-			<list>
-				<ref bean="DownloadJobFilter"/>
-			</list>
-		</property>
- -->		
 		
 	</bean>
-
-<!-- 
-	<bean 
-		id="DefaultJobComparator" 
-		class="de.phleisch.app.itsucks.DefaultJobComparator" 
-		singleton="false">
-	</bean>
- -->	
 	
 	<bean 
 		id="SimpleJobListImpl" 
 		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
 		singleton="false">
 	</bean>
-	
-	<!-- 
-	<bean 
-		id="FastJobListImpl" 
-		class="de.phleisch.app.itsucks.FastJobListImpl" 
-		singleton="false">
-	</bean>	
-	 -->
 
 	<bean 
 		id="WorkerPool" 
@@ -162,6 +138,11 @@
 		
 	</bean>
 	
+	<bean 
+		id="JobSerializationManager" 
+		class="de.phleisch.app.itsucks.persistence.JobSerializationManager" 
+		singleton="false">
+	</bean>
 	
 </beans>
 
