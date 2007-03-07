@@ -16,16 +16,20 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
@@ -43,6 +47,8 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.persistence.JobSerializationManager;
+import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 public class MainWindow implements AddDownloadJobInterface {
 
@@ -65,6 +71,8 @@ public class MainWindow implements AddDownloadJobInterface {
 	private JMenuItem exitMenuItem = null;
 	
 	private JMenuItem addDownloadMenuItem = null;
+	
+	private JMenuItem loadDownloadMenuItem = null;
 	
 	private JMenuItem logDialogMenuItem = null;
 
@@ -91,6 +99,8 @@ public class MainWindow implements AddDownloadJobInterface {
 	private JTabbedPane jTabbedPane = null;
 
 	private JButton jCloseDownload = null;
+
+
 
 	private MainWindow() {
 		super();
@@ -166,8 +176,10 @@ public class MainWindow implements AddDownloadJobInterface {
 			fileMenu = new JMenu();
 			fileMenu.setText("File");
 			fileMenu.add(getAddDownloadMenuItem());
+			fileMenu.add(getLoadDownloadMenuItem());
 			fileMenu.add(getLogDialogItem());
 			fileMenu.add(getExitMenuItem());
+			
 		}
 		return fileMenu;
 	}
@@ -251,6 +263,25 @@ public class MainWindow implements AddDownloadJobInterface {
 			});
 		}
 		return addDownloadMenuItem;
+	}
+
+	/**
+	 * This method initializes jMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getLoadDownloadMenuItem() {
+		if (loadDownloadMenuItem == null) {
+			loadDownloadMenuItem = new JMenuItem();
+			loadDownloadMenuItem.setText("Load download template");
+			loadDownloadMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadDownload();
+				}
+
+			});
+		}
+		return loadDownloadMenuItem;
 	}
 	
 	/**
@@ -446,6 +477,37 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private void openAddDownloadDialog() {
 		new AddDownloadJobDialog(jFrame, this);
+	}
+	
+	private void loadDownload() {
+		//open dialog
+		JFileChooser fc = new JFileChooser();
+		
+		//Show load dialog; this method does not return until the dialog is closed
+		int result = fc.showOpenDialog(jFrame);
+		
+		if(result == JFileChooser.APPROVE_OPTION) {
+			JobSerializationManager serializationManager = (JobSerializationManager) 
+				SpringContextSingelton.getApplicationContext().getBean("JobSerializationManager");
+		
+			SerializableJobList jobList = null;
+			try {
+				jobList = serializationManager.deserialize(fc.getSelectedFile());
+			} catch (Exception e1) {
+				
+				mLog.error("Error occured while saving download template", e1);
+				
+				JOptionPane.showMessageDialog(jFrame, 
+						"Error occured while saving download template.\n" + e1.getMessage(), 
+						"Error occured", JOptionPane.ERROR_MESSAGE );
+			} 
+			
+			if(jobList != null) {
+				addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
+			}
+			
+		}
+		
 	}
 	
 	private void openLogDialog() {

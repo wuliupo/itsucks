@@ -10,9 +10,13 @@ package de.phleisch.app.itsucks.gui;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
@@ -20,9 +24,12 @@ import javax.swing.WindowConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
+import de.phleisch.app.itsucks.persistence.JobSerializationManager;
+import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 
 public class AddDownloadJobDialog extends JDialog {
@@ -47,6 +54,8 @@ public class AddDownloadJobDialog extends JDialog {
 	private JTabbedPane jTabbedPane = null;
 
 	private AdvancedFilterOverviewPanel advancedFilterOverviewPanel = null;
+
+	private JButton jButtonSave = null;
 
 	/**
 	 * @param owner
@@ -77,17 +86,25 @@ public class AddDownloadJobDialog extends JDialog {
 
 	protected void startDownload() {
 		
-		AddDownloadJobBean job = this.downloadJobMainPanel.buildDownloadJob();
+		AddDownloadJobBean job = collectDownloadJob();
 		if(job == null) return;
-		
-		JobFilter advancedFilter = 
-			this.advancedFilterOverviewPanel.buildAdvancedFilter();
-		
-		job.addFilter(advancedFilter);
 		
 		mDownloadJobManager.addDownload(job.getDownload(), job.getFilterList());
 		
 		this.dispose();
+	}
+
+	private AddDownloadJobBean collectDownloadJob() {
+		AddDownloadJobBean job = this.downloadJobMainPanel.buildDownloadJob();
+		
+		if(job != null)  {
+			JobFilter advancedFilter = 
+				this.advancedFilterOverviewPanel.buildAdvancedFilter();
+			
+			job.addFilter(advancedFilter);
+		}
+		
+		return job;
 	}
 
 	/**
@@ -106,7 +123,7 @@ public class AddDownloadJobDialog extends JDialog {
 
 	/**
 	 * This method initializes jContentPane	
-	 * 	
+	 *  	
 	 * @return javax.swing.JPanel	
 	 */
 	private JPanel getJContentPane() {
@@ -148,17 +165,11 @@ public class AddDownloadJobDialog extends JDialog {
 	private JPanel getJPanelAction() {
 		if (jPanelAction == null) {
 			jPanelAction = new JPanel();
-//			jPanel1.setLayout(new BoxLayout(getJPanel1(), BoxLayout.X_AXIS));
-//			jPanel1 = Box.createHorizontalBox();
-//			jPanel1.add(Box.createHorizontalGlue());
-//			
+			
 			jPanelAction.add(getJButtonDownload(), null);
-//			jPanel1.add(Box.createHorizontalStrut(5));
+			jPanelAction.add(getJButtonSave(), null);
 			jPanelAction.add(getJButtonCancel(), null);
-//			
-//			jPanel1.add(Box.createHorizontalGlue());
-//			
-//			jPanel1.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
 		}
 		return jPanelAction;
 	}
@@ -205,6 +216,62 @@ public class AddDownloadJobDialog extends JDialog {
 			advancedFilterOverviewPanel = new AdvancedFilterOverviewPanel(this);
 		}
 		return advancedFilterOverviewPanel;
+	}
+
+	/**
+	 * This method initializes jButtonSave	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButtonSave() {
+		if (jButtonSave == null) {
+			jButtonSave = new JButton();
+			jButtonSave.setText("Save as template");
+			jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					
+					saveDownloadTemplate();
+				}
+
+			});
+		}
+		return jButtonSave;
+	}
+	
+
+	private void saveDownloadTemplate() {
+		AddDownloadJobBean downloadJob = collectDownloadJob();
+		if(downloadJob == null) return;
+		
+		//open dialog
+		JFileChooser fc = new JFileChooser();
+
+		fc.setSelectedFile(new File("ItSucks_" + 
+				downloadJob.getDownload().getName() + "_Template.dwn"));
+		
+	    // Show save dialog; this method does not return until the dialog is closed
+		int result = fc.showSaveDialog(AddDownloadJobDialog.this);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			
+			JobSerializationManager serializationManager = (JobSerializationManager) 
+				SpringContextSingelton.getApplicationContext().getBean("JobSerializationManager");
+			
+			SerializableJobList jobList = new SerializableJobList();
+			jobList.setFilters(downloadJob.getFilterList());
+			jobList.addJob(downloadJob.getDownload());
+			
+			try {
+				serializationManager.serialize(jobList, fc.getSelectedFile());
+			} catch (IOException e1) {
+				
+				mLog.error("Error occured while saving download template", e1);
+				
+				JOptionPane.showMessageDialog(AddDownloadJobDialog.this, 
+						"Error occured while saving download template.\n" + e1.getMessage(), 
+						"Error occured", JOptionPane.ERROR_MESSAGE );
+			}
+			
+		}
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
