@@ -7,6 +7,7 @@
 
 package de.phleisch.app.itsucks.filter;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashSet;
@@ -15,7 +16,9 @@ import java.util.Set;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
-public class DownloadJobFilter implements JobFilter {
+public class DownloadJobFilter implements JobFilter, Serializable {
+
+	private static final long serialVersionUID = 4776756022068287844L;
 
 	private Set<URI> mAlreadyAddedUrls;
 	

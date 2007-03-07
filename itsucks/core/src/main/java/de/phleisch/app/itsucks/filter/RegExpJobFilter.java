@@ -7,6 +7,7 @@
 
 package de.phleisch.app.itsucks.filter;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,10 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  * @author olli
  *
  */
-public class RegExpJobFilter implements JobFilter {
+public class RegExpJobFilter implements JobFilter, Serializable {
 	
+	private static final long serialVersionUID = 8668860787246814610L;
+
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(RegExpJobFilter.class);
 
@@ -130,7 +133,9 @@ public class RegExpJobFilter implements JobFilter {
 		}
 	}
 	
-	public static class RegExpFilterRule {
+	public static class RegExpFilterRule implements Serializable {
+
+		private static final long serialVersionUID = -6511044935647503309L;
 
 		private String mName;
 		
