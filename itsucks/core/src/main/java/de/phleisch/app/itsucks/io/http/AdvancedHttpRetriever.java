@@ -26,7 +26,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
 	
-	private static HttpClient mClient;
+	private static HttpClient mClient = null;
 	private GetMethod mGet = null;
 	private HttpMetadata mMetadata;
 	private String mUserAgent;
@@ -38,7 +38,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private long mBytesToSkip;
 	
-	{
+	static {
      	MultiThreadedHttpConnectionManager connectionManager = 
       		new MultiThreadedHttpConnectionManager();
      	mClient = new HttpClient(connectionManager);

@@ -35,7 +35,7 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	private static final String REGEXP_PREFIX = "exp_"; 
 	
 	private static Log mLog = LogFactory.getLog(HttpParser.class);
-	private static Pattern[] mPatterns;
+	private static Pattern[] mPatterns = null;
 	
 	private ApplicationContext mContext;
 	private URI mBaseURI;
@@ -140,7 +140,7 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 		URL resource = this.getClass().getClassLoader().getResource(propertyName);
 		if(resource == null) {
 			mLog.error("Cannot load patterns from file: " + propertyName);
-			return null;
+			return new Pattern[0];
 		}
 		
 		Properties patternFile = new Properties();
