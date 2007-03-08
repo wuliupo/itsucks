@@ -15,7 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-public class WorkerThread extends Thread {
+public class WorkerThread implements Runnable {
 
 	private static Log mLog = LogFactory.getLog(WorkerThread.class);
 	
@@ -30,20 +30,20 @@ public class WorkerThread extends Thread {
 	private boolean mShutdown = false;
 	private WorkerPool mPool;
 	
+	private Thread mThread; 
+	
 	public WorkerThread(WorkerPool pWorkerPool, String pName) {
-		super(pName);
 		mPool = pWorkerPool;
-		this.setDaemon(true);
+		mThread = new Thread(this, pName);
+		mThread.setDaemon(true);
 	}
 	
 	public void abort() {
 		mJob.abort();
-		this.interrupt();
+		mThread.interrupt();
 	}
 
-	@Override
 	public void run() {
-		super.run();
 		
 		try {
 			waitForWork();
@@ -52,6 +52,13 @@ public class WorkerThread extends Thread {
 		}
 	}
 
+	public void start() {
+		mThread.start();
+	}
+	
+	public void join() throws InterruptedException {
+		mThread.join();
+	}
 	
 	private void waitForWork() throws InterruptedException {
 		while(!mShutdown) {
@@ -91,6 +98,8 @@ public class WorkerThread extends Thread {
 					mLog.error("Error executing job: " + mJob, ex);
 				}
 				
+				mJob.cleanup();
+				
 				mLog.info("Finished working on job: " + mJob);
 				mJob = null;
 				break;
@@ -98,6 +107,9 @@ public class WorkerThread extends Thread {
 			case CMD_RETURN_TO_POOL:
 				mPool.returnWorker(this);
 				break;
+				
+			default:
+				throw new IllegalArgumentException("Unknown Command given: '" + cmd + "'");
 		}
 	}
 	

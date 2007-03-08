@@ -44,11 +44,10 @@ public class DownloadJob extends Job implements Serializable {
 	private int mDepth = 0;
 	private transient DataProcessorManager mDataProcessorManager;
 	private transient DataRetrieverManager mDataRetrieverManager;
+	private transient DataRetriever mDataRetriever;
 	
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
-	
-	private DataRetriever mDataRetriever;
 	
 	public DownloadJob() {
 		super();
@@ -57,6 +56,7 @@ public class DownloadJob extends Job implements Serializable {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.chaoscrawler.refactoring.Job#run()
 	 */
+	@Override
 	public void run() throws Exception {
 	
 		try {
@@ -73,8 +73,18 @@ public class DownloadJob extends Job implements Serializable {
 		}
 		
 	}
-
-	private void download() throws Exception {
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#cleanup()
+	 */
+	@Override
+	public void cleanup() {
+		mDataProcessorManager = null;
+		mDataRetrieverManager = null;
+		mDataRetriever = null;
+	}
+	
+	protected void download() throws Exception {
 		String protocol = mUrl.getProtocol();
 		
 		mDataRetriever = 

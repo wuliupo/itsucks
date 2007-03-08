@@ -18,15 +18,24 @@ public class UploadJob extends Job {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	public void cleanup() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void abort() {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

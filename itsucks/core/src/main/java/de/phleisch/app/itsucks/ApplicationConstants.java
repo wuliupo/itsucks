@@ -9,7 +9,7 @@
 
 package de.phleisch.app.itsucks;
 
-public interface ApplicationConstants {
+public final class ApplicationConstants {
 	
 	public static final String APPLICATION_VERSION = "0.2.0-pre5";
 

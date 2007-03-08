@@ -52,7 +52,10 @@ public class JobManager {
 		addJobUnfiltered(job);
 	}
 
-	private Job filterJob(Job job) {
+	private Job filterJob(Job pJob) {
+		
+		Job job = pJob;
+		
 		try {
 		
 			boolean filterFound = false;

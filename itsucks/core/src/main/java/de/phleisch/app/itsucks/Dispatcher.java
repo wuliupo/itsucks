@@ -66,10 +66,10 @@ public class Dispatcher implements ApplicationContextAware {
 		
 		Job job;
 		while(true) {
-			if(!mStop) { //check for stop event
-				job = mJobManager.getNextOpenJob();
-			} else {
+			if(mStop) { //check for stop event
 				job = null;
+			} else {
+				job = mJobManager.getNextOpenJob();
 			}
 			
 			if(job == null) {

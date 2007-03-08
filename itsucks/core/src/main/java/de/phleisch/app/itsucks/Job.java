@@ -17,7 +17,7 @@ import java.util.Observable;
  * @author olli
  *
  */
-public abstract class Job extends Observable implements Cloneable {
+public abstract class Job extends Observable {
 
 	public final static int STATE_OPEN = 1;
 	public final static int STATE_ASSIGNED = 2;
@@ -75,6 +75,11 @@ public abstract class Job extends Observable implements Cloneable {
 	 */
 	public abstract void run() throws Exception;
 
+	/**
+	 * Is called to free any resources in the job.
+	 */
+	public abstract void cleanup();
+	
 	/**
 	 * @return true when job is closed.
 	 */
