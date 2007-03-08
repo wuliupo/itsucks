@@ -267,6 +267,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
     	
     	default:
     		result = "Unknown";
+    		break;
 		}
     	
 		return result;
