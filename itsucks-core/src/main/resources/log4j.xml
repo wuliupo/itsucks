@@ -17,10 +17,12 @@
 		</layout>
 	</appender>
 	
+	<!-- 
 	<category name="de.phleisch">
 		<priority value="error"/>
 		<appender-ref ref="STDOUT"/>
 	</category>
+	 -->
 
 	<root>
 		<priority value="info"/>
