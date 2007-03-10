@@ -52,6 +52,11 @@ public class JobSerializationManager implements ApplicationContextAware {
 		
 		//TODO FIXME solve this in an better way.
 		//restore DataProcessorManager and DataRetrieverManager of the jobs
+		
+		//Plan: Eine Factory aufziehen die den Job erzeugt.
+		//Im Job einen Namen speichern z.B. 'DownloadJob' und das später in der Factory
+		// nutzen um die Job nach dem deserialisieren wiederherzustellen. 
+		
 		for (Job job : jobList.getJobs()) {
 			if(job instanceof DownloadJob) {
 				DownloadJob downloadJob = (DownloadJob) job;
