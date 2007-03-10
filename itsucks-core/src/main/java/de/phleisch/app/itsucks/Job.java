@@ -75,11 +75,6 @@ public abstract class Job extends Observable implements Serializable {
 	 *
 	 */
 	public abstract void run() throws Exception;
-
-	/**
-	 * Is called to free any resources in the job.
-	 */
-	public abstract void cleanup();
 	
 	/**
 	 * @return true when job is closed.

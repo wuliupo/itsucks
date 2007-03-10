@@ -98,8 +98,6 @@ public class WorkerThread implements Runnable {
 					mLog.error("Error executing job: " + mJob, ex);
 				}
 				
-				mJob.cleanup();
-				
 				mLog.info("Finished working on job: " + mJob);
 				mJob = null;
 				break;

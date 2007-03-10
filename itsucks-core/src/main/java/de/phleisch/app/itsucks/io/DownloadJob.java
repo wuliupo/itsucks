@@ -73,16 +73,6 @@ public class DownloadJob extends Job {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.Job#cleanup()
-	 */
-	@Override
-	public void cleanup() {
-		mDataProcessorManager = null;
-		mDataRetrieverManager = null;
-		mDataRetriever = null;
-	}
-	
 	protected void download() throws Exception {
 		String protocol = mUrl.getProtocol();
 		
@@ -135,6 +125,7 @@ public class DownloadJob extends Job {
 		}
 		
 		mDataRetriever.disconnect();
+		mDataRetriever = null;
 	}
 	
 	private class ProgressObserver implements Observer {
