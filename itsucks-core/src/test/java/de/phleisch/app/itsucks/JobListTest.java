@@ -13,8 +13,6 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.Dispatcher;
-import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 

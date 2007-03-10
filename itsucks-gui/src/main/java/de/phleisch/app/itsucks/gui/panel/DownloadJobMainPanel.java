@@ -525,18 +525,6 @@ public class DownloadJobMainPanel extends JPanel {
 			}
 		}
 		
-//		//copy the filter from the model to the filter list
-//		RegExpJobFilter regExpJobFilter = new RegExpJobFilter();
-//		Enumeration<?> advancedFilters = mAdvancedFilterListModel.elements();
-//		
-//		while(advancedFilters.hasMoreElements()) {
-//			RegExpFilterRule rule = (RegExpFilterRule) advancedFilters.nextElement();
-//			regExpJobFilter.addFilterRule(rule);
-//		}
-//		
-//		//set default to reject unfiltered jobs
-//		regExpJobFilter.setLetUnfilteredJobsPass(false);
-		
 		//build result
 		AddDownloadJobBean result = new AddDownloadJobBean();
 		result.setDownload(job);
@@ -545,6 +533,33 @@ public class DownloadJobMainPanel extends JPanel {
 		
 		return result;
 	}
+	
+	public void loadDownloadJob(DownloadJob pDownload, DownloadJobFilter pFilter) {
+		
+		jName.setText(pDownload.getName());
+		jURL.setText(pDownload.getUrl().toString());
+		jSavePath.setText(pDownload.getSavePath().toString());
+		jRecursionDepth.setText(Integer.toString(pDownload.getDepth()));
+		
+		if(pFilter != null) {
+			mHostnameFilterListModel.clear();
+			for (String allowedHostname : pFilter.getAllowedHostNames()) {
+				mHostnameFilterListModel.addElement(allowedHostname);
+			}
+			
+			mFileFilterListModel.clear();
+			for (String fileFilter : pFilter.getSaveToFileFilter()) {
+				mFileFilterListModel.addElement(fileFilter);
+			}
+			
+			jFollowOnlyRelativeLinks.setSelected(pFilter.isAllowOnlyRelativeReferences());
+			if(pFilter.isAllowOnlyRelativeReferences()) {
+				jBaseURL.setText(pFilter.getBaseURL().toString());
+			}
+			
+		}
+	}
+
 
 	/**
 	 * This method initializes jFileFilterListScrollPane	
@@ -573,5 +588,6 @@ public class DownloadJobMainPanel extends JPanel {
 		}
 		return jHostnameFilterListScrollPane;
 	}
+
 	
 }  //  @jve:decl-index=0:visual-constraint="10,10"

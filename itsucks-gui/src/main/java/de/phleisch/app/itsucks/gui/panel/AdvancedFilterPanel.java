@@ -8,6 +8,7 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 
@@ -25,7 +26,6 @@ import javax.swing.SwingConstants;
 
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
-import java.awt.Dimension;
 
 public class AdvancedFilterPanel extends JPanel {
 

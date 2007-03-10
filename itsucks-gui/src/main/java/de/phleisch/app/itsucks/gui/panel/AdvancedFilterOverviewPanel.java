@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.AddAdvancedFilterDialog;
@@ -237,7 +236,7 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		this.jAdvancedFilterList.ensureIndexIsVisible(mAdvancedFilterListModel.size() - 1);
 	}
 
-	public JobFilter buildAdvancedFilter() {
+	public RegExpJobFilter buildAdvancedFilter() {
 		
 		//copy the filter from the model to the filter list
 		RegExpJobFilter regExpJobFilter = new RegExpJobFilter();
@@ -249,6 +248,18 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		}
 		
 		return regExpJobFilter;
+	}
+
+	public void loadAdvancedFilter(RegExpJobFilter pRegExpJobFilter) {
+		
+		if(pRegExpJobFilter == null) return;
+		
+		ExtendedListModel filterListModel = getAdvancedFilterListModel();
+		filterListModel.clear();
+		
+		for (RegExpFilterRule rule : pRegExpJobFilter.getFilterRules()) {
+			filterListModel.addElement(rule);
+		}
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="4,-5"

@@ -9,7 +9,6 @@
 package de.phleisch.app.itsucks.io;
 
 import java.io.File;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -30,7 +29,7 @@ import de.phleisch.app.itsucks.Job;
  * @author olli
  *
  */
-public class DownloadJob extends Job implements Serializable {
+public class DownloadJob extends Job {
 
 	private static final long serialVersionUID = 1382410603891799935L;
 

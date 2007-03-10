@@ -12,6 +12,7 @@ import java.awt.Frame;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,9 +26,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
+import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerializationManager;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -80,7 +84,6 @@ public class AddDownloadJobDialog extends JDialog {
 		this.setTitle("Add a download...");
 		this.setResizable(true);
 		this.setLocationByPlatform(true);
-		this.setVisible(true);
 	}
 
 
@@ -105,6 +108,26 @@ public class AddDownloadJobDialog extends JDialog {
 		}
 		
 		return job;
+	}
+	
+	public void loadJob(DownloadJob pDownload, List<JobFilter> pFilterList) {
+		
+		DownloadJobFilter downloadFilter = null;
+		RegExpJobFilter regexpFilter = null; 
+		
+		for (JobFilter jobFilter : pFilterList) {
+			if(jobFilter instanceof DownloadJobFilter) {
+				downloadFilter = (DownloadJobFilter) jobFilter;
+			} else if(jobFilter instanceof RegExpJobFilter) {
+				regexpFilter = (RegExpJobFilter) jobFilter;
+			}
+		}
+		
+		//load main panel
+		downloadJobMainPanel.loadDownloadJob(pDownload, downloadFilter);
+		
+		//load advanced filter panel
+		advancedFilterOverviewPanel.loadAdvancedFilter(regexpFilter);
 	}
 
 	/**
@@ -273,5 +296,7 @@ public class AddDownloadJobDialog extends JDialog {
 			
 		}
 	}
+
+
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

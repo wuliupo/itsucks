@@ -123,6 +123,10 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	public void setAllowedHostNames(String pAllowedHostNames[]) {
 		mAllowedHostNames = pAllowedHostNames;
 	}
+	
+	public String[] getAllowedHostNames() {
+		return mAllowedHostNames;
+	}
 
 	public String[] getSaveToFileFilter() {
 		return mSaveToFileFilter;

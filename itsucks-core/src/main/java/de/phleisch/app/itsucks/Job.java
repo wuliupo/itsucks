@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Observable;
  * @author olli
  *
  */
-public abstract class Job extends Observable {
+public abstract class Job extends Observable implements Serializable {
 
 	public final static int STATE_OPEN = 1;
 	public final static int STATE_ASSIGNED = 2;

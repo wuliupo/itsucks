@@ -474,7 +474,8 @@ public class MainWindow implements AddDownloadJobInterface {
 	}
 
 	private void openAddDownloadDialog() {
-		new AddDownloadJobDialog(jFrame, this);
+		AddDownloadJobDialog dialog = new AddDownloadJobDialog(jFrame, this);
+		dialog.setVisible(true);
 	}
 	
 	private void loadDownload() {
@@ -501,7 +502,13 @@ public class MainWindow implements AddDownloadJobInterface {
 			} 
 			
 			if(jobList != null) {
-				addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
+				//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
+				
+				DownloadJob job = (DownloadJob)jobList.getJobs().get(0);
+				
+				AddDownloadJobDialog dialog = new AddDownloadJobDialog(jFrame, this);
+				dialog.loadJob(job, jobList.getFilters());
+				dialog.setVisible(true);
 			}
 			
 		}
