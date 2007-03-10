@@ -25,12 +25,6 @@ public class UploadJob extends Job {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void cleanup() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void abort() {
