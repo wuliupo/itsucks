@@ -539,9 +539,11 @@ public class DownloadJobMainPanel extends JPanel {
 		jName.setText(pDownload.getName());
 		jURL.setText(pDownload.getUrl().toString());
 		jSavePath.setText(pDownload.getSavePath().toString());
-		jRecursionDepth.setText(Integer.toString(pDownload.getDepth()));
 		
 		if(pFilter != null) {
+			
+			jRecursionDepth.setText(Integer.toString(pFilter.getMaxRecursionDepth()));
+			
 			mHostnameFilterListModel.clear();
 			for (String allowedHostname : pFilter.getAllowedHostNames()) {
 				mHostnameFilterListModel.addElement(allowedHostname);
