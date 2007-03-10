@@ -13,6 +13,8 @@ import de.phleisch.app.itsucks.Job;
 
 public class UploadJob extends Job {
 
+	private static final long serialVersionUID = -3082619668096587378L;
+
 	public UploadJob() {
 		super();
 		// TODO Auto-generated constructor stub
