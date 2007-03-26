@@ -1,0 +1,150 @@
+/* General styles */
+img {
+  border:none;
+}
+
+a { 
+  color: #00019b;
+}
+a:visited { 
+  color: #56a;
+  text-decoration: none;
+}
+a:hover { 
+  color: #c6f;
+}
+
+body { 
+  color: #555;
+  background: white;
+  font-family: sans-serif, "Nimbus Sans L", "Arial", "Bitstream Vera Sans","Luxi Sans",Helvetica,Arial;
+  font-size: smaller;
+  margin: 0;
+  padding: 0;
+  border:0;
+}
+
+/* The header */
+div.header { 
+  text-decoration: none;
+  /* background: #eee url(img/bg.gif); */
+  border-bottom: 1px solid black;
+  height: 80px;
+}
+
+div.logo {
+  padding: 1px 4ex;
+}
+
+/* The page without header */
+div.body {
+  border: 0px dashed red;
+  background: #fed;
+}
+
+/* The sidebar */
+div.sidebar { 
+  margin:0ex;
+  padding:0ex;
+  border:0;
+  float:right;
+  width:18em;
+  border:0px solid blue;
+}
+
+div.sidebar ul {
+  list-style:none;
+  border: 0px solid gray;
+  margin:1ex 0ex;
+  padding:0;
+}
+div.sidebar li { 
+  margin: 3px 0px;
+  padding: 0;
+  text-align: left;
+  font-size: small;
+  border:0;
+}
+
+div.sidebar a { 
+  color: #036;
+  display:inline;
+  padding-left: 1ex;
+  text-decoration: none;
+}
+
+div.sidebar a.down {
+  font-weight: bold;
+}
+div.sidebar a.current, div.sidebar a:hover {
+  color:#f66;
+}
+
+div.sidebar div {
+  font-weight:bold;
+  color:black;
+  background:#c88;
+  padding: 3px;
+  padding-left: 1ex;
+  border-bottom: 1px solid #555; 
+  border-top: 1px solid #555; 
+}
+
+/* The main page */
+div.main { 
+  background: #fff;
+  padding:4ex;
+  margin:0px;
+/*  border-right:16 1px solid #aaa; */
+  border-right: 1px solid #555;
+  margin-right:18em;
+  min-height: 300px;
+}
+
+.footer { 
+  background: #fff;
+  border-top: 1px solid #aaa;
+  font-size: small;
+  vertical-align: middle;
+  color: #ccc;
+  padding: 5px 10px;
+}
+.footer span {
+  text-align:right;
+  line-height:100%;
+  padding: 0px 10px;
+  float:right
+}
+
+
+
+div.date { 
+  margin: 0px 0px 1ex 0px;
+  /* color: #a65; */
+  text-align:right;
+  font-size:small;
+}
+
+div.more {
+  text-align:right;
+  padding-top: 2ex;
+}
+div.more a {
+  padding: 2px 1em 2px 5em;
+  border:1px solid #ddd;
+  background-color: #eee;
+}
+
+h2 { 
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0;
+  margin-top: 3ex;
+  color: #444;
+}
+
+p {
+  padding-left:2ex;
+}
+p, dl, textarea, li { 
+  line-height: 135%;
+}
