@@ -48,7 +48,7 @@ public class AppTest extends TestCase {
 		assertNotNull(dispatcher);
 
 		DownloadJobFilter filter = (DownloadJobFilter) context.getBean("DownloadJobFilter");
-		//filter.setBaseURL(new URL("http://flickr.com"));
+		//filter.setBaseURL(new URL("http://..."));
 		//filter.setAllowOnlyRelativeReferences(true);
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
@@ -56,14 +56,11 @@ public class AppTest extends TestCase {
 		dispatcher.addJobFilter(filter);		
 		
 		DownloadJob job = (DownloadJob) context.getBean("DownloadJob");
-		//job.setUrl(new URL("http://www.bild-der-woche.de/index.html?pid=allpics&limit=72&mode=&style=&refid="));
-		job.setUrl(new URL("http://zion.knaeul.de"));
-		//job.setUrl(new URL("http://www.w3.org/TR/html4/strict.dtd"));
-		//job.setUrl(new URL("http://a.as-us.falkag.net/dat/bgf/200602/22/pb_rackspace.gif"));
+		job.setUrl(new URL("http://itsucks.sourceforge.net/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		
 		job.setIgnoreFilter(true);
-		dispatcher.getJobManager().addJob(job);
+		dispatcher.addJob(job);
 		
 		dispatcher.processJobs();
 	}
