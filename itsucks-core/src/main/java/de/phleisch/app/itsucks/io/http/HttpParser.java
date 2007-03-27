@@ -197,7 +197,8 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 				try {
 					uri = mBaseURI.resolve(match);
 				} catch(Exception ex) {
-					mLog.warn(ex);
+					mLog.warn("Resolving of base url failed: " +
+							"Match: " + match + " BaseURI: " + mBaseURI, ex);
 				}
 				if(uri != null) {
 					//mLog.debug("Add uri: " + uri);

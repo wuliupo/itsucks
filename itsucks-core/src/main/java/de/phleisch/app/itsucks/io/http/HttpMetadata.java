@@ -20,7 +20,7 @@ import de.phleisch.app.itsucks.io.Metadata;
 public class HttpMetadata extends Metadata {
 
 	private String mContentType;
-	private int mContentLength;
+	private long mContentLength;
 	private int mStatusCode;
 	private HttpMethodBase mConnection;
 	
@@ -30,10 +30,10 @@ public class HttpMetadata extends Metadata {
 	public void setContentType(String mimetype) {
 		mContentType = mimetype;
 	}
-	public int getContentLength() {
+	public long getContentLength() {
 		return mContentLength;
 	}
-	public void setContentLength(int contentLength) {
+	public void setContentLength(long contentLength) {
 		mContentLength = contentLength;
 	}
 	public int getStatusCode() {

@@ -51,10 +51,18 @@ public class FileResumeRetriever implements DataRetriever {
 		//first check if the file exists
 		if(mLocalFile.exists() && mLocalFile.length() > 0) {
 			mResumeOffset = mLocalFile.length();
-			
+		
 			//try to resume the data stream
 			mDataRetriever.setBytesToSkip(mResumeOffset);
 			mDataRetriever.connect();
+			
+			if(mDataRetriever.getBytesSkipped() > 0) {
+				mLog.info("Resume of URL successful: " 
+						+ mDataRetriever.getUrl());
+			} else {
+				mLog.info("Resume of URL not possible: " 
+						+ mDataRetriever.getUrl() + ", seeking not allowed.");
+			}
 			
 		} else {
 			//resume not really possible, read everything from the live stream
@@ -62,6 +70,10 @@ public class FileResumeRetriever implements DataRetriever {
 			mResumeOffset = 0;
 			
 			mDataRetriever.connect();
+			
+			mLog.info("Resume of url not possible: " 
+					+ mDataRetriever.getUrl() + ", no local data available.");
+			
 		}
 
 	}
@@ -117,9 +129,6 @@ public class FileResumeRetriever implements DataRetriever {
 			prepareResume();
 			
 		} else {
-			
-			mLog.info("Resuming of url failed: " 
-					+ mDataRetriever.getUrl() + ", redownload the data.");
 			
 			//abort resuming
 			mReadFromFile = false;

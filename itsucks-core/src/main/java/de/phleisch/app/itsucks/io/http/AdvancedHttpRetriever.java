@@ -24,6 +24,9 @@ import de.phleisch.app.itsucks.io.DataProcessor;
 
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
+	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
+	private static int HTTP_STATUS_RANGE_NOT_SATISFIABLE = 416;
+	
 	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
 	
 	private static HttpClient mClient = null;
@@ -77,25 +80,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			mMetadata.setContentType("undefined");
 		}
 		
-		Header contentLength = mGet.getResponseHeader("Content-Length");
-		if(contentLength != null) {
-			
-			//replace ; chars in string
-			String data = contentLength.getValue();
-			data = data.replace(';', ' ');
-			
-			int length = -1;	
-			try {
-				length = Integer.parseInt(data);
-			} catch (NumberFormatException nex) {
-				mLog.warn("Bad contentLength String: " + data);
-			}
-			
-			mMetadata.setContentLength(length);	
-		} else {
-			mMetadata.setContentLength(-1);
-		}
-		
+		mMetadata.setContentLength(mGet.getResponseContentLength());
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setConnection(mGet);
 	}
@@ -127,6 +112,10 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 		InputStream input = mGet.getResponseBodyAsStream(); 
 
+		if(input == null) {
+			return;
+		}
+		
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 			DataProcessor processor = it.next();
 			processor.init();
@@ -137,7 +126,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 		mBytesDownloaded = 0; //reset bytes downloaded
 		int bytesRead;
-		int completeContentLenght = mMetadata.getContentLength();
+		long completeContentLenght = mMetadata.getContentLength();
 		
 		while((bytesRead = input.read(buffer)) > 0) {
 			
@@ -168,7 +157,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 		
 		//set progress to 100 % if content length was not available
-		if(completeContentLenght == -1) {
+		if(completeContentLenght <= 0) {
 			updateProgress(1);
 		}
 		
@@ -226,7 +215,8 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			throw new IllegalStateException("Request not sent!");
 		}
 		
-		if(mMetadata.getStatusCode() == 206) {
+		if(mMetadata.getStatusCode() == HTTP_STATUS_PARTIAL_CONTENT ||
+				mMetadata.getStatusCode() == HTTP_STATUS_RANGE_NOT_SATISFIABLE) {
 			return mBytesToSkip;
 		} else {
 			return 0;

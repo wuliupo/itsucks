@@ -38,6 +38,8 @@ public class Dispatcher implements ApplicationContextAware {
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
 	private boolean mStop;
+
+	private boolean mPause;
 	
 	private static Log mLog = LogFactory.getLog(Dispatcher.class);
 	
@@ -66,6 +68,12 @@ public class Dispatcher implements ApplicationContextAware {
 		
 		Job job;
 		while(true) {
+			while(mPause) {
+				synchronized (this) {
+					this.wait(); // wait until unpause notify
+				}
+			}
+			
 			if(mStop) { //check for stop event
 				job = null;
 			} else {
@@ -75,8 +83,10 @@ public class Dispatcher implements ApplicationContextAware {
 			if(job == null) {
 				
 				if(mWorkerPool.getBusyWorkerCount() > 0) {
+					//stop dispatcher only when all working threads finished working
 					Thread.sleep(100);
 				} else {
+					//shutdown dispatcher
 					break;
 				}
 				
@@ -100,8 +110,32 @@ public class Dispatcher implements ApplicationContextAware {
 	 * Set the flag to stop the dispatcher
 	 */
 	public void stop() {
+		unpause();
 		mStop = true;
 		mWorkerPool.stopRunningWorker();
+	}
+	
+	/**
+	 * Pause assigning new jobs to working threads.
+	 */
+	public void pause() {
+		mPause = true;
+	}
+	
+	/**
+	 * Resume assigning new jobs to working threads.
+	 */
+	public void unpause() {
+		if(mPause) {
+			mPause = false;
+			synchronized (this) {
+				this.notify();
+			}
+		}
+	}
+	
+	public boolean isPaused() {
+		return mPause;
 	}
 	
 	private void startup() {

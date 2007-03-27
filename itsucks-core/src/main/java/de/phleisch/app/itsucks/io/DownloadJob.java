@@ -65,7 +65,9 @@ public class DownloadJob extends Job {
 			throw e;
 		} finally {
 			try {
-				mDataRetriever.disconnect();
+				if(mDataRetriever != null) {
+					mDataRetriever.disconnect();
+				}
 			} catch (Exception e) {
 				mLog.warn("Problem in disconnecting after error", e);
 			}
@@ -93,15 +95,19 @@ public class DownloadJob extends Job {
 		if(isSaveToFile()) {
 			//check if the file is already on disk
 			
+			
+			
 			FileManager fileManager = new FileManager(this.getSavePath());
 			File file = fileManager.buildSavePath(getUrl());
 			if(file.exists()) {
-
+				
+				mLog.info("Try to resume job: " + this);
+				
 				//ok, it seems the file already exists partially/completly
 				//try to resume the file
 				mDataRetriever = new FileResumeRetriever(mDataRetriever, file);
 			}
-		}
+		} 
 		
 		//connect the retriever
 		mDataRetriever.connect();
