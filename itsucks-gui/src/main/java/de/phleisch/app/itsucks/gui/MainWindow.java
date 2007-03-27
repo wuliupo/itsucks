@@ -98,6 +98,8 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private JButton jCloseDownload = null;
 
+	private JButton jPauseDownload = null;
+
 
 
 	private MainWindow() {
@@ -446,6 +448,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			jToolBarBar = new JToolBar();
 			jToolBarBar.setOpaque(false);
 			jToolBarBar.add(getJNewDownload());
+			jToolBarBar.add(getJPauseDownload());
 			jToolBarBar.add(getJCloseDownload());
 		}
 		return jToolBarBar;
@@ -519,6 +522,22 @@ public class MainWindow implements AddDownloadJobInterface {
 		LogDialog newLogDialog = new LogDialog();
 		newLogDialog.setVisible(true);
 	}
+	
+	private void pauseDownloadStatusPane() {
+		
+		Component selectedComponent = jTabbedPane.getSelectedComponent();
+		if(selectedComponent == null) return;
+		
+		DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
+		DispatcherThread dispatcher = pane.getDispatcher();
+		
+		if(dispatcher.isPaused()) {
+			dispatcher.unpause();
+		} else {
+			dispatcher.pause();
+		}
+		
+	}	
 	
 	private void closeDownloadStatusPane() {
 		
@@ -603,6 +622,27 @@ public class MainWindow implements AddDownloadJobInterface {
 			
 		}
 		return jCloseDownload;
+	}
+
+	/**
+	 * This method initializes jPauseDownload	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJPauseDownload() {
+		if (jPauseDownload == null) {
+			jPauseDownload = new JButton();
+			jPauseDownload.setToolTipText("Close/Stop download");
+			jPauseDownload.setIcon(new ImageIcon(getClass().getResource("/pause.png")));
+			jPauseDownload.setText("Pause download");
+			jPauseDownload.setBorderPainted(false);
+			jPauseDownload.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					pauseDownloadStatusPane();
+				}
+			});
+		}
+		return jPauseDownload;
 	}
 
 	/**
