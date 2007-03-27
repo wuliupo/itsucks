@@ -8,7 +8,7 @@ include_once('include/header.php.inc');
     
       <p class="text">
         <h2>ItSucks Website published</h2>
-        <div class='date'>2007-??-??</div>
+        <div class='date'>2007-03-27</div>
         Published the ItSucks website.
       </p>    
     

@@ -18,9 +18,9 @@ include_once('include/header.php.inc');
         
         <h3>General Features</h3>
         <ul>
-          <li>Designed to supported multiple protocols. At this time only http is implemented.</li>
-          <li>Running multiple crawl jobs at one time.</li>
-          <li>Count of working threads for every crawl job is changeable. (Not over the GUI available yet.)</li>
+          <li>Designed to support multiple protocols. At this time only http is implemented.</li>
+          <li>Running multiple crawl jobs simultaniously.</li>
+          <li>Number of working threads for every crawl job is changeable. (Not over the GUI available yet.)</li>
           <li>Search depth is configurable.</li>
           <li>Support for individual priority of an URL.</li>
           <li>Save and load one or multiple Jobs. (serialize / deserialize)</li>
@@ -29,8 +29,8 @@ include_once('include/header.php.inc');
         
         <h3>URL Filter Features</h3>
         <ul>
-          <li>Hostname is configurable by regular expressions.
-          <li>Type of files to be downloaded is configurable by regular expressions.</li>
+          <li>Allowed hostnames are configurable by regular expressions.
+          <li>Type of files to be downloaded are configurable by regular expressions.</li>
           <li>A base URL can be set to follow only URL's beginning with this prefix.</li>
           <li>A highly configurable advanced filter can hold multiple regular expressions. 
           For every expression, actions can be defined when the regular expression matches the URL

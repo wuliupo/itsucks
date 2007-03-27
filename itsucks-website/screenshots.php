@@ -5,7 +5,7 @@ include_once('include/header.php.inc');
 ?>
 
     <div class="main">
-      <p class="text">TODO</p>
+      <p class="text"><h3>Coming soon...</h3></p>
     </div>
     
 <?
