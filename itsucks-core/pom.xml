@@ -53,7 +53,7 @@
           <archive>
 
             <manifest>
-              <packageName>itsucks</packageName>
+              <packageName>itsucks-core</packageName>
               <addClasspath>true</addClasspath>
               <addExtensions/>
               <classpathPrefix/>

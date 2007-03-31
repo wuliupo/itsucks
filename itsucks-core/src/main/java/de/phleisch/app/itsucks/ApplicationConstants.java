@@ -15,7 +15,7 @@ public final class ApplicationConstants {
 
 	public static final String APPLICATION_TITLE = "ItSucks - " + APPLICATION_VERSION;
 	
-	public static final String CORE_SPRING_CONFIG_FILE = "itsucks_spring_config.xml";
+	public static final String CORE_SPRING_CONFIG_FILE = "itsucks_core_spring_config.xml";
 	
 	public static final String HTTP_PARSER_CONFIG_FILE = "itsucks_http_parser.properties";
 	

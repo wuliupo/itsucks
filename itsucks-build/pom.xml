@@ -27,6 +27,7 @@
   <modules>
     <module>../itsucks-core</module>
     <module>../itsucks-gui</module>
+    <module>../itsucks-console</module>
   </modules>
 
 <!-- dependency management -->
