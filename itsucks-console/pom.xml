@@ -57,7 +57,7 @@
               <packageName>itsucks-console</packageName>
               <addClasspath>true</addClasspath>
               <addExtensions/>
-              <classpathPrefix/>
+              <classpathPrefix>lib/</classpathPrefix>
             </manifest>
 
             <manifestEntries>
