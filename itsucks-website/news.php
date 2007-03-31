@@ -5,12 +5,18 @@ include_once('include/header.php.inc');
 ?>
 
     <div class="main">
+
+      <p class="text">
+        <h2>Version 0.2.0-pre7 is released</h2>
+        <div class='date'>2007-03-31</div>
+        Majorly an bugfix release. New is the pause function and an console only util.
+      </p>
     
       <p class="text">
         <h2>ItSucks Website published</h2>
         <div class='date'>2007-03-27</div>
         Published the ItSucks website.
-      </p>    
+      </p>
     
       <p class="text">
         <h2>Version 0.2.0-pre6 is released</h2>

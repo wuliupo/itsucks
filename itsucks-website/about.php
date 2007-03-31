@@ -47,6 +47,11 @@ include_once('include/header.php.inc');
           <li>Load and save downloads as templates.</li>
         </ul>
         
+        <h2>Features of ItSucks Console</h2>
+        <ul>
+          <li>Start your download templates on the console after creating it with the GUI.</li>
+        </ul>        
+        
         <h2>External libraries/tools used</h2>
         <ul>
           <li><a href="http://www.springframework.org/">Spring Application Framework</a></li>
