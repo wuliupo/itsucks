@@ -11,7 +11,7 @@ package de.phleisch.app.itsucks;
 
 public final class ApplicationConstants {
 	
-	public static final String APPLICATION_VERSION = "0.2.0-pre7";
+	public static final String APPLICATION_VERSION = "0.2.0-pre8";
 
 	public static final String APPLICATION_TITLE = "ItSucks - " + APPLICATION_VERSION;
 	
