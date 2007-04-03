@@ -537,6 +537,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			dispatcher.pause();
 		}
 		
+		updateButtonState();
 	}	
 	
 	private void closeDownloadStatusPane() {
@@ -575,7 +576,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			throw new RuntimeException("Can't instatiate dispatcher!");
 		}
 		pane.setDispatcher(dispatcher);
-		jTabbedPane.add(pDownload.getName(), pane);
+		pane.setName(pDownload.getName());
 		
 		dispatcher.addJobFilter(pFilterList);
 		dispatcher.addJob(pDownload);
@@ -583,6 +584,9 @@ public class MainWindow implements AddDownloadJobInterface {
 		//start dispatcher thread
 		try {
 			dispatcher.processJobs();
+			
+			jTabbedPane.add(pane.getName(), pane);
+			
 		} catch (Exception e) {
 			mLog.error("Error starting dispatcher thread", e);
 		}
@@ -596,6 +600,12 @@ public class MainWindow implements AddDownloadJobInterface {
 	private JTabbedPane getJTabbedPane() {
 		if (jTabbedPane == null) {
 			jTabbedPane = new JTabbedPane();
+			jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+				public void stateChanged(javax.swing.event.ChangeEvent e) {
+					updateButtonState();
+				}
+
+			});
 		}
 		return jTabbedPane;
 	}
@@ -612,6 +622,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			//jCloseDownload.setPreferredSize(new Dimension(23, 22));
 			jCloseDownload.setBorderPainted(false);
 			jCloseDownload.setText("Stop download");
+			jCloseDownload.setEnabled(false);
 			jCloseDownload.setToolTipText("Close/Stop download");
 			jCloseDownload.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -635,6 +646,7 @@ public class MainWindow implements AddDownloadJobInterface {
 			jPauseDownload.setToolTipText("Close/Stop download");
 			jPauseDownload.setIcon(new ImageIcon(getClass().getResource("/pause.png")));
 			jPauseDownload.setText("Pause download");
+			jPauseDownload.setEnabled(false);
 			jPauseDownload.setBorderPainted(false);
 			jPauseDownload.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -644,6 +656,37 @@ public class MainWindow implements AddDownloadJobInterface {
 		}
 		return jPauseDownload;
 	}
+	
+	private void updateButtonState() {
+		
+		Component selectedComponent = jTabbedPane.getSelectedComponent();
+		if(selectedComponent == null) {
+			jPauseDownload.setEnabled(false);
+			jPauseDownload.setText("Pause download");
+			jCloseDownload.setEnabled(false);
+		} else {
+			DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
+			DispatcherThread dispatcher = pane.getDispatcher();
+			
+			if(dispatcher.isPaused()) {
+				jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), pane.getName()
+						+ " (paused)");
+				jPauseDownload.setText("Unpause download");
+			} else {
+				jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), pane.getName());
+				jPauseDownload.setText("Pause download");
+			}
+			
+			if(!dispatcher.isRunning()) {
+				jPauseDownload.setEnabled(false);
+			} else {
+				jPauseDownload.setEnabled(true);
+			}
+			
+			jCloseDownload.setEnabled(true);
+		}
+	}
+	
 
 	/**
 	 * Launches this application
