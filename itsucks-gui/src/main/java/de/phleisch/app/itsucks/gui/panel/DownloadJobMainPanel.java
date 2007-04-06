@@ -32,6 +32,7 @@ import javax.swing.ListModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
@@ -481,9 +482,11 @@ public class DownloadJobMainPanel extends JPanel {
 		
 		if(!checkFields()) return null;
 		
+		JobFactory jobFactory =  (JobFactory) 
+			SpringContextSingelton.getApplicationContext().getBean("JobFactory");
+		
 		//build download job
-		DownloadJob job = (DownloadJob) 
-			SpringContextSingelton.getApplicationContext().getBean("DownloadJob");
+		DownloadJob job = jobFactory.createDownloadJob();
 		job.setIgnoreFilter(true);
 		job.setState(DownloadJob.STATE_OPEN);
 		job.setName(jName.getText());
@@ -496,8 +499,7 @@ public class DownloadJobMainPanel extends JPanel {
 		
 		job.setSavePath(new File(jSavePath.getText()));
 		
-		DownloadJobFilter jobFilter = (DownloadJobFilter) 
-			SpringContextSingelton.getApplicationContext().getBean("DownloadJobFilter");
+		DownloadJobFilter jobFilter = new DownloadJobFilter();
 		
 		jobFilter.setMaxRecursionDepth(Integer.parseInt(jRecursionDepth.getText()));
 		

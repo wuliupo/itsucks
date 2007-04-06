@@ -25,6 +25,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.io.DataParser;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.Metadata;
@@ -116,8 +117,10 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 				continue;
 			}
 			
-			//hm, maybe a mJob.createChild() is better here...
-			DownloadJob job = (DownloadJob) mContext.getBean("DownloadJob");
+			JobFactory jobFactory = (JobFactory) mContext.getBean("JobFactory");
+			
+			DownloadJob job = jobFactory.createDownloadJob();
+			
 			job.setUrl(url);
 			job.setParent((DownloadJob)this.getJob());
 			mJobManager.addJob(job);

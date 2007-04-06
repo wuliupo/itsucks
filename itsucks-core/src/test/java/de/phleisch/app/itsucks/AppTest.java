@@ -47,7 +47,7 @@ public class AppTest extends TestCase {
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		assertNotNull(dispatcher);
 
-		DownloadJobFilter filter = (DownloadJobFilter) context.getBean("DownloadJobFilter");
+		DownloadJobFilter filter = new DownloadJobFilter();
 		//filter.setBaseURL(new URL("http://..."));
 		//filter.setAllowOnlyRelativeReferences(true);
 		filter.setAllowedHostNames(new String[] {".*"});
@@ -55,7 +55,10 @@ public class AppTest extends TestCase {
 		filter.setSaveToFileFilter(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		dispatcher.addJobFilter(filter);		
 		
-		DownloadJob job = (DownloadJob) context.getBean("DownloadJob");
+		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		assertNotNull(jobFactory);
+		
+		DownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		

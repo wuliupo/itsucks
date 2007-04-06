@@ -110,38 +110,22 @@
 			<value>Mozilla/5.0</value>
 		</property>
 	</bean>
-	
+
 	<bean 
-		id="DownloadJobFilter" 
-		class="de.phleisch.app.itsucks.filter.DownloadJobFilter" 
-		singleton="false">
-	</bean>
-	
-	<bean 
-		id="RegExpJobFilter" 
-		class="de.phleisch.app.itsucks.filter.RegExpJobFilter" 
-		singleton="false">
-	</bean>
-	
-	<bean 
-		id="DownloadJob" 
-		class="de.phleisch.app.itsucks.io.DownloadJob" 
-		singleton="false">
-		
-		<property name="dataProcessorManager">
-			<ref bean="DataProcessorManager"/>
-		</property>
-				
-		<property name="dataRetrieverManager">
-			<ref bean="DataRetrieverManager"/>
-		</property>
-		
-	</bean>
+		id="JobFactory" 
+		class="de.phleisch.app.itsucks.JobFactory" 
+		singleton="true">
+	</bean>	
 	
 	<bean 
 		id="JobSerializationManager" 
 		class="de.phleisch.app.itsucks.persistence.JobSerializationManager" 
 		singleton="false">
+		
+		<property name="jobFactory">
+			<ref bean="JobFactory"/>
+		</property>
+		
 	</bean>
 	
 </beans>

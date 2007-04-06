@@ -26,12 +26,14 @@ public class SerializationTest extends TestCase {
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 		
-		DownloadJobFilter filter = (DownloadJobFilter) context.getBean("DownloadJobFilter");
+		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
 		filter.setSaveToFileFilter(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		
-		DownloadJob job = (DownloadJob) context.getBean("DownloadJob");
+		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		
+		DownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
 		job.setSavePath(new File("/tmp/itsucks"));
 		

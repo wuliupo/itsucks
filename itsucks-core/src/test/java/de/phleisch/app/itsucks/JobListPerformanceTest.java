@@ -71,7 +71,9 @@ public class JobListPerformanceTest extends TestCase {
 		
 		for (int i = 0; i < JOB_AMOUNT; i++) {
 			
-			testJob = (Job) context.getBean("DownloadJob");
+			JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+			
+			testJob = jobFactory.createDownloadJob();
 			testJob.setState(random.nextInt(999));
 			testJob.setPriority(random.nextInt(Job.MAX_PRIORITY));
 		

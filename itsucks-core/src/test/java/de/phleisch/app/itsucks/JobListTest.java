@@ -33,11 +33,13 @@ public class JobListTest extends TestCase {
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		assertNotNull(dispatcher);
 		
-		DownloadJobFilter filter = (DownloadJobFilter) context.getBean("DownloadJobFilter");
+		DownloadJobFilter filter = new DownloadJobFilter();
 		dispatcher.addJobFilter(filter);
 		
-		DownloadJob job1 = (DownloadJob) context.getBean("DownloadJob");
-		DownloadJob job2 = (DownloadJob) context.getBean("DownloadJob");
+		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		
+		DownloadJob job1 = jobFactory.createDownloadJob();
+		DownloadJob job2 = jobFactory.createDownloadJob();
 		
 		job1.setState(DownloadJob.STATE_OPEN);
 		job1.setPriority(8);
