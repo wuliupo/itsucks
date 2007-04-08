@@ -29,6 +29,7 @@ public class FileResumeRetriever implements DataRetriever {
 	
 	private boolean mReadFromFile;
 	private boolean mFileFinished;
+	private boolean mResumePrepared;
 	
 	public FileResumeRetriever(DataRetriever pDataRetriever, File pFile) {
 		
@@ -37,6 +38,7 @@ public class FileResumeRetriever implements DataRetriever {
 		mLocalFile = pFile;
 		mFileFinished = false;
 		mReadFromFile = false;
+		mResumePrepared = false;
 	}
 
 	public void abort() {
@@ -80,6 +82,9 @@ public class FileResumeRetriever implements DataRetriever {
 
 	private void prepareResume() {
 
+		if(mResumePrepared) return;
+		mResumePrepared = true;
+		
 		//check the processor chain
 		List<DataProcessor> dataProcessors = mDataRetriever.getDataProcessors();
 		
@@ -114,6 +119,11 @@ public class FileResumeRetriever implements DataRetriever {
 				}
 				
 				mFileRetriever.addDataProcessor(processor);
+			}
+			try {
+				mFileRetriever.connect();
+			} catch (Exception e) {
+				throw new RuntimeException("Error creating file retriever", e);
 			}
 			
 			mReadFromFile = true;
@@ -181,6 +191,8 @@ public class FileResumeRetriever implements DataRetriever {
 
 	public boolean isDataAvailable() throws Exception {
 		
+		prepareResume();
+		
 		if(mReadFromFile && !mFileFinished) { 
 			return mFileRetriever.isDataAvailable();
 		} else {
@@ -193,6 +205,11 @@ public class FileResumeRetriever implements DataRetriever {
 	}
 
 	public void addDataProcessor(DataProcessor pDataProcessor) {
+		if(mResumePrepared) {
+			throw new RuntimeException("Resuming already prepared, " +
+					"adding data processors not allowed at this point.");
+		}
+		
 		mDataRetriever.addDataProcessor(pDataProcessor);
 		if(mFileRetriever != null) {
 			mFileRetriever.addDataProcessor(pDataProcessor);

@@ -33,7 +33,7 @@ public class Dispatcher implements ApplicationContextAware {
 	private ApplicationContext mContext;
 	
 	private JobManager mJobManager;
-	private WorkerPool mWorkerPool;
+	private IWorkerPool mWorkerPool;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -112,7 +112,7 @@ public class Dispatcher implements ApplicationContextAware {
 	public void stop() {
 		unpause();
 		mStop = true;
-		mWorkerPool.stopRunningWorker();
+		mWorkerPool.abortBusyWorker();
 	}
 	
 	/**
@@ -154,11 +154,11 @@ public class Dispatcher implements ApplicationContextAware {
 		mJobManager = pJobManager;
 	}
 
-	public WorkerPool getWorkerPool() {
+	public IWorkerPool getWorkerPool() {
 		return mWorkerPool;
 	}
 
-	public void setWorkerPool(WorkerPool pWorkerPool) {
+	public void setWorkerPool(IWorkerPool pWorkerPool) {
 		mWorkerPool = pWorkerPool;
 	}
 	

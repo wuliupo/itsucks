@@ -28,11 +28,11 @@ public class WorkerThread implements Runnable {
 	private List<Integer> mCommandQueue = new ArrayList<Integer>();
 	private Job mJob;
 	private boolean mShutdown = false;
-	private WorkerPool mPool;
+	private IWorkerPool mPool;
 	
 	private Thread mThread; 
 	
-	public WorkerThread(WorkerPool pWorkerPool, String pName) {
+	public WorkerThread(IWorkerPool pWorkerPool, String pName) {
 		mPool = pWorkerPool;
 		mThread = new Thread(this, pName);
 		mThread.setDaemon(true);

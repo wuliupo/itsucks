@@ -125,7 +125,7 @@ public class DownloadJob extends Job {
 			mDataRetriever.addDataProcessor(dataProcessor);
 		}
 		
-		if(mDataRetriever.isDataAvailable()) {
+		if(dataProcessors.size() > 0 && mDataRetriever.isDataAvailable()) {
 			mDataRetriever.retrieve();
 		}
 		
