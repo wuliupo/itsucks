@@ -27,24 +27,35 @@ public class HttpMetadata extends Metadata {
 	public String getContentType() {
 		return mContentType;
 	}
+	
 	public void setContentType(String mimetype) {
 		mContentType = mimetype;
 	}
+	
 	public long getContentLength() {
 		return mContentLength;
 	}
+	
 	public void setContentLength(long contentLength) {
 		mContentLength = contentLength;
 	}
+	
 	public int getStatusCode() {
 		return mStatusCode;
 	}
+	
 	public void setStatusCode(int statusCode) {
 		mStatusCode = statusCode;
 	}
+	
 	public void setConnection(HttpMethodBase pConnection) {
 		mConnection = pConnection;
 	}
+	
+	public String getEncoding() {
+		return mConnection.getResponseCharSet();
+	}
+	
 	public String[] getHeaderField(String pName) {
 		List<String> fields = new ArrayList<String>();
 		
@@ -61,6 +72,4 @@ public class HttpMetadata extends Metadata {
 		
 		return (String[]) fields.toArray(new String[fields.size()]);
 	}
-	
-
 }

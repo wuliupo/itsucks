@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
@@ -41,6 +42,8 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	private ApplicationContext mContext;
 	private URI mBaseURI;
 	private StringBuilder mData;
+
+	private String mEncoding;
 	
 	public HttpParser() {
 		super();
@@ -70,9 +73,24 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 		initPatterns();
 		mBaseURI = mDataRetriever.getUrl().toURI();
 		
+		HttpMetadata metadata = (HttpMetadata)mDataRetriever.getMetadata();
+		
+		//check if the encoding used in the html page is supported, if not, use the system encoding
+		String encoding = metadata.getEncoding();
+		if(encoding != null) {
+			if(Charset.isSupported(encoding)) {
+				mEncoding = encoding;
+			} else {
+				mLog.warn("Unsupported encoding: " + encoding + ". System encoding used");
+				mEncoding = null;
+			}
+		} else {
+			mEncoding = null;
+		}
+		
+		
 		//get URL's from header
-		String[] location = 
-			((HttpMetadata)mDataRetriever.getMetadata()).getHeaderField("Location");
+		String[] location = metadata.getHeaderField("Location");
 		
 		HashSet<URI> urlList = new HashSet<URI>();
 		
@@ -127,11 +145,16 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 		}
 	}
 	
-
 	@Override
 	public void process(byte[] pBuffer, int pBytes) throws Exception {
 		
-		String convertedChunk = new String(pBuffer, 0, pBytes); //TODO add encoding
+		String convertedChunk;
+		if(mEncoding != null) {
+			convertedChunk = new String(pBuffer, 0, pBytes, mEncoding);
+		} else {
+			convertedChunk = new String(pBuffer, 0, pBytes);
+		}
+		
 		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); //remove all line breaks
 		mData.append(convertedChunk);  
 	}
