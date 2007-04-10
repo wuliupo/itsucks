@@ -46,6 +46,8 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	private JButton jButtonMoveRuleDown = null;
 	
 	private Dialog mParentDialog = null;
+
+	private JButton jEdit = null;
 	
 	/**
 	 * This is the default constructor
@@ -80,6 +82,7 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		this.add(getJButtonAdvancedFilterRemove(), null);
 		this.add(getJButtonMoveRuleUp(), null);
 		this.add(getJButtonMoveRuleDown(), null);
+		this.add(getJEdit(), null);
 	}
 
 
@@ -103,7 +106,7 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	private JButton getJButtonAdvancedFilterAdd() {
 		if (jButtonAdvancedFilterAdd == null) {
 			jButtonAdvancedFilterAdd = new JButton();
-			jButtonAdvancedFilterAdd.setBounds(new Rectangle(90, 190, 91, 21));
+			jButtonAdvancedFilterAdd.setBounds(new Rectangle(40, 190, 101, 21));
 			jButtonAdvancedFilterAdd.setFont(new Font("Dialog", Font.PLAIN, 12));
 			jButtonAdvancedFilterAdd.setText("Add");
 			jButtonAdvancedFilterAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +157,7 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	private JButton getJButtonAdvancedFilterRemove() {
 		if (jButtonAdvancedFilterRemove == null) {
 			jButtonAdvancedFilterRemove = new JButton();
-			jButtonAdvancedFilterRemove.setBounds(new Rectangle(230, 190, 91, 21));
+			jButtonAdvancedFilterRemove.setBounds(new Rectangle(280, 190, 101, 21));
 			jButtonAdvancedFilterRemove.setFont(new Font("Dialog", Font.PLAIN, 12));
 			jButtonAdvancedFilterRemove.setText("Remove");
 			jButtonAdvancedFilterRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -186,13 +189,15 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					
 					int selection = jAdvancedFilterList.getSelectedIndex();
-					Object source = mAdvancedFilterListModel.get(selection);
-					
-					//move the entry
-					mAdvancedFilterListModel.moveEntry(selection, -1);
-					
-					//move the selection
-					jAdvancedFilterList.setSelectedValue(source, true);
+					if(selection > 0) {
+						Object source = mAdvancedFilterListModel.get(selection);
+						
+						//move the entry
+						mAdvancedFilterListModel.moveEntry(selection, -1);
+						
+						//move the selection
+						jAdvancedFilterList.setSelectedValue(source, true);
+					}
 					
 				}
 			});
@@ -214,13 +219,15 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					
 					int selection = jAdvancedFilterList.getSelectedIndex();
-					Object source = mAdvancedFilterListModel.get(selection);
-					
-					//move the entry
-					mAdvancedFilterListModel.moveEntry(selection, 1);
-					
-					//move the selection
-					jAdvancedFilterList.setSelectedValue(source, true);
+					if(selection > 0) {
+						Object source = mAdvancedFilterListModel.get(selection);
+						
+						//move the entry
+						mAdvancedFilterListModel.moveEntry(selection, 1);
+						
+						//move the selection
+						jAdvancedFilterList.setSelectedValue(source, true);
+					}
 					
 				}
 			});
@@ -234,6 +241,17 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	public void addAdvancedFilterRule(RegExpJobFilter.RegExpFilterRule pRule) {
 		mAdvancedFilterListModel.add(mAdvancedFilterListModel.size(), pRule);
 		this.jAdvancedFilterList.ensureIndexIsVisible(mAdvancedFilterListModel.size() - 1);
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.gui.AddAdvancedFilterInterface#updateAdvancedFilterRule(de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule)
+	 */
+	public void updateAdvancedFilterRule(RegExpJobFilter.RegExpFilterRule pRule) {
+		int selection = jAdvancedFilterList.getSelectedIndex();
+		if(selection > -1) {
+			mAdvancedFilterListModel.set(selection, pRule);
+			this.jAdvancedFilterList.ensureIndexIsVisible(selection);
+		}
 	}
 
 	public RegExpJobFilter buildAdvancedFilter() {
@@ -260,6 +278,37 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		for (RegExpFilterRule rule : pRegExpJobFilter.getFilterRules()) {
 			filterListModel.addElement(rule);
 		}
+	}
+
+	/**
+	 * This method initializes jEdit	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJEdit() {
+		if (jEdit == null) {
+			jEdit = new JButton();
+			jEdit.setBounds(new Rectangle(160, 190, 101, 21));
+			jEdit.setFont(new Font("Dialog", Font.PLAIN, 12));
+			jEdit.setText("Edit");
+			jEdit.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					
+					int selection = jAdvancedFilterList.getSelectedIndex();
+					if(selection > -1) {
+						RegExpFilterRule rule = (RegExpFilterRule) 
+							mAdvancedFilterListModel.get(selection);
+
+						AddAdvancedFilterDialog advancedFilterDialog = 
+							new AddAdvancedFilterDialog(mParentDialog, AdvancedFilterOverviewPanel.this);
+						advancedFilterDialog.fill(rule);
+						advancedFilterDialog.setModal(true);
+						advancedFilterDialog.setVisible(true);
+					}
+				}
+			});
+		}
+		return jEdit;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="4,-5"

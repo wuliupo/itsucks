@@ -33,6 +33,8 @@ public class EditRegularExpressionDialog extends JDialog {
 
 	private JButton jCancelButton = null;
 
+	private boolean mCanceled = false;
+	
 	/**
 	 * @param owner
 	 */
@@ -127,7 +129,7 @@ public class EditRegularExpressionDialog extends JDialog {
 			jCancelButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					EditRegularExpressionDialog.this.setVisible(false);
-					setRegularExpression(null);
+					mCanceled = true;
 					dispose();
 				}
 			});
@@ -141,6 +143,10 @@ public class EditRegularExpressionDialog extends JDialog {
 	
 	public String getRegularExpression() {
 		return this.editRegularExpression.getRegularExpression();
+	}
+
+	public boolean isCanceled() {
+		return mCanceled;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

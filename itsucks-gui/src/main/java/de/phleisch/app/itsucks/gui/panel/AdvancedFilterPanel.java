@@ -41,7 +41,7 @@ public class AdvancedFilterPanel extends JPanel {
 
 	private JTextField jPriorityChange = null;
 
-	private JCheckBox jCheckBox = null;
+	private JCheckBox jChangePriorityMatch = null;
 
 	private JLabel jAdvancedFilterHelp = null;
 
@@ -51,7 +51,7 @@ public class AdvancedFilterPanel extends JPanel {
 
 	private JScrollPane jAddAdvancedFilterScrollablePane = null;
 
-	private JButton jButton = null;
+	private JButton jButtonRegExpEditor = null;
 
 	private JLabel jLabelAdvancedFilterChangeStatus1 = null;
 
@@ -61,9 +61,11 @@ public class AdvancedFilterPanel extends JPanel {
 
 	private JRadioButton jRadioAFilterReject1 = null;
 
-	private JCheckBox jCheckBox1 = null;
+	private JCheckBox jChangePriorityNoMatch = null;
 
 	private JTextField jPriorityChange1 = null;
+	
+	private boolean mUpdateRule = false;
 	
 	/**
 	 * This is the default constructor
@@ -115,15 +117,15 @@ public class AdvancedFilterPanel extends JPanel {
 		add(getJRadioAFilterReject(), null);
 		add(getJRadioAFilterAccept(), null);
 		add(getJRadioAFilterNoChange(), null);
-		add(getJCheckBox(), null);
+		add(getJChangePriorityMatch(), null);
 		this.add(getJPriorityChange(), null);
 		add(jAdvancedFilterHelp, null);
-		this.add(getJButton(), null);
+		this.add(getJButtonRegExpEditor(), null);
 		this.add(jLabelAdvancedFilterChangeStatus1, null);
 		this.add(getJRadioAFilterNoChange1(), null);
 		this.add(getJRadioAFilterAccept1(), null);
 		this.add(getJRadioAFilterReject1(), null);
-		this.add(getJCheckBox1(), null);
+		this.add(getJChangePriorityNoMatch(), null);
 		this.add(getJPriorityChange1(), null);
 		
 		ButtonGroup group = new ButtonGroup();
@@ -205,20 +207,20 @@ public class AdvancedFilterPanel extends JPanel {
 	 * 	
 	 * @return javax.swing.JCheckBox	
 	 */
-	private JCheckBox getJCheckBox() {
-		if (jCheckBox == null) {
-			jCheckBox = new JCheckBox();
-			jCheckBox.setBounds(new Rectangle(10, 210, 141, 21));
-			jCheckBox.setFont(new Font("Dialog", Font.PLAIN, 12));
-			jCheckBox.setSelected(false);
-			jCheckBox.setText("Change the priority");
-			jCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+	private JCheckBox getJChangePriorityMatch() {
+		if (jChangePriorityMatch == null) {
+			jChangePriorityMatch = new JCheckBox();
+			jChangePriorityMatch.setBounds(new Rectangle(10, 210, 141, 21));
+			jChangePriorityMatch.setFont(new Font("Dialog", Font.PLAIN, 12));
+			jChangePriorityMatch.setSelected(false);
+			jChangePriorityMatch.setText("Change the priority");
+			jChangePriorityMatch.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					jPriorityChange.setEnabled(jCheckBox.isSelected());
+					jPriorityChange.setEnabled(jChangePriorityMatch.isSelected());
 				}
 			});
 		}
-		return jCheckBox;
+		return jChangePriorityMatch;
 	}
 
 	/**
@@ -259,7 +261,7 @@ public class AdvancedFilterPanel extends JPanel {
 		if(getJRadioAFilterReject().isSelected()) matchAction = Boolean.FALSE;
 		
 		int matchPrioChange = 0;
-		if(getJCheckBox().isSelected()) {
+		if(getJChangePriorityMatch().isSelected()) {
 			matchPrioChange = Integer.parseInt(getJPriorityChange().getText());
 		}
 
@@ -269,7 +271,7 @@ public class AdvancedFilterPanel extends JPanel {
 		if(getJRadioAFilterReject1().isSelected()) noMatchAction = Boolean.FALSE;
 		
 		int noMatchPrioChange = 0;
-		if(getJCheckBox().isSelected()) {
+		if(getJChangePriorityMatch().isSelected()) {
 			noMatchPrioChange = Integer.parseInt(getJPriorityChange1().getText());
 		}
 		
@@ -288,12 +290,12 @@ public class AdvancedFilterPanel extends JPanel {
 	 * 	
 	 * @return javax.swing.JButton	
 	 */
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.setBounds(new Rectangle(229, 95, 131, 21));
-			jButton.setText("RegExp Editor");
-			jButton.addActionListener(new java.awt.event.ActionListener() {
+	private JButton getJButtonRegExpEditor() {
+		if (jButtonRegExpEditor == null) {
+			jButtonRegExpEditor = new JButton();
+			jButtonRegExpEditor.setBounds(new Rectangle(229, 95, 131, 21));
+			jButtonRegExpEditor.setText("RegExp Editor");
+			jButtonRegExpEditor.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					
 					JRootPane rootPane = AdvancedFilterPanel.this.getRootPane();
@@ -307,8 +309,7 @@ public class AdvancedFilterPanel extends JPanel {
 					dialog.setModal(true);
 					dialog.setVisible(true);
 					
-					String regExp = dialog.getRegularExpression();
-					if(regExp != null) {
+					if(!dialog.isCanceled()) {
 						//copy the value from the editor
 						AdvancedFilterPanel.this.jAddAdvancedFilter.setText(
 								dialog.getRegularExpression());
@@ -316,7 +317,7 @@ public class AdvancedFilterPanel extends JPanel {
 				}
 			});
 		}
-		return jButton;
+		return jButtonRegExpEditor;
 	}
 
 	/**
@@ -370,20 +371,20 @@ public class AdvancedFilterPanel extends JPanel {
 	 * 	
 	 * @return javax.swing.JCheckBox	
 	 */
-	private JCheckBox getJCheckBox1() {
-		if (jCheckBox1 == null) {
-			jCheckBox1 = new JCheckBox();
-			jCheckBox1.setBounds(new Rectangle(10, 340, 141, 21));
-			jCheckBox1.setSelected(false);
-			jCheckBox1.setText("Change the priority");
-			jCheckBox1.setFont(new Font("Dialog", Font.PLAIN, 12));
-			jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+	private JCheckBox getJChangePriorityNoMatch() {
+		if (jChangePriorityNoMatch == null) {
+			jChangePriorityNoMatch = new JCheckBox();
+			jChangePriorityNoMatch.setBounds(new Rectangle(10, 340, 141, 21));
+			jChangePriorityNoMatch.setSelected(false);
+			jChangePriorityNoMatch.setText("Change the priority");
+			jChangePriorityNoMatch.setFont(new Font("Dialog", Font.PLAIN, 12));
+			jChangePriorityNoMatch.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					jPriorityChange1.setEnabled(jCheckBox1.isSelected());
+					jPriorityChange1.setEnabled(jChangePriorityNoMatch.isSelected());
 				}
 			});
 		}
-		return jCheckBox1;
+		return jChangePriorityNoMatch;
 	}
 
 	/**
@@ -399,5 +400,43 @@ public class AdvancedFilterPanel extends JPanel {
 			jPriorityChange1.setEnabled(false);
 		}
 		return jPriorityChange1;
+	}
+
+	public void fill(RegExpFilterRule pRule) {
+		
+		this.getJAddAdvancedFilter().setText(pRule.getPattern().toString());
+		
+		if(pRule.getMatchAccept() == null) {
+			this.getJRadioAFilterNoChange().setSelected(true);
+		} else if(pRule.getMatchAccept().booleanValue()) {
+			this.getJRadioAFilterAccept().setSelected(true);
+		} else if(!pRule.getMatchAccept().booleanValue()) {
+			this.getJRadioAFilterReject().setSelected(true);
+		}
+		
+		if(pRule.getMatchPriorityChange() > 0) {
+			getJChangePriorityMatch().setSelected(true);
+			getJPriorityChange().setText(String.valueOf(pRule.getMatchPriorityChange()));
+		}
+		
+		if(pRule.getNoMatchAccept() == null) {
+			this.getJRadioAFilterNoChange1().setSelected(true);
+		} else if(pRule.getNoMatchAccept().booleanValue()) {
+			this.getJRadioAFilterAccept1().setSelected(true);
+		} else if(!pRule.getNoMatchAccept().booleanValue()) {
+			this.getJRadioAFilterReject1().setSelected(true);
+		}
+		
+		if(pRule.getNoMatchPriorityChange() > 0) {
+			getJChangePriorityNoMatch().setSelected(true);
+			getJPriorityChange1().setText(String.valueOf(pRule.getNoMatchPriorityChange()));
+		}
+		
+		mUpdateRule = true;
+		
+	}
+
+	public boolean isUpdateRule() {
+		return mUpdateRule;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

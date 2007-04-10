@@ -21,7 +21,7 @@ import de.phleisch.app.itsucks.gui.panel.AdvancedFilterPanel;
 
 public class AddAdvancedFilterDialog extends JDialog {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6486384087889967872L;
 
 	private JPanel jContentPane = null;
 
@@ -116,7 +116,11 @@ public class AddAdvancedFilterDialog extends JDialog {
 					
 					RegExpFilterRule rule = advancedFilterPanel.buildRule();
 					if(rule != null) {
-						mAdvancedFilterManager.addAdvancedFilterRule(rule);
+						if(advancedFilterPanel.isUpdateRule()) {
+							mAdvancedFilterManager.updateAdvancedFilterRule(rule);
+						} else {
+							mAdvancedFilterManager.addAdvancedFilterRule(rule);
+						}
 						dispose();
 					}
 					
@@ -144,4 +148,8 @@ public class AddAdvancedFilterDialog extends JDialog {
 		return jButtonCancel;
 	}
 
+	public void fill(RegExpFilterRule pRule) {
+		this.advancedFilterPanel.fill(pRule);
+	}
+	
 }  //  @jve:decl-index=0:visual-constraint="10,10"

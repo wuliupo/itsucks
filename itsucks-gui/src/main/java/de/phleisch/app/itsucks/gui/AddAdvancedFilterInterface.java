@@ -8,10 +8,14 @@
 package de.phleisch.app.itsucks.gui;
 
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 
 public interface AddAdvancedFilterInterface {
 
 	public abstract void addAdvancedFilterRule(
 			RegExpJobFilter.RegExpFilterRule pRule);
+
+	public abstract void updateAdvancedFilterRule(
+			RegExpFilterRule pRule);
 
 }
