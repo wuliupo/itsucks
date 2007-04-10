@@ -43,7 +43,7 @@
 
 	<bean 
 		id="WorkerPool" 
-		class="de.phleisch.app.itsucks.WorkerPool" 
+		class="de.phleisch.app.itsucks.WorkerPoolImpl" 
 		singleton="false">
 		
 		<!-- Pool size -->

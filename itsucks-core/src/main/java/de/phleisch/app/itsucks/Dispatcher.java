@@ -33,7 +33,7 @@ public class Dispatcher implements ApplicationContextAware {
 	private ApplicationContext mContext;
 	
 	private JobManager mJobManager;
-	private IWorkerPool mWorkerPool;
+	private WorkerPool mWorkerPool;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -154,11 +154,11 @@ public class Dispatcher implements ApplicationContextAware {
 		mJobManager = pJobManager;
 	}
 
-	public IWorkerPool getWorkerPool() {
+	public WorkerPool getWorkerPool() {
 		return mWorkerPool;
 	}
 
-	public void setWorkerPool(IWorkerPool pWorkerPool) {
+	public void setWorkerPool(WorkerPool pWorkerPool) {
 		mWorkerPool = pWorkerPool;
 	}
 	
