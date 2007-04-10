@@ -66,7 +66,7 @@ public class ConsoleMain {
 		StringBuilder usage = new StringBuilder();
 		
 		usage.append("Usage: java -jar itsucks-console.jar <serialized job template>" + '\n');
-		usage.append("   Starts processing of the jobs in the job list." + '\n');
+		usage.append("   Starts processing the jobs in the given job template." + '\n');
 		usage.append('\n');
 		
 		System.out.println(usage);
