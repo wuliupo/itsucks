@@ -19,7 +19,10 @@ import java.util.Observer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.AbstractJob;
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.JobEvent;
 
 
 /**
@@ -29,7 +32,7 @@ import de.phleisch.app.itsucks.Job;
  * @author olli
  *
  */
-public class DownloadJob extends Job {
+public class DownloadJob extends AbstractJob {
 
 	private static final long serialVersionUID = 1382410603891799935L;
 
@@ -59,9 +62,20 @@ public class DownloadJob extends Job {
 	public void run() throws Exception {
 	
 		try {
+			mJobManager.getEventManager().fireEvent(
+					new JobEvent(CoreEvents.EVENT_JOB_START, this));
+			
 			download();
+			
+			mJobManager.getEventManager().fireEvent(
+					new JobEvent(CoreEvents.EVENT_JOB_FINISHED, this));
+			
 		} catch (Exception e) {
 			mLog.error("Error downloading url: " + mUrl, e);
+			
+			mJobManager.getEventManager().fireEvent(
+					new JobEvent(CoreEvents.EVENT_JOB_ERROR, this));
+			
 			throw e;
 		} finally {
 			try {
