@@ -17,6 +17,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.EventManager;
+import de.phleisch.app.itsucks.event.SimpleEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
 /**
@@ -34,6 +37,7 @@ public class Dispatcher implements ApplicationContextAware {
 	
 	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
+	private EventManager mEventManager;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -64,15 +68,17 @@ public class Dispatcher implements ApplicationContextAware {
 		}
 		
 		mLog.info("Start processing jobs");
+		mEventManager.fireEvent(new SimpleEvent(CoreEvents.EVENT_DISPATCHER_START));
+		
 		startup();
 		
 		Job job;
 		while(true) {
-			while(mPause) {
-				synchronized (this) {
-					this.wait(); // wait until unpause notify
-				}
+			
+			if(mPause) {
+				doPauseLoop();
 			}
+			
 			
 			if(mStop) { //check for stop event
 				job = null;
@@ -101,9 +107,24 @@ public class Dispatcher implements ApplicationContextAware {
 			
 		}
 		
-		mLog.info("Finished processing jobs");
 		shutdown();
 		setRunning(false);
+		
+		mLog.info("Finished processing jobs");
+		mEventManager.fireEvent(new SimpleEvent(CoreEvents.EVENT_DISPATCHER_FINISH));
+	}
+
+	private void doPauseLoop() throws InterruptedException {
+		
+		mEventManager.fireEvent(new SimpleEvent(CoreEvents.EVENT_DISPATCHER_PAUSE));
+		
+		while(mPause) {
+			synchronized (this) {
+				this.wait(); // wait until unpause notify
+			}
+		}
+		
+		mEventManager.fireEvent(new SimpleEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE));
 	}
 
 	/**
@@ -152,6 +173,7 @@ public class Dispatcher implements ApplicationContextAware {
 
 	public void setJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
+		mEventManager = mJobManager.getEventManager();
 	}
 
 	public WorkerPool getWorkerPool() {

@@ -56,7 +56,9 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.IJobList#removeJob(de.phleisch.app.itsucks.Job)
 	 */
-	public void removeJob(Job pJob) {
+	public boolean removeJob(Job pJob) {
+		if(mJobList.contains(pJob)) return false;
+		
 		synchronized (this) {
 			pJob.deleteObserver(this);
 			
@@ -73,6 +75,8 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 		
 		this.notifyObservers(
 				new JobListNotification(NOTIFICATION_JOB_REMOVED, pJob));
+		
+		return true;
 	}
 	
 	/* (non-Javadoc)

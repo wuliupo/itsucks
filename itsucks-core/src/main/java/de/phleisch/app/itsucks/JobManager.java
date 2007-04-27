@@ -14,6 +14,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.EventManager;
+import de.phleisch.app.itsucks.event.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
 /**
@@ -29,6 +32,8 @@ public class JobManager {
 	private JobList mJobList;
 	private List<JobFilter> mJobFilter;
 	
+	private EventManager mEventManager;
+	
 	public JobManager() {
 		super();
 		
@@ -40,18 +45,38 @@ public class JobManager {
 		
 		pJob.setJobManager(this);
 		mJobList.addJob(pJob);
+		
+		mEventManager.fireEvent(
+			new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_ADDED, pJob));
 	}
 	
 	public void addJob(Job pJob) {
+		if(pJob == null) return;
+		
 		Job job = pJob;
-
+		job.setJobManager(this);
+		
 		if(!job.isIgnoreFilter()) {
 			job = filterJob(job);
+			
+			mEventManager.fireEvent(
+					new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
 		}
 		
 		addJobUnfiltered(job);
 	}
 
+	public boolean removeJob(Job pJob) {
+		boolean result = mJobList.removeJob(pJob);
+		
+		if(result) {
+			mEventManager.fireEvent(
+				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED, pJob));
+		}
+		
+		return result;
+	}
+	
 	private Job filterJob(Job pJob) {
 		
 		Job job = pJob;
@@ -103,8 +128,20 @@ public class JobManager {
 		mJobFilter.addAll(pJobFilter);
 	}
 
+	public boolean removeJobFilter(JobFilter pJobFilter) {
+		return mJobFilter.remove(pJobFilter);
+	}
+	
 	public List<JobFilter> getJobFilter() {
 		return mJobFilter;
+	}
+	
+	public EventManager getEventManager() {
+		return mEventManager;
+	}
+
+	public void setEventManager(EventManager pEventManager) {
+		mEventManager = pEventManager;
 	}
 	
 }

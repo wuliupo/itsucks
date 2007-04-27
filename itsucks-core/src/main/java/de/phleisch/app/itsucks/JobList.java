@@ -28,7 +28,7 @@ public interface JobList {
 	
 	public abstract void addJob(Job pJob);
 
-	public abstract void removeJob(Job pJob);
+	public abstract boolean removeJob(Job pJob);
 
 	public abstract void clear();
 
