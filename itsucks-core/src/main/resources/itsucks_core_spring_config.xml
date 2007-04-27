@@ -25,10 +25,19 @@
 	</bean>
 
 	<bean 
+		id="EventManager" 
+		class="de.phleisch.app.itsucks.event.EventManager" 
+		singleton="false">
+	</bean>
+
+	<bean 
 		id="JobManager" 
 		class="de.phleisch.app.itsucks.JobManager" 
 		singleton="false">
-		
+
+		<property name="eventManager">
+			<ref bean="EventManager"/>
+		</property>		
 		<property name="jobList">
 			<ref bean="SimpleJobListImpl"/>
 		</property>
