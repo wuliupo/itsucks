@@ -16,6 +16,8 @@ import junit.framework.TestSuite;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -47,6 +49,9 @@ public class AppTest extends TestCase {
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		assertNotNull(dispatcher);
 
+		EventManagerObserver observer = new EventManagerObserver();
+		dispatcher.getEventManager().registerObserver(observer);
+		
 		DownloadJobFilter filter = new DownloadJobFilter();
 		//filter.setBaseURL(new URL("http://..."));
 		//filter.setAllowOnlyRelativeReferences(true);
@@ -66,5 +71,48 @@ public class AppTest extends TestCase {
 		dispatcher.addJob(job);
 		
 		dispatcher.processJobs();
+		
+		assertTrue(observer.mEventCountType2001 == 2);
+		assertTrue(observer.mEventCountType2002 == 1);
+		assertTrue(observer.mEventCountType2003 == 0);
+		assertTrue(observer.mEventCountType3001 == 2);
+		assertTrue(observer.mEventCountType3003 == 2);
+		
+	}
+	
+	private class EventManagerObserver implements EventObserver {
+
+		int mEventCountType2001 = 0; 
+		int mEventCountType2002 = 0;
+		int mEventCountType2003 = 0;
+		
+		int mEventCountType3001 = 0;
+		int mEventCountType3003 = 0;
+		
+		public void processEvent(Event pEvent) {
+			
+			switch(pEvent.getType()) {
+			
+				case 2001: 
+					mEventCountType2001 ++;
+					break;
+				
+				case 2002: 
+					mEventCountType2002 ++;
+					break;			
+
+				case 2003: 
+					mEventCountType2003 ++;
+					break;
+
+				case 3001: 
+					mEventCountType3001 ++;
+					break;					
+					
+				case 3003: 
+					mEventCountType3003 ++;
+					break;									
+			}
+		}
 	}
 }

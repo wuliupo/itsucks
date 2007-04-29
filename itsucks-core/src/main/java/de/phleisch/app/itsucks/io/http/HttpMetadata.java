@@ -22,6 +22,7 @@ public class HttpMetadata extends Metadata {
 	private String mContentType;
 	private long mContentLength;
 	private int mStatusCode;
+	private String mStatusText;
 	private HttpMethodBase mConnection;
 	
 	public String getContentType() {
@@ -48,6 +49,14 @@ public class HttpMetadata extends Metadata {
 		mStatusCode = statusCode;
 	}
 	
+	public String getStatusText() {
+		return mStatusText;
+	}
+	
+	public void setStatusText(String pStatusText) {
+		mStatusText = pStatusText;
+	}
+	
 	public void setConnection(HttpMethodBase pConnection) {
 		mConnection = pConnection;
 	}
@@ -72,4 +81,5 @@ public class HttpMetadata extends Metadata {
 		
 		return (String[]) fields.toArray(new String[fields.size()]);
 	}
+
 }

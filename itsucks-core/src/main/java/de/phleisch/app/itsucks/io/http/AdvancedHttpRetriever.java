@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -44,13 +45,14 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	static {
      	MultiThreadedHttpConnectionManager connectionManager = 
       		new MultiThreadedHttpConnectionManager();
+     	//connectionManager.getParams().setDefaultMaxConnectionsPerHost(maxHostConnections); TODO
+     	
      	mClient = new HttpClient(connectionManager);
+     	
 	}
 	
 	public AdvancedHttpRetriever() {
 		super();
-		
-		//mClient = new HttpClient();
 	}
 	
 	public void connect() throws IOException {
@@ -61,7 +63,11 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mGet.setFollowRedirects(false);
 		
 		if(getUserAgent() != null) {
-			mGet.addRequestHeader("User-Agent", getUserAgent());
+			HttpMethodParams params = mGet.getParams();
+			
+			params.setSoTimeout(90 * 1000); //90 seconds
+			params.setParameter(HttpMethodParams.USER_AGENT, getUserAgent());
+			//mGet.addRequestHeader("User-Agent", getUserAgent());
 		}
 		if(mBytesToSkip > 0) { //try to resume
 			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
@@ -82,6 +88,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 		mMetadata.setContentLength(mGet.getResponseContentLength());
 		mMetadata.setStatusCode(mGet.getStatusCode());
+		mMetadata.setStatusText(mGet.getStatusText());
 		mMetadata.setConnection(mGet);
 	}
 	
@@ -223,4 +230,5 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 		
 	}
+
 }

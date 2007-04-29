@@ -10,12 +10,12 @@ package de.phleisch.app.itsucks.event;
 
 public class CoreEvents {
 
-	private static class ConstEvent implements Event {
+	public static class ConstEvent implements Event {
 
 		private int mType;
 		private int mFamily;
 		
-		public ConstEvent(int pType, int pFamily) {
+		private ConstEvent(int pType, int pFamily) {
 			mType = pType;
 			mFamily = pFamily;
 		}
@@ -57,17 +57,7 @@ public class CoreEvents {
 	public final static ConstEvent 
 		EVENT_JOBMANAGER_JOB_REMOVED = new ConstEvent(2003, EVENT_CATEGORY_JOBMANAGER);
 	
-	
-	public final static ConstEvent 
-		EVENT_JOB_START = new ConstEvent(3001, EVENT_CATEGORY_JOB);
-	
 	public final static ConstEvent 
 		EVENT_JOB_CHANGED = new ConstEvent(3002, EVENT_CATEGORY_JOB);
-	
-	public final static ConstEvent 
-		EVENT_JOB_FINISHED = new ConstEvent(3003, EVENT_CATEGORY_JOB);
-	
-	public final static ConstEvent 
-		EVENT_JOB_ERROR = new ConstEvent(3004, EVENT_CATEGORY_JOB);
 	
 }

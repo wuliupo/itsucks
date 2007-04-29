@@ -40,6 +40,13 @@ public class JobManager {
 		mJobFilter = new ArrayList<JobFilter>();
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		
+		mEventManager.shutdown();
+	}
+	
 	private void addJobUnfiltered(Job pJob) {
 		if(pJob == null) return;
 		

@@ -10,6 +10,6 @@ package de.phleisch.app.itsucks.event;
 
 public interface EventObserver {
 
-	void processEvent();
+	void processEvent(Event pEvent);
 
 }

@@ -50,6 +50,7 @@ public class DownloadJob extends AbstractJob {
 	
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
+	private Metadata mMetadata = null;
 	
 	public DownloadJob() {
 		super();
@@ -62,19 +63,9 @@ public class DownloadJob extends AbstractJob {
 	public void run() throws Exception {
 	
 		try {
-			mJobManager.getEventManager().fireEvent(
-					new JobEvent(CoreEvents.EVENT_JOB_START, this));
-			
 			download();
-			
-			mJobManager.getEventManager().fireEvent(
-					new JobEvent(CoreEvents.EVENT_JOB_FINISHED, this));
-			
 		} catch (Exception e) {
 			mLog.error("Error downloading url: " + mUrl, e);
-			
-			mJobManager.getEventManager().fireEvent(
-					new JobEvent(CoreEvents.EVENT_JOB_ERROR, this));
 			
 			throw e;
 		} finally {
@@ -144,6 +135,10 @@ public class DownloadJob extends AbstractJob {
 		}
 		
 		mDataRetriever.disconnect();
+		
+		//save the metadata
+		mMetadata = mDataRetriever.getMetadata();
+		
 		mDataRetriever = null;
 	}
 	
@@ -284,6 +279,14 @@ public class DownloadJob extends AbstractJob {
 	 */
 	public long getBytesDownloaded() {
 		return mBytesDownloaded;
+	}
+	
+	public Metadata getMetadata() {
+		if(mDataRetriever != null) {
+			return mDataRetriever.getMetadata();
+		} else {
+			return mMetadata;
+		}
 	}
 	
 	@Override

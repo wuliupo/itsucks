@@ -188,6 +188,10 @@ public class Dispatcher implements ApplicationContextAware {
 		mContext = pContext;
 	}
 
+	public EventManager getEventManager() {
+		return mEventManager;
+	}
+	
 	/**
 	 * Gets the waiting time between starting two jobs. 
 	 * @param pDispatchDelay
@@ -225,5 +229,5 @@ public class Dispatcher implements ApplicationContextAware {
 	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
 	}
-	
+
 }

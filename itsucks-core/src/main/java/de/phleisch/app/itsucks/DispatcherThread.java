@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 public class DispatcherThread extends Dispatcher implements Runnable {
 
 	private static Log mLog = LogFactory.getLog(DispatcherThread.class);
-	private static int count = 0;
+	private static int mCount = 0;
 	
 	private Thread ownThread = null; 
 	
@@ -34,7 +34,7 @@ public class DispatcherThread extends Dispatcher implements Runnable {
 		}
 		
 		ownThread = new Thread(this);
-		ownThread.setName("Dispatcher: " + ++count);
+		ownThread.setName("DispatcherThread-" + ++mCount);
 		ownThread.start();
 	}
 
