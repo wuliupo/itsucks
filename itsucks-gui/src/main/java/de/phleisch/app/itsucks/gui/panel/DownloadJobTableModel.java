@@ -20,6 +20,7 @@ import javax.swing.table.AbstractTableModel;
 
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
 public class DownloadJobTableModel extends AbstractTableModel {
 
@@ -30,9 +31,11 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static final int COLUMN_STATE 		= 2;
 	private static final int COLUMN_PROGRESS 	= 3;
 	private static final int COLUMN_KILOBYTES 	= 4;
-	private static final int COLUMN_URL 		= 5;
+	private static final int COLUMN_RESULT 		= 5;
+	private static final int COLUMN_URL 		= 6;
 	
-	private static final int COLUMN_COUNT 		= 6;
+	private static final int COLUMN_COUNT 		= 7;
+	
 
 	private Vector<DownloadJob> mRows;
 	private Map<DownloadJob, Integer> mJobPosition;
@@ -75,6 +78,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		case COLUMN_KILOBYTES:
 			name = "Downloaded";
 			break;			
+			
+		case COLUMN_RESULT:
+			name = "Result";
+			break;					
 			
 		default:
 			name = "";
@@ -186,6 +193,20 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				} else {
 					val = "-";
 				}
+				break;
+			
+			case COLUMN_RESULT:
+				HttpMetadata metadata = (HttpMetadata) pJob.getMetadata();
+				if(metadata != null) {
+					val = String.valueOf(metadata.getStatusCode());
+					if(metadata.getStatusText() != null) {
+						val = val + " - " + metadata.getStatusText();
+					}
+				}
+				if(val == null) {
+					val = "-";
+				}
+				
 				break;
 				
 			default:
