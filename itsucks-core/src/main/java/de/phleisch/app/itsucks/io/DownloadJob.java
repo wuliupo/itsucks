@@ -21,8 +21,6 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.AbstractJob;
 import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.event.CoreEvents;
-import de.phleisch.app.itsucks.event.JobEvent;
 
 
 /**
@@ -140,6 +138,8 @@ public class DownloadJob extends AbstractJob {
 		mMetadata = mDataRetriever.getMetadata();
 		
 		mDataRetriever = null;
+		
+		setState(Job.STATE_FINISHED);
 	}
 	
 	private class ProgressObserver implements Observer {

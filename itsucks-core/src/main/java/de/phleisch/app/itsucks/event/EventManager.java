@@ -32,13 +32,11 @@ public class EventManager {
 	private static int mEventManagerThreadCounter = 0;
 	
 	public EventManager() {
-		init();
 	}
 	
 	public synchronized void init() {
 		if(initialized) return;
 		
-		mEventDequeue.clear();
 		mEventThread = new EventManagerThread();
 		mEventThread.start();
 		initialized = true;
@@ -55,16 +53,40 @@ public class EventManager {
 	public void fireEvent(final Event pEvent) {
 		mLog.debug("Got event: " + pEvent);
 		
-		if(!initialized) {
-			throw new RuntimeException("Event manager not initialized yet!");
+		//do not dispatch this event if this is an system cmd
+		if(pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_SYSTEM_CMD) {
+			handleSystemCmd(pEvent);
+			return;
 		}
 		
-		//add the event at the tail of the deque
-		mEventDequeue.add(pEvent);
+
+		if(initialized) {
 		
-		//wake up the thread if it waits for new events
-		synchronized(mEventThread) {
-			mEventThread.notify();
+			//start synchronize block to be sure event thread is not currently going to sleep.
+			synchronized(mEventThread) {
+				
+				//add the event at the tail of the deque
+				mEventDequeue.add(pEvent);
+			
+				//wake up the thread if it waits for new events
+				mEventThread.notify();
+			}
+			
+		} else {
+			
+			mEventDequeue.add(pEvent);
+//			throw new RuntimeException("Event manager not initialized yet!");
+			
+		}
+		
+
+	}
+
+	private void handleSystemCmd(final Event pEvent) {
+		if(pEvent.getType() == CoreEvents.EVENT_MANAGER_CMD_START.getType()) {
+			init();
+		} else if(pEvent.getType() == CoreEvents.EVENT_MANAGER_CMD_STOP.getType()) {
+			shutdown();
 		}
 	}
 
@@ -157,7 +179,11 @@ public class EventManager {
 		private void doWaitLoop() throws InterruptedException {
 			
 			synchronized (this) {
-				this.wait();
+				
+				//wait only if the queue is really empty at this point
+				if(mEventDequeue.size() == 0) {
+					this.wait();
+				}
 			}
 			
 		}

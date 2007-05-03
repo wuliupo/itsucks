@@ -92,11 +92,16 @@ public class WorkerThread implements Runnable {
 				
 				try {
 					mJob.run();
-					mJob.setState(Job.STATE_FINISHED);
 				} catch(Exception ex) {
 					mJob.setState(Job.STATE_ERROR);
 					mLog.error("Error executing job: " + mJob, ex);
 				}
+				
+				if(mJob.getState() == Job.STATE_IN_PROGRESS) {
+					mJob.setState(Job.STATE_ERROR);
+					mLog.error("Job does not finish correctly, state after processing is still 'in progress': " + mJob);
+				}
+				
 				
 				mLog.info("Finished working on job: " + mJob);
 				mJob = null;

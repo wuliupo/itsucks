@@ -71,47 +71,37 @@ public class AppTest extends TestCase {
 		dispatcher.addJob(job);
 		
 		dispatcher.processJobs();
+
+		assertTrue(job.getState() == Job.STATE_FINISHED);
 		
-		assertTrue(observer.mEventCountType2001 == 2);
-		assertTrue(observer.mEventCountType2002 == 1);
-		assertTrue(observer.mEventCountType2003 == 0);
 		assertTrue(observer.mEventCountType3001 == 2);
-		assertTrue(observer.mEventCountType3003 == 2);
+		assertTrue(observer.mEventCountType3002 == 1);
+		assertTrue(observer.mEventCountType3003 == 0);
 		
 	}
 	
 	private class EventManagerObserver implements EventObserver {
 
-		int mEventCountType2001 = 0; 
-		int mEventCountType2002 = 0;
-		int mEventCountType2003 = 0;
-		
-		int mEventCountType3001 = 0;
+		int mEventCountType3001 = 0; 
+		int mEventCountType3002 = 0;
 		int mEventCountType3003 = 0;
 		
 		public void processEvent(Event pEvent) {
 			
 			switch(pEvent.getType()) {
 			
-				case 2001: 
-					mEventCountType2001 ++;
-					break;
-				
-				case 2002: 
-					mEventCountType2002 ++;
-					break;			
-
-				case 2003: 
-					mEventCountType2003 ++;
-					break;
-
 				case 3001: 
 					mEventCountType3001 ++;
-					break;					
-					
+					break;
+				
+				case 3002: 
+					mEventCountType3002 ++;
+					break;			
+
 				case 3003: 
 					mEventCountType3003 ++;
-					break;									
+					break;
+					
 			}
 		}
 	}

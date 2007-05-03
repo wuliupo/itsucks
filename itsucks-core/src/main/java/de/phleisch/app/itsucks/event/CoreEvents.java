@@ -12,8 +12,8 @@ public class CoreEvents {
 
 	public static class ConstEvent implements Event {
 
-		private int mType;
-		private int mFamily;
+		private final int mType;
+		private final int mFamily;
 		
 		private ConstEvent(int pType, int pFamily) {
 			mType = pType;
@@ -30,18 +30,35 @@ public class CoreEvents {
 		
 	}
 	
-	public final static int EVENT_CATEGORY_MANAGER_CMD	= 100;
+	/**
+	 * This category is used for special internal commands, 
+	 * like start/stop/pause/resume the event manager.
+	 * 
+	 * These events will not be dispatched to the event observer.
+	 */
+	public final static int EVENT_CATEGORY_SYSTEM_CMD	= 100;
 	
+	/**
+	 * Core events
+	 */
 	public final static int EVENT_CATEGORY_CORE 		= 200;
+	
+	/**
+	 * Events send by the jobmanager.
+	 */
 	public final static int EVENT_CATEGORY_JOBMANAGER 	= 300;
+	
+	/**
+	 * Events send by a job.
+	 */
 	public final static int EVENT_CATEGORY_JOB 			= 400;
 	
 	
 	public final static ConstEvent 
-		EVENT_MANAGER_STARTUP = new ConstEvent(1001, EVENT_CATEGORY_MANAGER_CMD);
+		EVENT_MANAGER_CMD_START = new ConstEvent(1001, EVENT_CATEGORY_SYSTEM_CMD);
 	
 	public final static ConstEvent 
-		EVENT_MANAGER_SHUTDOWN = new ConstEvent(1002, EVENT_CATEGORY_MANAGER_CMD);
+		EVENT_MANAGER_CMD_STOP = new ConstEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
 	
 	
 	public final static ConstEvent 
