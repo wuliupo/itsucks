@@ -132,8 +132,14 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	protected void afterChange() {
 		this.notifyObservers(NOTIFICATION_CHANGE);
 		
-		mJobManager.getEventManager().fireEvent(
-				new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this));
+		sendEvent(new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this));
+		
+	}
+
+	private void sendEvent(JobEvent pEvent) {
+		if(mJobManager == null) return;
+		
+		mJobManager.getEventManager().fireEvent(pEvent);
 	}
 
 	/* (non-Javadoc)
