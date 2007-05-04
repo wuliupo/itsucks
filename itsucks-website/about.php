@@ -38,6 +38,12 @@ include_once('include/header.php.inc');
           Possible actions are: 
           follow the URL (Accept), do not follow the URL (Reject), change the priority of the URL</li>
         </ul>
+        
+        <h3>Event Handling</h3>
+        <ul>
+          <li>Support to observe every event fired by the framework.</li>
+          <li>Possibility to filter events by category and type.</li>
+        </ul>
   
         <h2>Features of ItSucks Swing GUI</h2>
         <ul>
@@ -59,6 +65,13 @@ include_once('include/header.php.inc');
           <li><a href="http://jakarta.apache.org/commons/httpclient/">Jakarta Commons HttpClient</a></li>
           <li><a href="http://logging.apache.org/log4j/">log4j</a> 
           + <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons Logging</a></li>
+          <li><a href="http://eclipse.org">Eclipse development platform</a>
+          	<ul>
+          		<li><a href="http://subclipse.tigris.org/">Subclipse plugin (Subversion)</a></li>
+          		<li><a href="http://springide.org/">Spring IDE plugin</a></li>
+          		<li><a href="http://www.slimeuml.de/">Slime UML plugin</a></li>
+          	</ul>
+          </li>
         </ul>
         
       </p>    
