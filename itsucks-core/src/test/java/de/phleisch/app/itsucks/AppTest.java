@@ -46,7 +46,29 @@ public class AppTest extends TestCase {
 		return new TestSuite(AppTest.class);
 	}
 
-	public void testApp() throws Exception {
+	public void testSimpleApp() throws Exception {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
+		
+		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
+		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+
+		DownloadJobFilter filter = new DownloadJobFilter();
+		filter.setMaxRecursionDepth(1);
+		dispatcher.addJobFilter(filter);		
+		
+		DownloadJob job = jobFactory.createDownloadJob();
+		job.setUrl(new URL("http://itsucks.sourceforge.net/test/test.html"));
+		job.setSavePath(new File("/tmp/crawl"));
+		job.setIgnoreFilter(true);
+		dispatcher.addJob(job);
+		
+		dispatcher.processJobs();
+
+		assertTrue(job.getState() == Job.STATE_FINISHED);
+	}
+	
+	public void testFullApp() throws Exception {
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 		
