@@ -8,9 +8,11 @@
 
 package de.phleisch.app.itsucks.event;
 
-import java.util.Deque;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import org.apache.commons.logging.Log;
@@ -22,7 +24,7 @@ public class EventManager {
 	
 	private boolean initialized = false;
 	
-	private Deque<Event> mEventDequeue = 
+	private BlockingDeque<Event> mEventDequeue = 
 		new LinkedBlockingDeque<Event>();
 
 	private Set<EventObserverConfig> mRegisteredObserver =
@@ -58,28 +60,9 @@ public class EventManager {
 			handleSystemCmd(pEvent);
 			return;
 		}
-		
 
-		if(initialized) {
-		
-			//start synchronize block to be sure event thread is not currently going to sleep.
-			synchronized(mEventThread) {
-				
-				//add the event at the tail of the deque
-				mEventDequeue.add(pEvent);
-			
-				//wake up the thread if it waits for new events
-				mEventThread.notify();
-			}
-			
-		} else {
-			
-			mEventDequeue.add(pEvent);
-//			throw new RuntimeException("Event manager not initialized yet!");
-			
-		}
-		
-
+		//add the event at the tail of the deque
+		mEventDequeue.add(pEvent);
 	}
 
 	private void handleSystemCmd(final Event pEvent) {
@@ -135,6 +118,7 @@ public class EventManager {
 	private class EventManagerThread extends Thread {
 
 		private boolean mStop;
+		private List<EventObserverConfig> mLocalObserverCopy;
 		
 		public EventManagerThread() {
 			setDaemon(true);
@@ -144,6 +128,8 @@ public class EventManager {
 		@Override
 		public void run() {
 			mStop = false;
+			mLocalObserverCopy = new ArrayList<EventObserverConfig>(
+				mRegisteredObserver.size() > 10 ? mRegisteredObserver.size() : 10);
 
 			try {
 				processEvents();
@@ -162,34 +148,26 @@ public class EventManager {
 			
 			while(!mStop) {
 				
-				event = mEventDequeue.pollFirst();
-				if(event == null) {
-					try {
-						doWaitLoop();
-					} catch (InterruptedException e) {
-						mLog.warn(e, e);
+				try {
+					event = mEventDequeue.takeFirst();
+					if(event != null) {
+						dispatchEvent(event);
 					}
-				} else {
-					dispatchEvent(event);
+						
+				} catch (InterruptedException e) {
+					mLog.info(e, e);
 				}
-			}
-			
-		}
-
-		private void doWaitLoop() throws InterruptedException {
-			
-			synchronized (this) {
 				
-				//wait only if the queue is really empty at this point
-				if(mEventDequeue.size() == 0) {
-					this.wait();
-				}
 			}
 			
 		}
 
 		private void dispatchEvent(final Event pEvent) {
 			
+			//create a local copy to hold synchronized part as small as possible
+			mLocalObserverCopy.clear();
+			
+			//get all observer which will receive this event
 			synchronized (mRegisteredObserver) {
 				
 				EventFilter filter;
@@ -199,24 +177,26 @@ public class EventManager {
 					if(filter != null) {
 						
 						if(filter.isEventAccepted(pEvent)) {
-							config.getObserver().processEvent(pEvent);
+							mLocalObserverCopy.add(config);
 						}
 						
 					} else {
-						config.getObserver().processEvent(pEvent);
+						mLocalObserverCopy.add(config);
 					}
 					
 				}
+			} // end synchronized
+			
+			//dispatch the event to the found observer
+			for (EventObserverConfig config : mLocalObserverCopy) {
+				config.getObserver().processEvent(pEvent);
 			}
 		}
 		
 		public void stopThread() {
 			mStop = true;
 			
-			//wake up the thread if it waits for new events
-			synchronized(mEventThread) {
-				notify();
-			}
+			mEventThread.interrupt();
 		}
 		
 	}

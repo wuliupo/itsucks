@@ -42,6 +42,8 @@ public class DownloadJob extends AbstractJob {
 	private URL mUrl;
 	private DownloadJob mParent = null;
 	private int mDepth = 0;
+	private int mMaxRetryCount = 3;
+	private int mRetryCount = 0;
 	private transient DataProcessorManager mDataProcessorManager;
 	private transient DataRetrieverManager mDataRetrieverManager;
 	private transient DataRetriever mDataRetriever;

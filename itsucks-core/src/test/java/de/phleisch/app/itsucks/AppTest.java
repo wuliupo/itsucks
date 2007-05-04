@@ -16,8 +16,12 @@ import junit.framework.TestSuite;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.DefaultEventFilter;
 import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventFilter;
 import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.CoreEvents.ConstEvent;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -49,8 +53,11 @@ public class AppTest extends TestCase {
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		assertNotNull(dispatcher);
 
+		DefaultEventFilter eventFilter = new DefaultEventFilter();
+		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOBMANAGER);
+		
 		EventManagerObserver observer = new EventManagerObserver();
-		dispatcher.getEventManager().registerObserver(observer);
+		dispatcher.getEventManager().registerObserver(observer, eventFilter);
 		
 		DownloadJobFilter filter = new DownloadJobFilter();
 		//filter.setBaseURL(new URL("http://..."));
@@ -101,7 +108,9 @@ public class AppTest extends TestCase {
 				case 3003: 
 					mEventCountType3003 ++;
 					break;
-					
+				
+				default: 
+					AppTest.fail();
 			}
 		}
 	}
