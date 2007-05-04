@@ -680,10 +680,10 @@ public class MainWindow implements AddDownloadJobInterface {
 				jPauseDownload.setText("Pause download");
 			}
 			
-			if(!dispatcher.isRunning()) {
-				jPauseDownload.setEnabled(false);
-			} else {
+			if(dispatcher.isRunning()) {
 				jPauseDownload.setEnabled(true);
+			} else {
+				jPauseDownload.setEnabled(false);
 			}
 			
 			jCloseDownload.setEnabled(true);
