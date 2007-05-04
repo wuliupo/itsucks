@@ -582,7 +582,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		dispatcher.addJobFilter(pFilterList);
 		dispatcher.addJob(pDownload);
 		
-		dispatcher.getEventManager().registerObserver(new RetryPlugin());
+		//dispatcher.getEventManager().registerObserver(new RetryPlugin());
 		
 		//start dispatcher thread
 		try {
