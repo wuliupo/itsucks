@@ -241,5 +241,9 @@ public class FileResumeRetriever implements DataRetriever {
 	public long getBytesSkipped() {
 		return 0;
 	}
+
+	public int getResultCode() {
+		return mDataRetriever.getResultCode();
+	}
 	
 }

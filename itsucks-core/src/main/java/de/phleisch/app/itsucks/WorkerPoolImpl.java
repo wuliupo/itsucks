@@ -149,7 +149,7 @@ public class WorkerPoolImpl implements WorkerPool {
 		
 		pWorkerThread.addCommand(WorkerThread.CMD_SHUTDOWN);
 		try {
-			pWorkerThread.join();
+			pWorkerThread.join(0);
 		} catch (InterruptedException e) {
 			mLog.error("Got interrupted while waiting for worker thread to join!", e);
 			throw new RuntimeException("Got interrupted while waiting for worker thread to join!", e);
@@ -232,11 +232,36 @@ public class WorkerPoolImpl implements WorkerPool {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.IWorkerPool#abortBusyWorker()
 	 */
-	public synchronized void abortBusyWorker() {
+	public void abortBusyWorker() {
+		
+		//send first info to all worker
+		sendAbortToAllBusyWorker();
+		
+		//lets leave the worker some time to shut down
+		Thread.yield();
+
+		//check if all threads are finished and send them the abort signal again if not.
+		while(mBusyWorker.size() > 0) {
+
+			sendAbortToAllBusyWorker();
+			
+			//lets leave the worker some time to shut down
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+		}
+		
+		
+	}
+	
+	private synchronized void sendAbortToAllBusyWorker() {
 		
 		for (WorkerThread worker : mBusyWorker) {
-			worker.abort();
-		}	
+			
+			if(mBusyWorker.contains(worker)) {
+				worker.abort();
+			}
+		}
 		
 	}
 }

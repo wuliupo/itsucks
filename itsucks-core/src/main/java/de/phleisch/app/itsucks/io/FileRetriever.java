@@ -125,5 +125,9 @@ public class FileRetriever extends AbstractDataRetriever {
 	public long getBytesSkipped() {
 		return mByteOffset;
 	}
+
+	public int getResultCode() {
+		return RESULT_RETRIEVAL_OK;
+	}
 	
 }

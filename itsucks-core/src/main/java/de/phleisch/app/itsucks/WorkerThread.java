@@ -39,8 +39,10 @@ public class WorkerThread implements Runnable {
 	}
 	
 	public void abort() {
-		mJob.abort();
-		mThread.interrupt();
+		if(mJob != null) {
+			mJob.abort();
+			mThread.interrupt();
+		}
 	}
 
 	public void run() {
@@ -56,8 +58,8 @@ public class WorkerThread implements Runnable {
 		mThread.start();
 	}
 	
-	public void join() throws InterruptedException {
-		mThread.join();
+	public void join(long pMillis) throws InterruptedException {
+		mThread.join(pMillis);
 	}
 	
 	private void waitForWork() throws InterruptedException {

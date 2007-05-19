@@ -21,11 +21,13 @@ public interface Job {
 	// every state over 50 is closed
 	public final static int STATE_CLOSED = 50;
 
-	public final static int STATE_FINISHED = 51;
+	public final static int STATE_IGNORED = 60;
 
-	public final static int STATE_IGNORED = 52;
-
-	public final static int STATE_ALREADY_PROCESSED = 53;
+	public final static int STATE_ALREADY_PROCESSED = 61;
+	
+	public final static int STATE_FAILED = 70;
+	
+	public final static int STATE_FINISHED = 71;
 
 	public final static int STATE_ERROR = 99;
 

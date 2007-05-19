@@ -26,7 +26,14 @@ import de.phleisch.app.itsucks.io.DataProcessor;
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
+	
+	private static int HTTP_STATUS_REQUEST_TIMEOUT = 408;
 	private static int HTTP_STATUS_RANGE_NOT_SATISFIABLE = 416;
+	
+	private static int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500;
+	private static int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
+	private static int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
+	
 	
 	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
 	
@@ -93,6 +100,10 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	}
 	
 	public boolean isDataAvailable() throws Exception {
+		if(mGet == null) {
+			throw new IllegalStateException("Not connected!");
+		}
+		
 		return mGet.getStatusCode() < 400;
 	}
 	
@@ -101,7 +112,11 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		try {
 			download();
 		} catch (Exception e) {
-			mLog.error("Error downloading url: " + mUrl, e);
+			if(mAbort) {
+				mLog.info("Exception occured while aborting retrival. URL: " + mUrl, e);
+			} else {
+				mLog.error("Error downloading url: " + mUrl, e);
+			}
 			throw e;
 		} finally {
 			disconnect();
@@ -229,6 +244,42 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			return 0;
 		}
 		
+	}
+
+	public int getResultCode() {
+		
+		if(mAbort) {
+			return RESULT_RETRIEVAL_ABORTED;
+		}
+		
+		if(mMetadata == null) {
+			return RESULT_RETRIEVAL_NOT_STARTED_YET;
+		} 
+		
+		int statusCode = mMetadata.getStatusCode();
+		int result;
+		
+		if(statusCode < 400) {
+			result = RESULT_RETRIEVAL_OK;
+		} else {
+			
+			if(statusCode == HTTP_STATUS_RANGE_NOT_SATISFIABLE) {
+				//hm, maybe it's better to return failed and let the FileResumeRetriever handle this... 
+				result = RESULT_RETRIEVAL_OK;
+			} else if(statusCode == HTTP_STATUS_REQUEST_TIMEOUT) {
+				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
+			} else if(statusCode == HTTP_STATUS_INTERNAL_SERVER_ERROR) {
+				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE;
+			} else if(statusCode == HTTP_STATUS_SERVICE_UNAVAILABLE) {
+				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
+			} else if(statusCode == HTTP_STATUS_GATEWAY_TIMEOUT) {
+				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
+			} else {
+				result = RESULT_RETRIEVAL_FAILED;
+			}
+		}
+		
+		return result;
 	}
 
 }

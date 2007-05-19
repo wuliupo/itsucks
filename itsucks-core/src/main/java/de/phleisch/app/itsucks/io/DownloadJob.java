@@ -43,7 +43,7 @@ public class DownloadJob extends AbstractJob {
 	private DownloadJob mParent = null;
 	private int mDepth = 0;
 	private int mMaxRetryCount = 3;
-	private int mRetryCount = 0;
+	private int mTryCount = 0;
 	private transient DataProcessorManager mDataProcessorManager;
 	private transient DataRetrieverManager mDataRetrieverManager;
 	private transient DataRetriever mDataRetriever;
@@ -65,9 +65,20 @@ public class DownloadJob extends AbstractJob {
 		try {
 			download();
 		} catch (Exception e) {
-			mLog.error("Error downloading url: " + mUrl, e);
 			
-			throw e;
+			this.setState(STATE_ERROR);
+			
+			//check if the exception can be ignored because we aborted the retrieval
+			if(mDataRetriever != null 
+					&& mDataRetriever.getResultCode() == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
+				
+				mLog.info("Aborting download caused exception. URL: " + mUrl, e);
+				
+			} else {
+				mLog.error("Error downloading url: " + mUrl, e);
+				
+				throw e;
+			}
 		} finally {
 			try {
 				if(mDataRetriever != null) {
@@ -90,6 +101,8 @@ public class DownloadJob extends AbstractJob {
 		//check if an data retriever is available
 		if(mDataRetriever == null) {
 			mLog.warn("Protocol not supported: '" + protocol + "', job aborted. - " + this);
+			setState(Job.STATE_IGNORED);
+			
 			return;
 		}
 		
@@ -139,9 +152,28 @@ public class DownloadJob extends AbstractJob {
 		//save the metadata
 		mMetadata = mDataRetriever.getMetadata();
 		
-		mDataRetriever = null;
+		mTryCount ++;
+		int resultCode = mDataRetriever.getResultCode(); 
 		
-		setState(Job.STATE_FINISHED);
+		if(resultCode == DataRetriever.RESULT_RETRIEVAL_OK) {
+			
+			setState(Job.STATE_FINISHED);
+			
+		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
+			
+			if(mTryCount <= (mMaxRetryCount + 1)) {
+				setState(Job.STATE_OPEN); // add a waiting time here
+			} else {
+				setState(Job.STATE_ERROR);
+			}
+			
+		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED 
+				|| resultCode == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
+			
+			setState(Job.STATE_ERROR);
+		} 
+		
+		mDataRetriever = null;
 	}
 	
 	private class ProgressObserver implements Observer {
@@ -235,6 +267,7 @@ public class DownloadJob extends AbstractJob {
 		mParent = pParent;
 		mDepth = pParent.getDepth() + 1;
 		mSavePath = pParent.getSavePath();
+		mMaxRetryCount = pParent.getMaxRetryCount();
 	}
 
 	/**
@@ -273,6 +306,14 @@ public class DownloadJob extends AbstractJob {
 	 */
 	public float getProgress() {
 		return mProgress;
+	}
+
+	public int getMaxRetryCount() {
+		return mMaxRetryCount;
+	}
+
+	public void setMaxRetryCount(int pMaxRetryCount) {
+		mMaxRetryCount = pMaxRetryCount;
 	}
 	
 	/**

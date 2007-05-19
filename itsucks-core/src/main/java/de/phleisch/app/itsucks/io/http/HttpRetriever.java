@@ -122,5 +122,9 @@ public class HttpRetriever extends AbstractDataRetriever {
 	public long getBytesSkipped() {
 		throw new IllegalStateException("Not implemented.");
 	}
+
+	public int getResultCode() {
+		return RESULT_RETRIEVAL_OK;
+	}
 	
 }
