@@ -19,9 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.DefaultEventFilter;
 import de.phleisch.app.itsucks.event.Event;
-import de.phleisch.app.itsucks.event.EventFilter;
 import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.event.CoreEvents.ConstEvent;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -29,6 +27,11 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  * Unit test for simple App.
  */
 public class AppTest extends TestCase {
+	
+	
+	private String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
+	//private String SERVER_BASE_URL =  "http://localhost/~olli/itsucks-website";
+	
 	/**
 	 * Create the test case
 	 * 
@@ -58,7 +61,7 @@ public class AppTest extends TestCase {
 		dispatcher.addJobFilter(filter);		
 		
 		DownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL("http://itsucks.sourceforge.net/test/test.html"));
+		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		job.setIgnoreFilter(true);
 		dispatcher.addJob(job);
@@ -93,7 +96,7 @@ public class AppTest extends TestCase {
 		assertNotNull(jobFactory);
 		
 		DownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL("http://itsucks.sourceforge.net/test/test.html"));
+		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		
 		job.setIgnoreFilter(true);
@@ -103,8 +106,8 @@ public class AppTest extends TestCase {
 
 		assertTrue(job.getState() == Job.STATE_FINISHED);
 		
-		assertTrue(observer.mEventCountType3001 == 2);
-		assertTrue(observer.mEventCountType3002 == 1);
+		assertTrue(observer.mEventCountType3001 == 3);
+		assertTrue(observer.mEventCountType3002 == 2);
 		assertTrue(observer.mEventCountType3003 == 0);
 		
 	}
