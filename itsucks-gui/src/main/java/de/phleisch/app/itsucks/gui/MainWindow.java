@@ -47,7 +47,6 @@ import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerializationManager;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
-import de.phleisch.app.itsucks.plugin.RetryPlugin;
 
 public class MainWindow implements AddDownloadJobInterface {
 
