@@ -115,8 +115,8 @@ public class DownloadStatusPanel extends JPanel {
 		jDownloadStatusTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		TableColumnModel columnModel = jDownloadStatusTable.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(30);
-		columnModel.getColumn(5).setPreferredWidth(420);
+		columnModel.getColumn(0).setPreferredWidth(35);
+		columnModel.getColumn(6).setPreferredWidth(420);
 		
 		return jDownloadStatusTable;
 	}
