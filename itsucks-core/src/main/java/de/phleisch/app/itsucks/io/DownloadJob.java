@@ -51,6 +51,9 @@ public class DownloadJob extends AbstractJob {
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
 	private Metadata mMetadata = null;
+
+	private long mWaitUntil = 0;
+	private long mMinTimeBetweenRetry = 5000; //5 seconds 
 	
 	public DownloadJob() {
 		super();
@@ -106,8 +109,6 @@ public class DownloadJob extends AbstractJob {
 			return;
 		}
 		
-		//register an listener to get the progress events
-		mDataRetriever.addObserver(new ProgressObserver());
 		mDataRetriever.setUrl(mUrl);
 		
 		//check if this file should be saved
@@ -124,7 +125,15 @@ public class DownloadJob extends AbstractJob {
 				//try to resume the file
 				mDataRetriever = new FileResumeRetriever(mDataRetriever, file);
 			}
-		} 
+		}
+		
+		//register an listener to get the progress events
+		mDataRetriever.addObserver(new ProgressObserver());
+		
+		//check if we must wait, important when retrying downloads
+		if(mWaitUntil > System.currentTimeMillis()) {
+			Thread.sleep(mWaitUntil - System.currentTimeMillis());
+		}
 		
 		//connect the retriever
 		mDataRetriever.connect();
@@ -162,7 +171,9 @@ public class DownloadJob extends AbstractJob {
 		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
 			
 			if(mTryCount <= (mMaxRetryCount + 1)) {
-				setState(Job.STATE_OPEN); // add a waiting time here
+				
+				mWaitUntil = System.currentTimeMillis() + mMinTimeBetweenRetry;
+				setState(Job.STATE_OPEN);
 			} else {
 				setState(Job.STATE_ERROR);
 			}
@@ -261,13 +272,16 @@ public class DownloadJob extends AbstractJob {
 
 	/**
 	 * Sets the parent of the job.
+	 * This method also copies the configuration 
+	 * from the parent to this instance.
+	 * 
 	 * @param pParent
 	 */
 	public void setParent(DownloadJob pParent) {
 		mParent = pParent;
 		mDepth = pParent.getDepth() + 1;
-		mSavePath = pParent.getSavePath();
-		mMaxRetryCount = pParent.getMaxRetryCount();
+		setSavePath(pParent.getSavePath());
+		setMaxRetryCount(pParent.getMaxRetryCount());
 	}
 
 	/**
@@ -308,12 +322,36 @@ public class DownloadJob extends AbstractJob {
 		return mProgress;
 	}
 
+	/**
+	 * Returns the maximum count of retries when an retryable error occurs.
+	 * @return
+	 */
 	public int getMaxRetryCount() {
 		return mMaxRetryCount;
 	}
 
+	/**
+	 * Sets the maximum count of retries when an retryable error occurs.
+	 * @param pMaxRetryCount
+	 */
 	public void setMaxRetryCount(int pMaxRetryCount) {
 		mMaxRetryCount = pMaxRetryCount;
+	}
+
+	/**
+	 * Gets the waiting time between two retries.
+	 * @return 
+	 */
+	public long getMinTimeBetweenRetry() {
+		return mMinTimeBetweenRetry;
+	}
+
+	/**
+	 * Sets the waiting time between two retries. 
+	 * @param pMinTimeBetweenRetry
+	 */
+	public void setMinTimeBetweenRetry(long pMinTimeBetweenRetry) {
+		mMinTimeBetweenRetry = pMinTimeBetweenRetry;
 	}
 	
 	/**

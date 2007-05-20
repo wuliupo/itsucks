@@ -184,7 +184,11 @@ public class FileResumeRetriever implements DataRetriever {
 	public float getProgress() {
 		return mDataRetriever.getProgress();
 	}
-
+	
+	public void setUrl(URL pUrl) {
+		throw new IllegalArgumentException("Not possible!");
+	}
+	
 	public URL getUrl() {
 		return mDataRetriever.getUrl();
 	}
@@ -198,10 +202,6 @@ public class FileResumeRetriever implements DataRetriever {
 		} else {
 			return mDataRetriever.isDataAvailable();
 		}
-	}
-
-	public void setUrl(URL pUrl) {
-		throw new IllegalArgumentException("Not possible!");
 	}
 
 	public void addDataProcessor(DataProcessor pDataProcessor) {
