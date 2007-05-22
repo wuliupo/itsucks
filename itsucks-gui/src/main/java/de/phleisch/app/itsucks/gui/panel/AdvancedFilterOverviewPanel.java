@@ -21,10 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.AddAdvancedFilterDialog;
 import de.phleisch.app.itsucks.gui.AddAdvancedFilterInterface;
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFilterInterface {
 
@@ -58,9 +61,25 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		
 		initialize();
 		
-		addAdvancedFilterRule(new RegExpJobFilter.RegExpFilterRule(
-				"css$|jpg$|gif$|png$|js$", +50
-		));
+		buildDefaultRule();
+	}
+
+	private void buildDefaultRule() {
+		//build default rule
+		RegExpFilterRule rule = new RegExpFilterRule("css$|jpg$|gif$|png$|js$");
+		
+		RegExpFilterAction ruleMatchAction = new RegExpFilterAction(null, +50);
+		ruleMatchAction.addJobParameter(
+				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+		
+		RegExpFilterAction ruleNoMatchAction = new RegExpFilterAction(null, 0);
+		ruleNoMatchAction.addJobParameter(
+				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.FALSE));
+		
+		rule.setMatchAction(ruleMatchAction);
+		rule.setNoMatchAction(ruleNoMatchAction);
+		
+		addAdvancedFilterRule(rule);
 	}
 
 	/**

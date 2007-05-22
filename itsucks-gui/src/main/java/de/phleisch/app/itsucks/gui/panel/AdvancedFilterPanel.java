@@ -24,8 +24,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import de.phleisch.app.itsucks.JobParameter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class AdvancedFilterPanel extends JPanel {
 
@@ -275,12 +278,16 @@ public class AdvancedFilterPanel extends JPanel {
 			noMatchPrioChange = Integer.parseInt(getJPriorityChange1().getText());
 		}
 		
-		RegExpFilterRule rule = new RegExpFilterRule(
-				pattern, 
-				matchAction,
-				matchPrioChange, 
-				noMatchAction, 
-				noMatchPrioChange);
+		RegExpFilterRule rule = new RegExpFilterRule(pattern);
+		
+		RegExpFilterAction ruleMatchAction = new RegExpFilterAction(matchAction, matchPrioChange);
+		ruleMatchAction.addJobParameter(new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+		
+		RegExpFilterAction ruleNoMatchAction = new RegExpFilterAction(noMatchAction, noMatchPrioChange);
+		ruleNoMatchAction.addJobParameter(new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.FALSE));
+		
+		rule.setMatchAction(ruleMatchAction);
+		rule.setNoMatchAction(ruleNoMatchAction);
 		
 		return rule;
 	}
@@ -406,30 +413,34 @@ public class AdvancedFilterPanel extends JPanel {
 		
 		this.getJAddAdvancedFilter().setText(pRule.getPattern().toString());
 		
-		if(pRule.getMatchAccept() == null) {
+		RegExpFilterAction matchAction = pRule.getMatchAction();
+		
+		if(matchAction.getAccept() == null) {
 			this.getJRadioAFilterNoChange().setSelected(true);
-		} else if(pRule.getMatchAccept().booleanValue()) {
+		} else if(matchAction.getAccept().booleanValue()) {
 			this.getJRadioAFilterAccept().setSelected(true);
-		} else if(!pRule.getMatchAccept().booleanValue()) {
+		} else if(!matchAction.getAccept().booleanValue()) {
 			this.getJRadioAFilterReject().setSelected(true);
 		}
 		
-		if(pRule.getMatchPriorityChange() > 0) {
+		if(matchAction.getPriorityChange() > 0) {
 			getJChangePriorityMatch().setSelected(true);
-			getJPriorityChange().setText(String.valueOf(pRule.getMatchPriorityChange()));
+			getJPriorityChange().setText(String.valueOf(matchAction.getPriorityChange()));
 		}
 		
-		if(pRule.getNoMatchAccept() == null) {
+		RegExpFilterAction noMatchAction = pRule.getNoMatchAction();
+		
+		if(noMatchAction.getAccept() == null) {
 			this.getJRadioAFilterNoChange1().setSelected(true);
-		} else if(pRule.getNoMatchAccept().booleanValue()) {
+		} else if(noMatchAction.getAccept().booleanValue()) {
 			this.getJRadioAFilterAccept1().setSelected(true);
-		} else if(!pRule.getNoMatchAccept().booleanValue()) {
+		} else if(!noMatchAction.getAccept().booleanValue()) {
 			this.getJRadioAFilterReject1().setSelected(true);
 		}
 		
-		if(pRule.getNoMatchPriorityChange() > 0) {
+		if(noMatchAction.getPriorityChange() > 0) {
 			getJChangePriorityNoMatch().setSelected(true);
-			getJPriorityChange1().setText(String.valueOf(pRule.getNoMatchPriorityChange()));
+			getJPriorityChange1().setText(String.valueOf(noMatchAction.getPriorityChange()));
 		}
 		
 		mUpdateRule = true;
