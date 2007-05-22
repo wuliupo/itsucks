@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**
@@ -56,7 +57,7 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 				pJob.getState() != Job.STATE_IGNORED) return pJob;
 		
 		Boolean accept = null;
-		URL url = ((DownloadJob)pJob).getUrl();
+		final URL url = ((DownloadJob)pJob).getUrl();
 
 		synchronized (mFilterRules) {
 		
@@ -64,31 +65,34 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 				Pattern p = rule.getPattern();
 				
 				Matcher m = p.matcher(url.toString());
+				RegExpFilterAction action;
+				
 		        if(m.find()) {
 		        	//mLog.trace("URL: " + url.toString() + " matches to rule: " + p);
-		        	
-		        	//change the priority of the job
-		        	if(rule.getMatchPriorityChange() != 0) {
-		        		pJob.setPriority(pJob.getPriority() + rule.getMatchPriorityChange());
-		        	}
-		        	
-		        	//only change accept if the rule changes it
-		        	if(rule.getMatchAccept() != null) {
-		        		accept = rule.getMatchAccept();
-		        	}
+		        	action = rule.getMatchAction();
 		        } else {
-		        	
-		        	//change the priority of the job
-		        	if(rule.getNoMatchPriorityChange() != 0) {
-		        		pJob.setPriority(pJob.getPriority() + rule.getNoMatchPriorityChange());
-		        	}
-		        	
-		        	//only change accept if the rule changes it
-		        	if(rule.getNoMatchAccept() != null) {
-		        		accept = rule.getNoMatchAccept();
-		        	}
-		        	
+		        	action = rule.getNoMatchAction();
 		        }
+		        	
+	        	//change the priority of the job
+	        	if(action.getPriorityChange() != 0) {
+	        		pJob.setPriority(pJob.getPriority() + action.getPriorityChange());
+	        	}
+	        	
+	        	//only change accept if the rule action changes it
+	        	if(action.getAccept() != null) {
+	        		accept = action.getAccept();
+	        	}
+		        
+	        	//if the action has parameter add them to the job
+	        	if(action.hasJobParameter()) {
+	        		List<JobParameter> jobParameterList = action.getJobParameterList();
+	        		for (JobParameter parameter : jobParameterList) {
+						pJob.addParameter(parameter);
+					}
+	        	}
+	        	
+	        	
 			}
 		}
 		
@@ -137,26 +141,27 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 
 		private static final long serialVersionUID = -6511044935647503309L;
 
-		private String mName;
+		private String mName = null;
+		private Pattern mPattern = null;
+
+		private RegExpFilterAction mMatchAction = null;
+		private RegExpFilterAction mNoMatchAction = null;
 		
-		private Pattern mPattern;
-		private int mMatchPriorityChange;
-		private Boolean mMatchAccept;
-		private int mNoMatchPriorityChange;
-		private Boolean mNoMatchAccept;
+		public RegExpFilterRule(String pPattern) {
+			setPattern(pPattern);
+			setMatchAction(new RegExpFilterAction());
+			setNoMatchAction(new RegExpFilterAction()); 
+		}
 		
 		public RegExpFilterRule(String pPattern, Boolean pAccept, int pPriorityChange) {
 			setPattern(pPattern);
-			setMatchAccept(pAccept);
-			setMatchPriorityChange(pPriorityChange);
-		}
-		
-		public RegExpFilterRule(String pPattern, Boolean pMatchAccept, int pMatchPriorityChange, Boolean pNoMatchAccept, int pNoMatchPriorityChange) {
-			setPattern(pPattern);
-			setMatchAccept(pMatchAccept);
-			setMatchPriorityChange(pMatchPriorityChange);
-			setNoMatchAccept(pNoMatchAccept);
-			setNoMatchPriorityChange(pNoMatchPriorityChange);
+			
+			RegExpFilterAction action = new RegExpFilterAction();
+			action.setAccept(pAccept);
+			action.setPriorityChange(pPriorityChange);
+			setMatchAction(action);
+			
+			setNoMatchAction(new RegExpFilterAction()); 
 		}
 		
 		public RegExpFilterRule(String pPattern, Boolean pAccept) {
@@ -176,26 +181,6 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 			return mPattern;
 		}
 		
-		/**
-		 * 
-		 * @param pAccept true == accept the job, false == discard the job, null == leave the previous value
-		 */
-		public void setMatchAccept(Boolean pAccept) {
-			mMatchAccept = pAccept;
-		}
-
-		public int getMatchPriorityChange() {
-			return mMatchPriorityChange;
-		}
-
-		public void setMatchPriorityChange(int pPriorityChange) {
-			mMatchPriorityChange = pPriorityChange;
-		}
-
-		public Boolean getMatchAccept() {
-			return mMatchAccept;
-		}
-
 		@Override
 		public String toString() {
 			return toHtmlString();
@@ -204,40 +189,17 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		public String toTextString() {
 			return (mName != null ? "Name: '" + mName + "'\n" : "") +
 					"Pattern: '" + getPattern() + "' \n" +
-					"Match: " + 
-					"Accept: '" + (getMatchAccept() == null ? "no change" : getMatchAccept()) + "', " +
-					"PrioChg: '" + getMatchPriorityChange() + "' \n" +
-					"No Match: " +
-					"Accept: '" + (getNoMatchAccept() == null ? "no change" : getNoMatchAccept()) + "', " +
-					"PrioChg: '" + getNoMatchPriorityChange() + "'";
+					"Match: " + mMatchAction + "\n" + 
+					"No Match: " + mNoMatchAction;
 		}
 		
 		public String toHtmlString() {
 			return "<html>" +
 					(mName != null ? "Name: '" + mName + "'<br>\n" : "") +
 					"Pattern: '" + getPattern() + "' <br>\n" +
-					"Match: " + 
-					"Accept: '" + (getMatchAccept() == null ? "no change" : getMatchAccept()) + "', " +
-					"PrioChg: '" + getMatchPriorityChange() + "' " +
-					"<br>\nNo Match: " +
-					"Accept: '" + (getNoMatchAccept() == null ? "no change" : getNoMatchAccept()) + "', " +
-					"PrioChg: '" + getNoMatchPriorityChange() + "'</html>";
-		}
-
-		public Boolean getNoMatchAccept() {
-			return mNoMatchAccept;
-		}
-
-		public void setNoMatchAccept(Boolean pNoMatchAccept) {
-			mNoMatchAccept = pNoMatchAccept;
-		}
-
-		public int getNoMatchPriorityChange() {
-			return mNoMatchPriorityChange;
-		}
-
-		public void setNoMatchPriorityChange(int pNoMatchPriorityChange) {
-			mNoMatchPriorityChange = pNoMatchPriorityChange;
+					"Match: " + mMatchAction + 
+					"<br>\nNo Match: " + mNoMatchAction +
+					"</html>";
 		}
 
 		public String getName() {
@@ -247,7 +209,84 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		public void setName(String pName) {
 			mName = pName;
 		}
+
+		public RegExpFilterAction getMatchAction() {
+			return mMatchAction;
+		}
+
+		public void setMatchAction(RegExpFilterAction pMatchAction) {
+			mMatchAction = pMatchAction;
+		}
+
+		public RegExpFilterAction getNoMatchAction() {
+			return mNoMatchAction;
+		}
+
+		public void setNoMatchAction(RegExpFilterAction pNoMatchAction) {
+			mNoMatchAction = pNoMatchAction;
+		}
 		
+	}
+	
+	public static class RegExpFilterAction implements Serializable {
+		
+		private static final long serialVersionUID = 3892411450565605281L;
+		
+		private int mPriorityChange = 0;
+		private Boolean mAccept = null;
+		private List<JobParameter> mJobParameter;
+		
+		public RegExpFilterAction() {
+			mJobParameter = new ArrayList<JobParameter>();
+		}
+		
+		public RegExpFilterAction(Boolean pAccept, int pPriorityChange) {
+			this();
+			mAccept = pAccept;
+			mPriorityChange = pPriorityChange;
+		}
+		
+		/**
+		 * 
+		 * @param pAccept true == accept the job, false == discard the job, null == leave the previous value
+		 */
+		public void setAccept(Boolean pAccept) {
+			mAccept = pAccept;
+		}
+
+		public int getPriorityChange() {
+			return mPriorityChange;
+		}
+
+		public void setPriorityChange(int pPriorityChange) {
+			mPriorityChange = pPriorityChange;
+		}
+
+		public Boolean getAccept() {
+			return mAccept;
+		}
+		
+		public boolean hasJobParameter() {
+			return mJobParameter.size() > 0;
+		}
+		
+		public void addJobParameter(JobParameter pJobParameter) {
+			if(pJobParameter != null) {
+				mJobParameter.add(pJobParameter);
+			}
+		}
+		
+		public List<JobParameter> getJobParameterList() {
+			return new ArrayList<JobParameter>(mJobParameter);
+		}
+		
+		@Override
+		public String toString() {
+			return 
+				"Accept: '" + (getAccept() == null ? "no change" : getAccept()) + "', " +
+				"PrioChg: '" + getPriorityChange() + "'";
+		}
+
 	}
 	
 }

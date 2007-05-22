@@ -9,6 +9,10 @@
 package de.phleisch.app.itsucks;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
@@ -26,6 +30,11 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	private int mId = -1;
 	
 	private String mName;
+	private Map<String, JobParameter> mParameter;
+	
+	public AbstractJob() {
+		mParameter = new HashMap<String, JobParameter>();
+	}
 	
 	/**
 	 * The State of the job.
@@ -173,6 +182,31 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	public void setName(String pName) {
 		mName = pName;
 	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#addParameter(de.phleisch.app.itsucks.JobParameter)
+	 */
+	public void addParameter(JobParameter pParameter) {
+		if(pParameter != null) { 
+			mParameter.put(pParameter.getKey(), pParameter);
+		}
+	}
+	
+	/**
+	 * Returns the parameter under the given key or null.
+	 * @param pKey
+	 * @return
+	 */
+	public JobParameter getParameter(String pKey) {
+		return mParameter.get(pKey);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#getJobParameterList()
+	 */
+	public List<JobParameter> getParameterList() {
+		return new ArrayList<JobParameter>(mParameter.values());
+	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.IJob#abort()
@@ -187,5 +221,6 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 		result = PRIME * result + ((mName == null) ? 0 : mName.hashCode());
 		return result;
 	}
+
 
 }

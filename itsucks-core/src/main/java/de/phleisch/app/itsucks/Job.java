@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks;
 
+import java.util.List;
 import java.util.Observer;
 
 public interface Job {
@@ -122,10 +123,30 @@ public interface Job {
 	 */
 	public abstract void setId(int pJobId);
 
+	/**
+	 * Gets the name of the job
+	 * @return
+	 */
 	public abstract String getName();
 
+	/**
+	 * Sets the name of the job
+	 * @param pName
+	 */
 	public abstract void setName(String pName);
 
+	/**
+	 * Add a parameter to the job
+	 * @param pParameter
+	 */
+	public abstract void addParameter(JobParameter pParameter);
+	
+	/**
+	 * Get a list of all job parameter
+	 * @return
+	 */
+	public abstract List<JobParameter> getParameterList();
+	
 	/**
 	 * Aborts the job when running.
 	 */

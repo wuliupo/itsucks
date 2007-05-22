@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.AbstractJob;
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.JobParameter;
 
 
 /**
@@ -32,8 +33,10 @@ import de.phleisch.app.itsucks.Job;
  */
 public class DownloadJob extends AbstractJob {
 
-	private static final long serialVersionUID = 1382410603891799935L;
+	private static final long serialVersionUID = 5609621387348634985L;
 
+	public static final String PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
+	
 	private static Log mLog = LogFactory.getLog(DownloadJob.class);
 	
 	private boolean mSaveToFile = true;
@@ -111,6 +114,8 @@ public class DownloadJob extends AbstractJob {
 		
 		mDataRetriever.setUrl(mUrl);
 		
+		boolean skip = false;
+		
 		//check if this file should be saved
 		if(isSaveToFile()) {
 			
@@ -118,14 +123,35 @@ public class DownloadJob extends AbstractJob {
 			File file = fileManager.buildSavePath(getUrl());
 			
 			if(file.exists()) {
+			
+				JobParameter skipParameter = getParameter(PARAMETER_SKIP_DOWNLOADED_FILE);
 				
-				mLog.info("Try to resume job: " + this);
+				if(skipParameter != null && Boolean.TRUE.equals(skipParameter.getValue())) {
+					
+					mLog.info("Skip job: " + this);
+					skip = true;
+					
+				} else {
 				
-				//ok, it seems the file already exists partially/completly
-				//try to resume the file
-				mDataRetriever = new FileResumeRetriever(mDataRetriever, file);
+					mLog.info("Try to resume job: " + this);
+					
+					//ok, it seems the file already exists partially/completly
+					//try to resume the file
+					mDataRetriever = new FileResumeRetriever(mDataRetriever, file);
+				}
 			}
 		}
+		
+		if(!skip) {
+			executeDownload();
+		} else  {
+			setState(Job.STATE_IGNORED);
+		}
+		
+		mDataRetriever = null;
+	}
+
+	protected void executeDownload() throws InterruptedException, Exception {
 		
 		//register an listener to get the progress events
 		mDataRetriever.addObserver(new ProgressObserver());
@@ -182,9 +208,7 @@ public class DownloadJob extends AbstractJob {
 				|| resultCode == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
 			
 			setState(Job.STATE_ERROR);
-		} 
-		
-		mDataRetriever = null;
+		}
 	}
 	
 	private class ProgressObserver implements Observer {
