@@ -696,8 +696,9 @@ public class MainWindow implements AddDownloadJobInterface {
 	public static void main(String[] args) {
 		
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
