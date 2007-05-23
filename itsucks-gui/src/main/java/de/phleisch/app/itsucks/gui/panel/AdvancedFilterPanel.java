@@ -69,6 +69,10 @@ public class AdvancedFilterPanel extends JPanel {
 	private JTextField jPriorityChange1 = null;
 	
 	private boolean mUpdateRule = false;
+
+	private JCheckBox jAssumeCompleteMatch = null;
+
+	private JCheckBox jAssumeCompleteNoMatch = null;
 	
 	/**
 	 * This is the default constructor
@@ -85,7 +89,7 @@ public class AdvancedFilterPanel extends JPanel {
 	 */
 	private void initialize() {
 		jLabelAdvancedFilterChangeStatus1 = new JLabel();
-		jLabelAdvancedFilterChangeStatus1.setBounds(new Rectangle(10, 250, 351, 21));
+		jLabelAdvancedFilterChangeStatus1.setBounds(new Rectangle(10, 270, 351, 21));
 		jLabelAdvancedFilterChangeStatus1.setText("<html>Change the status of the download in case of <b>no match</b>:</html>");
 		jLabelAdvancedFilterChangeStatus1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		jLabel = new JLabel();
@@ -113,7 +117,7 @@ public class AdvancedFilterPanel extends JPanel {
 				"</html>"
 				);
 		setLayout(null);
-		this.setSize(new Dimension(551, 377));
+		this.setSize(new Dimension(551, 413));
 		this.add(jLabel, null);
 		this.add(getJAddAdvancedFilterScrollablePane(), null);
 		this.add(jLabelAdvancedFilterChangeStatus, null);
@@ -130,6 +134,8 @@ public class AdvancedFilterPanel extends JPanel {
 		this.add(getJRadioAFilterReject1(), null);
 		this.add(getJChangePriorityNoMatch(), null);
 		this.add(getJPriorityChange1(), null);
+		this.add(getJAssumeCompleteMatch(), null);
+		this.add(getJAssumeCompleteNoMatch(), null);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(getJRadioAFilterReject());
@@ -335,7 +341,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterNoChange1() {
 		if (jRadioAFilterNoChange1 == null) {
 			jRadioAFilterNoChange1 = new JRadioButton();
-			jRadioAFilterNoChange1.setBounds(new Rectangle(10, 270, 171, 23));
+			jRadioAFilterNoChange1.setBounds(new Rectangle(10, 290, 171, 23));
 			jRadioAFilterNoChange1.setSelected(true);
 			jRadioAFilterNoChange1.setText("Do not change status");
 			jRadioAFilterNoChange1.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -351,7 +357,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterAccept1() {
 		if (jRadioAFilterAccept1 == null) {
 			jRadioAFilterAccept1 = new JRadioButton();
-			jRadioAFilterAccept1.setBounds(new Rectangle(10, 290, 171, 23));
+			jRadioAFilterAccept1.setBounds(new Rectangle(10, 310, 171, 23));
 			jRadioAFilterAccept1.setText("Accept URL");
 			jRadioAFilterAccept1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
@@ -366,7 +372,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JRadioButton getJRadioAFilterReject1() {
 		if (jRadioAFilterReject1 == null) {
 			jRadioAFilterReject1 = new JRadioButton();
-			jRadioAFilterReject1.setBounds(new Rectangle(10, 310, 171, 23));
+			jRadioAFilterReject1.setBounds(new Rectangle(10, 330, 171, 23));
 			jRadioAFilterReject1.setText("Reject URL");
 			jRadioAFilterReject1.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
@@ -381,7 +387,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JCheckBox getJChangePriorityNoMatch() {
 		if (jChangePriorityNoMatch == null) {
 			jChangePriorityNoMatch = new JCheckBox();
-			jChangePriorityNoMatch.setBounds(new Rectangle(10, 340, 141, 21));
+			jChangePriorityNoMatch.setBounds(new Rectangle(10, 360, 141, 21));
 			jChangePriorityNoMatch.setSelected(false);
 			jChangePriorityNoMatch.setText("Change the priority");
 			jChangePriorityNoMatch.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -402,7 +408,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JTextField getJPriorityChange1() {
 		if (jPriorityChange1 == null) {
 			jPriorityChange1 = new JTextField();
-			jPriorityChange1.setBounds(new Rectangle(160, 340, 81, 21));
+			jPriorityChange1.setBounds(new Rectangle(160, 360, 81, 21));
 			jPriorityChange1.setText("0");
 			jPriorityChange1.setEnabled(false);
 		}
@@ -449,5 +455,37 @@ public class AdvancedFilterPanel extends JPanel {
 
 	public boolean isUpdateRule() {
 		return mUpdateRule;
+	}
+
+	/**
+	 * This method initializes jAssumeCompleteMatch	
+	 * 	
+	 * @return javax.swing.JCheckBox	
+	 */
+	private JCheckBox getJAssumeCompleteMatch() {
+		if (jAssumeCompleteMatch == null) {
+			jAssumeCompleteMatch = new JCheckBox();
+			jAssumeCompleteMatch.setBounds(new Rectangle(10, 230, 341, 21));
+			jAssumeCompleteMatch.setSelected(false);
+			jAssumeCompleteMatch.setText("Assume downloaded files are complete");
+			jAssumeCompleteMatch.setFont(new Font("Dialog", Font.PLAIN, 12));
+		}
+		return jAssumeCompleteMatch;
+	}
+
+	/**
+	 * This method initializes jAssumeCompleteNoMatch	
+	 * 	
+	 * @return javax.swing.JCheckBox	
+	 */
+	private JCheckBox getJAssumeCompleteNoMatch() {
+		if (jAssumeCompleteNoMatch == null) {
+			jAssumeCompleteNoMatch = new JCheckBox();
+			jAssumeCompleteNoMatch.setBounds(new Rectangle(10, 380, 341, 21));
+			jAssumeCompleteNoMatch.setSelected(false);
+			jAssumeCompleteNoMatch.setText("Assume downloaded files are complete");
+			jAssumeCompleteNoMatch.setFont(new Font("Dialog", Font.PLAIN, 12));
+		}
+		return jAssumeCompleteNoMatch;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
