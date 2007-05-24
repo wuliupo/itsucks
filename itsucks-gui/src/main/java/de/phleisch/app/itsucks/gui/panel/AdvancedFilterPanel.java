@@ -204,7 +204,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JTextField getJPriorityChange() {
 		if (jPriorityChange == null) {
 			jPriorityChange = new JTextField();
-			jPriorityChange.setBounds(new Rectangle(160, 210, 81, 21));
+			jPriorityChange.setBounds(new Rectangle(160, 210, 81, 20));
 			jPriorityChange.setEnabled(false);
 			jPriorityChange.setText("0");
 		}
@@ -287,10 +287,16 @@ public class AdvancedFilterPanel extends JPanel {
 		RegExpFilterRule rule = new RegExpFilterRule(pattern);
 		
 		RegExpFilterAction ruleMatchAction = new RegExpFilterAction(matchAction, matchPrioChange);
-		ruleMatchAction.addJobParameter(new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+		if(jAssumeCompleteMatch.isSelected()) {
+			ruleMatchAction.addJobParameter(
+					new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+		}
 		
 		RegExpFilterAction ruleNoMatchAction = new RegExpFilterAction(noMatchAction, noMatchPrioChange);
-		ruleNoMatchAction.addJobParameter(new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.FALSE));
+		if(jAssumeCompleteNoMatch.isSelected()) {
+			ruleNoMatchAction.addJobParameter(
+					new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+		}
 		
 		rule.setMatchAction(ruleMatchAction);
 		rule.setNoMatchAction(ruleNoMatchAction);
@@ -408,7 +414,7 @@ public class AdvancedFilterPanel extends JPanel {
 	private JTextField getJPriorityChange1() {
 		if (jPriorityChange1 == null) {
 			jPriorityChange1 = new JTextField();
-			jPriorityChange1.setBounds(new Rectangle(160, 360, 81, 21));
+			jPriorityChange1.setBounds(new Rectangle(160, 360, 81, 19));
 			jPriorityChange1.setText("0");
 			jPriorityChange1.setEnabled(false);
 		}
@@ -434,6 +440,13 @@ public class AdvancedFilterPanel extends JPanel {
 			getJPriorityChange().setText(String.valueOf(matchAction.getPriorityChange()));
 		}
 		
+		JobParameter assumeCompleteMatchParameter = 
+			matchAction.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+		if(assumeCompleteMatchParameter != null 
+				&& assumeCompleteMatchParameter.getValue().equals(Boolean.TRUE)) {
+			jAssumeCompleteMatch.setSelected(true);
+		}
+		
 		RegExpFilterAction noMatchAction = pRule.getNoMatchAction();
 		
 		if(noMatchAction.getAccept() == null) {
@@ -447,6 +460,13 @@ public class AdvancedFilterPanel extends JPanel {
 		if(noMatchAction.getPriorityChange() > 0) {
 			getJChangePriorityNoMatch().setSelected(true);
 			getJPriorityChange1().setText(String.valueOf(noMatchAction.getPriorityChange()));
+		}
+		
+		JobParameter assumeNoCompleteMatchParameter = 
+			noMatchAction.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+		if(assumeNoCompleteMatchParameter != null 
+				&& assumeNoCompleteMatchParameter.getValue().equals(Boolean.TRUE)) {
+			jAssumeCompleteNoMatch.setSelected(true);
 		}
 		
 		mUpdateRule = true;

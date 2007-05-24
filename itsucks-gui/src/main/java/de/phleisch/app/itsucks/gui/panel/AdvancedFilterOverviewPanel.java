@@ -69,12 +69,12 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		RegExpFilterRule rule = new RegExpFilterRule("css$|jpg$|gif$|png$|js$");
 		
 		RegExpFilterAction ruleMatchAction = new RegExpFilterAction(null, +50);
-		ruleMatchAction.addJobParameter(
-				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
+//		ruleMatchAction.addJobParameter(
+//				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.TRUE));
 		
 		RegExpFilterAction ruleNoMatchAction = new RegExpFilterAction(null, 0);
-		ruleNoMatchAction.addJobParameter(
-				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.FALSE));
+//		ruleNoMatchAction.addJobParameter(
+//				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, Boolean.FALSE));
 		
 		rule.setMatchAction(ruleMatchAction);
 		rule.setNoMatchAction(ruleNoMatchAction);
