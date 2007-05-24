@@ -10,7 +10,9 @@ package de.phleisch.app.itsucks.filter;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -234,10 +236,10 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		
 		private int mPriorityChange = 0;
 		private Boolean mAccept = null;
-		private List<JobParameter> mJobParameter;
+		private Map<String, JobParameter> mJobParameter;
 		
 		public RegExpFilterAction() {
-			mJobParameter = new ArrayList<JobParameter>();
+			mJobParameter = new HashMap<String, JobParameter>();
 		}
 		
 		public RegExpFilterAction(Boolean pAccept, int pPriorityChange) {
@@ -272,12 +274,16 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		
 		public void addJobParameter(JobParameter pJobParameter) {
 			if(pJobParameter != null) {
-				mJobParameter.add(pJobParameter);
+				mJobParameter.put(pJobParameter.getKey(), pJobParameter);
 			}
+		}
+
+		public JobParameter getJobParameter(String pJobParameter) {
+			return mJobParameter.get(pJobParameter);
 		}
 		
 		public List<JobParameter> getJobParameterList() {
-			return new ArrayList<JobParameter>(mJobParameter);
+			return new ArrayList<JobParameter>(mJobParameter.values());
 		}
 		
 		@Override
