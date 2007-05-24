@@ -141,7 +141,7 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 	
 	public static class RegExpFilterRule implements Serializable {
 
-		private static final long serialVersionUID = -6511044935647503309L;
+		private static final long serialVersionUID = -9012670101396671089L;
 
 		private String mName = null;
 		private Pattern mPattern = null;
@@ -232,7 +232,7 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 	
 	public static class RegExpFilterAction implements Serializable {
 		
-		private static final long serialVersionUID = 3892411450565605281L;
+		private static final long serialVersionUID = 2661477258757092821L;
 		
 		private int mPriorityChange = 0;
 		private Boolean mAccept = null;
