@@ -37,6 +37,7 @@ include_once('include/header.php.inc');
           and actions to be executed when the expression does not match.<br/>
           Possible actions are: 
           follow the URL (Accept), do not follow the URL (Reject), change the priority of the URL</li>
+          <li>A filter can inject additional parameters into the job.</li>
         </ul>
         
         <h3>Event Handling</h3>
