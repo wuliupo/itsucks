@@ -60,8 +60,6 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private JMenu fileMenu = null;
 
-	private JMenu editMenu = null;
-
 	private JMenu toolsMenu = null;
 	
 	private JMenu helpMenu = null;
@@ -78,12 +76,6 @@ public class MainWindow implements AddDownloadJobInterface {
 
 	private JMenuItem toolsMenuItem = null;
 	
-	private JMenuItem cutMenuItem = null;
-
-	private JMenuItem copyMenuItem = null;
-
-	private JMenuItem pasteMenuItem = null;
-
 	private JDialog aboutDialog = null;  //  @jve:decl-index=0:visual-constraint="331,551"
 
 	private JPanel aboutContentPane = null;
@@ -159,7 +151,6 @@ public class MainWindow implements AddDownloadJobInterface {
 		if (jJMenuBar == null) {
 			jJMenuBar = new JMenuBar();
 			jJMenuBar.add(getFileMenu());
-			jJMenuBar.add(getEditMenu());
 			jJMenuBar.add(getToolsMenu());
 			jJMenuBar.add(getHelpMenu());
 		}
@@ -182,22 +173,6 @@ public class MainWindow implements AddDownloadJobInterface {
 			
 		}
 		return fileMenu;
-	}
-
-	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	private JMenu getEditMenu() {
-		if (editMenu == null) {
-			editMenu = new JMenu();
-			editMenu.setText("Edit");
-			editMenu.add(getCutMenuItem());
-			editMenu.add(getCopyMenuItem());
-			editMenu.add(getPasteMenuItem());
-		}
-		return editMenu;
 	}
 
 	/**
@@ -394,51 +369,6 @@ public class MainWindow implements AddDownloadJobInterface {
 	}
 
 	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getCutMenuItem() {
-		if (cutMenuItem == null) {
-			cutMenuItem = new JMenuItem();
-			cutMenuItem.setText("Cut");
-			cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-					Event.CTRL_MASK, true));
-		}
-		return cutMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getCopyMenuItem() {
-		if (copyMenuItem == null) {
-			copyMenuItem = new JMenuItem();
-			copyMenuItem.setText("Copy");
-			copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-					Event.CTRL_MASK, true));
-		}
-		return copyMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getPasteMenuItem() {
-		if (pasteMenuItem == null) {
-			pasteMenuItem = new JMenuItem();
-			pasteMenuItem.setText("Paste");
-			pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-					Event.CTRL_MASK, true));
-		}
-		return pasteMenuItem;
-	}
-
-	/**
 	 * This method initializes jToolBarBar	
 	 * 	
 	 * @return javax.swing.JToolBar	
@@ -587,6 +517,11 @@ public class MainWindow implements AddDownloadJobInterface {
 		try {
 			dispatcher.processJobs();
 			
+			//wait till dispatcher is starting
+			for (int i = 0; i < 10 && !dispatcher.isRunning(); i++) {
+				Thread.sleep(100);
+			}
+			
 			jTabbedPane.add(pane.getName(), pane);
 			
 		} catch (Exception e) {
@@ -603,6 +538,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		if (jTabbedPane == null) {
 			jTabbedPane = new JTabbedPane();
 			jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+				
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					updateButtonState();
 				}
