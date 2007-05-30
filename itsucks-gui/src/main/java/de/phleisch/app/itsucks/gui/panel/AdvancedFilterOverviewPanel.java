@@ -21,13 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.AddAdvancedFilterDialog;
 import de.phleisch.app.itsucks.gui.AddAdvancedFilterInterface;
-import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFilterInterface {
 
