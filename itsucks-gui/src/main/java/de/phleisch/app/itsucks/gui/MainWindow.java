@@ -517,16 +517,19 @@ public class MainWindow implements AddDownloadJobInterface {
 		try {
 			dispatcher.processJobs();
 			
-			//wait till dispatcher is starting
-			for (int i = 0; i < 10 && !dispatcher.isRunning(); i++) {
-				Thread.sleep(100);
-			}
-			
-			jTabbedPane.add(pane.getName(), pane);
-			
 		} catch (Exception e) {
 			mLog.error("Error starting dispatcher thread", e);
 		}
+		
+		//wait till dispatcher is starting
+		for (int i = 0; i < 10 && !dispatcher.isRunning(); i++) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+		}
+		
+		jTabbedPane.add(pane.getName(), pane);
+		
 	}
 	
 	/**
