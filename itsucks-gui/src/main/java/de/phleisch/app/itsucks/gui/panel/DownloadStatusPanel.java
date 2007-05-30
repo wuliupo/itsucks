@@ -68,6 +68,7 @@ public class DownloadStatusPanel extends JPanel {
 	public void removeDispatcher() {
 		mJobDispatcher.getJobManager().getJobList().deleteObserver(mJobListObserver);
 		mDownloadStatusTableModel.removeAllDownloadJobs();
+		mDownloadStatusTableModel.stop();
 		mJobDispatcher = null;
 	}
 	

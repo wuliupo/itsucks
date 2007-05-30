@@ -8,10 +8,14 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.event.EventListenerList;
@@ -36,6 +40,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	
 	private static final int COLUMN_COUNT 		= 7;
 	
+	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
 
 	private Vector<DownloadJob> mRows;
 	private Map<DownloadJob, Integer> mJobPosition;
@@ -45,6 +50,8 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		mRows = new Vector<DownloadJob>(); //use vector to be thread safe
 		mJobPosition = new HashMap<DownloadJob, Integer>();
 		mJobObserver = new JobObserver();
+		
+		mJobObserver.start();
 	}
 	
 	/* (non-Javadoc)
@@ -151,9 +158,15 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		for (DownloadJob job : mRows) {
 			job.deleteObserver(mJobObserver);
 		}
+		int size = mRows.size();
+		
 		mRows.clear();
 		mJobPosition.clear();
-		fireTableDataChanged();
+		fireTableRowsDeleted(1, size);
+	}
+	
+	public void stop() {
+		mJobObserver.stop();
 	}
 	
 	private Object getColumnValue(DownloadJob pJob, int pColumnIndex) {
@@ -374,8 +387,29 @@ public class DownloadJobTableModel extends AbstractTableModel {
     }
 	
     
-	private class JobObserver implements Observer {
+	private class JobObserver implements Observer, Runnable {
 		
+		private Thread mEventCollector;
+		private Set<DownloadJob> mChangedJobs;
+		private boolean mStop;
+		
+		public JobObserver() {
+			mChangedJobs = new HashSet<DownloadJob>();
+			
+			mEventCollector = new Thread(this);
+			mEventCollector.setName("GUI Event Collector");
+			mEventCollector.setDaemon(true);
+		}
+		
+		public void start() {
+			mStop = false;
+			mEventCollector.start();
+		}
+		
+		public void stop() {
+			mStop = true;
+		}
+
 		public void update(Observable pO, Object pArg) {
 			
 			Integer type = (Integer)pArg; 
@@ -385,22 +419,51 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				
 				DownloadJob job = (DownloadJob) pO;
 				
-				Integer index = mJobPosition.get(job);
-				
-				if(index == null) {
-					index = mRows.indexOf(job); //this is very expensive
-					
-					if(index > -1) {
-						addRowCache(job, index);
-					}
-				}
-				
-				if(index != null && index > -1) {
-					fireTableRowsUpdated(index, index);
+				synchronized (mChangedJobs) {
+					mChangedJobs.add(job);
 				}
 				
 			}
 			
+		}
+
+		private void updateTableModel(DownloadJob job) {
+			
+			Integer index = mJobPosition.get(job);
+			
+			if(index == null) {
+				index = mRows.indexOf(job); //this is very expensive
+				
+				if(index > -1) {
+					addRowCache(job, index);
+				}
+			}
+			
+			if(index != null && index > -1) {
+				fireTableRowsUpdated(index, index);
+			}
+			
+		}
+
+		public void run() {
+			
+			while(!mStop) {
+				
+				try {
+					Thread.sleep(JOB_PROGRESS_UPDATE_FREQUENCY);
+				} catch (InterruptedException e) {
+				}
+				
+				List<DownloadJob> changedJobs;
+				synchronized (mChangedJobs) {
+					changedJobs = new ArrayList<DownloadJob>(mChangedJobs);
+				}
+				
+				for (DownloadJob job : changedJobs) {
+					updateTableModel(job);
+				}
+				
+			}
 		}
 	}
 
