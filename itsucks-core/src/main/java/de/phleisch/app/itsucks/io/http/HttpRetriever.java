@@ -10,13 +10,12 @@ package de.phleisch.app.itsucks.io.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
-import de.phleisch.app.itsucks.io.AbstractDataProcessor;
+
 
 @Deprecated
 public class HttpRetriever extends AbstractDataRetriever {
@@ -74,10 +73,7 @@ public class HttpRetriever extends AbstractDataRetriever {
 		
 		InputStream input = mConnection.getInputStream(); 
 
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			processor.init();
-		}
+		mDataProcessorChain.init();
 		
 		//100k buffer
 		byte buffer[] = new byte[100000];
@@ -86,17 +82,10 @@ public class HttpRetriever extends AbstractDataRetriever {
 		while(input.available() > 0) {
 			bytesRead = input.read(buffer);
 			
-			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				AbstractDataProcessor processor = it.next();
-				processor.process(buffer, bytesRead);
-			}
+			mDataProcessorChain.process(buffer, bytesRead);
 		}
 		
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			
-			processor.finish();
-		}
+		mDataProcessorChain.finish();
 		
 	}
 	

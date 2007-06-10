@@ -8,31 +8,28 @@
 package de.phleisch.app.itsucks.io;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
+
+import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 
 public abstract class AbstractDataRetriever extends Observable implements DataRetriever {
 
-	protected List<AbstractDataProcessor> mDataProcessors = new ArrayList<AbstractDataProcessor>();
 	protected URL mUrl;
+	protected DataProcessorChain mDataProcessorChain;
 	
 	public AbstractDataRetriever() {
 		super();
 	}
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.IDataRetriever#addDataProcessor(de.phleisch.app.itsucks.io.DataProcessor)
-	 */
-	public void addDataProcessor(AbstractDataProcessor pDataProcessor) {
-		mDataProcessors.add(pDataProcessor);
-	}
-	
-	public List<AbstractDataProcessor> getDataProcessors() {
-		return new ArrayList<AbstractDataProcessor>(mDataProcessors);
+
+	public DataProcessorChain getDataProcessorChain() {
+		return mDataProcessorChain;
 	}
 
+	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
+		mDataProcessorChain = pDataProcessorChain;
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.IDataRetriever#getUrl()
 	 */

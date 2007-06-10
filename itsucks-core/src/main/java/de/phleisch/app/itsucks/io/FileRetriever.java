@@ -10,10 +10,10 @@ package de.phleisch.app.itsucks.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 
 public class FileRetriever extends AbstractDataRetriever {
 
@@ -71,10 +71,7 @@ public class FileRetriever extends AbstractDataRetriever {
 			mIn.skip(mByteOffset);
 		}
 		
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			processor.init();
-		}
+		mDataProcessorChain.init();
 		
 		//100k buffer
 		byte buffer[] = new byte[102400];
@@ -89,22 +86,14 @@ public class FileRetriever extends AbstractDataRetriever {
 				break;
 			}
 			
-			//run through the data processor list
-			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				AbstractDataProcessor processor = it.next();
-				processor.process(buffer, bytesRead);
-			}
+			mDataProcessorChain.process(buffer, bytesRead);
 
 			//update the progress
 			mBytesRead += bytesRead;
 			updateProgress(((float)mBytesRead / (float)mFileSize));
 		}
 		
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			
-			processor.finish();
-		}
+		mDataProcessorChain.finish();
 	}
 
 	private void updateProgress(float pProgress) {

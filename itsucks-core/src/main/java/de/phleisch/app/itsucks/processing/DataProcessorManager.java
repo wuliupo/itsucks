@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.processing;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,6 +14,8 @@ import java.util.List;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 public class DataProcessorManager implements ApplicationContextAware {
 
@@ -28,12 +30,12 @@ public class DataProcessorManager implements ApplicationContextAware {
 		mProcessors = new ArrayList<String>(pList);
 	}
 
-	public List<AbstractDataProcessor> getProcessorsForProtocol(String pProtocol, String pMimetype) {
-		ArrayList<AbstractDataProcessor> result = new ArrayList<AbstractDataProcessor>();
+	public List<DataProcessor> getProcessorsForProtocol(String pProtocol, String pMimetype) {
+		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
 		
 		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
 			String beanId = it.next();
-			result.add((AbstractDataProcessor) mContext.getBean(beanId));
+			result.add((DataProcessor) mContext.getBean(beanId));
 		}
 		return result;
 	}
@@ -42,13 +44,13 @@ public class DataProcessorManager implements ApplicationContextAware {
 		mContext = pContext;
 	}
 
-	public List<AbstractDataProcessor> getProcessorsForJob(DownloadJob pJob) {
+	private List<DataProcessor> getProcessorsForJob(DownloadJob pJob) {
 		
-		ArrayList<AbstractDataProcessor> result = new ArrayList<AbstractDataProcessor>();
+		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
 		
 		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
 			String beanId = it.next();
-			AbstractDataProcessor processor = (AbstractDataProcessor) mContext.getBean(beanId);
+			DataProcessor processor = (DataProcessor) mContext.getBean(beanId);
 			
 			if(processor.supports(pJob)) {
 				result.add(processor);
@@ -56,6 +58,15 @@ public class DataProcessorManager implements ApplicationContextAware {
 		}
 		
 		return result;
+	}
+
+	public DataProcessorChain getProcessorChainForJob(DownloadJob pJob) {
+		List<DataProcessor> processorsForJob = getProcessorsForJob(pJob);
+		
+		DataProcessorChain chain = new DataProcessorChain(processorsForJob);
+		chain.setJob(pJob);
+		
+		return chain;
 	}
 
 }

@@ -11,8 +11,6 @@ package de.phleisch.app.itsucks.io;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,6 +20,8 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.AbstractJob;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobParameter;
+import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.DataProcessorManager;
 
 
 /**
@@ -165,20 +165,16 @@ public class DownloadJob extends AbstractJob {
 		mDataRetriever.connect();
 		
 		//build the data processor chain
-		List<AbstractDataProcessor> dataProcessors =
-			mDataProcessorManager.getProcessorsForJob(this);
+		DataProcessorChain dataProcessorChain =
+			mDataProcessorManager.getProcessorChainForJob(this);
 		
-		//build data processor chain
-		for (Iterator<AbstractDataProcessor> it = dataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor dataProcessor = it.next();
-			
-			dataProcessor.setDataRetriever(mDataRetriever);
-			dataProcessor.setJobManager(mJobManager);
-			dataProcessor.setJob(this);
-			mDataRetriever.addDataProcessor(dataProcessor);
-		}
+		//set up processor chain
+		dataProcessorChain.setDataRetriever(mDataRetriever);
+		dataProcessorChain.setJobManager(mJobManager);
 		
-		if(dataProcessors.size() > 0 && mDataRetriever.isDataAvailable()) {
+		mDataRetriever.setDataProcessorChain(dataProcessorChain);
+		
+		if(dataProcessorChain.size() > 0 && mDataRetriever.isDataAvailable()) {
 			mDataRetriever.retrieve();
 		}
 		

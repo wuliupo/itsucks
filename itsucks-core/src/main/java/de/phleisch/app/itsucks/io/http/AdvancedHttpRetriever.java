@@ -9,7 +9,6 @@ package de.phleisch.app.itsucks.io.http;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -20,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
-import de.phleisch.app.itsucks.io.AbstractDataProcessor;
+
 
 
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
@@ -138,10 +137,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			return;
 		}
 		
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			processor.init();
-		}
+		mDataProcessorChain.init();
 		
 		//100k buffer
 		byte buffer[] = new byte[102400];
@@ -158,12 +154,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			}
 			
 			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
-			
-			//run through the data processor list
-			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				AbstractDataProcessor processor = it.next();
-				processor.process(buffer, bytesRead);
-			}
+
+			mDataProcessorChain.process(buffer, bytesRead);
+
 
 			//update the progress
 			mBytesDownloaded += bytesRead;
@@ -172,11 +165,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			}
 		}
 		
-		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			AbstractDataProcessor processor = it.next();
-			
-			processor.finish();
-		}
+		mDataProcessorChain.finish();
 		
 		//set progress to 100 % if content length was not available
 		if(completeContentLenght <= 0) {

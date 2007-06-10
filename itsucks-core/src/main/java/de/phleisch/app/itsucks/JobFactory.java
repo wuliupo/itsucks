@@ -12,9 +12,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import de.phleisch.app.itsucks.io.DataProcessorManager;
 import de.phleisch.app.itsucks.io.DataRetrieverManager;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.processing.DataProcessorManager;
 
 public class JobFactory implements ApplicationContextAware {
 

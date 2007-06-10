@@ -10,11 +10,12 @@ package de.phleisch.app.itsucks.io;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 public class FileResumeRetriever implements DataRetriever {
 
@@ -86,47 +87,38 @@ public class FileResumeRetriever implements DataRetriever {
 		mResumePrepared = true;
 		
 		//check the processor chain
-		List<AbstractDataProcessor> dataProcessors = mDataRetriever.getDataProcessors();
+		DataProcessorChain dataProcessorChain = mDataRetriever.getDataProcessorChain();
 		
-		boolean resumePossible = true;
-		for (AbstractDataProcessor processor : dataProcessors) {
-			
-			//this processor can't resume, abort
-			if(!processor.canResume()) {
-				resumePossible = false;
-				break;
-			}
-		}
-		
-		if(resumePossible) {
+		if(dataProcessorChain.canResume()) {
 			//ok, resume is possible, advise every processor to resume at the given position.
 			
-			for (AbstractDataProcessor processor : dataProcessors) {
-				processor.resumeAt(mResumeOffset);
-			}
+			dataProcessorChain.resumeAt(mResumeOffset);
+			
 			mReadFromFile = false;
 			
 		} else {
 			//resume is not possible, read the data from the disc and pipe it through the processors
 			
-			mFileRetriever = new FileRetriever(mLocalFile);
-			for (AbstractDataProcessor processor : dataProcessors) {
-				
-				//skip the persistence processor
-				if(processor instanceof PersistenceProcessor) {
-					processor.resumeAt(mResumeOffset);
-					continue;
-				}
-				
-				mFileRetriever.addDataProcessor(processor);
-			}
-			try {
-				mFileRetriever.connect();
-			} catch (Exception e) {
-				throw new RuntimeException("Error creating file retriever", e);
-			}
-			
-			mReadFromFile = true;
+			//FIXME: Implement resume 
+			throw new RuntimeException("Not implemented yet!");
+//			mFileRetriever = new FileRetriever(mLocalFile);
+//			for (AbstractDataProcessor processor : dataProcessors) {
+//				
+//				//skip the persistence processor
+//				if(processor instanceof PersistenceProcessor) {
+//					processor.resumeAt(mResumeOffset);
+//					continue;
+//				}
+//				
+//				mFileRetriever.addDataProcessor(processor);
+//			}
+//			try {
+//				mFileRetriever.connect();
+//			} catch (Exception e) {
+//				throw new RuntimeException("Error creating file retriever", e);
+//			}
+//			
+//			mReadFromFile = true;
 		}
 	}
 
@@ -203,22 +195,24 @@ public class FileResumeRetriever implements DataRetriever {
 			return mDataRetriever.isDataAvailable();
 		}
 	}
+	
+	public DataProcessorChain getDataProcessorChain() {
+		return mDataRetriever.getDataProcessorChain();
+	}
 
-	public void addDataProcessor(AbstractDataProcessor pDataProcessor) {
+	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
+
 		if(mResumePrepared) {
 			throw new RuntimeException("Resuming already prepared, " +
-					"adding data processors not allowed at this point.");
+					"changing the data processor chain not allowed at this point.");
 		}
 		
-		mDataRetriever.addDataProcessor(pDataProcessor);
+		mDataRetriever.setDataProcessorChain(pDataProcessorChain);
 		if(mFileRetriever != null) {
-			mFileRetriever.addDataProcessor(pDataProcessor);
+			mFileRetriever.setDataProcessorChain(pDataProcessorChain);
 		}
 	}
 	
-	public List<AbstractDataProcessor> getDataProcessors() {
-		return mDataRetriever.getDataProcessors();
-	}
 
 	public void addObserver(Observer pO) {
 		mDataRetriever.addObserver(pO);
@@ -245,5 +239,5 @@ public class FileResumeRetriever implements DataRetriever {
 	public int getResultCode() {
 		return mDataRetriever.getResultCode();
 	}
-	
+
 }

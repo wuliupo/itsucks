@@ -9,8 +9,9 @@
 package de.phleisch.app.itsucks.io;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Observer;
+
+import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 public interface DataRetriever {
 
@@ -46,9 +47,9 @@ public interface DataRetriever {
 	public final static Integer RESULT_RETRIEVAL_ABORTED = 12;
 
 	
-	public void addDataProcessor(AbstractDataProcessor pDataProcessor);
+	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain);
 
-	public List<AbstractDataProcessor> getDataProcessors();
+	public DataProcessorChain getDataProcessorChain();
 	
 	public URL getUrl();
 	public void setUrl(URL pUrl);

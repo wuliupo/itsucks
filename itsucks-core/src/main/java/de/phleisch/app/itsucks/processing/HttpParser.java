@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io.http;
+package de.phleisch.app.itsucks.processing;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,12 +27,13 @@ import org.springframework.context.ApplicationContextAware;
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobFactory;
-import de.phleisch.app.itsucks.io.DataParser;
+import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.Metadata;
+import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
 
-public class HttpParser extends DataParser implements ApplicationContextAware {
+public class HttpParser extends DataParser implements ApplicationContextAware, DataProcessor {
 	
 	private static final String REGEXP_PREFIX = "exp_"; 
 	
@@ -41,7 +42,7 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	
 	private ApplicationContext mContext;
 	private URI mBaseURI;
-	private StringBuilder mData;
+	//private StringBuilder mData;
 
 	private String mEncoding;
 	
@@ -69,11 +70,13 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	public void init() throws Exception {
 		super.init();
 		
-		mData = new StringBuilder();
 		initPatterns();
-		mBaseURI = mDataRetriever.getUrl().toURI();
 		
-		HttpMetadata metadata = (HttpMetadata)mDataRetriever.getMetadata();
+		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
+		
+		mBaseURI = dataRetriever.getUrl().toURI();
+		
+		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
 		//check if the encoding used in the html page is supported, if not, use the system encoding
 		String encoding = metadata.getEncoding();
@@ -116,11 +119,6 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 	public void finish() throws Exception {
 		super.finish();
 
-		URI[] uris = extractURLs(mData);
-		
-		addNewJobs(uris);
-		
-		mData = null;
 	}
 
 	private void addNewJobs(URI[] uris) {
@@ -136,17 +134,18 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 			}
 			
 			JobFactory jobFactory = (JobFactory) mContext.getBean("JobFactory");
+			DataProcessorChain processorChain = getProcessorChain();
 			
 			DownloadJob job = jobFactory.createDownloadJob();
 			
 			job.setUrl(url);
-			job.setParent((DownloadJob)this.getJob());
-			mJobManager.addJob(job);
+			
+			job.setParent((DownloadJob)processorChain.getJob());
+			processorChain.getJobManager().addJob(job);
 		}
 	}
 	
-	@Override
-	public void process(byte[] pBuffer, int pBytes) throws Exception {
+	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
 		
 		String convertedChunk;
 		if(mEncoding != null) {
@@ -155,8 +154,16 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 			convertedChunk = new String(pBuffer, 0, pBytes);
 		}
 		
-		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); //remove all line breaks
-		mData.append(convertedChunk);  
+		//remove all line breaks
+		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); 
+		
+		//extract the url's
+		URI[] uris = extractURLs(convertedChunk);
+		
+		//add the jobs to the job manager
+		addNewJobs(uris);
+		
+		return pBuffer;
 	}
 
 	protected Pattern[] loadPatterns(String propertyName) {
@@ -240,6 +247,10 @@ public class HttpParser extends DataParser implements ApplicationContextAware {
 
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
 		mContext = pContext;
+	}
+
+	public boolean needsDataAsWholeChunk() {
+		return true;
 	}
 
 

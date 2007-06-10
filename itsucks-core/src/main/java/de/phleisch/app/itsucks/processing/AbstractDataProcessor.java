@@ -5,16 +5,13 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.processing;
 
 import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.JobManager;
 
-public abstract class AbstractDataProcessor {
+public abstract class AbstractDataProcessor implements DataProcessor {
 
-	protected DataRetriever mDataRetriever;
-	protected Job mJob;
-	protected JobManager mJobManager;
+	protected DataProcessorChain mChain;
 
 	/**
 	 * Returns true if this processor supports the given type of job.
@@ -28,14 +25,6 @@ public abstract class AbstractDataProcessor {
 	 * @throws Exception
 	 */
 	public void init() throws Exception {}
-	
-	/**
-	 * Processes the given data chunk.
-	 * @param pBuffer
-	 * @param pBytes
-	 * @throws Exception
-	 */
-	public abstract void process(byte[] pBuffer, int pBytes) throws Exception;
 	
 	/**
 	 * Shutdown the data processor. (Release buffers, file handles etc.)
@@ -59,21 +48,18 @@ public abstract class AbstractDataProcessor {
 		throw new IllegalArgumentException();
 	}
 	
-	public void setDataRetriever(DataRetriever pDataRetriever) {
-		mDataRetriever = pDataRetriever;
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#setProcessorChain(de.phleisch.app.itsucks.processing.DataProcessorChain)
+	 */
+	public void setProcessorChain(DataProcessorChain pChain) {
+		mChain = pChain;
 	}
 	
-	public void setJobManager(JobManager pJobManager) {
-		mJobManager = pJobManager;
+	/**
+	 * @return
+	 */
+	public DataProcessorChain getProcessorChain() {
+		return mChain;
 	}
-
-	public Job getJob() {
-		return mJob;
-	}
-
-	public void setJob(Job pJob) {
-		mJob = pJob;
-	}
-
 	
 }

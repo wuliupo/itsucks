@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.processing;
 
 
 public abstract class DataParser extends AbstractDataProcessor {

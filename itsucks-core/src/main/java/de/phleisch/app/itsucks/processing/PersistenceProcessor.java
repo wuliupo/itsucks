@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.processing;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -18,9 +18,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.io.FileManager;
 
 
-public class PersistenceProcessor extends AbstractDataProcessor {
+public class PersistenceProcessor extends AbstractDataProcessor implements DataProcessor {
 
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
 	
@@ -47,13 +49,15 @@ public class PersistenceProcessor extends AbstractDataProcessor {
 	@Override
 	public void init() throws Exception {
 	
-		DownloadJob downloadJob = (DownloadJob) mJob;
+		DataProcessorChain processorChain = getProcessorChain();
+		
+		DownloadJob downloadJob = (DownloadJob) processorChain.getJob();
 		File target_path = downloadJob.getSavePath();
 		
 		
 		FileManager fileManager = new FileManager(target_path);
 		
-		URL url = mDataRetriever.getUrl();
+		URL url = processorChain.getDataRetriever().getUrl();
 		mFile = fileManager.buildSavePath(url);
 		
 		//create the folder
@@ -84,15 +88,19 @@ public class PersistenceProcessor extends AbstractDataProcessor {
 		mResumeAt = pByteOffset;
 	}
 
-	@Override
-	public void process(byte[] pBuffer, int pBytes) throws Exception {
+	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
 		mBufferedOut.write(pBuffer, 0, pBytes);
+		return pBuffer;
 	}
 
 	@Override
 	public void finish() throws Exception {
 		super.finish();
 		mBufferedOut.close();
+	}
+
+	public boolean needsDataAsWholeChunk() {
+		return false;
 	}
 
 
