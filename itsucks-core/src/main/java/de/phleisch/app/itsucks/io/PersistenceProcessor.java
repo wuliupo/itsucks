@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.Job;
 
 
-public class PersistenceProcessor extends DataProcessor {
+public class PersistenceProcessor extends AbstractDataProcessor {
 
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
 	

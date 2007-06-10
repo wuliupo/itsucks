@@ -86,10 +86,10 @@ public class FileResumeRetriever implements DataRetriever {
 		mResumePrepared = true;
 		
 		//check the processor chain
-		List<DataProcessor> dataProcessors = mDataRetriever.getDataProcessors();
+		List<AbstractDataProcessor> dataProcessors = mDataRetriever.getDataProcessors();
 		
 		boolean resumePossible = true;
-		for (DataProcessor processor : dataProcessors) {
+		for (AbstractDataProcessor processor : dataProcessors) {
 			
 			//this processor can't resume, abort
 			if(!processor.canResume()) {
@@ -101,7 +101,7 @@ public class FileResumeRetriever implements DataRetriever {
 		if(resumePossible) {
 			//ok, resume is possible, advise every processor to resume at the given position.
 			
-			for (DataProcessor processor : dataProcessors) {
+			for (AbstractDataProcessor processor : dataProcessors) {
 				processor.resumeAt(mResumeOffset);
 			}
 			mReadFromFile = false;
@@ -110,7 +110,7 @@ public class FileResumeRetriever implements DataRetriever {
 			//resume is not possible, read the data from the disc and pipe it through the processors
 			
 			mFileRetriever = new FileRetriever(mLocalFile);
-			for (DataProcessor processor : dataProcessors) {
+			for (AbstractDataProcessor processor : dataProcessors) {
 				
 				//skip the persistence processor
 				if(processor instanceof PersistenceProcessor) {
@@ -204,7 +204,7 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 
-	public void addDataProcessor(DataProcessor pDataProcessor) {
+	public void addDataProcessor(AbstractDataProcessor pDataProcessor) {
 		if(mResumePrepared) {
 			throw new RuntimeException("Resuming already prepared, " +
 					"adding data processors not allowed at this point.");
@@ -216,7 +216,7 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 	
-	public List<DataProcessor> getDataProcessors() {
+	public List<AbstractDataProcessor> getDataProcessors() {
 		return mDataRetriever.getDataProcessors();
 	}
 

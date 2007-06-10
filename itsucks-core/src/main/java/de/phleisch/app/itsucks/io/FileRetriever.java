@@ -71,8 +71,8 @@ public class FileRetriever extends AbstractDataRetriever {
 			mIn.skip(mByteOffset);
 		}
 		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			processor.init();
 		}
 		
@@ -90,8 +90,8 @@ public class FileRetriever extends AbstractDataRetriever {
 			}
 			
 			//run through the data processor list
-			for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				DataProcessor processor = it.next();
+			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+				AbstractDataProcessor processor = it.next();
 				processor.process(buffer, bytesRead);
 			}
 
@@ -100,8 +100,8 @@ public class FileRetriever extends AbstractDataRetriever {
 			updateProgress(((float)mBytesRead / (float)mFileSize));
 		}
 		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			
 			processor.finish();
 		}

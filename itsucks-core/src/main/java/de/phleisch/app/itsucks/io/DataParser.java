@@ -8,6 +8,6 @@
 package de.phleisch.app.itsucks.io;
 
 
-public abstract class DataParser extends DataProcessor {
+public abstract class DataParser extends AbstractDataProcessor {
 
 }

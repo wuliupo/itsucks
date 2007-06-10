@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
-import de.phleisch.app.itsucks.io.DataProcessor;
+import de.phleisch.app.itsucks.io.AbstractDataProcessor;
 
 
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
@@ -138,8 +138,8 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			return;
 		}
 		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			processor.init();
 		}
 		
@@ -160,8 +160,8 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
 			
 			//run through the data processor list
-			for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				DataProcessor processor = it.next();
+			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+				AbstractDataProcessor processor = it.next();
 				processor.process(buffer, bytesRead);
 			}
 
@@ -172,8 +172,8 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			}
 		}
 		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			
 			processor.finish();
 		}

@@ -15,7 +15,7 @@ import java.util.Observable;
 
 public abstract class AbstractDataRetriever extends Observable implements DataRetriever {
 
-	protected List<DataProcessor> mDataProcessors = new ArrayList<DataProcessor>();
+	protected List<AbstractDataProcessor> mDataProcessors = new ArrayList<AbstractDataProcessor>();
 	protected URL mUrl;
 	
 	public AbstractDataRetriever() {
@@ -25,12 +25,12 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.IDataRetriever#addDataProcessor(de.phleisch.app.itsucks.io.DataProcessor)
 	 */
-	public void addDataProcessor(DataProcessor pDataProcessor) {
+	public void addDataProcessor(AbstractDataProcessor pDataProcessor) {
 		mDataProcessors.add(pDataProcessor);
 	}
 	
-	public List<DataProcessor> getDataProcessors() {
-		return new ArrayList<DataProcessor>(mDataProcessors);
+	public List<AbstractDataProcessor> getDataProcessors() {
+		return new ArrayList<AbstractDataProcessor>(mDataProcessors);
 	}
 
 	/* (non-Javadoc)

@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
-import de.phleisch.app.itsucks.io.DataProcessor;
+import de.phleisch.app.itsucks.io.AbstractDataProcessor;
 
 @Deprecated
 public class HttpRetriever extends AbstractDataRetriever {
@@ -74,8 +74,8 @@ public class HttpRetriever extends AbstractDataRetriever {
 		
 		InputStream input = mConnection.getInputStream(); 
 
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			processor.init();
 		}
 		
@@ -86,14 +86,14 @@ public class HttpRetriever extends AbstractDataRetriever {
 		while(input.available() > 0) {
 			bytesRead = input.read(buffer);
 			
-			for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-				DataProcessor processor = it.next();
+			for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+				AbstractDataProcessor processor = it.next();
 				processor.process(buffer, bytesRead);
 			}
 		}
 		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
+		for (Iterator<AbstractDataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor processor = it.next();
 			
 			processor.finish();
 		}

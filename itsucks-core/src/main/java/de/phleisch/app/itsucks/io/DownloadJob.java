@@ -165,12 +165,12 @@ public class DownloadJob extends AbstractJob {
 		mDataRetriever.connect();
 		
 		//build the data processor chain
-		List<DataProcessor> dataProcessors =
+		List<AbstractDataProcessor> dataProcessors =
 			mDataProcessorManager.getProcessorsForJob(this);
 		
 		//build data processor chain
-		for (Iterator<DataProcessor> it = dataProcessors.iterator(); it.hasNext();) {
-			DataProcessor dataProcessor = it.next();
+		for (Iterator<AbstractDataProcessor> it = dataProcessors.iterator(); it.hasNext();) {
+			AbstractDataProcessor dataProcessor = it.next();
 			
 			dataProcessor.setDataRetriever(mDataRetriever);
 			dataProcessor.setJobManager(mJobManager);

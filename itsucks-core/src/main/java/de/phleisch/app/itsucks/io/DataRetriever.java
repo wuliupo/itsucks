@@ -46,9 +46,9 @@ public interface DataRetriever {
 	public final static Integer RESULT_RETRIEVAL_ABORTED = 12;
 
 	
-	public void addDataProcessor(DataProcessor pDataProcessor);
+	public void addDataProcessor(AbstractDataProcessor pDataProcessor);
 
-	public List<DataProcessor> getDataProcessors();
+	public List<AbstractDataProcessor> getDataProcessors();
 	
 	public URL getUrl();
 	public void setUrl(URL pUrl);

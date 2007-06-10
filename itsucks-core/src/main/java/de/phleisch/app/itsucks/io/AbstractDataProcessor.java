@@ -10,7 +10,7 @@ package de.phleisch.app.itsucks.io;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobManager;
 
-public abstract class DataProcessor {
+public abstract class AbstractDataProcessor {
 
 	protected DataRetriever mDataRetriever;
 	protected Job mJob;

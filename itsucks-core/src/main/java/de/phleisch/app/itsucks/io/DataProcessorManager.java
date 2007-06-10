@@ -28,12 +28,12 @@ public class DataProcessorManager implements ApplicationContextAware {
 		mProcessors = new ArrayList<String>(pList);
 	}
 
-	public List<DataProcessor> getProcessorsForProtocol(String pProtocol, String pMimetype) {
-		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
+	public List<AbstractDataProcessor> getProcessorsForProtocol(String pProtocol, String pMimetype) {
+		ArrayList<AbstractDataProcessor> result = new ArrayList<AbstractDataProcessor>();
 		
 		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
 			String beanId = it.next();
-			result.add((DataProcessor) mContext.getBean(beanId));
+			result.add((AbstractDataProcessor) mContext.getBean(beanId));
 		}
 		return result;
 	}
@@ -42,13 +42,13 @@ public class DataProcessorManager implements ApplicationContextAware {
 		mContext = pContext;
 	}
 
-	public List<DataProcessor> getProcessorsForJob(DownloadJob pJob) {
+	public List<AbstractDataProcessor> getProcessorsForJob(DownloadJob pJob) {
 		
-		ArrayList<DataProcessor> result = new ArrayList<DataProcessor>();
+		ArrayList<AbstractDataProcessor> result = new ArrayList<AbstractDataProcessor>();
 		
 		for (Iterator<String> it = mProcessors.iterator(); it.hasNext();) {
 			String beanId = it.next();
-			DataProcessor processor = (DataProcessor) mContext.getBean(beanId);
+			AbstractDataProcessor processor = (AbstractDataProcessor) mContext.getBean(beanId);
 			
 			if(processor.supports(pJob)) {
 				result.add(processor);
