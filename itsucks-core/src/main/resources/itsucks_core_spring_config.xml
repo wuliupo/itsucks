@@ -64,7 +64,7 @@
 	
 	<bean 
 		id="DataProcessorManager" 
-		class="de.phleisch.app.itsucks.io.DataProcessorManager" 
+		class="de.phleisch.app.itsucks.processing.DataProcessorManager" 
 		singleton="true">
 		
 		<property name="processors">
@@ -78,13 +78,13 @@
 	
 	<bean 
 		id="PersistenceProcessor" 
-		class="de.phleisch.app.itsucks.io.PersistenceProcessor" 
+		class="de.phleisch.app.itsucks.processing.PersistenceProcessor" 
 		singleton="false">
 	</bean>
 	
 	<bean 
 		id="HttpParser" 
-		class="de.phleisch.app.itsucks.io.http.HttpParser" 
+		class="de.phleisch.app.itsucks.processing.HttpParser" 
 		singleton="false">
 		
 	</bean>
