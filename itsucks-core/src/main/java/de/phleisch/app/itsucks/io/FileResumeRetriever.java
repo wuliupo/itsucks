@@ -10,12 +10,16 @@ package de.phleisch.app.itsucks.io;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.PersistenceProcessor;
+import de.phleisch.app.itsucks.processing.SeekDataProcessorWrapper;
 
 public class FileResumeRetriever implements DataRetriever {
 
@@ -99,26 +103,32 @@ public class FileResumeRetriever implements DataRetriever {
 		} else {
 			//resume is not possible, read the data from the disc and pipe it through the processors
 			
-			//FIXME: Implement resume 
-			throw new RuntimeException("Not implemented yet!");
-//			mFileRetriever = new FileRetriever(mLocalFile);
-//			for (AbstractDataProcessor processor : dataProcessors) {
-//				
-//				//skip the persistence processor
-//				if(processor instanceof PersistenceProcessor) {
-//					processor.resumeAt(mResumeOffset);
-//					continue;
-//				}
-//				
-//				mFileRetriever.addDataProcessor(processor);
-//			}
-//			try {
-//				mFileRetriever.connect();
-//			} catch (Exception e) {
-//				throw new RuntimeException("Error creating file retriever", e);
-//			}
-//			
-//			mReadFromFile = true;
+			mFileRetriever = new FileRetriever(mLocalFile);
+			
+			List<DataProcessor> dataProcessors = dataProcessorChain.getDataProcessors();
+			
+			for (DataProcessor processor : dataProcessors) {
+				
+				//skip the persistence processor
+				if(processor instanceof PersistenceProcessor) {
+					
+					processor.resumeAt(mResumeOffset);
+					dataProcessorChain.replaceDataProcessor(processor, 
+							new SeekDataProcessorWrapper(processor, mResumeOffset));
+					
+					continue;
+				}
+			}
+			
+			mFileRetriever.setDataProcessorChain(dataProcessorChain);
+			
+			try {
+				mFileRetriever.connect();
+			} catch (Exception e) {
+				throw new RuntimeException("Error creating file retriever", e);
+			}
+			
+			mReadFromFile = true;
 		}
 	}
 

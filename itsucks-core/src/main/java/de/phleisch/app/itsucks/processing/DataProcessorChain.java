@@ -29,6 +29,8 @@ public class DataProcessorChain {
 	
 	private byte[] mBufferedData = null;
 	
+	private long mProcessedBytes;
+	
 	public DataProcessorChain() {
 		
 	}
@@ -50,14 +52,73 @@ public class DataProcessorChain {
 			throw new IllegalStateException("Chain is already initialized.");
 		}
 		
-		pDataProcessor.setProcessorChain(this);
-		
 		mDataProcessors.add(pDataProcessor);
+		pDataProcessor.setProcessorChain(this);
+	}
+	
+	public void replaceDataProcessor(DataProcessor pOldDataProcessor, DataProcessor pNewDataProcessor) {
+		
+		if(mInitialized) {
+			throw new IllegalStateException("Chain is already initialized.");
+		}
+		
+		int index = mDataProcessors.indexOf(pOldDataProcessor);
+		if(index < 0) {
+			throw new IllegalArgumentException("DataProcessor to be replaced is not existing.");
+		}
+		mDataProcessors.set(index, pNewDataProcessor);
+		pNewDataProcessor.setProcessorChain(this);
 	}
 	
 	public List<DataProcessor> getDataProcessors() {
 		return new ArrayList<DataProcessor>(mDataProcessors);
 	}
+	
+
+	public void init() throws Exception {
+		
+		if(mInitialized) return;
+		
+		mProcessedBytes = 0;
+		
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			DataProcessor processor = it.next();
+			processor.init();
+		}
+
+		//check if any processor needs the data as whole chunk
+		mStreamingEnabled = true;
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			DataProcessor processor = it.next();
+			
+			//when this processor needs the data as whole chung, disable streaming
+			if(processor.needsDataAsWholeChunk()) {
+				mStreamingEnabled = false;
+				break;
+			}
+		}
+		
+		mInitialized = true;
+	}
+
+	public void finish() throws Exception {
+		
+		if(!mInitialized) return;
+		
+		if(!mStreamingEnabled && mBufferedData != null) {
+			dispatchChunk(mBufferedData, mBufferedData.length);
+			mBufferedData = null;
+		}
+		
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			DataProcessor processor = it.next();
+			
+			processor.finish();
+		}
+		
+		mInitialized = false;
+	}
+	
 	
 	/**
 	 * Processes the given data chunk.
@@ -76,14 +137,19 @@ public class DataProcessorChain {
 		} else {
 			appendChunk(pBuffer, pBytes);
 		}
+		
+		mProcessedBytes += pBytes;
+		
 	}
 
 	private void dispatchChunk(byte[] pBuffer, int pBytes) throws Exception {
 		
+		byte[] data = pBuffer;
+		
 		//run through the data processor list
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 			DataProcessor processor = it.next();
-			processor.process(pBuffer, pBytes);
+			data = processor.process(data, pBytes);
 		}
 		
 	}
@@ -125,48 +191,6 @@ public class DataProcessorChain {
 		}
 	}
 
-	public void init() throws Exception {
-		
-		if(mInitialized) return;
-		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
-			processor.init();
-		}
-
-		//check if any processor needs the data as whole chunk
-		mStreamingEnabled = true;
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
-			
-			//when this processor needs the data as whole chung, disable streaming
-			if(processor.needsDataAsWholeChunk()) {
-				mStreamingEnabled = false;
-				break;
-			}
-		}
-		
-		mInitialized = true;
-	}
-
-	public void finish() throws Exception {
-		
-		if(!mInitialized) return;
-		
-		if(!mStreamingEnabled) {
-			dispatchChunk(mBufferedData, mBufferedData.length);
-			mBufferedData = null;
-		}
-		
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
-			
-			processor.finish();
-		}
-		
-		mInitialized = false;
-	}
-	
 
 	public void setDataRetriever(DataRetriever pDataRetriever) {
 		mDataRetriever = pDataRetriever;
@@ -194,6 +218,10 @@ public class DataProcessorChain {
 
 	public int size() {
 		return mDataProcessors.size();
+	}
+
+	public long getProcessedBytes() {
+		return mProcessedBytes;
 	}
 	
 }
