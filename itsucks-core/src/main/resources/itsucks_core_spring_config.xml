@@ -69,8 +69,9 @@
 		
 		<property name="processors">
 			<list>
+				<idref bean="HttpRedirectorProcessor"/>
+				<idref bean="HtmlParser"/>
 				<idref bean="PersistenceProcessor"/>
-				<idref bean="HttpParser"/>
 			</list>
 		</property>
 		
@@ -83,8 +84,15 @@
 	</bean>
 	
 	<bean 
-		id="HttpParser" 
-		class="de.phleisch.app.itsucks.processing.HttpParser" 
+		id="HtmlParser" 
+		class="de.phleisch.app.itsucks.processing.HtmlParser" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="HttpRedirectorProcessor" 
+		class="de.phleisch.app.itsucks.processing.HttpRedirectorProcessor" 
 		singleton="false">
 		
 	</bean>

@@ -9,6 +9,7 @@ package de.phleisch.app.itsucks.processing;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,8 +28,8 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
 	
 	private File mFile;
-	private FileOutputStream mFileOut;
-	private OutputStream mBufferedOut;
+	private FileOutputStream mFileOut = null;
+	private OutputStream mBufferedOut = null;
 	
 	private long mResumeAt;
 	
@@ -59,6 +60,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		
 		URL url = processorChain.getDataRetriever().getUrl();
 		mFile = fileManager.buildSavePath(url);
+	}
+
+	private void prepareOutputStream() throws IOException, FileNotFoundException {
 		
 		//create the folder
 		File folder = mFile.getParentFile();
@@ -89,6 +93,11 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	}
 
 	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
+		
+		if(mBufferedOut == null) {
+			prepareOutputStream();
+		}
+		
 		mBufferedOut.write(pBuffer, 0, pBytes);
 		return pBuffer;
 	}
@@ -96,7 +105,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	@Override
 	public void finish() throws Exception {
 		super.finish();
-		mBufferedOut.close();
+		if(mBufferedOut != null) {
+			mBufferedOut.close();
+		}
 	}
 
 	public boolean needsDataAsWholeChunk() {

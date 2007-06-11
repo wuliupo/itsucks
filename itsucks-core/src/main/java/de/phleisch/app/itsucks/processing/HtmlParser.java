@@ -33,11 +33,11 @@ import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
 
-public class HttpParser extends DataParser implements ApplicationContextAware, DataProcessor {
+public class HtmlParser extends DataParser implements ApplicationContextAware, DataProcessor {
 	
 	private static final String REGEXP_PREFIX = "exp_"; 
 	
-	private static Log mLog = LogFactory.getLog(HttpParser.class);
+	private static Log mLog = LogFactory.getLog(HtmlParser.class);
 	private static Pattern[] mPatterns = null;
 	
 	private ApplicationContext mContext;
@@ -46,7 +46,7 @@ public class HttpParser extends DataParser implements ApplicationContextAware, D
 
 	private String mEncoding;
 	
-	public HttpParser() {
+	public HtmlParser() {
 		super();
 	}
 	
@@ -91,28 +91,6 @@ public class HttpParser extends DataParser implements ApplicationContextAware, D
 			mEncoding = null;
 		}
 		
-		
-		//get URL's from header
-		String[] location = metadata.getHeaderField("Location");
-		
-		HashSet<URI> urlList = new HashSet<URI>();
-		
-		if(location != null && location.length > 0) {
-			for (int i = 0; i < location.length; i++) {
-				URI uri = null;
-				try {
-					uri = mBaseURI.resolve(location[i]);
-				} catch(Exception ex) {
-					mLog.warn(ex);
-				}
-				if(uri != null) {
-					//mLog.debug("Add uri: " + uri);
-					urlList.add(uri);
-				}
-			}
-			
-			addNewJobs(urlList.toArray(new URI[urlList.size()]));
-		}
 	}
 	
 	@Override
@@ -139,7 +117,6 @@ public class HttpParser extends DataParser implements ApplicationContextAware, D
 			DownloadJob job = jobFactory.createDownloadJob();
 			
 			job.setUrl(url);
-			
 			job.setParent((DownloadJob)processorChain.getJob());
 			processorChain.getJobManager().addJob(job);
 		}

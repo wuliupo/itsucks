@@ -65,18 +65,18 @@ public class HttpMetadata extends Metadata {
 		return mConnection.getResponseCharSet();
 	}
 	
-	public String[] getHeaderField(String pName) {
+	public String[] getResponseHeaderField(String pName) {
 		List<String> fields = new ArrayList<String>();
 		
 		HeaderElement[] values = new HeaderElement[0];
 		
-		Header requestHeader = mConnection.getRequestHeader(pName);
+		Header requestHeader = mConnection.getResponseHeader(pName);
 		if(requestHeader != null) {
 			values = requestHeader.getElements();
 		}
 
 		for (int i = 0; i < values.length; i++) {
-			fields.add(values[i].getValue());
+			fields.add(values[i].getName());
 		}
 		
 		return (String[]) fields.toArray(new String[fields.size()]);

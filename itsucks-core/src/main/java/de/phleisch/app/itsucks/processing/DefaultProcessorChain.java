@@ -54,9 +54,9 @@ public class DefaultProcessorChain implements DataProcessorChain {
 	 */
 	public void addDataProcessor(DataProcessor pDataProcessor) {
 		
-		if(mInitialized) {
-			throw new IllegalStateException("Chain is already initialized.");
-		}
+//		if(mInitialized) {
+//			throw new IllegalStateException("Chain is already initialized.");
+//		}
 		
 		mDataProcessors.add(pDataProcessor);
 		pDataProcessor.setProcessorChain(this);
@@ -67,9 +67,9 @@ public class DefaultProcessorChain implements DataProcessorChain {
 	 */
 	public void replaceDataProcessor(DataProcessor pOldDataProcessor, DataProcessor pNewDataProcessor) {
 		
-		if(mInitialized) {
-			throw new IllegalStateException("Chain is already initialized.");
-		}
+//		if(mInitialized) {
+//			throw new IllegalStateException("Chain is already initialized.");
+//		}
 		
 		int index = mDataProcessors.indexOf(pOldDataProcessor);
 		if(index < 0) {
