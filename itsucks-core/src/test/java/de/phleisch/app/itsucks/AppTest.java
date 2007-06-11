@@ -28,10 +28,8 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  */
 public class AppTest extends TestCase {
 	
-	
-	//private String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
+	private String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
 	//private String SERVER_BASE_URL =  "http://localhost/~olli/itsucks-website";
-	private String SERVER_BASE_URL =  "http://localhost/~olli";
 	
 	/**
 	 * Create the test case
