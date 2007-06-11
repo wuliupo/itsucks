@@ -137,8 +137,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			return;
 		}
 		
-		mDataProcessorChain.init();
-		
 		//100k buffer
 		byte buffer[] = new byte[102400];
 		
@@ -164,8 +162,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 				updateProgress(((float)mBytesDownloaded / (float)completeContentLenght));
 			}
 		}
-		
-		mDataProcessorChain.finish();
 		
 		//set progress to 100 % if content length was not available
 		if(completeContentLenght <= 0) {

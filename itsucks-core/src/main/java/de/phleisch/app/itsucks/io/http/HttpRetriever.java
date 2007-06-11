@@ -73,8 +73,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 		
 		InputStream input = mConnection.getInputStream(); 
 
-		mDataProcessorChain.init();
-		
 		//100k buffer
 		byte buffer[] = new byte[100000];
 		int bytesRead;
@@ -84,8 +82,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 			
 			mDataProcessorChain.process(buffer, bytesRead);
 		}
-		
-		mDataProcessorChain.finish();
 		
 	}
 	
