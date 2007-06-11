@@ -53,19 +53,15 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 			byte[] slice = new byte[pBytes - offset];
 			System.arraycopy(pBuffer, offset, slice, 0, slice.length);
 			
-			byte[] result = mDataProcessor.process(slice, pBytes);
+			byte[] result = mDataProcessor.process(slice, slice.length);
 			
-			if(slice != result) {
-				//something was changed, copy the result back
-				byte mergedResult[] = new byte[offset + slice.length];
-				
-				System.arraycopy(pBuffer, 0, mergedResult, 0, offset);
-				System.arraycopy(result, 0, mergedResult, offset, result.length);
-				
-				result = mergedResult;
-			}
+			//copy the result back
+			byte mergedResult[] = new byte[offset + slice.length];
 			
-			return result;
+			System.arraycopy(pBuffer, 0, mergedResult, 0, offset);
+			System.arraycopy(result, 0, mergedResult, offset, result.length);
+			
+			return mergedResult;
 			
 		} else {
 			

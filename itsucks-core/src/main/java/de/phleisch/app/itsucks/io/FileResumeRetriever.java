@@ -156,7 +156,9 @@ public class FileResumeRetriever implements DataRetriever {
 			mFileFinished = true;
 		}
 		
-		mDataRetriever.retrieve();
+		if(mDataRetriever.isDataAvailable()) {
+			mDataRetriever.retrieve();
+		}
 	}
 	
 	public void disconnect() throws Exception {

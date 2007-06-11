@@ -71,8 +71,6 @@ public class FileRetriever extends AbstractDataRetriever {
 			mIn.skip(mByteOffset);
 		}
 		
-		mDataProcessorChain.init();
-		
 		//100k buffer
 		byte buffer[] = new byte[102400];
 		
@@ -93,7 +91,6 @@ public class FileRetriever extends AbstractDataRetriever {
 			updateProgress(((float)mBytesRead / (float)mFileSize));
 		}
 		
-		mDataProcessorChain.finish();
 	}
 
 	private void updateProgress(float pProgress) {

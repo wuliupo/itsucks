@@ -175,7 +175,12 @@ public class DownloadJob extends AbstractJob {
 		mDataRetriever.setDataProcessorChain(dataProcessorChain);
 		
 		if(dataProcessorChain.size() > 0 && mDataRetriever.isDataAvailable()) {
+			
+			dataProcessorChain.init();
+			
 			mDataRetriever.retrieve();
+			
+			dataProcessorChain.finish();
 		}
 		
 		mDataRetriever.disconnect();
