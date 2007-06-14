@@ -11,39 +11,62 @@ package de.phleisch.app.itsucks.event;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * An simple event filter which can filter by category and type.
+ * Per default every event is accepted.
+ * 
+ * @author olli
+ *
+ */
 public class DefaultEventFilter implements EventFilter {
 
-	private TreeSet<Integer> mEventFilter = null;
+	private TreeSet<Integer> mEventType = null;
 	private TreeSet<Integer> mCategoryFilter = null;
 
-	public void addAllowedEvent(int pAllowedEvent) {
-		if(mEventFilter == null) {
-			mEventFilter = new TreeSet<Integer>();
+	/**
+	 * Adds an allowed event type.
+	 * @param pAllowedType
+	 */
+	public void addAllowedType(int pAllowedType) {
+		if(mEventType == null) {
+			mEventType = new TreeSet<Integer>();
 		}
-		mEventFilter.add(pAllowedEvent);
+		mEventType.add(pAllowedType);
 	}
 	
-	public void removeAllowedEvent(int pAllowedEvent) {
-		if(mEventFilter == null) return;
-		mEventFilter.remove(pAllowedEvent);
+	/**
+	 * Removes an allowed type.
+	 * @param pAllowedType
+	 */
+	public void removeAllowedType(int pAllowedType) {
+		if(mEventType == null) return;
+		mEventType.remove(pAllowedType);
 		
-		if(mEventFilter.size() == 0) {
-			mEventFilter = null;
+		if(mEventType.size() == 0) {
+			mEventType = null;
 		}
 	}
 	
-	public void setAllowedEvents(Set<Integer> pAllowedEvents) {
-		if(mEventFilter == null) {
-			mEventFilter = new TreeSet<Integer>();
+	/**
+	 * Adds an list of allowed types
+	 * @param pAllowedTypes
+	 */
+	public void setAllowedTypes(Set<Integer> pAllowedTypes) {
+		if(mEventType == null) {
+			mEventType = new TreeSet<Integer>();
 		}
-		mEventFilter.addAll(pAllowedEvents);
+		mEventType.addAll(pAllowedTypes);
 		
-		if(mEventFilter.size() == 0) {
-			mEventFilter = null;
+		if(mEventType.size() == 0) {
+			mEventType = null;
 		}
 	}
 
 
+	/**
+	 * Adds an allowed category.
+	 * @param pAllowedCategory
+	 */
 	public void addAllowedCategory(int pAllowedCategory) {
 		if(mCategoryFilter == null) {
 			mCategoryFilter = new TreeSet<Integer>();
@@ -51,6 +74,10 @@ public class DefaultEventFilter implements EventFilter {
 		mCategoryFilter.add(pAllowedCategory);
 	}
 	
+	/**
+	 * Removes an allowed category.
+	 * @param pAllowedCategory
+	 */
 	public void removeAllowedCategory(int pAllowedCategory) {
 		if(mCategoryFilter == null) return;
 		mCategoryFilter.remove(pAllowedCategory);
@@ -60,6 +87,10 @@ public class DefaultEventFilter implements EventFilter {
 		}
 	}
 	
+	/**
+	 * Sets an list of allowed categories.
+	 * @param pAllowedCategories
+	 */
 	public void setAllowedCategory(Set<Integer> pAllowedCategories) {
 		if(mCategoryFilter == null) {
 			mCategoryFilter = new TreeSet<Integer>();
@@ -71,6 +102,9 @@ public class DefaultEventFilter implements EventFilter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.event.EventFilter#isEventAccepted(de.phleisch.app.itsucks.event.Event)
+	 */
 	public boolean isEventAccepted(Event pEvent) {
 		
 		boolean accepted = true;
@@ -78,8 +112,8 @@ public class DefaultEventFilter implements EventFilter {
 		if(mCategoryFilter != null) {
 			accepted = mCategoryFilter.contains(pEvent.getCategory());
 		}
-		if(accepted && mEventFilter != null) {
-			accepted = mEventFilter.contains(pEvent.getType());
+		if(accepted && mEventType != null) {
+			accepted = mEventType.contains(pEvent.getType());
 		}
 		
 		return accepted;

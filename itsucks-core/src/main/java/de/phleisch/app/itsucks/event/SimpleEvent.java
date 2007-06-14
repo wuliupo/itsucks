@@ -8,11 +8,22 @@
 
 package de.phleisch.app.itsucks.event;
 
+/**
+ * An implementation of the <code>Event</code> interface.
+ * 
+ * @author olli
+ *
+ */
 public class SimpleEvent implements Event {
 
 	private int mCategory;
 	private int mType;
 	
+	/**
+	 * This constructor copies type and category from the given event.
+	 * 
+	 * @param pEvent
+	 */
 	public SimpleEvent(Event pEvent) {
 		mCategory = pEvent.getCategory();
 		mType = pEvent.getType();
@@ -23,14 +34,23 @@ public class SimpleEvent implements Event {
 		mType = pType;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.event.Event#getCategory()
+	 */
 	public int getCategory() {
 		return mCategory;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.event.Event#getType()
+	 */
 	public int getType() {
 		return mType;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Event: " + this.getClass().getName() 
 			+ " / Type: " + getType() + " / Category: " + getCategory(); 

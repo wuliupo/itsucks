@@ -10,6 +10,12 @@ package de.phleisch.app.itsucks.event;
 
 import de.phleisch.app.itsucks.Job;
 
+/**
+ * Implementation of an Event fired by jobs.
+ * 
+ * @author olli
+ *
+ */
 public class JobEvent extends SimpleEvent {
 
 	private Job mJob;
@@ -26,6 +32,10 @@ public class JobEvent extends SimpleEvent {
 		mJob = pJob;
 	}
 
+	/**
+	 * Returns the job associated to this event.
+	 * @return
+	 */
 	public Job getJob() {
 		return mJob;
 	}

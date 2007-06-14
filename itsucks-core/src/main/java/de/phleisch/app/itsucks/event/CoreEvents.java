@@ -8,6 +8,12 @@
 
 package de.phleisch.app.itsucks.event;
 
+/**
+ * This class provides a list of available core events.
+ * 
+ * @author olli
+ *
+ */
 public class CoreEvents {
 
 	public static class ConstEvent implements Event {
@@ -54,36 +60,64 @@ public class CoreEvents {
 	public final static int EVENT_CATEGORY_JOB 			= 400;
 	
 	
+	/**
+	 * System command to start the event dispatcher. 
+	 */
 	public final static ConstEvent 
-		EVENT_MANAGER_CMD_START = new ConstEvent(1001, EVENT_CATEGORY_SYSTEM_CMD);
+		EVENT_EVENTDISPATCHER_CMD_START = new ConstEvent(1001, EVENT_CATEGORY_SYSTEM_CMD);
 	
+	/**
+	 * System command to stop the event dispatcher. 
+	 */
 	public final static ConstEvent 
-		EVENT_MANAGER_CMD_STOP = new ConstEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
+		EVENT_EVENTDISPATCHER_CMD_STOP = new ConstEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
 	
 	
+	/**
+	 * This event is fired when the job dispatcher started
+	 */
 	public final static ConstEvent 
 		EVENT_DISPATCHER_START = new ConstEvent(2001, EVENT_CATEGORY_CORE);
 
+	/**
+	 * This event is fired when the job dispatcher paused
+	 */	
 	public final static ConstEvent 
 		EVENT_DISPATCHER_PAUSE = new ConstEvent(2002, EVENT_CATEGORY_CORE);
 
+	/**
+	 * This event is fired when the job dispatcher unpaused
+	 */	
 	public final static ConstEvent 
 		EVENT_DISPATCHER_UNPAUSE = new ConstEvent(2003, EVENT_CATEGORY_CORE);
 
+	/**
+	 * This event is fired when the job dispatcher stopped/finished
+	 */
 	public final static ConstEvent 
 		EVENT_DISPATCHER_FINISH = new ConstEvent(2004, EVENT_CATEGORY_CORE);
 
-	
+	/**
+	 * This event is fired when a new job is added to the JobManager
+	 */
 	public final static ConstEvent 
 		EVENT_JOBMANAGER_JOB_ADDED = new ConstEvent(3001, EVENT_CATEGORY_JOBMANAGER);
 	
+	/**
+	 * This event is fired when a new job was filtered by the JobManager
+	 */	
 	public final static ConstEvent 
 		EVENT_JOBMANAGER_JOB_FILTERED = new ConstEvent(3002, EVENT_CATEGORY_JOBMANAGER);
 
+	/**
+	 * This event is fired when a job was removed from the JobManager
+	 */
 	public final static ConstEvent 
 		EVENT_JOBMANAGER_JOB_REMOVED = new ConstEvent(3003, EVENT_CATEGORY_JOBMANAGER);
 	
-	
+	/**
+	 * This event is fired when a job has changed (status, priority etc.)
+	 */
 	public final static ConstEvent 
 		EVENT_JOB_CHANGED = new ConstEvent(4002, EVENT_CATEGORY_JOB);
 	

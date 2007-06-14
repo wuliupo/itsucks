@@ -18,9 +18,21 @@ import java.util.concurrent.LinkedBlockingDeque;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class EventManager {
+/**
+ * The event dispatcher dispatches fired events to all registered observers. 
+ * Check the <code>CoreEvents</code> class for a list of possible events fired
+ * by the framework.
+ * 
+ * The EventDispatcher is started and stopped by command events.
+ * These events are not dispatched to the observers and can be found in the <code>CoreEvents</code> 
+ * class. 
+ * 
+ * @author olli
+ *
+ */
+public class EventDispatcher {
 
-	private static Log mLog = LogFactory.getLog(EventManager.class);
+	private static Log mLog = LogFactory.getLog(EventDispatcher.class);
 	
 	private boolean initialized = false;
 	
@@ -30,20 +42,28 @@ public class EventManager {
 	private Set<EventObserverConfig> mRegisteredObserver =
 		new HashSet<EventObserverConfig>();
 	
-	private EventManagerThread mEventThread;
-	private static int mEventManagerThreadCounter = 0;
+	private EventDispatcherThread mEventThread;
+	private static int mEventDispatcherThreadCounter = 0;
 	
-	public EventManager() {
+	public EventDispatcher() {
 	}
 	
+	/**
+	 * Initializes the Event dispatcher and starts the dispatch thread
+	 * This method is also called when an <code>EVENT_EVENTDISPATCHER_CMD_START</code> was fired.
+	 */
 	public synchronized void init() {
 		if(initialized) return;
 		
-		mEventThread = new EventManagerThread();
+		mEventThread = new EventDispatcherThread();
 		mEventThread.start();
 		initialized = true;
 	}
 	
+	/**
+	 * Initializes the Event dispatcher.
+	 * This method is also called when an <code>EVENT_EVENTDISPATCHER_CMD_STOP</code> was fired.
+	 */
 	public synchronized void shutdown() {
 		if(!initialized) return;
 		
@@ -52,6 +72,10 @@ public class EventManager {
 		initialized = false;
 	}
 	
+	/**
+	 * Fires an event and dispatches it to all registered observers.
+	 * @param pEvent
+	 */
 	public void fireEvent(final Event pEvent) {
 		mLog.debug("Got event: " + pEvent);
 		
@@ -66,17 +90,26 @@ public class EventManager {
 	}
 
 	private void handleSystemCmd(final Event pEvent) {
-		if(pEvent.getType() == CoreEvents.EVENT_MANAGER_CMD_START.getType()) {
+		if(pEvent.getType() == CoreEvents.EVENT_EVENTDISPATCHER_CMD_START.getType()) {
 			init();
-		} else if(pEvent.getType() == CoreEvents.EVENT_MANAGER_CMD_STOP.getType()) {
+		} else if(pEvent.getType() == CoreEvents.EVENT_EVENTDISPATCHER_CMD_STOP.getType()) {
 			shutdown();
 		}
 	}
 
+	/**
+	 * Registers an new observer. All events are dispatched to this observers.
+	 * @param pObserver
+	 */
 	public void registerObserver(EventObserver pObserver) {
 		registerObserver(pObserver, null);
 	}
 
+	/**
+	 * Registers an new observer. All events are filtered by the given event filter.
+	 * @param pObserver
+	 * @param pFilter
+	 */
 	public void registerObserver(EventObserver pObserver, EventFilter pFilter) {
 		
 		synchronized (mRegisteredObserver) {
@@ -84,6 +117,10 @@ public class EventManager {
 		}
 	}
 	
+	/**
+	 * Unregisters the given observer.
+	 * @param pObserver
+	 */
 	public void unregisterObserver(EventObserver pObserver) {
 		
 		synchronized (mRegisteredObserver) {
@@ -115,14 +152,14 @@ public class EventManager {
 		}
 	}
 	
-	private class EventManagerThread extends Thread {
+	private class EventDispatcherThread extends Thread {
 
 		private boolean mStop;
 		private List<EventObserverConfig> mLocalObserverCopy;
 		
-		public EventManagerThread() {
+		public EventDispatcherThread() {
 			setDaemon(true);
-			setName("EventManagerThread-" + ++mEventManagerThreadCounter);
+			setName("EventManagerThread-" + ++mEventDispatcherThreadCounter);
 		}
 		
 		@Override

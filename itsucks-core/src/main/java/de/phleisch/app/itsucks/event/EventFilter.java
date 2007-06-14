@@ -8,8 +8,21 @@
 
 package de.phleisch.app.itsucks.event;
 
+/**
+ * This is the interface of an EventFilter.
+ * An EventFilter can be used to filter events which are dispatched to your observer.
+ * 
+ * @author olli
+ *
+ */
 public interface EventFilter {
 
+	/**
+	 * Checks if the given event is accepted to be dispatched.
+	 * 
+	 * @param pEvent
+	 * @return
+	 */
 	boolean isEventAccepted(Event pEvent);
 
 }

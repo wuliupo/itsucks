@@ -18,7 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
-import de.phleisch.app.itsucks.event.EventManager;
+import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
 /**
@@ -36,7 +36,7 @@ public class Dispatcher implements ApplicationContextAware {
 	
 	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
-	private EventManager mEventManager;
+	private EventDispatcher mEventManager;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -67,7 +67,7 @@ public class Dispatcher implements ApplicationContextAware {
 		}
 		
 		mLog.info("Start processing jobs");
-		mEventManager.fireEvent(CoreEvents.EVENT_MANAGER_CMD_START);
+		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_START);
 		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_START);
 		
 		startup();
@@ -112,7 +112,7 @@ public class Dispatcher implements ApplicationContextAware {
 		
 		mLog.info("Finished processing jobs");
 		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_FINISH);
-		mEventManager.fireEvent(CoreEvents.EVENT_MANAGER_CMD_STOP);
+		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_STOP);
 	}
 
 	private void doPauseLoop() throws InterruptedException {
@@ -189,7 +189,7 @@ public class Dispatcher implements ApplicationContextAware {
 		mContext = pContext;
 	}
 
-	public EventManager getEventManager() {
+	public EventDispatcher getEventManager() {
 		return mEventManager;
 	}
 	

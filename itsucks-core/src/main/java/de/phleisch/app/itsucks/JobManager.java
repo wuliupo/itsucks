@@ -15,7 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
-import de.phleisch.app.itsucks.event.EventManager;
+import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
@@ -34,7 +34,7 @@ public class JobManager {
 	private JobList mJobList;
 	private List<JobFilter> mJobFilter;
 	
-	private EventManager mEventManager;
+	private EventDispatcher mEventManager;
 	
 	public JobManager() {
 		super();
@@ -138,11 +138,11 @@ public class JobManager {
 		return mJobFilter;
 	}
 	
-	public EventManager getEventManager() {
+	public EventDispatcher getEventManager() {
 		return mEventManager;
 	}
 
-	public void setEventManager(EventManager pEventManager) {
+	public void setEventManager(EventDispatcher pEventManager) {
 		mEventManager = pEventManager;
 	}
 	
