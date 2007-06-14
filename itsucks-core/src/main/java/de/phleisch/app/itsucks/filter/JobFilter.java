@@ -16,7 +16,25 @@ import de.phleisch.app.itsucks.Job;
  */
 public interface JobFilter {
 
+	/**
+	 * Asks the Filter if it supports the given job.
+	 * This method is called before the filtering starts.
+	 * It is not allowed to change the job.
+	 * 
+	 * @param pJob
+	 * @return
+	 */
+	public boolean supports(Job pJob);	
+	
+	/**
+	 * Filters the job.
+	 * At this operation any modification can me made to the job like changing
+	 * the priority, state, parameter etc.
+	 * 
+	 * @param pJob
+	 * @return
+	 * @throws Exception
+	 */
 	public Job filter(Job pJob) throws Exception;
-	public boolean supports(Job pJob);
 
 }

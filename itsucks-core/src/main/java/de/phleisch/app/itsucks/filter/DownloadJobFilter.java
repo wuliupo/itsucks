@@ -16,6 +16,23 @@ import java.util.Set;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
+/**
+ * This filter is able to filter DownloadJobs by the url of the job and many more 
+ * parameter.
+ * 
+ * Possible filter criteria are:
+ * 
+ * - Follow only relative links
+ * - Skip already downloaded url's
+ * - Recursion Depth
+ * - Allowed Hostnames (regular expression)
+ * - Allowed base URL
+ * - Filetypes to be saved on disk (regular expression)
+ * 
+ * 
+ * @author olli
+ *
+ */
 public class DownloadJobFilter implements JobFilter, Serializable {
 
 	private static final long serialVersionUID = 4776756022068287844L;
@@ -33,6 +50,9 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		mAlreadyAddedUrls = new HashSet<URI>();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.filter.JobFilter#filter(de.phleisch.app.itsucks.Job)
+	 */
 	public Job filter(Job pJob) throws Exception {
 		
 		DownloadJob downloadJob = (DownloadJob) pJob;
@@ -84,54 +104,118 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		return pJob;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.filter.JobFilter#supports(de.phleisch.app.itsucks.Job)
+	 */
 	public boolean supports(Job pJob) {
 		return pJob instanceof DownloadJob;
 	}
 
+	/**
+	 * Returns if only relative links should be followed.
+	 * 
+	 * @return
+	 */
 	public boolean isAllowOnlyRelativeReferences() {
 		return mAllowOnlyRelativeReferences;
 	}
 
+	/**
+	 * Sets if only relative links should be followed.
+	 * 
+	 * @param pAllowOnlyRelativeReferences
+	 */
 	public void setAllowOnlyRelativeReferences(boolean pAllowOnlyRelativeReferences) {
 		mAllowOnlyRelativeReferences = pAllowOnlyRelativeReferences;
 	}
 
+	/**
+	 * Returns a set of all already known urls.
+	 * 
+	 * @return
+	 */
 	public Set<URI> getAlreadyAddedUrls() {
 		return mAlreadyAddedUrls;
 	}
 
+	/**
+	 * Sets a set of all already known urls.
+	 * 
+	 * @param pAlreadyAddedUrls
+	 */
 	public void setAlreadyAddedUrls(Set<URI> pAlreadyAddedUrls) {
 		mAlreadyAddedUrls = pAlreadyAddedUrls;
 	}
 
+	/**
+	 * Gets the maximum allowed recursion depth.
+	 * A value of -1 means infinitive depth.
+	 * 
+	 * @return
+	 */
 	public int getMaxRecursionDepth() {
 		return mMaxRecursionDepth;
 	}
 
+	/**
+	 * Sets the maximum allowed recursion depth.
+	 * A value of -1 means infinitive depth.
+	 * @param pMaxRecursionDepth
+	 */
 	public void setMaxRecursionDepth(int pMaxRecursionDepth) {
 		mMaxRecursionDepth = pMaxRecursionDepth;
 	}
 
+	/**
+	 * Gets the allowed base URL
+	 * 
+	 * @return
+	 */
 	public URL getBaseURL() {
 		return mBaseURL;
 	}
 
+	/**
+	 * Sets the allowed base URL
+	 * 
+	 * @param pBaseURL
+	 */
 	public void setBaseURL(URL pBaseURL) {
 		mBaseURL = pBaseURL;
 	}
 
+	/**
+	 * Sets the allowed host names (regular expressions).
+	 * 
+	 * @param pAllowedHostNames
+	 */
 	public void setAllowedHostNames(String pAllowedHostNames[]) {
 		mAllowedHostNames = pAllowedHostNames;
 	}
 	
+	/**
+	 * Returns the allowed hostnames (regular expressions).
+	 * 
+	 * @return
+	 */
 	public String[] getAllowedHostNames() {
 		return mAllowedHostNames;
 	}
 
+	/**
+	 * Gets the file filters which should be saved to disk (regular expressions).
+	 * 
+	 * @return
+	 */
 	public String[] getSaveToFileFilter() {
 		return mSaveToFileFilter;
 	}
 
+	/**
+	 * Sets the file filters which should be saved to disk (regular expressions).
+	 * 
+	 * @return
+	 */	
 	public void setSaveToFileFilter(String[] pSaveToFileFilter) {
 		mSaveToFileFilter = pSaveToFileFilter;
 	}
