@@ -225,6 +225,9 @@ public class DownloadJob extends AbstractJob {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.AbstractJob#abort()
+	 */
 	@Override
 	public void abort() {
 		if(mDataRetriever != null) {
@@ -233,7 +236,9 @@ public class DownloadJob extends AbstractJob {
 	}
 	
 	/**
-	 * @return the url to be downloaded
+	 * Gets the URL to be downloaded.
+	 * 
+	 * @return
 	 */
 	public URL getUrl() {
 		return mUrl;
@@ -241,6 +246,7 @@ public class DownloadJob extends AbstractJob {
 
 	/**
 	 * Sets the url to be downloaded.
+	 * 
 	 * @param pUrl
 	 */
 	public void setUrl(URL pUrl) {
@@ -324,10 +330,20 @@ public class DownloadJob extends AbstractJob {
 		mSaveToFile = pSaveToFile;
 	}
 	
+	/**
+	 * Returns the base save path for saving downloaded files.
+	 * 
+	 * @return
+	 */
 	public File getSavePath() {
 		return mSavePath;
 	}
 
+	/**
+	 * Sets the base save path for saving downloaded files.
+	 * 
+	 * @param pSavePath
+	 */
 	public void setSavePath(File pSavePath) {
 		mSavePath = pSavePath;
 	}
@@ -387,6 +403,10 @@ public class DownloadJob extends AbstractJob {
 		return mBytesDownloaded;
 	}
 	
+	/**
+	 * Gets the metadata of the data retriever.
+	 * @return
+	 */
 	public Metadata getMetadata() {
 		if(mDataRetriever != null) {
 			return mDataRetriever.getMetadata();
@@ -395,6 +415,9 @@ public class DownloadJob extends AbstractJob {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";

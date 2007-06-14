@@ -20,8 +20,12 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
 
-
-
+/**
+ * Implentation of an data retriever for the http protocol.
+ * 
+ * @author olli
+ *
+ */
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
@@ -61,6 +65,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		super();
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
+	 */
 	public void connect() throws IOException {
 		
 		if(mAbort) return;
@@ -98,6 +105,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mMetadata.setConnection(mGet);
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
+	 */
 	public boolean isDataAvailable() throws Exception {
 		if(mGet == null) {
 			throw new IllegalStateException("Not connected!");
@@ -106,6 +116,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		return mGet.getStatusCode() < 400;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
+	 */
 	public void retrieve() throws Exception {
 	
 		try {
@@ -122,6 +135,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
+	 */
 	public void disconnect() {
 		if(mGet != null) {
 			mGet.releaseConnection();
@@ -170,6 +186,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 	}
 
+	/**
+	 * @param pProgress
+	 */
 	private void updateProgress(float pProgress) {
 		mLog.trace("Update Progress: " + pProgress);
 		
@@ -181,26 +200,48 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		this.notifyObservers(NOTIFICATION_PROGRESS);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getMetadata()
+	 */
 	public HttpMetadata getMetadata() {
 		return mMetadata;
 	}
 
+	/**
+	 * Gets the http user agent.
+	 * 
+	 * @return
+	 */
 	public String getUserAgent() {
 		return mUserAgent;
 	}
 
+	/**
+	 * Sets the http user agent.
+	 * 
+	 * @param userAgent
+	 */
 	public void setUserAgent(String userAgent) {
 		mUserAgent = userAgent;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
+	 */
 	public long getBytesRetrieved() {
 		return mBytesDownloaded;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
+	 */
 	public float getProgress() {
 		return mProgress;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#abort()
+	 */
 	public void abort() {
 		mAbort = true;
 		if(mGet != null) {
@@ -208,6 +249,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setBytesToSkip(long)
+	 */
 	public void setBytesToSkip(long pBytesToSkip) {
 		if(mGet != null && mGet.isRequestSent()) {
 			throw new IllegalStateException("Request already sent!");
@@ -216,6 +260,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mBytesToSkip = pBytesToSkip;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesSkipped()
+	 */
 	public long getBytesSkipped() {
 		
 		if(mGet == null || !mGet.isRequestSent()) {
@@ -231,6 +278,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
+	 */
 	public int getResultCode() {
 		
 		if(mAbort) {

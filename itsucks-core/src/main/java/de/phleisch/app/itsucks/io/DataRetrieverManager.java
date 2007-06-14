@@ -14,7 +14,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-
+/**
+ * Manages the data retriever for every protocol.
+ * It is initialized by spring.
+ * 
+ * @author olli
+ *
+ */
 public class DataRetrieverManager implements ApplicationContextAware {
 
 	private ApplicationContext mContext;
@@ -24,6 +30,12 @@ public class DataRetrieverManager implements ApplicationContextAware {
 		super();
 	}
 
+	/**
+	 * Gets an data retriever for the given protocol (http, ftp, etc.).
+	 * 
+	 * @param pProtocol
+	 * @return
+	 */
 	public DataRetriever getRetrieverForProtocol(String pProtocol) {
 		DataRetriever retriever = null;
 		
@@ -35,10 +47,18 @@ public class DataRetrieverManager implements ApplicationContextAware {
 		return retriever;
 	}
 	
+	/**
+	 * Sets the retriever map.
+	 * 
+	 * @param pRetriever
+	 */
 	public void setRetriever(Map<String, String> pRetriever) {
 		mRetriever = new HashMap<String, String>(pRetriever);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+	 */
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
 		mContext = pContext;
 	}

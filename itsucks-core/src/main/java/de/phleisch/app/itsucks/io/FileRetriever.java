@@ -15,6 +15,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
+/**
+ * Implementation of an data retriever which can read files from 
+ * the filesystem.
+ * 
+ * @author olli
+ *
+ */
 public class FileRetriever extends AbstractDataRetriever {
 
 	private static Log mLog = LogFactory.getLog(FileRetriever.class);
@@ -34,36 +41,60 @@ public class FileRetriever extends AbstractDataRetriever {
 		mFile = pFile;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#abort()
+	 */
 	public void abort() {
 		mAbort = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
+	 */
 	public void connect() throws Exception {
 		mIn = new FileInputStream(mFile);
 		
 		mFileSize = mFile.length();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
+	 */
 	public void disconnect() throws Exception {
 		mIn.close();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
+	 */
 	public long getBytesRetrieved() {
 		return mBytesRead;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getMetadata()
+	 */
 	public Metadata getMetadata() {
 		throw new IllegalStateException("Not implemented yet!");
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
+	 */
 	public float getProgress() {
 		return mProgress;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
+	 */
 	public boolean isDataAvailable() throws Exception {
 		return mIn.available() > 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
+	 */
 	public void retrieve() throws Exception {
 
 		//skip bytes in front when given
@@ -104,14 +135,23 @@ public class FileRetriever extends AbstractDataRetriever {
 		this.notifyObservers(NOTIFICATION_PROGRESS);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setBytesToSkip(long)
+	 */
 	public void setBytesToSkip(long pBytesToSkip) {
 		mByteOffset = pBytesToSkip;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesSkipped()
+	 */
 	public long getBytesSkipped() {
 		return mByteOffset;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
+	 */
 	public int getResultCode() {
 		return RESULT_RETRIEVAL_OK;
 	}

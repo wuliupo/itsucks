@@ -11,6 +11,13 @@ package de.phleisch.app.itsucks.io;
 import java.io.File;
 import java.net.URL;
 
+/**
+ * Handy utility class to build the target path of an file to be downloaded
+ * and remove characters not allowed in the filename.
+ * 
+ * @author olli
+ *
+ */
 public class FileManager {
 
 	private static final String ALLOWED_COMMON_CHARS = 

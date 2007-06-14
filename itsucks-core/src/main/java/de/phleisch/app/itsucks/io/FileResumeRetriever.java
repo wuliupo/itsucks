@@ -21,6 +21,15 @@ import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.PersistenceProcessor;
 import de.phleisch.app.itsucks.processing.SeekDataProcessorWrapper;
 
+/**
+ * This retriever is used to resume partial downloaded files.
+ * It creates an additional retriever, the file retriever, and combine 
+ * it with the original data retriever.
+ * So it can send the complete data through the processing chain without receiving it
+ * completly from the data retriever.
+ * 
+ * @author olli
+ */
 public class FileResumeRetriever implements DataRetriever {
 
 	private static Log mLog = LogFactory.getLog(FileResumeRetriever.class);
@@ -46,6 +55,9 @@ public class FileResumeRetriever implements DataRetriever {
 		mResumePrepared = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#abort()
+	 */
 	public void abort() {
 		if(mReadFromFile) {
 			mFileRetriever.abort();
@@ -53,6 +65,9 @@ public class FileResumeRetriever implements DataRetriever {
 		mDataRetriever.abort();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
+	 */
 	public void connect() throws Exception {
 		
 		//first check if the file exists
@@ -132,6 +147,9 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
+	 */
 	public void retrieve() throws Exception {
 		
 		if(mDataRetriever.getBytesSkipped() > 0) {
@@ -161,6 +179,9 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
+	 */
 	public void disconnect() throws Exception {
 		if(mReadFromFile) {
 			mFileRetriever.disconnect();
@@ -168,6 +189,9 @@ public class FileResumeRetriever implements DataRetriever {
 		mDataRetriever.disconnect();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
+	 */
 	public long getBytesRetrieved() {
 		
 		long bytes = 0;
@@ -181,22 +205,37 @@ public class FileResumeRetriever implements DataRetriever {
 		return bytes;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getMetadata()
+	 */
 	public Metadata getMetadata() {
 		return mDataRetriever.getMetadata();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
+	 */
 	public float getProgress() {
 		return mDataRetriever.getProgress();
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setUrl(java.net.URL)
+	 */
 	public void setUrl(URL pUrl) {
 		throw new IllegalArgumentException("Not possible!");
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getUrl()
+	 */
 	public URL getUrl() {
 		return mDataRetriever.getUrl();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
+	 */
 	public boolean isDataAvailable() throws Exception {
 		
 		prepareResume();
@@ -208,10 +247,16 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataProcessorChain()
+	 */
 	public DataProcessorChain getDataProcessorChain() {
 		return mDataRetriever.getDataProcessorChain();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setDataProcessorChain(de.phleisch.app.itsucks.processing.DataProcessorChain)
+	 */
 	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
 
 		if(mResumePrepared) {
@@ -226,6 +271,9 @@ public class FileResumeRetriever implements DataRetriever {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#addObserver(java.util.Observer)
+	 */
 	public void addObserver(Observer pO) {
 		mDataRetriever.addObserver(pO);
 		if(mFileRetriever != null) {
@@ -233,6 +281,9 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#deleteObserver(java.util.Observer)
+	 */
 	public void deleteObserver(Observer pO) {
 		mDataRetriever.deleteObserver(pO);
 		if(mFileRetriever != null) {
@@ -240,14 +291,23 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setBytesToSkip(long)
+	 */
 	public void setBytesToSkip(long pBytesToSkip) {
 		throw new IllegalStateException("Not supported.");
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesSkipped()
+	 */
 	public long getBytesSkipped() {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
+	 */
 	public int getResultCode() {
 		return mDataRetriever.getResultCode();
 	}

@@ -8,6 +8,13 @@
 
 package de.phleisch.app.itsucks.io;
 
-public abstract class Metadata {
+/**
+ * The Metadata interface provides information about current connection of
+ * an data retriever.  
+ * 
+ * @author olli
+ *
+ */
+public interface Metadata {
 
 }

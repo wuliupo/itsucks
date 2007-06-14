@@ -13,6 +13,12 @@ import java.util.Observable;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 
+/**
+ * Abstract implementation of an data retriever.
+ * 
+ * @author olli
+ *
+ */
 public abstract class AbstractDataRetriever extends Observable implements DataRetriever {
 
 	protected URL mUrl;
@@ -22,10 +28,16 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataProcessorChain()
+	 */
 	public DataProcessorChain getDataProcessorChain() {
 		return mDataProcessorChain;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setDataProcessorChain(de.phleisch.app.itsucks.processing.DataProcessorChain)
+	 */
 	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
 		mDataProcessorChain = pDataProcessorChain;
 	}
