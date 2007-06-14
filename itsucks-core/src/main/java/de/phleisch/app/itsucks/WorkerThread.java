@@ -15,6 +15,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
+/**
+ * This is a single worker to process a job.
+ * It is manged by the WorkerPool.
+ * 
+ * The WorkerThread has an interface to add queued commands.
+ * So multiple jobs or commands can be given to an workerthread which are
+ * processed synchronously. 
+ * 
+ * @author olli
+ *
+ */
 public class WorkerThread implements Runnable {
 
 	private static Log mLog = LogFactory.getLog(WorkerThread.class);

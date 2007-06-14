@@ -16,6 +16,11 @@ import java.util.Stack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Default implementation of the WorkerPool.
+ * 
+ * @author olli
+ */
 public class WorkerPoolImpl implements WorkerPool {
 
 	private static final int DEFAULT_POOL_SIZE = 3;

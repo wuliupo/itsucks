@@ -16,6 +16,17 @@ import de.phleisch.app.itsucks.io.DataRetrieverManager;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.processing.DataProcessorManager;
 
+
+/**
+ * 
+ * Factory to create new Jobs.
+ * Internally spring is used, but this factory also implements the
+ * feature to inject dependencies into deserialized jobs and not jobs
+ * not created over spring.
+ * 
+ * @author olli
+ *
+ */
 public class JobFactory implements ApplicationContextAware {
 
 	private ApplicationContext mContext;

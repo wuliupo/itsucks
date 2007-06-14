@@ -8,6 +8,15 @@
 
 package de.phleisch.app.itsucks;
 
+/**
+ * The worker pool manages a pool of worker threads.
+ * Every worker can be assigned one or multiple jobs. This assignment controls the Worker Pool
+ * with the <code>dispatchJob</code> method.
+ * 
+ * The worker pool is used by the dispatcher.  
+ * 
+ * @author olli
+ */
 public interface WorkerPool {
 
 	public abstract void initialize();

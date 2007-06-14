@@ -22,6 +22,8 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 /**
  * The job manager filters the incoming jobs and manages the internal job list. 
  * 
+ * The job manager is used by the dispatcher.  
+ * 
  * @author olli
  *
  */

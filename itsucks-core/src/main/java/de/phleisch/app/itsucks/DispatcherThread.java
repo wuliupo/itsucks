@@ -12,34 +12,50 @@ package de.phleisch.app.itsucks;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DispatcherThread extends Dispatcher implements Runnable {
+/**
+ * Wrapper around the dispatcher to run the job processing in an new thread.
+ * Use the join method to wait for the dispatcher thread to finish. 
+ * 
+ * @author olli
+ */
+public class DispatcherThread extends Dispatcher {
 
 	private static Log mLog = LogFactory.getLog(DispatcherThread.class);
 	private static int mCount = 0;
 	
-	private Thread ownThread = null; 
+	private Thread mOwnThread = null;
+	private InternalDispatcherThread mInternalDispatcherThread = null;
 	
-	public void run() {
-		try {
-			super.processJobs();
-		} catch (Exception e) {
-			mLog.error("Error running dispatcher", e);
+	private class InternalDispatcherThread implements Runnable {
+
+		public void run() {
+			try {
+				DispatcherThread.super.processJobs();
+			} catch (Exception e) {
+				mLog.error("Error running dispatcher", e);
+			}
+			
 		}
+		
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Dispatcher#processJobs()
+	 */
 	@Override
 	public synchronized void processJobs() throws Exception {
-		if(ownThread != null && ownThread.isAlive()) {
+		if(mOwnThread != null && mOwnThread.isAlive()) {
 			throw new IllegalArgumentException("Dispatcher Thread already running!");
 		}
 		
-		ownThread = new Thread(this);
-		ownThread.setName("DispatcherThread-" + ++mCount);
-		ownThread.start();
+		mInternalDispatcherThread = new InternalDispatcherThread();
+		mOwnThread = new Thread(mInternalDispatcherThread);
+		mOwnThread.setName("DispatcherThread-" + ++mCount);
+		mOwnThread.start();
 	}
 
 	public void join() throws InterruptedException {
-		ownThread.join();
+		mOwnThread.join();
 	}
 
 }

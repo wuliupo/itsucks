@@ -16,6 +16,13 @@ import java.util.Observer;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * Default implementation of the JobList Interface.
+ * It uses a combination of an Set and a Map to optimize sorting and accessing jobs.
+ * 
+ * @author olli
+ *
+ */
 public class SimpleJobListImpl extends Observable implements Observer, JobList {
 
 	private SortedSet<JobListEntry> mJobList;

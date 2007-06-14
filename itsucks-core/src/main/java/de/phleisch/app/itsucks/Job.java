@@ -11,6 +11,12 @@ package de.phleisch.app.itsucks;
 import java.util.List;
 import java.util.Observer;
 
+/**
+ * A job is a single task to be done.
+ * 
+ * @author olli
+ *
+ */
 public interface Job {
 
 	public final static int STATE_OPEN = 1;

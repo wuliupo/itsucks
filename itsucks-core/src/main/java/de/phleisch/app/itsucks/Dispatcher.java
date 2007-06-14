@@ -213,7 +213,7 @@ public class Dispatcher implements ApplicationContextAware {
 		return mRunning;
 	}
 
-	public void setRunning(boolean pRunning) {
+	private void setRunning(boolean pRunning) {
 		mRunning = pRunning;
 	}
 

@@ -10,6 +10,15 @@ package de.phleisch.app.itsucks;
 
 import java.io.Serializable;
 
+/**
+ * The JobParameter is a generic parameter which can be given to an job.
+ * Also filter can add specific JobParameter when filtering jobs and a condition is met.
+ * 
+ * If more attributes are needed, extend from this class.
+ * 
+ * @author olli
+ *
+ */
 public class JobParameter implements Serializable {
 
 	private static final long serialVersionUID = -6335474374019021707L;

@@ -9,6 +9,12 @@
 
 package de.phleisch.app.itsucks;
 
+/**
+ * Generic application constants.
+ * 
+ * @author olli
+ *
+ */
 public final class ApplicationConstants {
 	
 	public static final String APPLICATION_VERSION = "0.2.0-pre10";
