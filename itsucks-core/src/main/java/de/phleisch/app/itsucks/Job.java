@@ -19,23 +19,50 @@ import java.util.Observer;
  */
 public interface Job {
 
+	/**
+	 * The job is open and waits to be assigned.
+	 */
 	public final static int STATE_OPEN = 1;
 
+	/**
+	 * The job is assigned to an worker thread.
+	 */
 	public final static int STATE_ASSIGNED = 2;
 
+	/**
+	 * The job processing is in progress.
+	 */
 	public final static int STATE_IN_PROGRESS = 3;
 
 	// every state over 50 is closed
+	/**
+	 * The job is closed and not longer in progress.
+	 */
 	public final static int STATE_CLOSED = 50;
 
+	/**
+	 * This job is set to ignored by an filter.
+	 */
 	public final static int STATE_IGNORED = 60;
 
+	/**
+	 * This job was already processed.
+	 */
 	public final static int STATE_ALREADY_PROCESSED = 61;
 	
+	/**
+	 * The job processing failed.
+	 */
 	public final static int STATE_FAILED = 70;
 	
+	/**
+	 * The job finished without error.
+	 */
 	public final static int STATE_FINISHED = 71;
 
+	/**
+	 * The job processing has been aborted by an error.
+	 */
 	public final static int STATE_ERROR = 99;
 
 	//All notifications which can occur when observing this class
@@ -51,8 +78,14 @@ public interface Job {
 	public final static Integer NOTIFICATION_PROGRESS = 110;
 
 	//the possible priority values 
+	/**
+	 * The possible maximum priority for an job.
+	 */
 	public final static int MAX_PRIORITY = 999;
 
+	/**
+	 * The possible minimum priority for an job.
+	 */
 	public final static int MIN_PRIORITY = 0;
 
 	/**
@@ -63,11 +96,15 @@ public interface Job {
 	public abstract void run() throws Exception;
 
 	/**
+	 * Returns true when the job is closed.
+	 * 
 	 * @return true when job is closed.
 	 */
 	public abstract boolean isClosed();
 
 	/**
+	 * The job manager the job is managed by.
+	 * 
 	 * @return the job manager the job is managed by.
 	 */
 	public abstract JobManager getJobManager();
@@ -79,7 +116,9 @@ public interface Job {
 	public abstract void setJobManager(JobManager pJobManager);
 
 	/**
-	 * @return true when the filter should not be applied for this job.
+	 * Returns true when the filter should not be applied for this job. 
+	 * 
+	 * @return 
 	 */
 	public abstract boolean isIgnoreFilter();
 
@@ -90,8 +129,10 @@ public interface Job {
 	public abstract void setIgnoreFilter(boolean pIgnoreFilter);
 
 	/**
-	 * @return the current state of the Job. Check out the STATE_* constants for possible
+	 * Returns the current state of the Job. Check out the STATE_* constants for possible
 	 * values.
+	 * 
+	 * @return the current state of the Job.
 	 */
 	public abstract int getState();
 
@@ -118,6 +159,7 @@ public interface Job {
 	public abstract void setPriority(int pPriority);
 
 	/**
+	 * Returns the unique id of this job.
 	 * @return the unique id of this job.
 	 */
 	public abstract int getId();
@@ -159,7 +201,19 @@ public interface Job {
 	public abstract void abort();
 
 	
+	/**
+	 * Adds an observer to receive notifications directly from this job.
+	 * Check the NOTIFICATION_* constants for the possible notifications.
+	 * 
+	 * @param o
+	 */
 	public void addObserver(Observer o);
+	
+	/**
+	 * Removes an registered observer.
+	 * 
+	 * @param o
+	 */
 	public void deleteObserver(Observer o);
 	
 }

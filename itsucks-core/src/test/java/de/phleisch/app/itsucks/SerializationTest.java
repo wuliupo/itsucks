@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.persistence.JobSerializationManager;
+import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 public class SerializationTest extends TestCase {
@@ -43,7 +43,7 @@ public class SerializationTest extends TestCase {
 		
 		File file = File.createTempFile("itsucks_junit_", "_test");
 		
-		JobSerializationManager serializator = (JobSerializationManager) context.getBean("JobSerializationManager");
+		JobSerialization serializator = (JobSerialization) context.getBean("JobSerialization");
 		serializator.serialize(serializedObject, file);
 		
 		SerializableJobList deserializedList = serializator.deserialize(file);

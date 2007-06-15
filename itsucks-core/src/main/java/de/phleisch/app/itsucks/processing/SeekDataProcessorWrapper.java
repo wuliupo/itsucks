@@ -10,6 +10,15 @@ package de.phleisch.app.itsucks.processing;
 
 import de.phleisch.app.itsucks.Job;
 
+/**
+ * This is data processor wrapper which encapsulates another data processor
+ * and skips a given count of bytes before giving the data to the encapsulates
+ * processor. This is useful for fileresuming to skip the bytes which are already on 
+ * the disk.
+ * 
+ * @author olli
+ *
+ */
 public class SeekDataProcessorWrapper implements DataProcessor {
 
 	protected DataProcessor mDataProcessor;
@@ -23,22 +32,37 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 		mSeekPosition = pSeekPosition;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
+	 */
 	public boolean canResume() {
 		return mDataProcessor.canResume();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#finish()
+	 */
 	public void finish() throws Exception {
 		mDataProcessor.finish();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#init()
+	 */
 	public void init() throws Exception {
 		mDataProcessor.init();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
+	 */
 	public boolean needsDataAsWholeChunk() {
 		return mDataProcessor.needsDataAsWholeChunk();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
+	 */
 	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
 		
 		if(mChain.getProcessedBytes() >= mSeekPosition) {
@@ -70,15 +94,24 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
+	 */
 	public void resumeAt(long pByteOffset) {
 		mDataProcessor.resumeAt(pByteOffset);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#setProcessorChain(de.phleisch.app.itsucks.processing.DataProcessorChain)
+	 */
 	public void setProcessorChain(DataProcessorChain pChain) {
 		mChain = pChain;
 		mDataProcessor.setProcessorChain(pChain);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#supports(de.phleisch.app.itsucks.Job)
+	 */
 	public boolean supports(Job pJob) {
 		return mDataProcessor.supports(pJob);
 	}

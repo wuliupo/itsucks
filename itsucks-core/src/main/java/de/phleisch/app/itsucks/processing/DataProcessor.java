@@ -10,6 +10,13 @@ package de.phleisch.app.itsucks.processing;
 
 import de.phleisch.app.itsucks.Job;
 
+/**
+ * A data processor is a single component in a processing chain which processes
+ * the data which is lead through.
+ * 
+ * @author olli
+ *
+ */
 public interface DataProcessor {
 
 	/**
@@ -23,36 +30,48 @@ public interface DataProcessor {
 	 * Initializes the data processor. (Create buffers, open file handles etc.)
 	 * @throws Exception
 	 */
-	public void init() throws Exception;
+	public abstract void init() throws Exception;
 	
 	/**
 	 * Shutdown the data processor. (Release buffers, file handles etc.)
 	 * @throws Exception
 	 */
-	public void finish() throws Exception;
+	public abstract void finish() throws Exception;
 
 	/**
 	 * Supports this data processor resuming?
 	 * @return true == yes
 	 */
-	public boolean canResume();
+	public abstract boolean canResume();
 	
 	/**
 	 * Resumes the processing at the given position.
 	 * @param pByteOffset The offset position in bytes.
 	 */
-	public void resumeAt(long pByteOffset);
+	public abstract void resumeAt(long pByteOffset);
 	
 	/**
 	 * Processes the given data chunk.
 	 * @param pBuffer
 	 * @param pBytes
+	 * @return The pBuffer pointer or a new pointer to changed data.
 	 * @throws Exception
 	 */
 	public abstract byte[] process(byte[] pBuffer, int pBytes) throws Exception;
 	
-	public boolean needsDataAsWholeChunk();
+	/**
+	 * Asks the processor if it needs the data from the data retriever
+	 * in one chunk and not in multiple pieces.
+	 * 
+	 * @return
+	 */
+	public abstract boolean needsDataAsWholeChunk();
 
+	/**
+	 * Sets the processor chain the processor is a part of.
+	 * 
+	 * @param pChain
+	 */
 	public abstract void setProcessorChain(DataProcessorChain pChain);
 	
 }

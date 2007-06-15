@@ -15,6 +15,12 @@ import java.util.List;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
+/**
+ * This class is a simple serializable list for jobs and job filters.
+ * 
+ * @author olli
+ *
+ */
 public class SerializableJobList implements Serializable {
 
 	private static final long serialVersionUID = -8024689120690796652L;

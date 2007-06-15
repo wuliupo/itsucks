@@ -26,12 +26,22 @@ import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
+/**
+ * This data processor analyzes the http request and searches
+ * for any 'Location' header fields.
+ * 
+ * @author olli
+ *
+ */
 public class HttpRedirectorProcessor extends AbstractDataProcessor implements ApplicationContextAware {
 
 	private static Log mLog = LogFactory.getLog(HttpRedirectorProcessor.class);
 	
 	private ApplicationContext mContext;
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#supports(de.phleisch.app.itsucks.Job)
+	 */
 	@Override
 	public boolean supports(Job pJob) {
 		
@@ -48,10 +58,16 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
+	 */
 	public boolean needsDataAsWholeChunk() {
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#init()
+	 */
 	@Override
 	public void init() throws Exception {
 		super.init();
@@ -85,6 +101,9 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
+	 */
 	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
 		return pBuffer;
 	}
@@ -112,6 +131,9 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+	 */
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
 		mContext = pContext;
 	}

@@ -174,7 +174,7 @@ public class Dispatcher implements ApplicationContextAware {
 
 	public void setJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
-		mEventManager = mJobManager.getEventManager();
+		mEventManager = mJobManager.getEventDispatcher();
 	}
 
 	public WorkerPool getWorkerPool() {

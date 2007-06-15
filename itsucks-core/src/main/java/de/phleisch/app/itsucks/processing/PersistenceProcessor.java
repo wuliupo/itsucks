@@ -22,7 +22,12 @@ import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.FileManager;
 
-
+/**
+ * An data processor which saves the data in an file on the disk.
+ * 
+ * @author olli
+ *
+ */
 public class PersistenceProcessor extends AbstractDataProcessor implements DataProcessor {
 
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
@@ -37,6 +42,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		super();
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#supports(de.phleisch.app.itsucks.Job)
+	 */
 	@Override
 	public boolean supports(Job pJob) {
 		if(pJob instanceof DownloadJob) {
@@ -47,6 +55,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#init()
+	 */
 	@Override
 	public void init() throws Exception {
 	
@@ -82,16 +93,25 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		mBufferedOut = new BufferedOutputStream(mFileOut);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#canResume()
+	 */
 	@Override
 	public boolean canResume() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#resumeAt(long)
+	 */
 	@Override
 	public void resumeAt(long pByteOffset) {
 		mResumeAt = pByteOffset;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
+	 */
 	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
 		
 		if(mBufferedOut == null) {
@@ -102,6 +122,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		return pBuffer;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#finish()
+	 */
 	@Override
 	public void finish() throws Exception {
 		super.finish();
@@ -110,6 +133,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
+	 */
 	public boolean needsDataAsWholeChunk() {
 		return false;
 	}

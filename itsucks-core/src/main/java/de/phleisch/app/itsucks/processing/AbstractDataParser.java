@@ -8,6 +8,11 @@
 package de.phleisch.app.itsucks.processing;
 
 
-public abstract class DataParser extends AbstractDataProcessor {
+/**
+ * Basic implementation of an processor which parses data.
+ * 
+ * @author olli
+ */
+public abstract class AbstractDataParser extends AbstractDataProcessor {
 
 }

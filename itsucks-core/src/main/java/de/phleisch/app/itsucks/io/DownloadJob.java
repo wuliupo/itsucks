@@ -33,7 +33,7 @@ import de.phleisch.app.itsucks.processing.DataProcessorManager;
  */
 public class DownloadJob extends AbstractJob {
 
-	private static final long serialVersionUID = 5609621387348634985L;
+	private static final long serialVersionUID = 1714294563019859104L;
 
 	public static final String PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
 	

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,6 +25,13 @@ import org.springframework.context.ApplicationContextAware;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobFactory;
 
+/**
+ * This class implements the JobSerialization interface using the 
+ * default object.serialize feature.
+ * 
+ * @author olli
+ *
+ */
 public class BinaryObjectJobSerialization implements ApplicationContextAware, JobSerialization {
 
 	@SuppressWarnings("unused")
@@ -41,10 +49,22 @@ public class BinaryObjectJobSerialization implements ApplicationContextAware, Jo
 		
 		FileOutputStream output = new FileOutputStream(pTargetFile);
 		BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
-		ObjectOutputStream objectOutput = new ObjectOutputStream(bufferedOutput);
-		objectOutput.writeObject(pJobList);
-		objectOutput.close();
 		
+		try {
+			serialize(pJobList, bufferedOutput);
+		} finally {
+			bufferedOutput.close();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#serialize(de.phleisch.app.itsucks.persistence.SerializableJobList, java.io.OutputStream)
+	 */
+	public void serialize(SerializableJobList pJobList, OutputStream pOutputStream) throws IOException {
+		
+		ObjectOutputStream objectOutput = new ObjectOutputStream(pOutputStream);
+		objectOutput.writeObject(pJobList);
+		objectOutput.flush();
 	}
 
 	/* (non-Javadoc)

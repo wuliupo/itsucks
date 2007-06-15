@@ -9,40 +9,40 @@ package de.phleisch.app.itsucks.processing;
 
 import de.phleisch.app.itsucks.Job;
 
+/**
+ * Basic implementation of an data processor.
+ * 
+ * @author olli
+ *
+ */
 public abstract class AbstractDataProcessor implements DataProcessor {
 
 	protected DataProcessorChain mChain;
 
-	/**
-	 * Returns true if this processor supports the given type of job.
-	 * @param pJob
-	 * @return
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#supports(de.phleisch.app.itsucks.Job)
 	 */
 	public abstract boolean supports(Job pJob);
 	
-	/**
-	 * Initializes the data processor. (Create buffers, open file handles etc.)
-	 * @throws Exception
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#init()
 	 */
 	public void init() throws Exception {}
 	
-	/**
-	 * Shutdown the data processor. (Release buffers, file handles etc.)
-	 * @throws Exception
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#finish()
 	 */
 	public void finish() throws Exception {}
 
-	/**
-	 * Supports this data processor resuming?
-	 * @return true == yes
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
 	 */
 	public boolean canResume() {
 		return false;
 	}
 	
-	/**
-	 * Resumes the processing at the given position.
-	 * @param pByteOffset The offset position in bytes.
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
 	 */
 	public void resumeAt(long pByteOffset) {
 		throw new IllegalArgumentException();
@@ -55,9 +55,6 @@ public abstract class AbstractDataProcessor implements DataProcessor {
 		mChain = pChain;
 	}
 	
-	/**
-	 * @return
-	 */
 	public DataProcessorChain getProcessorChain() {
 		return mChain;
 	}

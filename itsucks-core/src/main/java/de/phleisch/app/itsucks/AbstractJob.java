@@ -55,54 +55,54 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	protected JobManager mJobManager;
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#run()
+	 * @see de.phleisch.app.itsucks.Job#run()
 	 */
 	public abstract void run() throws Exception;
 	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#isClosed()
+	 * @see de.phleisch.app.itsucks.Job#isClosed()
 	 */
 	public boolean isClosed() {
 		return mState >= STATE_CLOSED;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#getJobManager()
+	 * @see de.phleisch.app.itsucks.Job#getJobManager()
 	 */
 	public JobManager getJobManager() {
 		return mJobManager;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setJobManager(de.phleisch.app.itsucks.JobManager)
+	 * @see de.phleisch.app.itsucks.Job#setJobManager(de.phleisch.app.itsucks.JobManager)
 	 */
 	public void setJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#isIgnoreFilter()
+	 * @see de.phleisch.app.itsucks.Job#isIgnoreFilter()
 	 */
 	public boolean isIgnoreFilter() {
 		return mIgnoreFilter;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setIgnoreFilter(boolean)
+	 * @see de.phleisch.app.itsucks.Job#setIgnoreFilter(boolean)
 	 */
 	public void setIgnoreFilter(boolean pIgnoreFilter) {
 		mIgnoreFilter = pIgnoreFilter;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#getState()
+	 * @see de.phleisch.app.itsucks.Job#getState()
 	 */
 	public int getState() {
 		return mState;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setState(int)
+	 * @see de.phleisch.app.itsucks.Job#setState(int)
 	 */
 	public void setState(int pState) {
 		if(pState == mState) return;
@@ -115,14 +115,14 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#getPriority()
+	 * @see de.phleisch.app.itsucks.Job#getPriority()
 	 */
 	public int getPriority() {
 		return mPriority;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setPriority(int)
+	 * @see de.phleisch.app.itsucks.Job#setPriority(int)
 	 */
 	public void setPriority(int pPriority) {
 		if(pPriority == mPriority) return;
@@ -148,18 +148,18 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	private void sendEvent(JobEvent pEvent) {
 		if(mJobManager == null) return;
 		
-		mJobManager.getEventManager().fireEvent(pEvent);
+		mJobManager.getEventDispatcher().fireEvent(pEvent);
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#getId()
+	 * @see de.phleisch.app.itsucks.Job#getId()
 	 */
 	public int getId() {
 		return mId;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setId(int)
+	 * @see de.phleisch.app.itsucks.Job#setId(int)
 	 */
 	public void setId(int pJobId) {
 		if(mId != -1) 
@@ -170,14 +170,14 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#getName()
+	 * @see de.phleisch.app.itsucks.Job#getName()
 	 */
 	public String getName() {
 		return mName;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#setName(java.lang.String)
+	 * @see de.phleisch.app.itsucks.Job#setName(java.lang.String)
 	 */
 	public void setName(String pName) {
 		mName = pName;
@@ -209,7 +209,7 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.IJob#abort()
+	 * @see de.phleisch.app.itsucks.Job#abort()
 	 */
 	public abstract void abort();
 	

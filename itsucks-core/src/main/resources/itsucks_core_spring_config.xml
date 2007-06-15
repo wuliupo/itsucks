@@ -25,8 +25,8 @@
 	</bean>
 
 	<bean 
-		id="EventManager" 
-		class="de.phleisch.app.itsucks.event.EventManager" 
+		id="EventDispatcher" 
+		class="de.phleisch.app.itsucks.event.EventDispatcher" 
 		singleton="false">
 	</bean>
 
@@ -35,8 +35,8 @@
 		class="de.phleisch.app.itsucks.JobManager" 
 		singleton="false">
 
-		<property name="eventManager">
-			<ref bean="EventManager"/>
+		<property name="eventDispatcher">
+			<ref bean="EventDispatcher"/>
 		</property>		
 		<property name="jobList">
 			<ref bean="SimpleJobListImpl"/>
@@ -135,8 +135,8 @@
 	</bean>	
 	
 	<bean 
-		id="JobSerializationManager" 
-		class="de.phleisch.app.itsucks.persistence.JobSerializationManager" 
+		id="JobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.BinaryObjectJobSerialization" 
 		singleton="false">
 		
 		<property name="jobFactory">

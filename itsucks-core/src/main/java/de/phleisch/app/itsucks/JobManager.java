@@ -34,7 +34,7 @@ public class JobManager {
 	private JobList mJobList;
 	private List<JobFilter> mJobFilter;
 	
-	private EventDispatcher mEventManager;
+	private EventDispatcher mEventDispatcher;
 	
 	public JobManager() {
 		super();
@@ -48,7 +48,7 @@ public class JobManager {
 		pJob.setJobManager(this);
 		mJobList.addJob(pJob);
 		
-		mEventManager.fireEvent(
+		mEventDispatcher.fireEvent(
 			new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_ADDED, pJob));
 	}
 	
@@ -61,7 +61,7 @@ public class JobManager {
 		if(!job.isIgnoreFilter()) {
 			job = filterJob(job);
 			
-			mEventManager.fireEvent(
+			mEventDispatcher.fireEvent(
 					new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
 		}
 		
@@ -72,7 +72,7 @@ public class JobManager {
 		boolean result = mJobList.removeJob(pJob);
 		
 		if(result) {
-			mEventManager.fireEvent(
+			mEventDispatcher.fireEvent(
 				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED, pJob));
 		}
 		
@@ -138,12 +138,12 @@ public class JobManager {
 		return mJobFilter;
 	}
 	
-	public EventDispatcher getEventManager() {
-		return mEventManager;
+	public EventDispatcher getEventDispatcher() {
+		return mEventDispatcher;
 	}
 
-	public void setEventManager(EventDispatcher pEventManager) {
-		mEventManager = pEventManager;
+	public void setEventDispatcher(EventDispatcher pEventManager) {
+		mEventDispatcher = pEventManager;
 	}
 	
 }

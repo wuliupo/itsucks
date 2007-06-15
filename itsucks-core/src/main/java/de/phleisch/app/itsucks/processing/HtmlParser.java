@@ -33,7 +33,7 @@ import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
 
-public class HtmlParser extends DataParser implements ApplicationContextAware, DataProcessor {
+public class HtmlParser extends AbstractDataParser implements ApplicationContextAware, DataProcessor {
 	
 	private static final String REGEXP_PREFIX = "exp_"; 
 	

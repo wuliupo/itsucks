@@ -16,7 +16,13 @@ import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobManager;
 import de.phleisch.app.itsucks.io.DataRetriever;
 
-public class DefaultProcessorChain implements DataProcessorChain {
+/**
+ * This is an implementation of an processor chain.
+ * 
+ * @author olli
+ *
+ */
+public class ProcessorChainImpl implements DataProcessorChain {
 
 	protected List<DataProcessor> mDataProcessors = new ArrayList<DataProcessor>();
 	
@@ -31,11 +37,11 @@ public class DefaultProcessorChain implements DataProcessorChain {
 	
 	private long mProcessedBytes;
 	
-	public DefaultProcessorChain() {
+	public ProcessorChainImpl() {
 		
 	}
 	
-	public DefaultProcessorChain(List<DataProcessor> pProcessorsForJob) {
+	public ProcessorChainImpl(List<DataProcessor> pProcessorsForJob) {
 		addDataProcessor(pProcessorsForJob);
 	}
 
@@ -54,10 +60,6 @@ public class DefaultProcessorChain implements DataProcessorChain {
 	 */
 	public void addDataProcessor(DataProcessor pDataProcessor) {
 		
-//		if(mInitialized) {
-//			throw new IllegalStateException("Chain is already initialized.");
-//		}
-		
 		mDataProcessors.add(pDataProcessor);
 		pDataProcessor.setProcessorChain(this);
 	}
@@ -66,10 +68,6 @@ public class DefaultProcessorChain implements DataProcessorChain {
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#replaceDataProcessor(de.phleisch.app.itsucks.processing.DataProcessor, de.phleisch.app.itsucks.processing.DataProcessor)
 	 */
 	public void replaceDataProcessor(DataProcessor pOldDataProcessor, DataProcessor pNewDataProcessor) {
-		
-//		if(mInitialized) {
-//			throw new IllegalStateException("Chain is already initialized.");
-//		}
 		
 		int index = mDataProcessors.indexOf(pOldDataProcessor);
 		if(index < 0) {
@@ -86,7 +84,6 @@ public class DefaultProcessorChain implements DataProcessorChain {
 		return new ArrayList<DataProcessor>(mDataProcessors);
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#init()
 	 */
@@ -137,7 +134,6 @@ public class DefaultProcessorChain implements DataProcessorChain {
 		
 		mInitialized = false;
 	}
-	
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
@@ -215,7 +211,6 @@ public class DefaultProcessorChain implements DataProcessorChain {
 			processor.resumeAt(pResumeOffset);
 		}
 	}
-
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#setDataRetriever(de.phleisch.app.itsucks.io.DataRetriever)
