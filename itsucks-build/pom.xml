@@ -6,7 +6,7 @@
   <artifactId>itsucks-parent</artifactId>
   <groupId>itsucks</groupId>
   <url>http://itsucks.sf.net</url>
-  <version>0.2.0-pre10</version>
+  <version>0.2.0-b1</version>
   <packaging>pom</packaging>
 
   <repositories>
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>itsucks</groupId>
       <artifactId>itsucks-core</artifactId>
-      <version>0.2.0-pre10</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
