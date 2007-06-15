@@ -42,7 +42,7 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.persistence.JobSerializationManager;
+import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 public class MainWindow implements AddDownloadJobInterface {
@@ -416,7 +416,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		int result = fc.showOpenDialog(jFrame);
 		
 		if(result == JFileChooser.APPROVE_OPTION) {
-			JobSerializationManager serializationManager = (JobSerializationManager) 
+			JobSerialization serializationManager = (JobSerialization) 
 				SpringContextSingelton.getApplicationContext().getBean("JobSerializationManager");
 		
 			SerializableJobList jobList = null;

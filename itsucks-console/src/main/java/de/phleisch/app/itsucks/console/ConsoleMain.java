@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Dispatcher;
 import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.persistence.JobSerializationManager;
+import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 public class ConsoleMain {
@@ -33,7 +33,7 @@ public class ConsoleMain {
 
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 
-		JobSerializationManager serializationManager = (JobSerializationManager) context
+		JobSerialization serializationManager = (JobSerialization) context
 				.getBean("JobSerializationManager");
 
 		SerializableJobList jobList = null;
