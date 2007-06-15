@@ -9,7 +9,6 @@ package de.phleisch.app.itsucks.gui.panel;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
@@ -48,7 +48,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	
 	public DownloadJobTableModel() {
 		mRows = new Vector<DownloadJob>(); //use vector to be thread safe
-		mJobPosition = new HashMap<DownloadJob, Integer>();
+		mJobPosition = new ConcurrentHashMap<DownloadJob, Integer>();
 		mJobObserver = new JobObserver();
 		
 		mJobObserver.start();
