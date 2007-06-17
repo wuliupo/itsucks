@@ -42,7 +42,6 @@
       <div>
         Main
       </div>
-
       <ul>
         <li><a class="<? selectMenuEntry('home'); ?>" href="index.php">Home</a></li>
         <li><a class="<? selectMenuEntry('news'); ?>" href="news.php">News</a></li>
@@ -52,9 +51,15 @@
       </ul>
 
       <div>
+        Documentation
+      </div>
+      <ul>
+      	<li><a class="<? selectMenuEntry('api'); ?>" href="apidocs/">Core API</a></li>
+      </ul>
+
+      <div>
         Support
       </div>
-
       <ul>
         <li><a class="menu" href="http://sourceforge.net/forum/?group_id=186141">Forums</a></li>
         <li><a class="menu" href="http://sourceforge.net/tracker/?atid=916088&amp;group_id=186141&amp;func=browse">Bug Reports</a></li>

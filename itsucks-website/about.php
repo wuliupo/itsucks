@@ -18,11 +18,12 @@ include_once('include/header.php.inc');
         
         <h3>General Features</h3>
         <ul>
-          <li>Designed to support multiple protocols. At this time only http is implemented.</li>
+          <li>Designed to support multiple protocols. At this time only http/https is implemented.</li>
           <li>Running multiple crawl jobs simultaniously.</li>
           <li>Number of working threads for every crawl job is changeable. (Not over the GUI available yet.)</li>
           <li>Search depth is configurable.</li>
           <li>Support for individual priority of an URL.</li>
+          <li>Customizable processing chain to process the downloaded data.</li>
           <li>Save and load one or multiple Jobs. (serialize / deserialize)</li>
           <li>Fully programmed with Java 1.5 features (generics etc.).</li>
         </ul>
@@ -66,6 +67,7 @@ include_once('include/header.php.inc');
           <li><a href="http://jakarta.apache.org/commons/httpclient/">Jakarta Commons HttpClient</a></li>
           <li><a href="http://logging.apache.org/log4j/">log4j</a> 
           + <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons Logging</a></li>
+          <li><a href="http://www.junit.org/">JUnit</a></li>
           <li><a href="http://eclipse.org">Eclipse development platform</a>
           	<ul>
           		<li><a href="http://subclipse.tigris.org/">Subclipse plugin (Subversion)</a></li>
