@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.filter.MaxFileDownloadFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
@@ -98,13 +99,16 @@ public class AddDownloadJobDialog extends JDialog {
 	}
 
 	private AddDownloadJobBean collectDownloadJob() {
+		
+		if(!downloadJobMainPanel.checkFields() || !advancedFilterOverviewPanel.checkFields()) {
+			return null;
+		}
+		
 		AddDownloadJobBean job = this.downloadJobMainPanel.buildDownloadJob();
 		
 		if(job != null)  {
-			JobFilter advancedFilter = 
-				this.advancedFilterOverviewPanel.buildAdvancedFilter();
-			
-			job.addFilter(advancedFilter);
+			job.addFilter(advancedFilterOverviewPanel.buildAdvancedFilter());
+			job.addFilter(advancedFilterOverviewPanel.buildDownloadFilter());
 		}
 		
 		return job;
@@ -114,19 +118,25 @@ public class AddDownloadJobDialog extends JDialog {
 		
 		DownloadJobFilter downloadFilter = null;
 		RegExpJobFilter regexpFilter = null; 
+		MaxFileDownloadFilter maxDownloadFilter = null;
 		
 		for (JobFilter jobFilter : pFilterList) {
 			if(jobFilter instanceof DownloadJobFilter) {
 				downloadFilter = (DownloadJobFilter) jobFilter;
 			} else if(jobFilter instanceof RegExpJobFilter) {
 				regexpFilter = (RegExpJobFilter) jobFilter;
+			} else if(jobFilter instanceof MaxFileDownloadFilter) {
+				maxDownloadFilter = (MaxFileDownloadFilter) jobFilter;
 			}
 		}
 		
 		//load main panel
 		downloadJobMainPanel.loadDownloadJob(pDownload, downloadFilter);
 		
-		//load advanced filter panel
+		//load advanced filter for download job
+		advancedFilterOverviewPanel.loadDownloadFilter(maxDownloadFilter);
+		
+		//load advanced filter panel for advanced filter
 		advancedFilterOverviewPanel.loadAdvancedFilter(regexpFilter);
 	}
 

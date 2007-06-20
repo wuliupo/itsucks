@@ -18,6 +18,10 @@ public class AddDownloadJobBean {
 	private DownloadJob mDownload;
 	private List<JobFilter> mFilterList;
 	
+	public AddDownloadJobBean() {
+		mFilterList = new ArrayList<JobFilter>();
+	}
+	
 	public DownloadJob getDownload() {
 		return mDownload;
 	}

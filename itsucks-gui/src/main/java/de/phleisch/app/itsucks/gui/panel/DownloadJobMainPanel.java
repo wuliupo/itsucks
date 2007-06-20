@@ -14,7 +14,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -35,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.AddDownloadJobBean;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -429,7 +427,7 @@ public class DownloadJobMainPanel extends JPanel {
 		return jAddHostnameFilter;
 	}
 
-	private boolean checkFields() {
+	public boolean checkFields() {
 		
 		List<String> errorMessages = new ArrayList<String>();
 		
@@ -530,8 +528,7 @@ public class DownloadJobMainPanel extends JPanel {
 		//build result
 		AddDownloadJobBean result = new AddDownloadJobBean();
 		result.setDownload(job);
-		result.setFilterList(Arrays.asList(new JobFilter[] {
-				jobFilter/*, regExpJobFilter*/}));
+		result.addFilter(jobFilter);
 		
 		return result;
 	}

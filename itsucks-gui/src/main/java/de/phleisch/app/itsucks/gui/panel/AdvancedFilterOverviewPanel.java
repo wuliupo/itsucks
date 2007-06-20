@@ -11,16 +11,21 @@ package de.phleisch.app.itsucks.gui.panel;
 import java.awt.Dialog;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import de.phleisch.app.itsucks.filter.MaxFileDownloadFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
@@ -49,6 +54,10 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	private Dialog mParentDialog = null;
 
 	private JButton jEdit = null;
+
+	private JLabel jLabelMaxDownloadFiles = null;
+
+	private JTextField jMaxDownloadFiles = null;
 	
 	/**
 	 * This is the default constructor
@@ -79,6 +88,32 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		
 		addAdvancedFilterRule(rule);
 	}
+	
+	public boolean checkFields() {
+		
+		List<String> errorMessages = new ArrayList<String>();
+		
+		//check fields
+		try {
+			Integer.parseInt(jMaxDownloadFiles.getText());
+		} catch (NumberFormatException e) {
+			errorMessages.add("Maximum files to download is not a number.");
+		}
+		
+		if(errorMessages.size() > 0) {
+			String messageText = "";
+			
+			for (String message : errorMessages) {
+				messageText += message + "\n";
+			}
+			
+			JOptionPane.showMessageDialog(this, messageText, "Validation error", JOptionPane.ERROR_MESSAGE );
+			
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	/**
 	 * This method initializes this
@@ -86,7 +121,11 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(394, 226);
+		jLabelMaxDownloadFiles = new JLabel();
+		jLabelMaxDownloadFiles.setBounds(new Rectangle(10, 240, 271, 21));
+		jLabelMaxDownloadFiles.setText("Max files to download: (-1 = unlimited):");
+		jLabelMaxDownloadFiles.setFont(new Font("Dialog", Font.PLAIN, 12));
+		this.setSize(394, 366);
 		this.setLayout(null);
 		jLabelAdvancedFilter = new JLabel();
 		jLabelAdvancedFilter.setBounds(new Rectangle(10, 10, 341, 31));
@@ -100,6 +139,8 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		this.add(getJButtonMoveRuleUp(), null);
 		this.add(getJButtonMoveRuleDown(), null);
 		this.add(getJEdit(), null);
+		this.add(jLabelMaxDownloadFiles, null);
+		this.add(getJMaxDownloadFiles(), null);
 	}
 
 
@@ -297,6 +338,22 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		}
 	}
 
+	public void loadDownloadFilter(MaxFileDownloadFilter pDownloadFilter) {
+		if(pDownloadFilter == null) return;
+		
+		jMaxDownloadFiles.setText(Integer.toString(pDownloadFilter.getMaxDownloadFiles()));
+		
+	}
+	
+	public MaxFileDownloadFilter buildDownloadFilter() {
+
+		MaxFileDownloadFilter filter = new MaxFileDownloadFilter();
+		
+		filter.setMaxDownloadFiles(Integer.parseInt(jMaxDownloadFiles.getText()));
+		
+		return filter;
+	}
+	
 	/**
 	 * This method initializes jEdit	
 	 * 	
@@ -327,5 +384,23 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		}
 		return jEdit;
 	}
+
+	/**
+	 * This method initializes jMaxDownloadFiles	
+	 * 	
+	 * @return javax.swing.JTextField	
+	 */
+	private JTextField getJMaxDownloadFiles() {
+		if (jMaxDownloadFiles == null) {
+			jMaxDownloadFiles = new JTextField();
+			jMaxDownloadFiles.setBounds(new Rectangle(10, 260, 61, 21));
+			jMaxDownloadFiles.setText("-1");
+			jMaxDownloadFiles.setHorizontalAlignment(JTextField.RIGHT);
+			jMaxDownloadFiles.setFont(new Font("Dialog", Font.PLAIN, 12));
+		}
+		return jMaxDownloadFiles;
+	}
+
+
 
 }  //  @jve:decl-index=0:visual-constraint="4,-5"
