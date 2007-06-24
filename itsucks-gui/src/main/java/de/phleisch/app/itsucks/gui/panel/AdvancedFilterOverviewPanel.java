@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import de.phleisch.app.itsucks.filter.MaxFileDownloadFilter;
+import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
@@ -55,9 +55,9 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 
 	private JButton jEdit = null;
 
-	private JLabel jLabelMaxDownloadFiles = null;
+	private JLabel jLabelMaxLinksToFollow = null;
 
-	private JTextField jMaxDownloadFiles = null;
+	private JTextField jMaxLinksToFollow = null;
 	
 	/**
 	 * This is the default constructor
@@ -95,7 +95,7 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		
 		//check fields
 		try {
-			Integer.parseInt(jMaxDownloadFiles.getText());
+			Integer.parseInt(jMaxLinksToFollow.getText());
 		} catch (NumberFormatException e) {
 			errorMessages.add("Maximum files to download is not a number.");
 		}
@@ -121,10 +121,10 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	 * @return void
 	 */
 	private void initialize() {
-		jLabelMaxDownloadFiles = new JLabel();
-		jLabelMaxDownloadFiles.setBounds(new Rectangle(10, 240, 271, 21));
-		jLabelMaxDownloadFiles.setText("Max files to download: (-1 = unlimited):");
-		jLabelMaxDownloadFiles.setFont(new Font("Dialog", Font.PLAIN, 12));
+		jLabelMaxLinksToFollow = new JLabel();
+		jLabelMaxLinksToFollow.setBounds(new Rectangle(10, 240, 271, 21));
+		jLabelMaxLinksToFollow.setText("Max links to follow: (-1 = unlimited):");
+		jLabelMaxLinksToFollow.setFont(new Font("Dialog", Font.PLAIN, 12));
 		this.setSize(394, 366);
 		this.setLayout(null);
 		jLabelAdvancedFilter = new JLabel();
@@ -139,8 +139,8 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		this.add(getJButtonMoveRuleUp(), null);
 		this.add(getJButtonMoveRuleDown(), null);
 		this.add(getJEdit(), null);
-		this.add(jLabelMaxDownloadFiles, null);
-		this.add(getJMaxDownloadFiles(), null);
+		this.add(jLabelMaxLinksToFollow, null);
+		this.add(getJMaxLinksToFollow(), null);
 	}
 
 
@@ -338,18 +338,18 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 		}
 	}
 
-	public void loadDownloadFilter(MaxFileDownloadFilter pDownloadFilter) {
+	public void loadDownloadFilter(MaxLinksToFollowFilter pDownloadFilter) {
 		if(pDownloadFilter == null) return;
 		
-		jMaxDownloadFiles.setText(Integer.toString(pDownloadFilter.getMaxDownloadFiles()));
+		jMaxLinksToFollow.setText(Integer.toString(pDownloadFilter.getMaxLinksToFollow()));
 		
 	}
 	
-	public MaxFileDownloadFilter buildDownloadFilter() {
+	public MaxLinksToFollowFilter buildDownloadFilter() {
 
-		MaxFileDownloadFilter filter = new MaxFileDownloadFilter();
+		MaxLinksToFollowFilter filter = new MaxLinksToFollowFilter();
 		
-		filter.setMaxDownloadFiles(Integer.parseInt(jMaxDownloadFiles.getText()));
+		filter.setMaxLinksToFollow(Integer.parseInt(jMaxLinksToFollow.getText()));
 		
 		return filter;
 	}
@@ -386,19 +386,19 @@ public class AdvancedFilterOverviewPanel extends JPanel implements AddAdvancedFi
 	}
 
 	/**
-	 * This method initializes jMaxDownloadFiles	
+	 * This method initializes jMaxLinksToFollow	
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */
-	private JTextField getJMaxDownloadFiles() {
-		if (jMaxDownloadFiles == null) {
-			jMaxDownloadFiles = new JTextField();
-			jMaxDownloadFiles.setBounds(new Rectangle(10, 260, 61, 21));
-			jMaxDownloadFiles.setText("-1");
-			jMaxDownloadFiles.setHorizontalAlignment(JTextField.RIGHT);
-			jMaxDownloadFiles.setFont(new Font("Dialog", Font.PLAIN, 12));
+	private JTextField getJMaxLinksToFollow() {
+		if (jMaxLinksToFollow == null) {
+			jMaxLinksToFollow = new JTextField();
+			jMaxLinksToFollow.setBounds(new Rectangle(10, 260, 61, 21));
+			jMaxLinksToFollow.setText("-1");
+			jMaxLinksToFollow.setHorizontalAlignment(JTextField.RIGHT);
+			jMaxLinksToFollow.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
-		return jMaxDownloadFiles;
+		return jMaxLinksToFollow;
 	}
 
 

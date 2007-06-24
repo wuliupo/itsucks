@@ -133,7 +133,20 @@
 		class="de.phleisch.app.itsucks.JobFactory" 
 		singleton="true">
 	</bean>	
-	
+
+<!-- 
+	<bean 
+		id="JobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.XMLJobSerialization" 
+		singleton="false">
+		
+		<property name="jobFactory">
+			<ref bean="JobFactory"/>
+		</property>
+		
+	</bean>
+ -->
+ 
 	<bean 
 		id="JobSerialization" 
 		class="de.phleisch.app.itsucks.persistence.BinaryObjectJobSerialization" 

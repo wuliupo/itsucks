@@ -57,8 +57,9 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		
 		DownloadJob downloadJob = (DownloadJob) pJob;
 		int state = downloadJob.getState();
+		URL url = downloadJob.getUrl();
 		
-		if(!mAlreadyAddedUrls.add(downloadJob.getUrl().toURI())) {
+		if(!mAlreadyAddedUrls.add(url.toURI())) {
 			state = Job.STATE_ALREADY_PROCESSED;
 		}
 		
@@ -77,7 +78,7 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		if(mAllowedHostNames != null) {
 			boolean allowed = false;
 			for (String serverName : mAllowedHostNames) {
-				if(downloadJob.getUrl().getHost().matches(serverName)) {
+				if(url.getHost().matches(serverName)) {
 					allowed = true;
 					break;
 				}
@@ -90,7 +91,7 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		if(mSaveToFileFilter != null) {
 			boolean save = false;
 			for (String saveFilter : mSaveToFileFilter) {
-				if(downloadJob.getUrl().getPath().matches(saveFilter)) {
+				if(url.getPath().matches(saveFilter)) {
 					save = true;
 					break;
 				}

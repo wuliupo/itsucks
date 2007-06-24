@@ -39,6 +39,9 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -417,7 +420,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		
 		if(result == JFileChooser.APPROVE_OPTION) {
 			JobSerialization serializationManager = (JobSerialization) 
-				SpringContextSingelton.getApplicationContext().getBean("JobSerializationManager");
+				SpringContextSingelton.getApplicationContext().getBean("JobSerialization");
 		
 			SerializableJobList jobList = null;
 			try {
@@ -463,8 +466,6 @@ public class MainWindow implements AddDownloadJobInterface {
 		} else {
 			dispatcher.pause();
 		}
-		
-		updateButtonState();
 	}	
 	
 	private void closeDownloadStatusPane() {
@@ -508,7 +509,16 @@ public class MainWindow implements AddDownloadJobInterface {
 		dispatcher.addJobFilter(pFilterList);
 		dispatcher.addJob(pDownload);
 		
-		//dispatcher.getEventManager().registerObserver(new RetryPlugin());
+		dispatcher.getEventManager().registerObserver(new EventObserver() {
+
+			public void processEvent(Event pEvent) {
+				if(pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_CORE) {
+					updateButtonState();
+					updateTabTitles();
+				}
+			}
+			
+		});
 		
 		//start dispatcher thread
 		try {
@@ -581,7 +591,7 @@ public class MainWindow implements AddDownloadJobInterface {
 	private JButton getJPauseDownload() {
 		if (jPauseDownload == null) {
 			jPauseDownload = new JButton();
-			jPauseDownload.setToolTipText("Close/Stop download");
+			jPauseDownload.setToolTipText("Pause/Unpause download");
 			jPauseDownload.setIcon(new ImageIcon(getClass().getResource("/pause.png")));
 			jPauseDownload.setText("Pause download");
 			jPauseDownload.setEnabled(false);
@@ -607,11 +617,8 @@ public class MainWindow implements AddDownloadJobInterface {
 			DispatcherThread dispatcher = pane.getDispatcher();
 			
 			if(dispatcher.isPaused()) {
-				jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), pane.getName()
-						+ " (paused)");
 				jPauseDownload.setText("Unpause download");
 			} else {
-				jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), pane.getName());
 				jPauseDownload.setText("Pause download");
 			}
 			
@@ -623,6 +630,30 @@ public class MainWindow implements AddDownloadJobInterface {
 			
 			jCloseDownload.setEnabled(true);
 		}
+	}
+	
+	private void updateTabTitles() {
+		
+		Component[] components = jTabbedPane.getComponents();
+		for (int i = 0; i < components.length; i++) {
+			
+			DownloadStatusPanel pane = (DownloadStatusPanel) components[i];
+			
+			DispatcherThread dispatcher = pane.getDispatcher();
+			
+			if(dispatcher.isPaused()) {
+				jTabbedPane.setTitleAt(jTabbedPane.indexOfComponent(pane), pane.getName()
+						+ " (paused)");
+			} else if(dispatcher.isRunning()){
+				jTabbedPane.setTitleAt(jTabbedPane.indexOfComponent(pane), pane.getName());
+			} else {
+				jTabbedPane.setTitleAt(jTabbedPane.indexOfComponent(pane), pane.getName()
+						+ " (finished)");
+			}
+			
+			
+		}
+		
 	}
 	
 

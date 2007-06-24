@@ -99,7 +99,8 @@ public class DownloadJob extends AbstractJob {
 	}
 	
 	protected void download() throws Exception {
-		String protocol = mUrl.getProtocol();
+		URL url = mUrl;
+		String protocol = url.getProtocol();
 		
 		mDataRetriever = 
 			mDataRetrieverManager.getRetrieverForProtocol(protocol);
@@ -112,7 +113,7 @@ public class DownloadJob extends AbstractJob {
 			return;
 		}
 		
-		mDataRetriever.setUrl(mUrl);
+		mDataRetriever.setUrl(url);
 		
 		boolean skip = false;
 		
@@ -120,7 +121,7 @@ public class DownloadJob extends AbstractJob {
 		if(isSaveToFile()) {
 			
 			FileManager fileManager = new FileManager(this.getSavePath());
-			File file = fileManager.buildSavePath(getUrl());
+			File file = fileManager.buildSavePath(url);
 			
 			if(file.exists()) {
 			
@@ -243,23 +244,24 @@ public class DownloadJob extends AbstractJob {
 	public URL getUrl() {
 		return mUrl;
 	}
-
+	
 	/**
 	 * Sets the url to be downloaded.
 	 * 
 	 * @param pUrl
 	 */
 	public void setUrl(URL pUrl) {
+		
 		//fix the url if no path part exists
 		if("".equals(pUrl.getPath()) && pUrl.getQuery() == null) {
 			try {
-				mUrl = new URL(pUrl.toExternalForm() + "/");
+				pUrl = new URL(pUrl.toExternalForm() + "/");
 			} catch (MalformedURLException e) {
 				throw new IllegalStateException("Error appending slash to url: " + pUrl, e);
 			}
-		} else {
-			mUrl = pUrl;
 		}
+		
+		mUrl = pUrl;
 	}
 
 	/**

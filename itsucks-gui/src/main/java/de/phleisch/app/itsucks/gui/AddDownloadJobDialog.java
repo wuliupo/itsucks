@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.filter.MaxFileDownloadFilter;
+import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.gui.panel.AdvancedFilterOverviewPanel;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobMainPanel;
@@ -118,15 +118,15 @@ public class AddDownloadJobDialog extends JDialog {
 		
 		DownloadJobFilter downloadFilter = null;
 		RegExpJobFilter regexpFilter = null; 
-		MaxFileDownloadFilter maxDownloadFilter = null;
+		MaxLinksToFollowFilter maxDownloadFilter = null;
 		
 		for (JobFilter jobFilter : pFilterList) {
 			if(jobFilter instanceof DownloadJobFilter) {
 				downloadFilter = (DownloadJobFilter) jobFilter;
 			} else if(jobFilter instanceof RegExpJobFilter) {
 				regexpFilter = (RegExpJobFilter) jobFilter;
-			} else if(jobFilter instanceof MaxFileDownloadFilter) {
-				maxDownloadFilter = (MaxFileDownloadFilter) jobFilter;
+			} else if(jobFilter instanceof MaxLinksToFollowFilter) {
+				maxDownloadFilter = (MaxLinksToFollowFilter) jobFilter;
 			}
 		}
 		
@@ -287,7 +287,7 @@ public class AddDownloadJobDialog extends JDialog {
 		if(result == JFileChooser.APPROVE_OPTION) {
 			
 			JobSerialization serializationManager = (JobSerialization) 
-				SpringContextSingelton.getApplicationContext().getBean("JobSerializationManager");
+				SpringContextSingelton.getApplicationContext().getBean("JobSerialization");
 			
 			SerializableJobList jobList = new SerializableJobList();
 			jobList.setFilters(downloadJob.getFilterList());
