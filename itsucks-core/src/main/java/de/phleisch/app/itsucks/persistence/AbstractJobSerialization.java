@@ -13,7 +13,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import de.phleisch.app.itsucks.JobFactory;
 
@@ -24,7 +23,7 @@ public abstract class AbstractJobSerialization implements JobSerialization {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#serialize(de.phleisch.app.itsucks.persistence.SerializableJobList, java.io.File)
 	 */
-	public void serialize(SerializableJobList pJobList, File pTargetFile) throws IOException {
+	public void serialize(SerializableJobList pJobList, File pTargetFile) throws Exception {
 		
 		FileOutputStream output = new FileOutputStream(pTargetFile);
 		BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
@@ -35,7 +34,7 @@ public abstract class AbstractJobSerialization implements JobSerialization {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#deserialize(java.io.File)
 	 */
-	public SerializableJobList deserialize(File pTargetFile) throws IOException, ClassNotFoundException {
+	public SerializableJobList deserialize(File pTargetFile) throws Exception, ClassNotFoundException {
 
 		FileInputStream input = new FileInputStream(pTargetFile);
 		BufferedInputStream bufferedInput = new BufferedInputStream(input);

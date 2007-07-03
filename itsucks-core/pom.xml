@@ -1,101 +1,114 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>itsucks</groupId>
-    <artifactId>itsucks-parent</artifactId>
-    <version>0.2.0-b2</version>
-    <relativePath>../itsucks-build</relativePath>
-  </parent>
+	<parent>
+		<groupId>itsucks</groupId>
+		<artifactId>itsucks-parent</artifactId>
+		<version>0.2.0-b2</version>
+		<relativePath>../itsucks-build</relativePath>
+	</parent>
 
-  <artifactId>itsucks-core</artifactId>
-  <groupId>itsucks</groupId>
-  <packaging>jar</packaging>
-  <name>ItSucks-Core</name>
+	<artifactId>itsucks-core</artifactId>
+	<groupId>itsucks</groupId>
+	<packaging>jar</packaging>
+	<name>ItSucks-Core</name>
 
-  <build>
+	<build>
 
-  <!-- include the source code - ->
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-        <targetPath>/src</targetPath>
-        <includes>
-          <include>**/*.java</include>
-        </includes>
-      </resource>
-      
-      <!- -
-      <resource>
-        <directory>resources</directory>
-        <targetPath>/</targetPath>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource> 
-    </resources> -->
-  
-    <plugins>
+		<!-- include the source code - ->
+			<resources>
+			<resource>
+			<directory>src/main/java</directory>
+			<targetPath>/src</targetPath>
+			<includes>
+			<include>**/*.java</include>
+			</includes>
+			</resource>
+			
+			<!- -
+			<resource>
+			<directory>resources</directory>
+			<targetPath>/</targetPath>
+			<includes>
+			<include>**/*</include>
+			</includes>
+			</resource> 
+			</resources> -->
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
+		<plugins>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
 
-            <manifest>
-              <packageName>itsucks-core</packageName>
-              <addClasspath>true</addClasspath>
-              <addExtensions/>
-              <classpathPrefix/>
-            </manifest>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
 
-            <manifestEntries>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
+						<manifest>
+							<packageName>itsucks-core</packageName>
+							<addClasspath>true</addClasspath>
+							<addExtensions />
+							<classpathPrefix />
+						</manifest>
 
-    </plugins>
-  </build>
+						<manifestEntries></manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
 
-  <dependencies>
+		</plugins>
+	</build>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-    </dependency>
+	<dependencies>
 
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
 
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-    </dependency>
-	  
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>
 
-  </dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-libs</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 </project>

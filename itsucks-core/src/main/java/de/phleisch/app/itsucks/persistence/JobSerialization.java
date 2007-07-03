@@ -32,9 +32,10 @@ public interface JobSerialization {
 	 * @param pJobList
 	 * @param pTargetFile
 	 * @throws IOException
+	 * @throws Exception 
 	 */
 	public abstract void serialize(SerializableJobList pJobList,
-			File pTargetFile) throws IOException;
+			File pTargetFile) throws Exception;
 
 	/**
 	 * Serializes the given job list to the given output stream.
@@ -43,9 +44,10 @@ public interface JobSerialization {
 	 * @param pJobList
 	 * @param pOutputStream
 	 * @throws IOException
+	 * @throws Exception 
 	 */
 	public void serialize(SerializableJobList pJobList, OutputStream pOutputStream) 
-			throws IOException;
+			throws Exception;
 	
 	/**
 	 * Deserializes a job list from the given file.
@@ -56,7 +58,7 @@ public interface JobSerialization {
 	 * @throws ClassNotFoundException
 	 */
 	public abstract SerializableJobList deserialize(File pTargetFile)
-			throws IOException, ClassNotFoundException;
+			throws Exception;
 
 	/**
 	 * Deserializes a job list from the given input stream.
@@ -67,7 +69,7 @@ public interface JobSerialization {
 	 * @throws ClassNotFoundException
 	 */
 	public abstract SerializableJobList deserialize(InputStream pInputStream)
-			throws IOException, ClassNotFoundException;
+			throws Exception;
 
 	/**
 	 * Sets the factory to reinject the dependencies back to the deserialzed

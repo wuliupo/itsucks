@@ -183,6 +183,10 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		private RegExpFilterAction mMatchAction = null;
 		private RegExpFilterAction mNoMatchAction = null;
 		
+		public RegExpFilterRule() {
+			this("", new RegExpFilterAction(), new RegExpFilterAction());
+		}		
+		
 		/**
 		 * Creates a new rule with the given pattern.
 		 * No actions are registered for match/no match of the pattern.

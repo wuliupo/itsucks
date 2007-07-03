@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Rectangle;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -295,7 +294,7 @@ public class AddDownloadJobDialog extends JDialog {
 			
 			try {
 				serializationManager.serialize(jobList, fc.getSelectedFile());
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				
 				mLog.error("Error occured while saving download template", e1);
 				

@@ -149,7 +149,7 @@
  
 	<bean 
 		id="JobSerialization" 
-		class="de.phleisch.app.itsucks.persistence.BinaryObjectJobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.JAXBJobSerialization" 
 		singleton="false">
 		
 		<property name="jobFactory">
