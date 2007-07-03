@@ -1,0 +1,23 @@
+/* Copyright (C) 2006-2007 Oliver Mihatsch (banishedknight@users.sf.net)
+ * This is free software distributed under the terms of the
+ * GNU Public License.  See the file COPYING for details. 
+ *
+ * $Id$
+ * Created on 03.07.2007
+ */
+
+package de.phleisch.app.itsucks.persistence.jaxb.conversion;
+
+public class DownloadJobConverter extends AbstractBeanConverter {
+
+	public Object convertFromBean(Object pBean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object convertToBean(Object pObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
