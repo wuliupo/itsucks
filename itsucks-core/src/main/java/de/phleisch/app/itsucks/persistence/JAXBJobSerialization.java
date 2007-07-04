@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -22,6 +23,7 @@ import org.springframework.context.ApplicationContextAware;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobs;
+import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverterManager;
 
 /**
  * This class implements the JobSerialization interface using the 
@@ -52,9 +54,17 @@ public class JAXBJobSerialization
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
 				   new Boolean(true));
 
+		BeanConverterManager manager = new BeanConverterManager();
 		ObjectFactory beanFactory = new ObjectFactory();
 		SerializedDownloadJobs jobs = beanFactory.createSerializedDownloadJobs();
-		jobs.setVersion("Test");
+		jobs.setVersion("1.0");
+		
+		for (Job job : pJobList.getJobs()) {
+			
+			
+			//jobs.getSerializedDownloadJob().add
+			
+		}
 		
 		marshaller.marshal(jobs,
 				   pOutputStream);

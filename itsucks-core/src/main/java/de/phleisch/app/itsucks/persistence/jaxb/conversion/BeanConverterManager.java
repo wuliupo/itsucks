@@ -8,22 +8,57 @@
 
 package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BeanConverterManager {
 
-	public BeanConverter getBeanConverterForClass(Class<?> pClass) {
-		return null;
+	private Map<Class<?>, BeanConverter> mBeanConverter;
+	private Map<Class<?>, BeanConverter> mClassConverter;
+	
+	public BeanConverterManager() {
+		mBeanConverter = new HashMap<Class<?>, BeanConverter>();
+		mClassConverter = new HashMap<Class<?>, BeanConverter>();
+	}
+
+	/**
+	 * Gets an Converter which can convert the given type of class
+	 * to an bean.
+	 * @param pBean
+	 * @param pConverter
+	 */
+	public BeanConverter getClassConverter(Class<?> pClass) {
+		return mClassConverter.get(pClass);
+	}
+
+	/**
+	 * Gets an Converter which can convert the given type of class
+	 * to an bean.
+	 * @param pBean
+	 * @param pConverter
+	 */
+	public BeanConverter getBeanConverter(Class<?> pBean) {
+		return mBeanConverter.get(pBean);
 	}
 	
-	public BeanConverter getConverterForBean(Class<?> pBean) {
-		return null;
+	/**
+	 * Registers an Converter which can convert the given type of class
+	 * to an bean.
+	 * @param pBean
+	 * @param pConverter
+	 */
+	public void registerBeanConverter(Class<?> pBean, BeanConverter pConverter) {
+		mBeanConverter.put(pBean, pConverter);
 	}
-	
-	public void registerConverterForBean(Class<?> pBean) {
-		
-	}
-	
-	public void registerBeanConverterForClass(Class<?> pClass) {
-		
+
+	/**
+	 * Registers an Converter which can convert the given type of bean class
+	 * back to an normal object.
+	 * @param pBean
+	 * @param pConverter
+	 */
+	public void registerClassConverter(Class<?> pClass, BeanConverter pConverter) {
+		mClassConverter.put(pClass, pConverter);
 	}
 	
 }
