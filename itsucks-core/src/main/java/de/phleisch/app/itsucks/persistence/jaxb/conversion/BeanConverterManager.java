@@ -58,6 +58,7 @@ public class BeanConverterManager {
 	 * @param pConverter
 	 */
 	public void registerClassConverter(Class<?> pClass, BeanConverter pConverter) {
+		pConverter.setBeanConverterManager(this);
 		mClassConverter.put(pClass, pConverter);
 	}
 	

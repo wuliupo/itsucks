@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -21,9 +20,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobs;
+import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverter;
 import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverterManager;
+import de.phleisch.app.itsucks.persistence.jaxb.conversion.DownloadJobConverter;
 
 /**
  * This class implements the JobSerialization interface using the 
@@ -54,20 +57,29 @@ public class JAXBJobSerialization
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
 				   new Boolean(true));
 
-		BeanConverterManager manager = new BeanConverterManager();
 		ObjectFactory beanFactory = new ObjectFactory();
+		
+		//TODO move to spring
+		BeanConverterManager manager = new BeanConverterManager();
+		DownloadJobConverter converter = new DownloadJobConverter();
+		converter.setBeanFactory(beanFactory);
+		manager.registerClassConverter(DownloadJob.class, converter);
+		
+		
 		SerializedDownloadJobs jobs = beanFactory.createSerializedDownloadJobs();
 		jobs.setVersion("1.0");
 		
 		for (Job job : pJobList.getJobs()) {
 			
+			BeanConverter beanConverter = manager.getClassConverter(job.getClass());
 			
-			//jobs.getSerializedDownloadJob().add
+			//TODO this is not really good, fix this
+			jobs.getSerializedDownloadJob().add((SerializedDownloadJob) 
+					beanConverter.convertClassToBean(job));
 			
 		}
 		
-		marshaller.marshal(jobs,
-				   pOutputStream);
+		marshaller.marshal(jobs, pOutputStream);
 		
 		pOutputStream.close();
 	}

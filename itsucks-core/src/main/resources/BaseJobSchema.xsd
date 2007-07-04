@@ -16,7 +16,7 @@
 			<!-- TODO parameter -->
 		</xs:sequence>
 		
-		<xs:attribute name="id" type="xs:integer" />
+		<xs:attribute name="id" type="xs:long" />
 	</xs:complexType>
 	
 

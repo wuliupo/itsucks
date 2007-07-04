@@ -11,7 +11,13 @@
 		<xs:complexContent>
 			<xs:extension base="itsucks:serializedJob">
 				<xs:sequence>
-					<xs:element name="downloadJobExtension" type="xs:integer"/>
+					<xs:element name="url" type="xs:string"/>
+					<xs:element name="parentJobId" type="xs:long" nillable="true"/>
+					<xs:element name="depth" type="xs:int"/>
+					<xs:element name="maxRetryCount" type="xs:int"/>
+					<xs:element name="depth" type="xs:int"/>
+					<xs:element name="depth" type="xs:int"/>
+					<xs:element name="minTimeBetweenRetry" type="xs:long" nillable="true"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

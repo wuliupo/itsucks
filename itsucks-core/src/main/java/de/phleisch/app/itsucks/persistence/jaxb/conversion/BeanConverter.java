@@ -10,9 +10,9 @@ package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 
 public interface BeanConverter {
 
-	public Object convertToBean(Object pObject);
+	public Object convertClassToBean(Object pObject);
 	
-	public Object convertFromBean(Object pBean);
+	public Object convertBeanToClass(Object pBean);
 	
 	public void setBeanConverterManager(BeanConverterManager pConverterManager);
 }
