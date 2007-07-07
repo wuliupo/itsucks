@@ -1,40 +1,129 @@
 <?xml version="1.0"?>
-<xs:schema 
+<xs:schema
 	targetNamespace="http://itsucks.sourceforge.net/ItSucksJobSchema"
 	xmlns:itsucks="http://itsucks.sourceforge.net/ItSucksJobSchema"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified">
-	
-	<xs:include schemaLocation="BaseJobSchema.xsd"/>
 
-	<xs:complexType name="serializedDownloadJob">
+	<xs:include schemaLocation="BaseJobSchema.xsd" />
+
+	<!-- DownloadJob -->
+	<xs:element name="serializedDownloadJob">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJob">
+					<xs:sequence>
+						<xs:element name="url" type="xs:string" />
+						<xs:element name="parentJobId" type="xs:long"
+							nillable="true" />
+						<xs:element name="depth" type="xs:int" />
+						<xs:element name="maxRetryCount" type="xs:int" />
+						<xs:element name="minTimeBetweenRetry"
+							type="xs:long" nillable="true" />
+						<xs:element name="saveToFile" type="xs:boolean" />
+						<xs:element name="savePath" type="xs:string"
+							nillable="true" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- DownloadJobFilter -->
+	<xs:element name="serializedDownloadJobFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+
+					<xs:sequence>
+
+						<xs:element name="allowOnlyRelativeReferences"
+							type="xs:boolean" />
+						<xs:element name="maxRecursionDepth"
+							type="xs:int" />
+						<xs:element name="baseUrl" type="xs:string"
+							nillable="true" />
+						<xs:element name="allowedHostName"
+							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
+						<xs:element name="saveToFileFilter"
+							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
+						<xs:element name="alreadyAddedUri"
+							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
+
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- MaxLinksToFollowFilter -->
+	<xs:element name="serializedMaxLinksToFollowFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element name="maxLinksToFollow"
+							type="xs:int" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- RegExpJobFilter -->
+	<xs:complexType name="serializedRegExpJobFilterAction">
 		<xs:complexContent>
-			<xs:extension base="itsucks:serializedJob">
+			<xs:extension base="itsucks:serializedJobFilter">
 				<xs:sequence>
-					<xs:element name="url" type="xs:string"/>
-					<xs:element name="parentJobId" type="xs:long" nillable="true"/>
-					<xs:element name="depth" type="xs:int"/>
-					<xs:element name="maxRetryCount" type="xs:int"/>
-					<xs:element name="depth" type="xs:int"/>
-					<xs:element name="depth" type="xs:int"/>
-					<xs:element name="minTimeBetweenRetry" type="xs:long" nillable="true"/>
+					<xs:element name="priorityChange" type="xs:int" />
+					<xs:element name="accept" type="xs:boolean"
+						nillable="true" />
+
+					<xs:element name="parameter"
+						type="itsucks:serializedJobParameter" minOccurs="0"
+						maxOccurs="unbounded" />
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:element name="serializedJobs">
+	<xs:element name="serializedRegExpJobFilterRule">
 		<xs:complexType>
-			
-			<xs:sequence>
-				<xs:element name="version" type="xs:string"/>
-				<xs:element name="serializedDownloadJob" 
-					type="itsucks:serializedDownloadJob" 
-					maxOccurs="unbounded"/>
-<!-- 				<xs:any maxOccurs="unbounded"/>  -->
-					
-			</xs:sequence>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element name="name" type="xs:string"
+							nillable="true" />
+						<xs:element name="pattern" type="xs:string" />
+
+						<xs:element name="matchAction"
+							type="itsucks:serializedRegExpJobFilterAction" />
+						<xs:element name="noMatchAction"
+							type="itsucks:serializedRegExpJobFilterAction" />
+
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
-	</xs:element>	
-	
+	</xs:element>
+
+
+	<xs:element name="serializedRegExpJobFilter">
+
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element name="letUnfilteredJobsPass"
+							type="xs:boolean" />
+						<xs:element
+							ref="itsucks:serializedRegExpJobFilterRule" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+
 </xs:schema>

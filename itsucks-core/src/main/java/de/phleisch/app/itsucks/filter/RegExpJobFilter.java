@@ -132,6 +132,16 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 	}
 	
 	/**
+	 * Returns if unfiltered jobs (no rule matches) should let passed.
+	 * If set to false jobs which does not matches at least one rule is rejected.
+	 * 
+	 * @param pValue
+	 */
+	public boolean isLetUnfilteredJobsPass() {
+		return mLetUnfilteredJobsPass;
+	}
+	
+	/**
 	 * Adds an filter rule.
 	 * 
 	 * @param pRule

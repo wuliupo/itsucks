@@ -1,25 +1,49 @@
 <?xml version="1.0"?>
-<xs:schema 
+<xs:schema
 	targetNamespace="http://itsucks.sourceforge.net/ItSucksJobSchema"
 	xmlns:itsucks="http://itsucks.sourceforge.net/ItSucksJobSchema"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified">
 
-	<xs:complexType name="serializedJob" abstract="true">
-		
+	<xs:complexType name="serializedJobParameter">
 		<xs:sequence>
-		
-			<xs:element name="name" type="xs:string" />
-			<xs:element name="state" type="xs:integer" />
-			<xs:element name="priority" type="xs:integer" />
-		
-			<!-- TODO parameter -->
+			<xs:element name="key" type="xs:string" />
+			<xs:choice>
+				<xs:element name="value" type="xs:anySimpleType" />
+				<xs:element name="serializedValue" />
+
+			</xs:choice>
+			<!-- <xs:element name="value" type="xs:string" />  -->
 		</xs:sequence>
-		
+	</xs:complexType>
+
+	<xs:complexType name="serializedJob" abstract="true">
+
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="state" type="xs:int" />
+			<xs:element name="priority" type="xs:int" />
+			<xs:element name="ignoreFilter" type="xs:boolean" />
+
+			<xs:element name="parameter"
+				type="itsucks:serializedJobParameter" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+
 		<xs:attribute name="id" type="xs:long" />
 	</xs:complexType>
-	
 
-	
-	
+	<xs:element name="serializedJobs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="version" type="xs:string" />
+				<xs:any maxOccurs="unbounded" minOccurs="0"
+					processContents="lax" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="serializedJobFilter" abstract="true">
+	</xs:complexType>
+
 </xs:schema>
