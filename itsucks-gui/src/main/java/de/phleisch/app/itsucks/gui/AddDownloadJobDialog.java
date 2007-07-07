@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -277,9 +278,11 @@ public class AddDownloadJobDialog extends JDialog {
 		
 		//open dialog
 		JFileChooser fc = new JFileChooser();
-
+		fc.setFileFilter(new FileNameExtensionFilter("ItSucks Download Templates (*.xml)", 
+				new String[]{"xml"}));
+		
 		fc.setSelectedFile(new File("ItSucks_" + 
-				downloadJob.getDownload().getName() + "_Template.dwn"));
+				downloadJob.getDownload().getName().replace(' ', '_') + "_Template.xml"));
 		
 	    // Show save dialog; this method does not return until the dialog is closed
 		int result = fc.showSaveDialog(AddDownloadJobDialog.this);

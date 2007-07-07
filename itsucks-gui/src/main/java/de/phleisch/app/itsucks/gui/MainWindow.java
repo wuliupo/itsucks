@@ -32,6 +32,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -414,6 +415,8 @@ public class MainWindow implements AddDownloadJobInterface {
 	private void loadDownload() {
 		//open dialog
 		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileNameExtensionFilter("ItSucks Download Templates (*.xml)", 
+				new String[]{"xml"}));
 		
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(jFrame);

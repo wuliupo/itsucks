@@ -96,6 +96,7 @@ public class JAXBJobSerialization
 		DownloadJobConverter converter = new DownloadJobConverter();
 		converter.setBeanFactory(beanFactory);
 		converter.setJobFactory(mJobFactory);
+		
 		manager.registerClassConverter(DownloadJob.class, converter);
 		manager.registerClassConverter(DownloadJobFilter.class, converter);
 		manager.registerClassConverter(MaxLinksToFollowFilter.class, converter);
