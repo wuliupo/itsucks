@@ -77,8 +77,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		
 		//create the folder
 		File folder = mFile.getParentFile();
-		if(!folder.exists() && !folder.mkdirs()) {
-			throw new IOException("Cannot create folder(s): " + folder);
+		
+		if(!(folder.exists() && folder.isDirectory())) {
+			createFolders(folder);
 		}
 		
 		mLog.debug("saving file: " + mFile);
@@ -91,6 +92,36 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		}
 		
 		mBufferedOut = new BufferedOutputStream(mFileOut);
+	}
+
+	private void createFolders(File pFolder) throws IOException {
+		
+		DownloadJob downloadJob = (DownloadJob) getProcessorChain().getJob();
+		
+		File baseSavePath = downloadJob.getSavePath();
+		
+		//move away any files which are in the way
+		moveBlockingFiles(pFolder, baseSavePath);
+		
+		if(!pFolder.exists() && !pFolder.mkdirs()) {
+			throw new IOException("Cannot create folder(s): " + pFolder);
+		}
+		
+	}
+
+	private void moveBlockingFiles(File pFolder, File pBaseSavePath) throws IOException {
+		
+		if(pFolder.equals(pBaseSavePath)) {
+			return;
+		}
+		
+		if(pFolder.exists() && pFolder.isFile()) {
+			if(!pFolder.renameTo(new File(pFolder.getParentFile(), pFolder.getName() + ".moved"))) {
+				throw new IOException("Cannot rename file which is in the way: " + pFolder);
+			}
+		}
+		
+		moveBlockingFiles(pFolder.getParentFile(), pBaseSavePath);
 	}
 
 	/* (non-Javadoc)

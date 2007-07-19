@@ -117,7 +117,7 @@ public class DownloadJob extends AbstractJob {
 		
 		boolean skip = false;
 		
-		//check if this file should be saved
+		//check if this file could be resumed
 		if(isSaveToFile()) {
 			
 			FileManager fileManager = new FileManager(this.getSavePath());

@@ -58,12 +58,16 @@ public class JobManager {
 		Job job = pJob;
 		job.setJobManager(this);
 		
-		if(!job.isIgnoreFilter()) {
-			job = filterJob(job);
+		//apply the configured filter to this job
+		job = filterJob(job);
+		
+		//overwrite the state which could be changed by the filters
+		if(job.isIgnoreFilter()) {
+			job.setState(Job.STATE_OPEN);
+		}	
 			
-			mEventDispatcher.fireEvent(
-					new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
-		}
+		mEventDispatcher.fireEvent(
+				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
 		
 		addJobUnfiltered(job);
 	}

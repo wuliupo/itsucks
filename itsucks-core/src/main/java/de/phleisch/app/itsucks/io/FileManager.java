@@ -70,7 +70,7 @@ public class FileManager {
 		if(mUrl.getQuery() != null) full_path += "?" + mUrl.getQuery();
 
 		String path = mUrl.getPath();
-		String filename = "index.html";
+		String filename = "index.html"; //FIXME this should depend on the protocol type
 		if(!full_path.endsWith("/") && full_path.lastIndexOf('/') != -1) {
 		
 			path = 

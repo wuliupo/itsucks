@@ -113,7 +113,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			throw new IllegalStateException("Not connected!");
 		}
 		
-		return mGet.getStatusCode() < 400;
+		return mGet.getStatusCode() < 300;
 	}
 	
 	/* (non-Javadoc)
