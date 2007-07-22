@@ -34,7 +34,7 @@ public class ConsoleMain {
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 
 		JobSerialization serializationManager = (JobSerialization) context
-				.getBean("JobSerializationManager");
+				.getBean("JobSerialization");
 
 		SerializableJobList jobList = null;
 		try {
