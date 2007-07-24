@@ -7,6 +7,34 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.2.0-b3 is released</h2>
+        <div class='date'>2007-07-24</div>
+        <p>
+		This is majorly a bugfix release.  
+		</p>
+		<p>
+		Please post any bug/issue you find in the forum.  
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=525866"> ChangeLog 0.2.0-b3</a>
+		</p>
+      </p>
+
+      <p class="text">
+        <h2>Version 0.2.0-b2 is released</h2>
+        <div class='date'>2007-07-07</div>
+        <p>
+		This is majorly a bugfix release.  
+		</p>
+		<p>
+		Please post any bug/issue you find in the forum.  
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?release_id=521512&group_id=186141"> ChangeLog 0.2.0-b2</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.2.0-b1 is released</h2>
         <div class='date'>2007-06-17</div>
         <p>
