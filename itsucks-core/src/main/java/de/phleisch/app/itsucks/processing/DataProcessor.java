@@ -45,6 +45,14 @@ public interface DataProcessor {
 	public abstract boolean canResume();
 	
 	/**
+	 * 'Consumes' (saves, parses etc.) this processor to the data or is it
+	 * only an filter?
+	 * If an chain contains no consumer, the data is not processed.
+	 * @return true == yes
+	 */
+	public abstract boolean isConsumer();
+	
+	/**
 	 * Resumes the processing at the given position.
 	 * @param pByteOffset The offset position in bytes.
 	 */

@@ -32,6 +32,8 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 
 	private static Log mLog = LogFactory.getLog(PersistenceProcessor.class);
 	
+	private static Object mCreateFolderMutex = new Object();
+	
 	private File mFile;
 	private FileOutputStream mFileOut = null;
 	private OutputStream mBufferedOut = null;
@@ -75,12 +77,8 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 
 	private void prepareOutputStream() throws IOException, FileNotFoundException {
 		
-		//create the folder
-		File folder = mFile.getParentFile();
-		
-		if(!(folder.exists() && folder.isDirectory())) {
-			createFolders(folder);
-		}
+		//create the parent folder
+		createFolders(mFile.getParentFile());
 		
 		mLog.debug("saving file: " + mFile);
 		
@@ -96,17 +94,23 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 
 	private void createFolders(File pFolder) throws IOException {
 		
-		DownloadJob downloadJob = (DownloadJob) getProcessorChain().getJob();
+		synchronized(mCreateFolderMutex) {
 		
-		File baseSavePath = downloadJob.getSavePath();
-		
-		//move away any files which are in the way
-		moveBlockingFiles(pFolder, baseSavePath);
-		
-		if(!pFolder.exists() && !pFolder.mkdirs()) {
-			throw new IOException("Cannot create folder(s): " + pFolder);
+			if(pFolder.exists() && pFolder.isDirectory()) {
+				return;
+			}
+			
+			DownloadJob downloadJob = (DownloadJob) getProcessorChain().getJob();
+			File baseSavePath = downloadJob.getSavePath();
+			
+			//move away any files which are in the way
+			moveBlockingFiles(pFolder, baseSavePath);
+			
+			if(!pFolder.mkdirs()) {
+				throw new IOException("Cannot create folder(s): " + pFolder);
+			}
+			
 		}
-		
 	}
 
 	private void moveBlockingFiles(File pFolder, File pBaseSavePath) throws IOException {
@@ -169,6 +173,13 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 */
 	public boolean needsDataAsWholeChunk() {
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
+	 */
+	public boolean isConsumer() {
+		return true;
 	}
 
 

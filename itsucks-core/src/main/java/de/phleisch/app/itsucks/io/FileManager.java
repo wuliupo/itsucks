@@ -24,14 +24,14 @@ public class FileManager {
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
 		"abcdefghijklmnopqrstuvwxyz" +
 		"0123456789" +
-		"-+_,;#'()&%$!=~ ";
+		"-+_.,;#'()&%$!=~ ";
 	
 	/**
 	 * Whitelist for the allowed characters in an filename
 	 */
 	private static final String ALLOWED_FILENAME_CHARS = 
 			ALLOWED_COMMON_CHARS +
-			".";
+			"";
 	
 	/**
 	 * Whitelist for the allowed characters in an directory
@@ -112,6 +112,14 @@ public class FileManager {
 			}
 		}
 		
-		return filteredString.toString();
+		String result = filteredString.toString(); 
+		
+		// Set an '_' at the beginning when an path starts with an dot. 
+		// This is for security reasons.
+		if(result.startsWith(".")) {
+			result = '_' + result;
+		}
+		
+		return result;
 	}
 }

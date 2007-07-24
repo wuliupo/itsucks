@@ -116,4 +116,11 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 		return mDataProcessor.supports(pJob);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
+	 */
+	public boolean isConsumer() {
+		return mDataProcessor.isConsumer();
+	}
+
 }

@@ -139,7 +139,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
 	public void disconnect() {
+		
 		if(mGet != null) {
+			mGet.abort();
 			mGet.releaseConnection();
 			mGet = null;
 		}

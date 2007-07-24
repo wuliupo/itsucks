@@ -147,4 +147,10 @@ public interface DataProcessorChain {
 	 */
 	public abstract long getProcessedBytes();
 
+	/**
+	 * Returns if the chain contains at least one consumer.
+	 * @return
+	 */
+	public abstract boolean containsConsumer();
+
 }

@@ -137,5 +137,12 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
 		mContext = pContext;
 	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
+	 */
+	public boolean isConsumer() {
+		return false;
+	}
 	
 }

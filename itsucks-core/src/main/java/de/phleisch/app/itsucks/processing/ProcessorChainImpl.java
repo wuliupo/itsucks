@@ -267,5 +267,22 @@ public class ProcessorChainImpl implements DataProcessorChain {
 	public long getProcessedBytes() {
 		return mProcessedBytes;
 	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#containsConsumer()
+	 */
+	public boolean containsConsumer() {
+		
+		boolean hasConsumer = false;
+		
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			if(it.next().isConsumer()) {
+				hasConsumer = true;
+				break;
+			}
+		}
+		
+		return hasConsumer;
+	}
 	
 }

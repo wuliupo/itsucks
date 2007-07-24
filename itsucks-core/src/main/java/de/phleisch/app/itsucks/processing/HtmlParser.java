@@ -226,7 +226,17 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		mContext = pContext;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
+	 */
 	public boolean needsDataAsWholeChunk() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
+	 */
+	public boolean isConsumer() {
 		return true;
 	}
 
