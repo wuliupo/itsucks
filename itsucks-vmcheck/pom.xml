@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>itsucks</groupId>
+    <artifactId>itsucks-parent</artifactId>
+    <version>0.2.0-b3</version>
+    <relativePath>../itsucks-build</relativePath>
+  </parent>
+
+  <artifactId>itsucks-vmcheck</artifactId>
+  <groupId>itsucks</groupId>
+  <packaging>jar</packaging>
+  <name>ItSucks-VMCheck</name>
+
+  <build>
+  
+  <!-- include the source code - ->
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <targetPath>/src</targetPath>
+        <includes>
+          <include>**/*.java</include>
+        </includes>
+      </resource>
+      
+      <!- -
+      <resource>
+        <directory>resources</directory>
+        <targetPath>/</targetPath>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource> 
+    </resources> -->
+  
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.1</source>
+          <target>1.1</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+
+            <manifest>
+              <mainClass>de.phleisch.app.itsucks.VMVersionCheck</mainClass>
+              <packageName>itsucks-console</packageName>
+              <addClasspath>true</addClasspath>
+              <addExtensions/>
+              <classpathPrefix>lib/</classpathPrefix>
+            </manifest>
+
+            <manifestEntries>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencies>
+  		<dependency>
+			<groupId>itsucks</groupId>
+			<artifactId>itsucks-gui</artifactId>
+		</dependency>
+  </dependencies>
+</project>
