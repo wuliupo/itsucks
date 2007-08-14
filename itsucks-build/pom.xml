@@ -7,7 +7,7 @@
 	<artifactId>itsucks-parent</artifactId>
 	<groupId>itsucks</groupId>
 	<url>http://itsucks.sf.net</url>
-	<version>0.2.0-b3</version>
+	<version>0.2.0-b4</version>
 	<packaging>pom</packaging>
 
 	<repositories>
@@ -36,6 +36,7 @@
 		<module>../itsucks-core</module>
 		<module>../itsucks-gui</module>
 		<module>../itsucks-console</module>
+		<module>../itsucks-vmcheck</module>
 	</modules>
 
 	<!-- dependency management -->
@@ -45,6 +46,12 @@
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-gui</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
