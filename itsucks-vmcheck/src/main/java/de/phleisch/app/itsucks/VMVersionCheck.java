@@ -38,8 +38,9 @@ public class VMVersionCheck {
 		check.loadProperties();
 		if (check.runVMVersionCheck(check)) {
 			check.delegateMain(args);
+		} else {
+			System.exit(1); //needed for 1.4  
 		}
-
 	}
 
 	public void delegateMain(String[] args) throws 
@@ -55,6 +56,8 @@ public class VMVersionCheck {
 			
 			for (StringTokenizer t = new StringTokenizer(classpath, pathsep, false); t.hasMoreTokens();) {
 				String path = t.nextToken();
+				System.out.println("Check if '" + path + "' ends with " + mTargetJar);
+				
 				if (!path.endsWith(mTargetJar)) continue;
 				
 				JarFile jf = new JarFile(path);
@@ -94,6 +97,7 @@ public class VMVersionCheck {
 			if (mDisplayMessageDialog) {
 				JOptionPane.showMessageDialog(null, msg,
 						"Java Version too old.", JOptionPane.ERROR_MESSAGE);
+				
 			}
 
 			result = false;
@@ -129,8 +133,8 @@ public class VMVersionCheck {
 		String displayMessageDialog = mConfiguration
 				.getProperty("displayMessageDialog");
 		if (displayMessageDialog != null) {
-			mDisplayMessageDialog = Boolean.parseBoolean(mConfiguration
-					.getProperty("displayMessageDialog"));
+			mDisplayMessageDialog = Boolean.valueOf(mConfiguration
+					.getProperty("displayMessageDialog")).booleanValue();
 		} else {
 			mDisplayMessageDialog = false;
 		}
