@@ -7,6 +7,20 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.2.0-b4 is released</h2>
+        <div class='date'>2007-08-14</div>
+        <p>
+		This release adds a Java Runtime Engine Version check.
+		</p>
+		<p>
+		Please post any bug/issue you find in the forum.  
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=532231"> ChangeLog 0.2.0-b4</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.2.0-b3 is released</h2>
         <div class='date'>2007-07-24</div>
         <p>
