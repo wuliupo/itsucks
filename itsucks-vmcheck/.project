@@ -1,10 +1,7 @@
 <projectDescription>
   <name>itsucks-vmcheck</name>
   <comment/>
-  <projects>
-    <project>itsucks-gui</project>
-    <project>itsucks-core</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
