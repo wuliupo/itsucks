@@ -47,6 +47,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		jCheckBox2 = new javax.swing.JCheckBox();
 		jLabel8 = new javax.swing.JLabel();
 		jTextField3 = new javax.swing.JTextField();
+		jScrollPane3 = new javax.swing.JScrollPane();
+		jTextArea2 = new javax.swing.JTextArea();
+		jLabel9 = new javax.swing.JLabel();
 		jButton1 = new javax.swing.JButton();
 		jButton2 = new javax.swing.JButton();
 		jButton3 = new javax.swing.JButton();
@@ -63,14 +66,15 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		jPanel2.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Advanced Filter"));
 		jTextArea1.setColumns(20);
-		jTextArea1.setRows(5);
+		jTextArea1.setLineWrap(true);
+		jTextArea1.setRows(3);
 		jScrollPane2.setViewportView(jTextArea1);
 
 		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel2.setText("Regular Expression, partial match:");
 
-		jButton5.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton5.setText("Regular Expression Editor");
+		jButton5.setFont(new java.awt.Font("Dialog", 0, 10));
+		jButton5.setText("Open Regular Expression Editor");
 		jButton5.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
 		jPanel1.setBorder(javax.swing.BorderFactory
@@ -293,6 +297,15 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		jTextField3.setText("jTextField3");
 
+		jTextArea2.setColumns(20);
+		jTextArea2.setLineWrap(true);
+		jTextArea2.setRows(2);
+		jScrollPane3.setViewportView(jTextArea2);
+
+		jLabel9.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		jLabel9.setText("Filter Description:");
+
 		org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(
 				jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
@@ -331,21 +344,6 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE))
 														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																jPanel2Layout
-																		.createSequentialGroup()
-																		.add(
-																				jLabel2,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				441,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				jButton5)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED))
-														.add(
 																jPanel2Layout
 																		.createSequentialGroup()
 																		.add(
@@ -355,8 +353,38 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				jTextField3,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				174,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+																				138,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				jLabel9,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				111,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				jScrollPane3,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				261,
+																				Short.MAX_VALUE))
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																jPanel2Layout
+																		.createSequentialGroup()
+																		.add(
+																				jLabel2,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				441,
+																				Short.MAX_VALUE)
+																		.add(
+																				175,
+																				175,
+																				175))
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																jButton5))
 										.addContainerGap()));
 		jPanel2Layout
 				.setVerticalGroup(jPanel2Layout
@@ -369,26 +397,37 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 										.add(
 												jPanel2Layout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel8)
+																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jTextField3,
+																jPanel2Layout
+																		.createParallelGroup(
+																				org.jdesktop.layout.GroupLayout.BASELINE)
+																		.add(
+																				jLabel8)
+																		.add(
+																				jTextField3,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.add(
+																				jLabel9))
+														.add(
+																jScrollPane3,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																41,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.add(8, 8, 8)
-										.add(
-												jPanel2Layout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.TRAILING)
-														.add(jButton5).add(
-																jLabel2))
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(jLabel2)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												jScrollPane2,
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												98, Short.MAX_VALUE)
+												58, Short.MAX_VALUE)
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(jButton5)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -561,13 +600,16 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JLabel jLabel7;
 	private javax.swing.JLabel jLabel8;
+	private javax.swing.JLabel jLabel9;
 	private javax.swing.JList jList1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JScrollPane jScrollPane2;
+	private javax.swing.JScrollPane jScrollPane3;
 	private javax.swing.JTextArea jTextArea1;
+	private javax.swing.JTextArea jTextArea2;
 	private javax.swing.JTextField jTextField1;
 	private javax.swing.JTextField jTextField2;
 	private javax.swing.JTextField jTextField3;

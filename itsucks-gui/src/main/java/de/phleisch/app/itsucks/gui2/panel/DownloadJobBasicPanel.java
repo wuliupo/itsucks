@@ -19,7 +19,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	public DownloadJobBasicPanel() {
 		initComponents();
 	}
-
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -61,7 +61,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 
 		jLabelURL.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabelURL.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelURL.setText("URL:");
+		jLabelURL.setText("Start URL:");
 
 		jLabelSavePath.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabelSavePath.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -507,7 +507,9 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(60, Short.MAX_VALUE)));
+						.addContainerGap(
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-BEGIN:variables

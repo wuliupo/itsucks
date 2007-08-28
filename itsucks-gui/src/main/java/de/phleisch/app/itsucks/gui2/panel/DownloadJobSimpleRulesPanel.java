@@ -97,7 +97,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																74,
 																Short.MAX_VALUE))
-										.addContainerGap(364, Short.MAX_VALUE)));
+										.addContainerGap(363, Short.MAX_VALUE)));
 
 		jPanelLimitsLayout.linkSize(new java.awt.Component[] {
 				jLabelLinksToFollow, jLabelRecursionDepth },
@@ -154,7 +154,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel1
-				.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
+				.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
 
 		jButton1.setText("+");
 		jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
@@ -184,7 +184,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				jScrollPane1,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				535,
+																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -202,7 +202,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jLabel1,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																565,
+																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -235,7 +235,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jScrollPane1,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																70,
+																68,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -257,7 +257,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel2
-				.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
+				.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
 
 		jButton3.setText("+");
 		jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
@@ -287,7 +287,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				jScrollPane2,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				535,
+																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -302,7 +302,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jLabel2,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																565,
+																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -335,7 +335,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jScrollPane2,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																84,
+																68,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -343,19 +343,19 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
 		jPanel1.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Base URL"));
+				.createTitledBorder("Prefix URL Filter"));
 		jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel3
-				.setText("<html>Set a base URL to follow only links starting with it.<br>Example: Enter \"http://www.example.com/section1/\" to follow only links from this folder.</html>");
+				.setText("<html>Set a prefix URL filter to follow only links starting with it.<br>Example: Enter \"http://www.example.com/section1/\" to allow only links from this folder.</html>");
 
 		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox1.setText("Enable Base URL");
+		jCheckBox1.setText("Enable 'Prefix URL Filter'");
 		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
 				0, 0));
 		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
 		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel4.setText("URL:");
+		jLabel4.setText("URL prefix:");
 
 		jTextField1.setText("http://");
 		jTextField1.setEnabled(false);
@@ -378,7 +378,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jLabel3,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																565,
+																564,
 																Short.MAX_VALUE)
 														.add(
 																jPanel1Layout

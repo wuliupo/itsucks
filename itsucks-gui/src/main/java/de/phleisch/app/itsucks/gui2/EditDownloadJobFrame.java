@@ -64,7 +64,7 @@ public class EditDownloadJobFrame extends javax.swing.JFrame {
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				org.jdesktop.layout.GroupLayout.TRAILING,
 				layout.createSequentialGroup().add(jTabbedPane1,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 560,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 587,
 						Short.MAX_VALUE).addPreferredGap(
 						org.jdesktop.layout.LayoutStyle.RELATED).add(jPanel1,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,

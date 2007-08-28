@@ -26,15 +26,15 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelLimits" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel3" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jPanelLimits" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel2" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel3" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,7 +63,7 @@
                       <Component id="jTextFieldRecursionDepth" max="32767" attributes="1"/>
                       <Component id="jTextFieldLinksToFollow" alignment="0" pref="74" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="364" max="32767" attributes="0"/>
+                  <EmptySpace pref="363" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -127,14 +127,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane1" pref="535" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="534" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jButton2" linkSize="2" min="-2" max="-2" attributes="1"/>
                               <Component id="jButton1" linkSize="2" alignment="0" max="32767" attributes="1"/>
                           </Group>
                       </Group>
-                      <Component id="jLabel1" alignment="0" pref="565" max="32767" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" pref="564" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -151,7 +151,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton2" linkSize="7" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" pref="70" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="68" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -184,7 +184,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the hostname. Default is to allow all hostnames.&lt;br&gt;Example: Enter &quot;.*example\.com&quot; to match all subdomains from examples.com.&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*example\.com&quot; to match all subdomains from examples.com.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
@@ -221,14 +221,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane2" pref="535" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="534" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jButton4" linkSize="6" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton3" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jLabel2" alignment="0" pref="565" max="32767" attributes="0"/>
+                      <Component id="jLabel2" alignment="0" pref="564" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -245,7 +245,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton4" linkSize="5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" alignment="0" pref="84" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="0" pref="68" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -278,7 +278,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files.&lt;br&gt;Example: Enter &quot;.*jpg&quot; to save all jpeg&apos;s.&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*jpg&quot; to save all jpeg&apos;s.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton3">
@@ -303,7 +303,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Base URL"/>
+            <TitledBorder title="Prefix URL Filter"/>
           </Border>
         </Property>
       </Properties>
@@ -314,7 +314,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel3" alignment="0" pref="565" max="32767" attributes="0"/>
+                      <Component id="jLabel3" alignment="0" pref="564" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -348,7 +348,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Set a base URL to follow only links starting with it.&lt;br&gt;Example: Enter &quot;http://www.example.com/section1/&quot; to follow only links from this folder.&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Set a prefix URL filter to follow only links starting with it.&lt;br&gt;Example: Enter &quot;http://www.example.com/section1/&quot; to allow only links from this folder.&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox1">
@@ -356,7 +356,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Enable Base URL"/>
+            <Property name="text" type="java.lang.String" value="Enable &apos;Prefix URL Filter&apos;"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
@@ -372,7 +372,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="URL:"/>
+            <Property name="text" type="java.lang.String" value="URL prefix:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField1">
