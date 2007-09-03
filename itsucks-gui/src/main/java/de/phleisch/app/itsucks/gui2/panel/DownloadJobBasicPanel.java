@@ -19,7 +19,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	public DownloadJobBasicPanel() {
 		initComponents();
 	}
-	
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -28,99 +28,99 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		jPanel1 = new javax.swing.JPanel();
-		jLabelName = new javax.swing.JLabel();
-		jTextFieldName = new javax.swing.JTextField();
-		jLabelURL = new javax.swing.JLabel();
-		jTextFieldURL = new javax.swing.JTextField();
-		jLabelSavePath = new javax.swing.JLabel();
-		jTextFieldSavePath = new javax.swing.JTextField();
-		jButtonSavePath = new javax.swing.JButton();
-		jPanel2 = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		jLabel2 = new javax.swing.JLabel();
-		jTextField1 = new javax.swing.JTextField();
-		jTextField2 = new javax.swing.JTextField();
-		jPanel3 = new javax.swing.JPanel();
-		jLabel3 = new javax.swing.JLabel();
-		jTextField3 = new javax.swing.JTextField();
-		jLabel4 = new javax.swing.JLabel();
-		jTextField4 = new javax.swing.JTextField();
-		jLabel5 = new javax.swing.JLabel();
-		jCheckBox1 = new javax.swing.JCheckBox();
-		jTextField5 = new javax.swing.JTextField();
-		jLabel6 = new javax.swing.JLabel();
-		jTextField6 = new javax.swing.JTextField();
-		jCheckBox2 = new javax.swing.JCheckBox();
+		basicParametersPanel = new javax.swing.JPanel();
+		nameLabel = new javax.swing.JLabel();
+		nameTextField = new javax.swing.JTextField();
+		urlLabel = new javax.swing.JLabel();
+		urlTextField = new javax.swing.JTextField();
+		savePathLabel = new javax.swing.JLabel();
+		savePathTextField = new javax.swing.JTextField();
+		savePathButton = new javax.swing.JButton();
+		connectionSettingsPanel = new javax.swing.JPanel();
+		workingThreadsLabel = new javax.swing.JLabel();
+		workingThreadsTextField = new javax.swing.JTextField();
+		maxConnectionsLabel = new javax.swing.JLabel();
+		maxConnectionsTextField = new javax.swing.JTextField();
+		proxySettingsPanel = new javax.swing.JPanel();
+		enableProxyCheckBox = new javax.swing.JCheckBox();
+		proxyServerLabel = new javax.swing.JLabel();
+		proxyServerTextField = new javax.swing.JTextField();
+		proxyPortLabel = new javax.swing.JLabel();
+		proxyPortTextField = new javax.swing.JTextField();
+		enableAuthenticationCheckBox = new javax.swing.JCheckBox();
+		authenticationUserLabel = new javax.swing.JLabel();
+		authenticationUserTextField = new javax.swing.JTextField();
+		authenticationPasswordLabel = new javax.swing.JLabel();
+		authenticationPasswordTextField = new javax.swing.JTextField();
 
-		jPanel1.setBorder(javax.swing.BorderFactory
+		basicParametersPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Basic Parameters"));
-		jLabelName.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabelName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelName.setText("Name:");
+		nameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		nameLabel.setText("Name:");
 
-		jLabelURL.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabelURL.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelURL.setText("Start URL:");
+		urlLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		urlLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		urlLabel.setText("Start URL:");
 
-		jLabelSavePath.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabelSavePath.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelSavePath.setText("Save path:");
+		savePathLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		savePathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		savePathLabel.setText("Save path:");
 
-		jButtonSavePath.setText("Browse");
+		savePathButton.setText("Browse");
 
-		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
+		org.jdesktop.layout.GroupLayout basicParametersPanelLayout = new org.jdesktop.layout.GroupLayout(
+				basicParametersPanel);
+		basicParametersPanel.setLayout(basicParametersPanelLayout);
+		basicParametersPanelLayout
+				.setHorizontalGroup(basicParametersPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel1Layout
+								basicParametersPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel1Layout
+												basicParametersPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jLabelSavePath)
+																savePathLabel)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jLabelURL)
+																urlLabel)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jLabelName))
+																nameLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel1Layout
+												basicParametersPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jTextFieldURL,
+																urlTextField,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																355,
 																Short.MAX_VALUE)
 														.add(
-																jPanel1Layout
+																basicParametersPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jTextFieldSavePath,
+																				savePathTextField,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				269,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButtonSavePath))
+																				savePathButton))
 														.add(
-																jPanel1Layout
+																basicParametersPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jTextFieldName,
+																				nameTextField,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				151,
 																				Short.MAX_VALUE)
@@ -130,269 +130,276 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																				204)))
 										.addContainerGap()));
 
-		jPanel1Layout.linkSize(new java.awt.Component[] { jLabelName,
-				jLabelSavePath, jLabelURL },
+		basicParametersPanelLayout.linkSize(new java.awt.Component[] {
+				nameLabel, savePathLabel, urlLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel1Layout
-				.setVerticalGroup(jPanel1Layout
+		basicParametersPanelLayout
+				.setVerticalGroup(basicParametersPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel1Layout
+								basicParametersPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel1Layout
+												basicParametersPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabelName)
+														.add(nameLabel)
 														.add(
-																jTextFieldName,
+																nameTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel1Layout
+												basicParametersPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabelURL)
+														.add(urlLabel)
 														.add(
-																jTextFieldURL,
+																urlTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel1Layout
+												basicParametersPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabelSavePath)
+														.add(savePathLabel)
 														.add(
-																jTextFieldSavePath,
+																savePathTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-														.add(jButtonSavePath))
+														.add(savePathButton))
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		jPanel2.setBorder(javax.swing.BorderFactory
+		connectionSettingsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Connection Settings"));
-		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel1.setText("Working Threads:");
+		workingThreadsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		workingThreadsLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		workingThreadsLabel.setText("Working Threads:");
 
-		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel2.setText("Max. connections per server:");
+		workingThreadsTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-		jTextField1.setText("jTextField1");
+		maxConnectionsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		maxConnectionsLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		maxConnectionsLabel.setText("Max. connections per server:");
 
-		jTextField2.setText("jTextField2");
+		maxConnectionsTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-		org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel2);
-		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout
-				.setHorizontalGroup(jPanel2Layout
+		org.jdesktop.layout.GroupLayout connectionSettingsPanelLayout = new org.jdesktop.layout.GroupLayout(
+				connectionSettingsPanel);
+		connectionSettingsPanel.setLayout(connectionSettingsPanelLayout);
+		connectionSettingsPanelLayout
+				.setHorizontalGroup(connectionSettingsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								connectionSettingsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel2Layout
+												connectionSettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(jLabel2).add(
-																jLabel1))
+														.add(
+																maxConnectionsLabel)
+														.add(
+																workingThreadsLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel2Layout
+												connectionSettingsPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
+																org.jdesktop.layout.GroupLayout.LEADING,
+																false)
 														.add(
-																jTextField2,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																maxConnectionsTextField)
 														.add(
-																jTextField1,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																workingThreadsTextField,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(191, Short.MAX_VALUE)));
+																46,
+																Short.MAX_VALUE))
+										.addContainerGap(214, Short.MAX_VALUE)));
 
-		jPanel2Layout.linkSize(new java.awt.Component[] { jLabel1, jLabel2 },
+		connectionSettingsPanelLayout.linkSize(new java.awt.Component[] {
+				maxConnectionsLabel, workingThreadsLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel2Layout
-				.setVerticalGroup(jPanel2Layout
+		connectionSettingsPanelLayout
+				.setVerticalGroup(connectionSettingsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								connectionSettingsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel2Layout
+												connectionSettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel1)
 														.add(
-																jTextField1,
+																workingThreadsLabel)
+														.add(
+																workingThreadsTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel2Layout
+												connectionSettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																jTextField2,
+																maxConnectionsLabel)
+														.add(
+																maxConnectionsTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-														.add(jLabel2))
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addContainerGap(16, Short.MAX_VALUE)));
 
-		jPanel3.setBorder(javax.swing.BorderFactory
+		proxySettingsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Proxy Settings"));
-		jPanel3.setEnabled(false);
-		jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel3.setText("Server:");
-		jLabel3.setEnabled(false);
+		proxySettingsPanel.setEnabled(false);
+		enableProxyCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+		enableProxyCheckBox.setText("Enable Proxy");
+		enableProxyCheckBox.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		enableProxyCheckBox.setEnabled(false);
+		enableProxyCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		jTextField3.setText("jTextField3");
-		jTextField3.setEnabled(false);
+		proxyServerLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		proxyServerLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		proxyServerLabel.setText("Server:");
+		proxyServerLabel.setEnabled(false);
 
-		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel4.setText("Port:");
-		jLabel4.setEnabled(false);
+		proxyServerTextField.setEnabled(false);
 
-		jTextField4.setText("jTextField4");
-		jTextField4.setEnabled(false);
+		proxyPortLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		proxyPortLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		proxyPortLabel.setText("Port:");
+		proxyPortLabel.setEnabled(false);
 
-		jLabel5.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel5.setText("User:");
-		jLabel5.setEnabled(false);
+		proxyPortTextField.setEnabled(false);
 
-		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox1.setText("Enable authentication");
-		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox1.setEnabled(false);
-		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		enableAuthenticationCheckBox
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		enableAuthenticationCheckBox.setText("Enable authentication");
+		enableAuthenticationCheckBox.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		enableAuthenticationCheckBox.setEnabled(false);
+		enableAuthenticationCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		jTextField5.setText("jTextField5");
-		jTextField5.setEnabled(false);
+		authenticationUserLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		authenticationUserLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		authenticationUserLabel.setText("User:");
+		authenticationUserLabel.setEnabled(false);
 
-		jLabel6.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel6.setText("Password:");
-		jLabel6.setEnabled(false);
+		authenticationUserTextField.setEnabled(false);
 
-		jTextField6.setText("jTextField6");
-		jTextField6.setEnabled(false);
+		authenticationPasswordLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		authenticationPasswordLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		authenticationPasswordLabel.setText("Password:");
+		authenticationPasswordLabel.setEnabled(false);
 
-		jCheckBox2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox2.setText("Enable Proxy");
-		jCheckBox2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox2.setEnabled(false);
-		jCheckBox2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		authenticationPasswordTextField.setEnabled(false);
 
-		org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel3);
-		jPanel3.setLayout(jPanel3Layout);
-		jPanel3Layout
-				.setHorizontalGroup(jPanel3Layout
+		org.jdesktop.layout.GroupLayout proxySettingsPanelLayout = new org.jdesktop.layout.GroupLayout(
+				proxySettingsPanel);
+		proxySettingsPanel.setLayout(proxySettingsPanelLayout);
+		proxySettingsPanelLayout
+				.setHorizontalGroup(proxySettingsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel3Layout
+								proxySettingsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel3Layout
+												proxySettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jPanel3Layout
+																proxySettingsPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jLabel3)
+																				proxyServerLabel)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jTextField3,
+																				proxyServerTextField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				130,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jLabel4)
+																				proxyPortLabel)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jTextField4,
+																				proxyPortTextField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				122,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 														.add(
-																jPanel3Layout
+																proxySettingsPanelLayout
 																		.createParallelGroup(
 																				org.jdesktop.layout.GroupLayout.LEADING)
 																		.add(
-																				jPanel3Layout
+																				proxySettingsPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								jLabel5)
+																								authenticationUserLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								jTextField5,
+																								authenticationUserTextField,
 																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																								130,
 																								Short.MAX_VALUE)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								jLabel6)
+																								authenticationPasswordLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								jTextField6,
+																								authenticationPasswordTextField,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																								117,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 																		.add(
-																				jPanel3Layout
+																				proxySettingsPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								jCheckBox1)
+																								enableAuthenticationCheckBox)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED,
 																								255,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
 														.add(
-																jPanel3Layout
+																proxySettingsPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jCheckBox2,
+																				enableProxyCheckBox,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				107,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -402,62 +409,67 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
 										.add(44, 44, 44)));
 
-		jPanel3Layout.linkSize(new java.awt.Component[] { jTextField3,
-				jTextField4, jTextField5, jTextField6 },
+		proxySettingsPanelLayout.linkSize(new java.awt.Component[] {
+				authenticationPasswordTextField, authenticationUserTextField,
+				proxyPortTextField, proxyServerTextField },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel3Layout.linkSize(new java.awt.Component[] { jLabel4, jLabel6 },
+		proxySettingsPanelLayout.linkSize(new java.awt.Component[] {
+				authenticationPasswordLabel, proxyPortLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel3Layout.linkSize(new java.awt.Component[] { jLabel3, jLabel5 },
+		proxySettingsPanelLayout.linkSize(new java.awt.Component[] {
+				authenticationUserLabel, proxyServerLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel3Layout
-				.setVerticalGroup(jPanel3Layout
+		proxySettingsPanelLayout
+				.setVerticalGroup(proxySettingsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
 								org.jdesktop.layout.GroupLayout.TRAILING,
-								jPanel3Layout
+								proxySettingsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
-										.add(jCheckBox2)
+										.add(enableProxyCheckBox)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel3Layout
+												proxySettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel3)
+														.add(proxyServerLabel)
 														.add(
-																jTextField3,
+																proxyServerTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-														.add(jLabel4)
+														.add(proxyPortLabel)
 														.add(
-																jTextField4,
+																proxyPortTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(jCheckBox1)
+										.add(enableAuthenticationCheckBox)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel3Layout
+												proxySettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel5)
-														.add(jLabel6)
 														.add(
-																jTextField6,
+																authenticationUserLabel)
+														.add(
+																authenticationPasswordLabel)
+														.add(
+																authenticationPasswordTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
-																jTextField5,
+																authenticationUserTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -475,35 +487,36 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 						layout.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.TRAILING).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel3,
+								proxySettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel2,
+								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel1,
+								basicParametersPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)).addContainerGap()));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				layout.createSequentialGroup().addContainerGap().add(jPanel1,
+				layout.createSequentialGroup().addContainerGap().add(
+						basicParametersPanel,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jPanel2,
+								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jPanel3,
+								proxySettingsPanel,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -514,30 +527,30 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton jButtonSavePath;
-	private javax.swing.JCheckBox jCheckBox1;
-	private javax.swing.JCheckBox jCheckBox2;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
-	private javax.swing.JLabel jLabel5;
-	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabelName;
-	private javax.swing.JLabel jLabelSavePath;
-	private javax.swing.JLabel jLabelURL;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JTextField jTextField1;
-	private javax.swing.JTextField jTextField2;
-	private javax.swing.JTextField jTextField3;
-	private javax.swing.JTextField jTextField4;
-	private javax.swing.JTextField jTextField5;
-	private javax.swing.JTextField jTextField6;
-	private javax.swing.JTextField jTextFieldName;
-	private javax.swing.JTextField jTextFieldSavePath;
-	private javax.swing.JTextField jTextFieldURL;
+	private javax.swing.JLabel authenticationPasswordLabel;
+	private javax.swing.JTextField authenticationPasswordTextField;
+	private javax.swing.JLabel authenticationUserLabel;
+	private javax.swing.JTextField authenticationUserTextField;
+	private javax.swing.JPanel basicParametersPanel;
+	private javax.swing.JPanel connectionSettingsPanel;
+	private javax.swing.JCheckBox enableAuthenticationCheckBox;
+	private javax.swing.JCheckBox enableProxyCheckBox;
+	private javax.swing.JLabel maxConnectionsLabel;
+	private javax.swing.JTextField maxConnectionsTextField;
+	private javax.swing.JLabel nameLabel;
+	private javax.swing.JTextField nameTextField;
+	private javax.swing.JLabel proxyPortLabel;
+	private javax.swing.JTextField proxyPortTextField;
+	private javax.swing.JLabel proxyServerLabel;
+	private javax.swing.JTextField proxyServerTextField;
+	private javax.swing.JPanel proxySettingsPanel;
+	private javax.swing.JButton savePathButton;
+	private javax.swing.JLabel savePathLabel;
+	private javax.swing.JTextField savePathTextField;
+	private javax.swing.JLabel urlLabel;
+	private javax.swing.JTextField urlTextField;
+	private javax.swing.JLabel workingThreadsLabel;
+	private javax.swing.JTextField workingThreadsTextField;
 	// End of variables declaration//GEN-END:variables
 
 }

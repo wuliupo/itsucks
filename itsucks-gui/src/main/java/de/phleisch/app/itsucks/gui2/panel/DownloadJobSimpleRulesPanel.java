@@ -30,6 +30,11 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		jTextFieldRecursionDepth = new javax.swing.JTextField();
 		jLabelLinksToFollow = new javax.swing.JLabel();
 		jTextFieldLinksToFollow = new javax.swing.JTextField();
+		jPanel1 = new javax.swing.JPanel();
+		jLabel3 = new javax.swing.JLabel();
+		jCheckBox1 = new javax.swing.JCheckBox();
+		jLabel4 = new javax.swing.JLabel();
+		jTextField1 = new javax.swing.JTextField();
 		jPanel2 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jTable1 = new javax.swing.JTable();
@@ -42,11 +47,6 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		jLabel2 = new javax.swing.JLabel();
 		jButton3 = new javax.swing.JButton();
 		jButton4 = new javax.swing.JButton();
-		jPanel1 = new javax.swing.JPanel();
-		jLabel3 = new javax.swing.JLabel();
-		jCheckBox1 = new javax.swing.JCheckBox();
-		jLabel4 = new javax.swing.JLabel();
-		jTextField1 = new javax.swing.JTextField();
 
 		jPanelLimits.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Limits"));
@@ -137,6 +137,73 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
+
+		jPanel1.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Prefix URL Filter"));
+		jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel3
+				.setText("<html>Set a prefix URL filter to follow only links starting with it.<br>Example: Enter \"http://www.example.com/section1/\" to allow only links from this folder.</html>");
+
+		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
+		jCheckBox1.setText("Enable 'Prefix URL Filter'");
+		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
+				0, 0));
+		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel4.setText("URL prefix:");
+
+		jTextField1.setText("http://");
+		jTextField1.setEnabled(false);
+
+		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
+				jPanel1);
+		jPanel1.setLayout(jPanel1Layout);
+		jPanel1Layout
+				.setHorizontalGroup(jPanel1Layout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								jPanel1Layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.add(
+												jPanel1Layout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.LEADING)
+														.add(
+																jLabel3,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																564,
+																Short.MAX_VALUE)
+														.add(
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.add(
+																				jLabel4)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				jTextField1,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				279,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+														.add(jCheckBox1))
+										.addContainerGap()));
+		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(
+				jPanel1Layout.createSequentialGroup().add(jLabel3).add(14, 14,
+						14).add(jCheckBox1).addPreferredGap(
+						org.jdesktop.layout.LayoutStyle.RELATED).add(
+						jPanel1Layout.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.BASELINE).add(
+								jTextField1,
+								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+								.add(jLabel4)).addContainerGap(
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE)));
 
 		jPanel2.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Hostname Filter"));
@@ -235,7 +302,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jScrollPane1,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																68,
+																61,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -335,79 +402,12 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																jScrollPane2,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																68,
+																56,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
 		jPanel3Layout.linkSize(new java.awt.Component[] { jButton3, jButton4 },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
-
-		jPanel1.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Prefix URL Filter"));
-		jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel3
-				.setText("<html>Set a prefix URL filter to follow only links starting with it.<br>Example: Enter \"http://www.example.com/section1/\" to allow only links from this folder.</html>");
-
-		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox1.setText("Enable 'Prefix URL Filter'");
-		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
-		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel4.setText("URL prefix:");
-
-		jTextField1.setText("http://");
-		jTextField1.setEnabled(false);
-
-		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								jPanel1Layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												jPanel1Layout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(
-																jLabel3,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																564,
-																Short.MAX_VALUE)
-														.add(
-																jPanel1Layout
-																		.createSequentialGroup()
-																		.add(
-																				jLabel4)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				jTextField1,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				279,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-														.add(jCheckBox1))
-										.addContainerGap()));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(
-				jPanel1Layout.createSequentialGroup().add(jLabel3).add(14, 14,
-						14).add(jCheckBox1).addPreferredGap(
-						org.jdesktop.layout.LayoutStyle.RELATED).add(
-						jPanel1Layout.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.BASELINE).add(
-								jTextField1,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-								.add(jLabel4)).addContainerGap(
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE)));
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -460,8 +460,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								jPanel3,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addContainerGap()));
+								133, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-BEGIN:variables

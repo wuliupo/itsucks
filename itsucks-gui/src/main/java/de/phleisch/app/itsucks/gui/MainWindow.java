@@ -31,7 +31,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
@@ -668,7 +667,7 @@ public class MainWindow implements AddDownloadJobInterface {
 		
 		try {
 			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
 			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");

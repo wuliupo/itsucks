@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -19,28 +20,28 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" pref="595" max="32767" attributes="0"/>
+              <Component id="buttonPanel" pref="595" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jTabbedPane1" alignment="0" pref="619" max="32767" attributes="0"/>
+          <Component id="tabbedPane" alignment="0" pref="619" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jTabbedPane1" pref="587" max="32767" attributes="0"/>
+              <Component id="tabbedPane" pref="587" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="buttonPanel" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+    <Container class="javax.swing.JTabbedPane" name="tabbedPane">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel" name="downloadJobBasicPanel1">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel" name="downloadJobBasicPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Basic Parameters">
@@ -49,7 +50,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel" name="downloadJobSimpleRulesPanel1">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel" name="downloadJobSimpleRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Simple Rules">
@@ -58,7 +59,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel" name="downloadJobAdvancedRulesPanel1">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel" name="downloadJobAdvancedRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Advanced Rules">
@@ -69,24 +70,30 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="buttonPanel">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="startButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Start download"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="saveButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save as template"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

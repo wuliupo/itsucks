@@ -25,13 +25,23 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
+		jLabel3 = new javax.swing.JLabel();
+		jLabel1 = new javax.swing.JLabel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jList1 = new javax.swing.JList();
-		jLabel1 = new javax.swing.JLabel();
+		jButton1 = new javax.swing.JButton();
+		jButton2 = new javax.swing.JButton();
+		jButton3 = new javax.swing.JButton();
+		jButton4 = new javax.swing.JButton();
 		jPanel2 = new javax.swing.JPanel();
+		jLabel8 = new javax.swing.JLabel();
+		jTextField3 = new javax.swing.JTextField();
+		jLabel9 = new javax.swing.JLabel();
+		jScrollPane3 = new javax.swing.JScrollPane();
+		jTextArea2 = new javax.swing.JTextArea();
+		jLabel2 = new javax.swing.JLabel();
 		jScrollPane2 = new javax.swing.JScrollPane();
 		jTextArea1 = new javax.swing.JTextArea();
-		jLabel2 = new javax.swing.JLabel();
 		jButton5 = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		jLabel4 = new javax.swing.JLabel();
@@ -45,33 +55,55 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		jLabel7 = new javax.swing.JLabel();
 		jTextField2 = new javax.swing.JTextField();
 		jCheckBox2 = new javax.swing.JCheckBox();
-		jLabel8 = new javax.swing.JLabel();
-		jTextField3 = new javax.swing.JTextField();
-		jScrollPane3 = new javax.swing.JScrollPane();
-		jTextArea2 = new javax.swing.JTextArea();
-		jLabel9 = new javax.swing.JLabel();
-		jButton1 = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jButton3 = new javax.swing.JButton();
-		jButton4 = new javax.swing.JButton();
-		jLabel3 = new javax.swing.JLabel();
 
-		jList1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jScrollPane1.setViewportView(jList1);
+		jLabel3.setText("Advanced Filter Chain");
 
 		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel1
 				.setText("<html>Every found link will be filtered through the chain. A link must have the state 'accepted' after running through the chain, otherwise it will be rejected</html>");
 
+		jList1.setFont(new java.awt.Font("Dialog", 0, 12));
+		jScrollPane1.setViewportView(jList1);
+
+		jButton1.setFont(new java.awt.Font("Dialog", 0, 12));
+		jButton1.setText("+");
+		jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
+
+		jButton2.setFont(new java.awt.Font("Dialog", 0, 12));
+		jButton2.setText("-");
+		jButton2.setMargin(new java.awt.Insets(2, 4, 2, 4));
+
+		jButton3.setFont(new java.awt.Font("Dialog", 0, 12));
+		jButton3.setText("up");
+		jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
+
+		jButton4.setFont(new java.awt.Font("Dialog", 0, 12));
+		jButton4.setText("down");
+		jButton4.setMargin(new java.awt.Insets(2, 4, 2, 4));
+
 		jPanel2.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Advanced Filter"));
+		jLabel8.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel8.setText("Filter Name:");
+
+		jTextField3.setText("jTextField3");
+
+		jLabel9.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		jLabel9.setText("Filter Description:");
+
+		jTextArea2.setColumns(20);
+		jTextArea2.setLineWrap(true);
+		jTextArea2.setRows(2);
+		jScrollPane3.setViewportView(jTextArea2);
+
+		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
+		jLabel2.setText("Regular Expression, partial match:");
+
 		jTextArea1.setColumns(20);
 		jTextArea1.setLineWrap(true);
 		jTextArea1.setRows(3);
 		jScrollPane2.setViewportView(jTextArea1);
-
-		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel2.setText("Regular Expression, partial match:");
 
 		jButton5.setFont(new java.awt.Font("Dialog", 0, 10));
 		jButton5.setText("Open Regular Expression Editor");
@@ -292,20 +324,6 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		jLabel8.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel8.setText("Filter Name:");
-
-		jTextField3.setText("jTextField3");
-
-		jTextArea2.setColumns(20);
-		jTextArea2.setLineWrap(true);
-		jTextArea2.setRows(2);
-		jScrollPane3.setViewportView(jTextArea2);
-
-		jLabel9.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel9.setText("Filter Description:");
-
 		org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(
 				jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
@@ -443,24 +461,6 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																131,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addContainerGap()));
-
-		jButton1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton1.setText("+");
-		jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		jButton2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton2.setText("-");
-		jButton2.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		jButton3.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton3.setText("up");
-		jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		jButton4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton4.setText("down");
-		jButton4.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		jLabel3.setText("Advanced Filter Chain");
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
