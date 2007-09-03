@@ -45,6 +45,7 @@ import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
+import de.phleisch.app.itsucks.gui2.DownloadJobOverviewFrame;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
@@ -667,8 +668,13 @@ public class MainWindow implements AddDownloadJobInterface {
 		
 		try {
 			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
+			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			//UIManager.setLookAndFeel("javax.swing.plaf.synth.SynthLookAndFeel");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -676,8 +682,12 @@ public class MainWindow implements AddDownloadJobInterface {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				@SuppressWarnings("unused")
-				MainWindow application = new MainWindow();
+				//MainWindow application = new MainWindow();
 				//application.getJFrame().setVisible(true);
+				
+				DownloadJobOverviewFrame frame2 = new DownloadJobOverviewFrame();
+				frame2.setVisible(true);
+				
 			}
 		});
 	}
