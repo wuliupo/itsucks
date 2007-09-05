@@ -25,374 +25,403 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		jLabel3 = new javax.swing.JLabel();
-		jLabel1 = new javax.swing.JLabel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jList1 = new javax.swing.JList();
-		jButton1 = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jButton3 = new javax.swing.JButton();
-		jButton4 = new javax.swing.JButton();
-		jPanel2 = new javax.swing.JPanel();
-		jLabel8 = new javax.swing.JLabel();
-		jTextField3 = new javax.swing.JTextField();
-		jLabel9 = new javax.swing.JLabel();
-		jScrollPane3 = new javax.swing.JScrollPane();
-		jTextArea2 = new javax.swing.JTextArea();
-		jLabel2 = new javax.swing.JLabel();
-		jScrollPane2 = new javax.swing.JScrollPane();
-		jTextArea1 = new javax.swing.JTextArea();
-		jButton5 = new javax.swing.JButton();
-		jPanel1 = new javax.swing.JPanel();
-		jLabel4 = new javax.swing.JLabel();
-		jComboBox1 = new javax.swing.JComboBox();
-		jLabel5 = new javax.swing.JLabel();
-		jTextField1 = new javax.swing.JTextField();
-		jCheckBox1 = new javax.swing.JCheckBox();
-		jPanel3 = new javax.swing.JPanel();
-		jLabel6 = new javax.swing.JLabel();
-		jComboBox2 = new javax.swing.JComboBox();
-		jLabel7 = new javax.swing.JLabel();
-		jTextField2 = new javax.swing.JTextField();
-		jCheckBox2 = new javax.swing.JCheckBox();
+		advancedFilterChainLabel = new javax.swing.JLabel();
+		advancedFilterChainExplanationLabel = new javax.swing.JLabel();
+		advancedFilterPane = new javax.swing.JScrollPane();
+		advancedFilterList = new javax.swing.JList();
+		advancedFilterAddButton = new javax.swing.JButton();
+		advancedFilterRemoveButton = new javax.swing.JButton();
+		advancedFilterMoveUpButton = new javax.swing.JButton();
+		advancedFilterMoveDownButton = new javax.swing.JButton();
+		editAdvancedFilterPanel = new javax.swing.JPanel();
+		editAdvancedFilterNameLabel = new javax.swing.JLabel();
+		editAdvancedFilterNameField = new javax.swing.JTextField();
+		editAdvancedFilterDescriptionLabel = new javax.swing.JLabel();
+		editAdvancedFilterDescriptionPane = new javax.swing.JScrollPane();
+		editAdvancedFilterDescriptionTextArea = new javax.swing.JTextArea();
+		editAdvancedFilterRegExpLabel = new javax.swing.JLabel();
+		editAdvancedFilterRegExpPane = new javax.swing.JScrollPane();
+		editAdvancedFilterRegExpTextArea = new javax.swing.JTextArea();
+		editAdvancedFilterOpenRegExpEditorButton = new javax.swing.JButton();
+		editAdvancedFilterMatchPanel = new javax.swing.JPanel();
+		editAdvancedFilterMatchStatusChangeLabel = new javax.swing.JLabel();
+		editAdvancedFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
+		editAdvancedFilterMatchPrioChangeLabel = new javax.swing.JLabel();
+		editAdvancedFilterMatchPrioChangeTextField = new javax.swing.JTextField();
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
+		editAdvancedFilterNoMatchPanel = new javax.swing.JPanel();
+		editAdvancedFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
+		editAdvancedFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
+		editAdvancedFilterNoMatchPrioChangeLabel = new javax.swing.JLabel();
+		editAdvancedFilterNoMatchPrioChangeTextField = new javax.swing.JTextField();
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
 
-		jLabel3.setText("Advanced Filter Chain");
+		advancedFilterChainLabel.setText("Advanced Filter Chain");
 
-		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel1
+		advancedFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog",
+				0, 12));
+		advancedFilterChainExplanationLabel
 				.setText("<html>Every found link will be filtered through the chain. A link must have the state 'accepted' after running through the chain, otherwise it will be rejected</html>");
 
-		jList1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jScrollPane1.setViewportView(jList1);
+		advancedFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterPane.setViewportView(advancedFilterList);
 
-		jButton1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton1.setText("+");
-		jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterAddButton.setText("+");
+		advancedFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton2.setText("-");
-		jButton2.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterRemoveButton.setText("-");
+		advancedFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton3.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton3.setText("up");
-		jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterMoveUpButton.setText("up");
+		advancedFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jButton4.setText("down");
-		jButton4.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterMoveDownButton
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterMoveDownButton.setText("down");
+		advancedFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jPanel2.setBorder(javax.swing.BorderFactory
+		editAdvancedFilterPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Advanced Filter"));
-		jLabel8.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel8.setText("Filter Name:");
+		editAdvancedFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		editAdvancedFilterNameLabel.setText("Filter Name:");
 
-		jTextField3.setText("jTextField3");
+		editAdvancedFilterDescriptionLabel.setFont(new java.awt.Font("Dialog",
+				0, 12));
+		editAdvancedFilterDescriptionLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		editAdvancedFilterDescriptionLabel.setText("Filter Description:");
 
-		jLabel9.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel9.setText("Filter Description:");
+		editAdvancedFilterDescriptionTextArea.setColumns(20);
+		editAdvancedFilterDescriptionTextArea.setLineWrap(true);
+		editAdvancedFilterDescriptionTextArea.setRows(2);
+		editAdvancedFilterDescriptionPane
+				.setViewportView(editAdvancedFilterDescriptionTextArea);
 
-		jTextArea2.setColumns(20);
-		jTextArea2.setLineWrap(true);
-		jTextArea2.setRows(2);
-		jScrollPane3.setViewportView(jTextArea2);
+		editAdvancedFilterRegExpLabel
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		editAdvancedFilterRegExpLabel
+				.setText("Regular Expression, partial match:");
 
-		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel2.setText("Regular Expression, partial match:");
+		editAdvancedFilterRegExpTextArea.setColumns(20);
+		editAdvancedFilterRegExpTextArea.setLineWrap(true);
+		editAdvancedFilterRegExpTextArea.setRows(3);
+		editAdvancedFilterRegExpPane
+				.setViewportView(editAdvancedFilterRegExpTextArea);
 
-		jTextArea1.setColumns(20);
-		jTextArea1.setLineWrap(true);
-		jTextArea1.setRows(3);
-		jScrollPane2.setViewportView(jTextArea1);
+		editAdvancedFilterOpenRegExpEditorButton.setFont(new java.awt.Font(
+				"Dialog", 0, 10));
+		editAdvancedFilterOpenRegExpEditorButton
+				.setText("Open Regular Expression Editor");
+		editAdvancedFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(
+				2, 4, 2, 4));
 
-		jButton5.setFont(new java.awt.Font("Dialog", 0, 10));
-		jButton5.setText("Open Regular Expression Editor");
-		jButton5.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		jPanel1.setBorder(javax.swing.BorderFactory
+		editAdvancedFilterMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of match"));
-		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel4.setText("Change status:");
+		editAdvancedFilterMatchStatusChangeLabel.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
+		editAdvancedFilterMatchStatusChangeLabel.setText("Change status:");
 
-		jComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-				"Item 1", "Item 2", "Item 3", "Item 4" }));
+		editAdvancedFilterMatchStatusChangeComboBox.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
 
-		jLabel5.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel5.setText("Priority change:");
+		editAdvancedFilterMatchPrioChangeLabel.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
+		editAdvancedFilterMatchPrioChangeLabel.setText("Priority change:");
 
-		jTextField1.setText("jTextField1");
+		editAdvancedFilterMatchPrioChangeTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox1
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox
 				.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0,
+						0));
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
+		org.jdesktop.layout.GroupLayout editAdvancedFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editAdvancedFilterMatchPanel);
+		editAdvancedFilterMatchPanel
+				.setLayout(editAdvancedFilterMatchPanelLayout);
+		editAdvancedFilterMatchPanelLayout
+				.setHorizontalGroup(editAdvancedFilterMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel1Layout
+								editAdvancedFilterMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel1Layout
+												editAdvancedFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jCheckBox1,
+																editAdvancedFilterMatchAssumeFinishedFileCheckBox,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																265,
 																Short.MAX_VALUE)
 														.add(
-																jPanel1Layout
+																editAdvancedFilterMatchPanelLayout
 																		.createParallelGroup(
 																				org.jdesktop.layout.GroupLayout.TRAILING,
 																				false)
 																		.add(
 																				org.jdesktop.layout.GroupLayout.LEADING,
-																				jPanel1Layout
+																				editAdvancedFilterMatchPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								jLabel4)
+																								editAdvancedFilterMatchStatusChangeLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								jComboBox1,
+																								editAdvancedFilterMatchStatusChangeComboBox,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																								128,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 																		.add(
 																				org.jdesktop.layout.GroupLayout.LEADING,
-																				jPanel1Layout
+																				editAdvancedFilterMatchPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								jLabel5)
+																								editAdvancedFilterMatchPrioChangeLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								jTextField1))))
+																								editAdvancedFilterMatchPrioChangeTextField))))
 										.addContainerGap()));
 
-		jPanel1Layout.linkSize(new java.awt.Component[] { jLabel4, jLabel5 },
+		editAdvancedFilterMatchPanelLayout.linkSize(new java.awt.Component[] {
+				editAdvancedFilterMatchPrioChangeLabel,
+				editAdvancedFilterMatchStatusChangeLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel1Layout
-				.setVerticalGroup(jPanel1Layout
+		editAdvancedFilterMatchPanelLayout
+				.setVerticalGroup(editAdvancedFilterMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel1Layout
+								editAdvancedFilterMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel1Layout
+												editAdvancedFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel4)
 														.add(
-																jComboBox1,
+																editAdvancedFilterMatchStatusChangeLabel)
+														.add(
+																editAdvancedFilterMatchStatusChangeComboBox,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel1Layout
+												editAdvancedFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel5)
 														.add(
-																jTextField1,
+																editAdvancedFilterMatchPrioChangeLabel)
+														.add(
+																editAdvancedFilterMatchPrioChangeTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(jCheckBox1)
+										.add(
+												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		jPanel3.setBorder(javax.swing.BorderFactory
+		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
-		jLabel6.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel6.setText("Change status:");
+		editAdvancedFilterNoMatchStatusChangeLabel.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
+		editAdvancedFilterNoMatchStatusChangeLabel.setText("Change status:");
 
-		jComboBox2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-				"Item 1", "Item 2", "Item 3", "Item 4" }));
+		editAdvancedFilterNoMatchStatusChangeComboBox
+				.setFont(new java.awt.Font("Dialog", 0, 12));
 
-		jLabel7.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel7.setText("Priority change:");
+		editAdvancedFilterNoMatchPrioChangeLabel.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
+		editAdvancedFilterNoMatchPrioChangeLabel.setText("Priority change:");
 
-		jTextField2.setText("jTextField1");
+		editAdvancedFilterNoMatchPrioChangeTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-		jCheckBox2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox2
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
 				.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-		jCheckBox2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+				.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0,
+						0));
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+				.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel3);
-		jPanel3.setLayout(jPanel3Layout);
-		jPanel3Layout
-				.setHorizontalGroup(jPanel3Layout
+		org.jdesktop.layout.GroupLayout editAdvancedFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editAdvancedFilterNoMatchPanel);
+		editAdvancedFilterNoMatchPanel
+				.setLayout(editAdvancedFilterNoMatchPanelLayout);
+		editAdvancedFilterNoMatchPanelLayout
+				.setHorizontalGroup(editAdvancedFilterNoMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel3Layout
+								editAdvancedFilterNoMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel3Layout
+												editAdvancedFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jCheckBox2,
+																editAdvancedFilterNoMatchAssumeFinishedFileCheckBox,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																277,
 																Short.MAX_VALUE)
 														.add(
-																jPanel3Layout
+																editAdvancedFilterNoMatchPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jPanel3Layout
+																				editAdvancedFilterNoMatchPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								jLabel7)
+																								editAdvancedFilterNoMatchPrioChangeLabel)
 																						.add(
-																								jLabel6))
+																								editAdvancedFilterNoMatchStatusChangeLabel))
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jPanel3Layout
+																				editAdvancedFilterNoMatchPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING,
 																								false)
 																						.add(
-																								jTextField2)
+																								editAdvancedFilterNoMatchPrioChangeTextField)
 																						.add(
-																								jComboBox2,
+																								editAdvancedFilterNoMatchStatusChangeComboBox,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																								128,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
 										.addContainerGap()));
-		jPanel3Layout
-				.setVerticalGroup(jPanel3Layout
+		editAdvancedFilterNoMatchPanelLayout
+				.setVerticalGroup(editAdvancedFilterNoMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel3Layout
+								editAdvancedFilterNoMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel3Layout
+												editAdvancedFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																jComboBox2,
+																editAdvancedFilterNoMatchStatusChangeComboBox,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-														.add(jLabel6))
+														.add(
+																editAdvancedFilterNoMatchStatusChangeLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel3Layout
+												editAdvancedFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(jLabel7)
 														.add(
-																jTextField2,
+																editAdvancedFilterNoMatchPrioChangeLabel)
+														.add(
+																editAdvancedFilterNoMatchPrioChangeTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(jCheckBox2)
+										.add(
+												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel2);
-		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout
-				.setHorizontalGroup(jPanel2Layout
+		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editAdvancedFilterPanel);
+		editAdvancedFilterPanel.setLayout(editAdvancedFilterPanelLayout);
+		editAdvancedFilterPanelLayout
+				.setHorizontalGroup(editAdvancedFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								editAdvancedFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel2Layout
+												editAdvancedFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jScrollPane2,
+																editAdvancedFilterRegExpPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																616,
 																Short.MAX_VALUE)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jPanel2Layout
+																editAdvancedFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jPanel1,
+																				editAdvancedFilterMatchPanel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jPanel3,
+																				editAdvancedFilterNoMatchPanel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE))
 														.add(
-																jPanel2Layout
+																editAdvancedFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jLabel8)
+																				editAdvancedFilterNameLabel)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jTextField3,
+																				editAdvancedFilterNameField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				138,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jLabel9,
+																				editAdvancedFilterDescriptionLabel,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				111,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jScrollPane3,
+																				editAdvancedFilterDescriptionPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				261,
 																				Short.MAX_VALUE))
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jPanel2Layout
+																editAdvancedFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jLabel2,
+																				editAdvancedFilterRegExpLabel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				441,
 																				Short.MAX_VALUE)
@@ -402,61 +431,64 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																				175))
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jButton5))
+																editAdvancedFilterOpenRegExpEditorButton))
 										.addContainerGap()));
-		jPanel2Layout
-				.setVerticalGroup(jPanel2Layout
+		editAdvancedFilterPanelLayout
+				.setVerticalGroup(editAdvancedFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								editAdvancedFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel2Layout
+												editAdvancedFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jPanel2Layout
+																editAdvancedFilterPanelLayout
 																		.createParallelGroup(
 																				org.jdesktop.layout.GroupLayout.BASELINE)
 																		.add(
-																				jLabel8)
+																				editAdvancedFilterNameLabel)
 																		.add(
-																				jTextField3,
+																				editAdvancedFilterNameField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.add(
-																				jLabel9))
+																				editAdvancedFilterDescriptionLabel))
 														.add(
-																jScrollPane3,
+																editAdvancedFilterDescriptionPane,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																41,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(jLabel2)
+										.add(editAdvancedFilterRegExpLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jScrollPane2,
+												editAdvancedFilterRegExpPane,
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												58, Short.MAX_VALUE)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(jButton5)
+										.add(
+												editAdvancedFilterOpenRegExpEditorButton)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel2Layout
+												editAdvancedFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING,
 																false)
-														.add(jPanel1, 0, 131,
+														.add(
+																editAdvancedFilterMatchPanel,
+																0, 131,
 																Short.MAX_VALUE)
 														.add(
-																jPanel3,
+																editAdvancedFilterNoMatchPanel,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																131,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -480,7 +512,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.TRAILING)
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																jPanel2,
+																editAdvancedFilterPanel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																Short.MAX_VALUE)
@@ -488,7 +520,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																layout
 																		.createSequentialGroup()
 																		.add(
-																				jScrollPane1,
+																				advancedFilterPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				599,
 																				Short.MAX_VALUE)
@@ -499,28 +531,30 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								jButton2)
+																								advancedFilterRemoveButton)
 																						.add(
-																								jButton1)
+																								advancedFilterAddButton)
 																						.add(
-																								jButton3)
+																								advancedFilterMoveUpButton)
 																						.add(
-																								jButton4)))
+																								advancedFilterMoveDownButton)))
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																jLabel1,
+																advancedFilterChainExplanationLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																650,
 																Short.MAX_VALUE)
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																jLabel3))
+																advancedFilterChainLabel))
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { jButton1, jButton2 },
+		layout.linkSize(new java.awt.Component[] { advancedFilterAddButton,
+				advancedFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		layout.linkSize(new java.awt.Component[] { jButton3, jButton4 },
+		layout.linkSize(new java.awt.Component[] {
+				advancedFilterMoveDownButton, advancedFilterMoveUpButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
 		layout
@@ -531,11 +565,11 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 								layout
 										.createSequentialGroup()
 										.addContainerGap()
-										.add(jLabel3)
+										.add(advancedFilterChainLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jLabel1,
+												advancedFilterChainExplanationLabel,
 												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 												35,
 												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -549,70 +583,73 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																layout
 																		.createSequentialGroup()
 																		.add(
-																				jButton1)
+																				advancedFilterAddButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButton2)
+																				advancedFilterRemoveButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButton3)
+																				advancedFilterMoveUpButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButton4))
-														.add(jScrollPane1, 0,
-																0,
+																				advancedFilterMoveDownButton))
+														.add(
+																advancedFilterPane,
+																0, 0,
 																Short.MAX_VALUE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel2,
+												editAdvancedFilterPanel,
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												341, Short.MAX_VALUE)
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { jButton1, jButton2 },
+		layout.linkSize(new java.awt.Component[] { advancedFilterAddButton,
+				advancedFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
-		layout.linkSize(new java.awt.Component[] { jButton3, jButton4 },
+		layout.linkSize(new java.awt.Component[] {
+				advancedFilterMoveDownButton, advancedFilterMoveUpButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JButton jButton3;
-	private javax.swing.JButton jButton4;
-	private javax.swing.JButton jButton5;
-	private javax.swing.JCheckBox jCheckBox1;
-	private javax.swing.JCheckBox jCheckBox2;
-	private javax.swing.JComboBox jComboBox1;
-	private javax.swing.JComboBox jComboBox2;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
-	private javax.swing.JLabel jLabel5;
-	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel7;
-	private javax.swing.JLabel jLabel8;
-	private javax.swing.JLabel jLabel9;
-	private javax.swing.JList jList1;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JScrollPane jScrollPane2;
-	private javax.swing.JScrollPane jScrollPane3;
-	private javax.swing.JTextArea jTextArea1;
-	private javax.swing.JTextArea jTextArea2;
-	private javax.swing.JTextField jTextField1;
-	private javax.swing.JTextField jTextField2;
-	private javax.swing.JTextField jTextField3;
+	private javax.swing.JButton advancedFilterAddButton;
+	private javax.swing.JLabel advancedFilterChainExplanationLabel;
+	private javax.swing.JLabel advancedFilterChainLabel;
+	private javax.swing.JList advancedFilterList;
+	private javax.swing.JButton advancedFilterMoveDownButton;
+	private javax.swing.JButton advancedFilterMoveUpButton;
+	private javax.swing.JScrollPane advancedFilterPane;
+	private javax.swing.JButton advancedFilterRemoveButton;
+	private javax.swing.JLabel editAdvancedFilterDescriptionLabel;
+	private javax.swing.JScrollPane editAdvancedFilterDescriptionPane;
+	private javax.swing.JTextArea editAdvancedFilterDescriptionTextArea;
+	private javax.swing.JCheckBox editAdvancedFilterMatchAssumeFinishedFileCheckBox;
+	private javax.swing.JPanel editAdvancedFilterMatchPanel;
+	private javax.swing.JLabel editAdvancedFilterMatchPrioChangeLabel;
+	private javax.swing.JTextField editAdvancedFilterMatchPrioChangeTextField;
+	private javax.swing.JComboBox editAdvancedFilterMatchStatusChangeComboBox;
+	private javax.swing.JLabel editAdvancedFilterMatchStatusChangeLabel;
+	private javax.swing.JTextField editAdvancedFilterNameField;
+	private javax.swing.JLabel editAdvancedFilterNameLabel;
+	private javax.swing.JCheckBox editAdvancedFilterNoMatchAssumeFinishedFileCheckBox;
+	private javax.swing.JPanel editAdvancedFilterNoMatchPanel;
+	private javax.swing.JLabel editAdvancedFilterNoMatchPrioChangeLabel;
+	private javax.swing.JTextField editAdvancedFilterNoMatchPrioChangeTextField;
+	private javax.swing.JComboBox editAdvancedFilterNoMatchStatusChangeComboBox;
+	private javax.swing.JLabel editAdvancedFilterNoMatchStatusChangeLabel;
+	private javax.swing.JButton editAdvancedFilterOpenRegExpEditorButton;
+	private javax.swing.JPanel editAdvancedFilterPanel;
+	private javax.swing.JLabel editAdvancedFilterRegExpLabel;
+	private javax.swing.JScrollPane editAdvancedFilterRegExpPane;
+	private javax.swing.JTextArea editAdvancedFilterRegExpTextArea;
 	// End of variables declaration//GEN-END:variables
 
 }

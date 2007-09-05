@@ -14,10 +14,10 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jPanelLimits" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                  <Component id="limitsPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="urlPrefixFilterPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="hostnameFilterPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="saveToDiskFilterPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -27,20 +27,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPanelLimits" min="-2" max="-2" attributes="0"/>
+              <Component id="limitsPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPanel2" max="32767" attributes="0"/>
+              <Component id="hostnameFilterPanel" pref="134" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPanel3" pref="133" max="32767" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" pref="133" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelLimits">
+    <Container class="javax.swing.JPanel" name="limitsPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -55,13 +55,13 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabelRecursionDepth" linkSize="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelLinksToFollow" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="recursionDepthLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="linksToFollowLabel" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jTextFieldRecursionDepth" max="32767" attributes="1"/>
-                      <Component id="jTextFieldLinksToFollow" alignment="0" pref="74" max="32767" attributes="1"/>
+                      <Component id="recursionDepthTextField" max="32767" attributes="1"/>
+                      <Component id="linksToFollowTextField" alignment="0" pref="74" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace pref="363" max="32767" attributes="0"/>
               </Group>
@@ -71,13 +71,13 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelRecursionDepth" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldRecursionDepth" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="recursionDepthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="recursionDepthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelLinksToFollow" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldLinksToFollow" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="linksToFollowLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="linksToFollowTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -85,7 +85,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelRecursionDepth">
+        <Component class="javax.swing.JLabel" name="recursionDepthLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -95,9 +95,12 @@
             <Property name="horizontalTextPosition" type="int" value="10"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldRecursionDepth">
+        <Component class="javax.swing.JTextField" name="recursionDepthTextField">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelLinksToFollow">
+        <Component class="javax.swing.JLabel" name="linksToFollowLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -107,15 +110,18 @@
             <Property name="horizontalTextPosition" type="int" value="10"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldLinksToFollow">
+        <Component class="javax.swing.JTextField" name="linksToFollowTextField">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="urlPrefixFilterPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Prefix URL Filter"/>
+            <TitledBorder title="URL prefix Filter"/>
           </Border>
         </Property>
       </Properties>
@@ -126,13 +132,13 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel3" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="urlPrefixFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <Component id="urlPrefixFieldLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" pref="279" max="-2" attributes="0"/>
+                          <Component id="urlPrefixTextField" min="-2" pref="279" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="urlPrefixCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -141,13 +147,13 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="urlPrefixFilterLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                  <Component id="urlPrefixCheckBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="urlPrefixTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="urlPrefixFieldLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -155,20 +161,20 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="urlPrefixFilterLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Set a prefix URL filter to follow only links starting with it.&lt;br&gt;Example: Enter &quot;http://www.example.com/section1/&quot; to allow only links from this folder.&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Set a URL prefix filter to follow only links starting with the defined prefix.&lt;br&gt;Example: Enter &quot;http://www.example.com/section1/&quot; to allow only links from this folder.&lt;/html&gt;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+        <Component class="javax.swing.JCheckBox" name="urlPrefixCheckBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Enable &apos;Prefix URL Filter&apos;"/>
+            <Property name="text" type="java.lang.String" value="Enable &apos;URL prefix Filter&apos;"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
@@ -179,7 +185,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="urlPrefixFieldLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -187,7 +193,7 @@
             <Property name="text" type="java.lang.String" value="URL prefix:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="urlPrefixTextField">
           <Properties>
             <Property name="text" type="java.lang.String" value="http://"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -195,7 +201,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="hostnameFilterPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -211,14 +217,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane1" pref="534" max="32767" attributes="0"/>
+                          <Component id="hostnameFilterScrollPane" pref="534" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton2" linkSize="2" min="-2" max="-2" attributes="1"/>
-                              <Component id="jButton1" linkSize="2" alignment="0" max="32767" attributes="1"/>
+                              <Component id="hostnameFilterRemoveButton" linkSize="2" min="-2" max="-2" attributes="1"/>
+                              <Component id="hostnameFilterAddButton" linkSize="2" alignment="0" max="32767" attributes="1"/>
                           </Group>
                       </Group>
-                      <Component id="jLabel1" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="hostnameFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -227,15 +233,15 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="hostnameFilterLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="jButton1" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="hostnameFilterAddButton" linkSize="7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton2" linkSize="7" min="-2" max="-2" attributes="0"/>
+                          <Component id="hostnameFilterRemoveButton" linkSize="7" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" pref="61" max="32767" attributes="0"/>
+                      <Component id="hostnameFilterScrollPane" pref="56" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -243,14 +249,22 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+        <Component class="javax.swing.JLabel" name="hostnameFilterLabel">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*example\.com&quot; to match all subdomains from examples.com.&lt;/html&gt;"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="hostnameFilterScrollPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="hostnameFilterTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="1" rowCount="1">
@@ -263,15 +277,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel1">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*example\.com&quot; to match all subdomains from examples.com.&lt;/html&gt;"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="hostnameFilterAddButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -279,7 +285,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="hostnameFilterRemoveButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -289,7 +295,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel3">
+    <Container class="javax.swing.JPanel" name="saveToDiskFilterPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -305,14 +311,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane2" pref="534" max="32767" attributes="0"/>
+                          <Component id="saveToDiskPane" pref="534" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton4" linkSize="6" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton3" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="saveToDiskRemoveButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="saveToDiskAddButton" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jLabel2" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="saveToDiskFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -321,15 +327,15 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="saveToDiskFilterLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="jButton3" linkSize="5" min="-2" max="-2" attributes="0"/>
+                          <Component id="saveToDiskAddButton" linkSize="5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButton4" linkSize="5" min="-2" max="-2" attributes="0"/>
+                          <Component id="saveToDiskRemoveButton" linkSize="5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" alignment="0" pref="56" max="32767" attributes="0"/>
+                      <Component id="saveToDiskPane" alignment="0" pref="56" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -337,14 +343,22 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+        <Component class="javax.swing.JLabel" name="saveToDiskFilterLabel">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*jpg&quot; to save all jpeg&apos;s.&lt;/html&gt;"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="saveToDiskPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable2">
+            <Component class="javax.swing.JTable" name="saveToDiskTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="1" rowCount="1">
@@ -357,15 +371,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="jLabel2">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Dialog" size="12" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.&lt;br&gt;Example: Enter &quot;.*jpg&quot; to save all jpeg&apos;s.&lt;/html&gt;"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton3">
+        <Component class="javax.swing.JButton" name="saveToDiskAddButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
@@ -373,13 +379,16 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="saveToDiskRemoveButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[2, 4, 2, 4]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveToDiskRemoveButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -25,112 +25,116 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		jPanelLimits = new javax.swing.JPanel();
-		jLabelRecursionDepth = new javax.swing.JLabel();
-		jTextFieldRecursionDepth = new javax.swing.JTextField();
-		jLabelLinksToFollow = new javax.swing.JLabel();
-		jTextFieldLinksToFollow = new javax.swing.JTextField();
-		jPanel1 = new javax.swing.JPanel();
-		jLabel3 = new javax.swing.JLabel();
-		jCheckBox1 = new javax.swing.JCheckBox();
-		jLabel4 = new javax.swing.JLabel();
-		jTextField1 = new javax.swing.JTextField();
-		jPanel2 = new javax.swing.JPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jTable1 = new javax.swing.JTable();
-		jLabel1 = new javax.swing.JLabel();
-		jButton1 = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jPanel3 = new javax.swing.JPanel();
-		jScrollPane2 = new javax.swing.JScrollPane();
-		jTable2 = new javax.swing.JTable();
-		jLabel2 = new javax.swing.JLabel();
-		jButton3 = new javax.swing.JButton();
-		jButton4 = new javax.swing.JButton();
+		limitsPanel = new javax.swing.JPanel();
+		recursionDepthLabel = new javax.swing.JLabel();
+		recursionDepthTextField = new javax.swing.JTextField();
+		linksToFollowLabel = new javax.swing.JLabel();
+		linksToFollowTextField = new javax.swing.JTextField();
+		urlPrefixFilterPanel = new javax.swing.JPanel();
+		urlPrefixFilterLabel = new javax.swing.JLabel();
+		urlPrefixCheckBox = new javax.swing.JCheckBox();
+		urlPrefixFieldLabel = new javax.swing.JLabel();
+		urlPrefixTextField = new javax.swing.JTextField();
+		hostnameFilterPanel = new javax.swing.JPanel();
+		hostnameFilterLabel = new javax.swing.JLabel();
+		hostnameFilterScrollPane = new javax.swing.JScrollPane();
+		hostnameFilterTable = new javax.swing.JTable();
+		hostnameFilterAddButton = new javax.swing.JButton();
+		hostnameFilterRemoveButton = new javax.swing.JButton();
+		saveToDiskFilterPanel = new javax.swing.JPanel();
+		saveToDiskFilterLabel = new javax.swing.JLabel();
+		saveToDiskPane = new javax.swing.JScrollPane();
+		saveToDiskTable = new javax.swing.JTable();
+		saveToDiskAddButton = new javax.swing.JButton();
+		saveToDiskRemoveButton = new javax.swing.JButton();
 
-		jPanelLimits.setBorder(javax.swing.BorderFactory
+		limitsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Limits"));
-		jLabelRecursionDepth.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabelRecursionDepth
+		recursionDepthLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		recursionDepthLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelRecursionDepth.setText("Max. recursion depth:");
-		jLabelRecursionDepth
+		recursionDepthLabel.setText("Max. recursion depth:");
+		recursionDepthLabel
 				.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-		jLabelLinksToFollow.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabelLinksToFollow
+		recursionDepthTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		linksToFollowLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		linksToFollowLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelLinksToFollow.setText("Max. links to follow:");
-		jLabelLinksToFollow
+		linksToFollowLabel.setText("Max. links to follow:");
+		linksToFollowLabel
 				.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
-		org.jdesktop.layout.GroupLayout jPanelLimitsLayout = new org.jdesktop.layout.GroupLayout(
-				jPanelLimits);
-		jPanelLimits.setLayout(jPanelLimitsLayout);
-		jPanelLimitsLayout
-				.setHorizontalGroup(jPanelLimitsLayout
+		linksToFollowTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		org.jdesktop.layout.GroupLayout limitsPanelLayout = new org.jdesktop.layout.GroupLayout(
+				limitsPanel);
+		limitsPanel.setLayout(limitsPanelLayout);
+		limitsPanelLayout
+				.setHorizontalGroup(limitsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanelLimitsLayout
+								limitsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanelLimitsLayout
+												limitsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jLabelRecursionDepth)
-														.add(
-																jLabelLinksToFollow))
+																recursionDepthLabel)
+														.add(linksToFollowLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanelLimitsLayout
+												limitsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING,
 																false)
 														.add(
-																jTextFieldRecursionDepth)
+																recursionDepthTextField)
 														.add(
-																jTextFieldLinksToFollow,
+																linksToFollowTextField,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																74,
 																Short.MAX_VALUE))
 										.addContainerGap(363, Short.MAX_VALUE)));
 
-		jPanelLimitsLayout.linkSize(new java.awt.Component[] {
-				jLabelLinksToFollow, jLabelRecursionDepth },
+		limitsPanelLayout.linkSize(new java.awt.Component[] {
+				linksToFollowLabel, recursionDepthLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanelLimitsLayout
-				.setVerticalGroup(jPanelLimitsLayout
+		limitsPanelLayout
+				.setVerticalGroup(limitsPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanelLimitsLayout
+								limitsPanelLayout
 										.createSequentialGroup()
 										.add(
-												jPanelLimitsLayout
+												limitsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																jLabelRecursionDepth)
+																recursionDepthLabel)
 														.add(
-																jTextFieldRecursionDepth,
+																recursionDepthTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanelLimitsLayout
+												limitsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(linksToFollowLabel)
 														.add(
-																jLabelLinksToFollow)
-														.add(
-																jTextFieldLinksToFollow,
+																linksToFollowTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -138,76 +142,92 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		jPanel1.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Prefix URL Filter"));
-		jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel3
-				.setText("<html>Set a prefix URL filter to follow only links starting with it.<br>Example: Enter \"http://www.example.com/section1/\" to allow only links from this folder.</html>");
+		urlPrefixFilterPanel.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("URL prefix Filter"));
+		urlPrefixFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		urlPrefixFilterLabel
+				.setText("<html>Set a URL prefix filter to follow only links starting with the defined prefix.<br>Example: Enter \"http://www.example.com/section1/\" to allow only links from this folder.</html>");
 
-		jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jCheckBox1.setText("Enable 'Prefix URL Filter'");
-		jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0,
-				0, 0));
-		jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		urlPrefixCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+		urlPrefixCheckBox.setText("Enable 'URL prefix Filter'");
+		urlPrefixCheckBox.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		urlPrefixCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		jLabel4.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel4.setText("URL prefix:");
+		urlPrefixFieldLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		urlPrefixFieldLabel.setText("URL prefix:");
 
-		jTextField1.setText("http://");
-		jTextField1.setEnabled(false);
+		urlPrefixTextField.setText("http://");
+		urlPrefixTextField.setEnabled(false);
 
-		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout
+		org.jdesktop.layout.GroupLayout urlPrefixFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
+				urlPrefixFilterPanel);
+		urlPrefixFilterPanel.setLayout(urlPrefixFilterPanelLayout);
+		urlPrefixFilterPanelLayout
+				.setHorizontalGroup(urlPrefixFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel1Layout
+								urlPrefixFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel1Layout
+												urlPrefixFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jLabel3,
+																urlPrefixFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																564,
 																Short.MAX_VALUE)
 														.add(
-																jPanel1Layout
+																urlPrefixFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jLabel4)
+																				urlPrefixFieldLabel)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jTextField1,
+																				urlPrefixTextField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				279,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-														.add(jCheckBox1))
+														.add(urlPrefixCheckBox))
 										.addContainerGap()));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(
-				jPanel1Layout.createSequentialGroup().add(jLabel3).add(14, 14,
-						14).add(jCheckBox1).addPreferredGap(
-						org.jdesktop.layout.LayoutStyle.RELATED).add(
-						jPanel1Layout.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.BASELINE).add(
-								jTextField1,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-								.add(jLabel4)).addContainerGap(
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE)));
+		urlPrefixFilterPanelLayout
+				.setVerticalGroup(urlPrefixFilterPanelLayout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								urlPrefixFilterPanelLayout
+										.createSequentialGroup()
+										.add(urlPrefixFilterLabel)
+										.add(14, 14, 14)
+										.add(urlPrefixCheckBox)
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(
+												urlPrefixFilterPanelLayout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(
+																urlPrefixTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																urlPrefixFieldLabel))
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
-		jPanel2.setBorder(javax.swing.BorderFactory
+		hostnameFilterPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Hostname Filter"));
-		jTable1
+		hostnameFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		hostnameFilterLabel
+				.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
+
+		hostnameFilterTable
 				.setModel(new javax.swing.table.DefaultTableModel(
 						new Object[][] { { ".*" } },
 						new String[] { "Hostname Filter" }) {
@@ -217,101 +237,103 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 						return types[columnIndex];
 					}
 				});
-		jScrollPane1.setViewportView(jTable1);
+		hostnameFilterScrollPane.setViewportView(hostnameFilterTable);
 
-		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel1
-				.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
+		hostnameFilterAddButton.setText("+");
+		hostnameFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton1.setText("+");
-		jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		hostnameFilterRemoveButton.setText("-");
+		hostnameFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton2.setText("-");
-		jButton2.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel2);
-		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout
-				.setHorizontalGroup(jPanel2Layout
+		org.jdesktop.layout.GroupLayout hostnameFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
+				hostnameFilterPanel);
+		hostnameFilterPanel.setLayout(hostnameFilterPanelLayout);
+		hostnameFilterPanelLayout
+				.setHorizontalGroup(hostnameFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								hostnameFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel2Layout
+												hostnameFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jPanel2Layout
+																hostnameFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jScrollPane1,
+																				hostnameFilterScrollPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jPanel2Layout
+																				hostnameFilterPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								jButton2)
+																								hostnameFilterRemoveButton)
 																						.add(
-																								jButton1,
+																								hostnameFilterAddButton,
 																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																								Short.MAX_VALUE)))
 														.add(
-																jLabel1,
+																hostnameFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
-		jPanel2Layout.linkSize(new java.awt.Component[] { jButton1, jButton2 },
+		hostnameFilterPanelLayout.linkSize(new java.awt.Component[] {
+				hostnameFilterAddButton, hostnameFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel2Layout
-				.setVerticalGroup(jPanel2Layout
+		hostnameFilterPanelLayout
+				.setVerticalGroup(hostnameFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel2Layout
+								hostnameFilterPanelLayout
 										.createSequentialGroup()
-										.add(jLabel1)
+										.add(hostnameFilterLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel2Layout
+												hostnameFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jPanel2Layout
+																hostnameFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jButton1)
+																				hostnameFilterAddButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButton2))
+																				hostnameFilterRemoveButton))
 														.add(
-																jScrollPane1,
+																hostnameFilterScrollPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																61,
+																56,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
-		jPanel2Layout.linkSize(new java.awt.Component[] { jButton1, jButton2 },
+		hostnameFilterPanelLayout.linkSize(new java.awt.Component[] {
+				hostnameFilterAddButton, hostnameFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
-		jPanel3.setBorder(javax.swing.BorderFactory
+		saveToDiskFilterPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("'Save to Disk' Filter"));
-		jTable2.setModel(new javax.swing.table.DefaultTableModel(
+		saveToDiskFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		saveToDiskFilterLabel
+				.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
+
+		saveToDiskTable.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { ".*" } },
 				new String[] { "'Save to Disk' Filter" }) {
 			Class[] types = new Class[] { java.lang.String.class };
@@ -320,93 +342,97 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 				return types[columnIndex];
 			}
 		});
-		jScrollPane2.setViewportView(jTable2);
+		saveToDiskPane.setViewportView(saveToDiskTable);
 
-		jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel2
-				.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
+		saveToDiskAddButton.setText("+");
+		saveToDiskAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
 
-		jButton3.setText("+");
-		jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		saveToDiskRemoveButton.setText("-");
+		saveToDiskRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		saveToDiskRemoveButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						saveToDiskRemoveButtonActionPerformed(evt);
+					}
+				});
 
-		jButton4.setText("-");
-		jButton4.setMargin(new java.awt.Insets(2, 4, 2, 4));
-
-		org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel3);
-		jPanel3.setLayout(jPanel3Layout);
-		jPanel3Layout
-				.setHorizontalGroup(jPanel3Layout
+		org.jdesktop.layout.GroupLayout saveToDiskFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
+				saveToDiskFilterPanel);
+		saveToDiskFilterPanel.setLayout(saveToDiskFilterPanelLayout);
+		saveToDiskFilterPanelLayout
+				.setHorizontalGroup(saveToDiskFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel3Layout
+								saveToDiskFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jPanel3Layout
+												saveToDiskFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																jPanel3Layout
+																saveToDiskFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jScrollPane2,
+																				saveToDiskPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jPanel3Layout
+																				saveToDiskFilterPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								jButton4)
+																								saveToDiskRemoveButton)
 																						.add(
-																								jButton3)))
+																								saveToDiskAddButton)))
 														.add(
-																jLabel2,
+																saveToDiskFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
-		jPanel3Layout.linkSize(new java.awt.Component[] { jButton3, jButton4 },
+		saveToDiskFilterPanelLayout.linkSize(new java.awt.Component[] {
+				saveToDiskAddButton, saveToDiskRemoveButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		jPanel3Layout
-				.setVerticalGroup(jPanel3Layout
+		saveToDiskFilterPanelLayout
+				.setVerticalGroup(saveToDiskFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								jPanel3Layout
+								saveToDiskFilterPanelLayout
 										.createSequentialGroup()
-										.add(jLabel2)
+										.add(saveToDiskFilterLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												jPanel3Layout
+												saveToDiskFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																jPanel3Layout
+																saveToDiskFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				jButton3)
+																				saveToDiskAddButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				jButton4))
+																				saveToDiskRemoveButton))
 														.add(
-																jScrollPane2,
+																saveToDiskPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																56,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
-		jPanel3Layout.linkSize(new java.awt.Component[] { jButton3, jButton4 },
+		saveToDiskFilterPanelLayout.linkSize(new java.awt.Component[] {
+				saveToDiskAddButton, saveToDiskRemoveButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
@@ -419,74 +445,79 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 						layout.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.TRAILING).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanelLimits,
+								limitsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel1,
+								urlPrefixFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel2,
+								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jPanel3,
+								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)).addContainerGap()));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				layout.createSequentialGroup().addContainerGap().add(
-						jPanelLimits,
+						limitsPanel,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jPanel1,
+								urlPrefixFilterPanel,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jPanel2,
+								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addPreferredGap(
+								134, Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jPanel3,
+								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								133, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_saveToDiskRemoveButtonActionPerformed
+	private void saveToDiskRemoveButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+	}//GEN-LAST:event_saveToDiskRemoveButtonActionPerformed
+
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JButton jButton3;
-	private javax.swing.JButton jButton4;
-	private javax.swing.JCheckBox jCheckBox1;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
-	private javax.swing.JLabel jLabelLinksToFollow;
-	private javax.swing.JLabel jLabelRecursionDepth;
-	private javax.swing.JPanel jPanel1;
-	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
-	private javax.swing.JPanel jPanelLimits;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JScrollPane jScrollPane2;
-	private javax.swing.JTable jTable1;
-	private javax.swing.JTable jTable2;
-	private javax.swing.JTextField jTextField1;
-	private javax.swing.JTextField jTextFieldLinksToFollow;
-	private javax.swing.JTextField jTextFieldRecursionDepth;
+	private javax.swing.JButton hostnameFilterAddButton;
+	private javax.swing.JLabel hostnameFilterLabel;
+	private javax.swing.JPanel hostnameFilterPanel;
+	private javax.swing.JButton hostnameFilterRemoveButton;
+	private javax.swing.JScrollPane hostnameFilterScrollPane;
+	private javax.swing.JTable hostnameFilterTable;
+	private javax.swing.JPanel limitsPanel;
+	private javax.swing.JLabel linksToFollowLabel;
+	private javax.swing.JTextField linksToFollowTextField;
+	private javax.swing.JLabel recursionDepthLabel;
+	private javax.swing.JTextField recursionDepthTextField;
+	private javax.swing.JButton saveToDiskAddButton;
+	private javax.swing.JLabel saveToDiskFilterLabel;
+	private javax.swing.JPanel saveToDiskFilterPanel;
+	private javax.swing.JScrollPane saveToDiskPane;
+	private javax.swing.JButton saveToDiskRemoveButton;
+	private javax.swing.JTable saveToDiskTable;
+	private javax.swing.JCheckBox urlPrefixCheckBox;
+	private javax.swing.JLabel urlPrefixFieldLabel;
+	private javax.swing.JLabel urlPrefixFilterLabel;
+	private javax.swing.JPanel urlPrefixFilterPanel;
+	private javax.swing.JTextField urlPrefixTextField;
 	// End of variables declaration//GEN-END:variables
 
 }

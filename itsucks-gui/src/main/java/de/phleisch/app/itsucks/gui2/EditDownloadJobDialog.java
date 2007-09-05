@@ -45,10 +45,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		tabbedPane = new javax.swing.JTabbedPane();
-		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel();
-		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel();
-		downloadJobAdvancedRulesPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel();
+		editDownloadJobGroupPanel1 = new de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel();
 		buttonPanel = new javax.swing.JPanel();
 		startButton = new javax.swing.JButton();
 		saveButton = new javax.swing.JButton();
@@ -56,11 +53,6 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationByPlatform(true);
-		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
-
-		tabbedPane.addTab("Simple Rules", downloadJobSimpleRulesPanel);
-
-		tabbedPane.addTab("Advanced Rules", downloadJobAdvancedRulesPanel);
 
 		startButton.setText("Start download");
 		startButton.addActionListener(new java.awt.event.ActionListener() {
@@ -88,17 +80,15 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				layout.createSequentialGroup().addContainerGap().add(
-						buttonPanel,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 595,
-						Short.MAX_VALUE).addContainerGap()).add(tabbedPane,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 619,
+				editDownloadJobGroupPanel1,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 620,
+				Short.MAX_VALUE).add(buttonPanel,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 620,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				org.jdesktop.layout.GroupLayout.TRAILING,
-				layout.createSequentialGroup().add(tabbedPane,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 587,
+				layout.createSequentialGroup().add(editDownloadJobGroupPanel1,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 594,
 						Short.MAX_VALUE).addPreferredGap(
 						org.jdesktop.layout.LayoutStyle.RELATED).add(
 						buttonPanel,
@@ -122,12 +112,9 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JPanel buttonPanel;
 	private javax.swing.JButton cancelButton;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel downloadJobAdvancedRulesPanel;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel downloadJobBasicPanel;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
+	private de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel editDownloadJobGroupPanel1;
 	private javax.swing.JButton saveButton;
 	private javax.swing.JButton startButton;
-	private javax.swing.JTabbedPane tabbedPane;
 	// End of variables declaration//GEN-END:variables
 
 }
