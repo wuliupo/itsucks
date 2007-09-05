@@ -71,10 +71,16 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			}
 			
 			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.setRowCount(0);
-			
 			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
 			for (String string : allowedHostNames) {
 				this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.addRow(
+						new Object[] {string});
+			}
+
+			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.setRowCount(0);
+			String[] saveToDiskFilter = downloadJobFilter.getSaveToFileFilter();
+			for (String string : saveToDiskFilter) {
+				this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.addRow(
 						new Object[] {string});
 			}
 			
