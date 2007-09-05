@@ -5,7 +5,7 @@
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="4"/>
   </AuxValues>
 
   <Layout>
@@ -31,9 +31,9 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="hostnameFilterPanel" pref="134" max="32767" attributes="0"/>
+              <Component id="hostnameFilterPanel" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="saveToDiskFilterPanel" pref="133" max="32767" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" pref="129" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
@@ -184,6 +184,9 @@
               <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="urlPrefixCheckBoxStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="urlPrefixFieldLabel">
           <Properties>
@@ -191,6 +194,7 @@
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="URL prefix:"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="urlPrefixTextField">

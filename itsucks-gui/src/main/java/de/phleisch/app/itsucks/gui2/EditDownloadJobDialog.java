@@ -33,8 +33,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	}
 
 	public void loadJob(DownloadJob pJob, List<JobFilter> pFilters) {
-		// TODO Auto-generated method stub
-
+		this.editDownloadJobGroupPanel.loadJob(pJob, pFilters);
 	}
 
 	/** This method is called from within the constructor to
@@ -45,7 +44,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		editDownloadJobGroupPanel1 = new de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel();
+		editDownloadJobGroupPanel = new de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel();
 		buttonPanel = new javax.swing.JPanel();
 		startButton = new javax.swing.JButton();
 		saveButton = new javax.swing.JButton();
@@ -80,14 +79,14 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				editDownloadJobGroupPanel1,
+				editDownloadJobGroupPanel,
 				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 620,
 				Short.MAX_VALUE).add(buttonPanel,
 				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 620,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				layout.createSequentialGroup().add(editDownloadJobGroupPanel1,
+				layout.createSequentialGroup().add(editDownloadJobGroupPanel,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 594,
 						Short.MAX_VALUE).addPreferredGap(
 						org.jdesktop.layout.LayoutStyle.RELATED).add(
@@ -112,7 +111,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JPanel buttonPanel;
 	private javax.swing.JButton cancelButton;
-	private de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel editDownloadJobGroupPanel1;
+	private de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel editDownloadJobGroupPanel;
 	private javax.swing.JButton saveButton;
 	private javax.swing.JButton startButton;
 	// End of variables declaration//GEN-END:variables

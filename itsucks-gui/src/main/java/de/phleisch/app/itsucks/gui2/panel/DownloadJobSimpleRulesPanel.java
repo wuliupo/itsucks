@@ -6,14 +6,25 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author  __USER__
  */
 public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
+	protected DefaultTableModel hostnameFilterTableModel;
+	protected DefaultTableModel saveToDiskFilterTabelModel;
+	
 	/** Creates new form DownloadJobSimpleRulesPanel */
 	public DownloadJobSimpleRulesPanel() {
+		
+		hostnameFilterTableModel = new DefaultTableModel();
+		hostnameFilterTableModel.addColumn("Hostname Filter");
+		saveToDiskFilterTabelModel = new DefaultTableModel();
+		saveToDiskFilterTabelModel.addColumn("'Save to disk' Filter");
+		
 		initComponents();
 	}
 
@@ -102,7 +113,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																74,
 																Short.MAX_VALUE))
-										.addContainerGap(363, Short.MAX_VALUE)));
+										.addContainerGap(319, Short.MAX_VALUE)));
 
 		limitsPanelLayout.linkSize(new java.awt.Component[] {
 				linksToFollowLabel, recursionDepthLabel },
@@ -153,9 +164,16 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		urlPrefixCheckBox.setBorder(javax.swing.BorderFactory
 				.createEmptyBorder(0, 0, 0, 0));
 		urlPrefixCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		urlPrefixCheckBox
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						urlPrefixCheckBoxStateChanged(evt);
+					}
+				});
 
 		urlPrefixFieldLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		urlPrefixFieldLabel.setText("URL prefix:");
+		urlPrefixFieldLabel.setEnabled(false);
 
 		urlPrefixTextField.setText("http://");
 		urlPrefixTextField.setEnabled(false);
@@ -178,7 +196,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																urlPrefixFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																564,
+																520,
 																Short.MAX_VALUE)
 														.add(
 																urlPrefixFilterPanelLayout
@@ -227,16 +245,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		hostnameFilterLabel
 				.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
 
-		hostnameFilterTable
-				.setModel(new javax.swing.table.DefaultTableModel(
-						new Object[][] { { ".*" } },
-						new String[] { "Hostname Filter" }) {
-					Class[] types = new Class[] { java.lang.String.class };
-
-					public Class getColumnClass(int columnIndex) {
-						return types[columnIndex];
-					}
-				});
+		hostnameFilterTable.setModel(hostnameFilterTableModel);
 		hostnameFilterScrollPane.setViewportView(hostnameFilterTable);
 
 		hostnameFilterAddButton.setText("+");
@@ -267,7 +276,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				hostnameFilterScrollPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				534,
+																				490,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -285,7 +294,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																hostnameFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																564,
+																520,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -333,15 +342,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		saveToDiskFilterLabel
 				.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
 
-		saveToDiskTable.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { ".*" } },
-				new String[] { "'Save to Disk' Filter" }) {
-			Class[] types = new Class[] { java.lang.String.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return types[columnIndex];
-			}
-		});
+		saveToDiskTable.setModel(saveToDiskFilterTabelModel);
 		saveToDiskPane.setViewportView(saveToDiskTable);
 
 		saveToDiskAddButton.setText("+");
@@ -378,7 +379,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				saveToDiskPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				534,
+																				490,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -393,7 +394,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																saveToDiskFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																564,
+																520,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -481,12 +482,23 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								134, Short.MAX_VALUE).addPreferredGap(
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								133, Short.MAX_VALUE).addContainerGap()));
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_urlPrefixCheckBoxStateChanged
+	private void urlPrefixCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {
+		boolean enabled = urlPrefixCheckBox.isSelected();
+
+		urlPrefixFieldLabel.setEnabled(enabled);
+		urlPrefixTextField.setEnabled(enabled);
+
+	}//GEN-LAST:event_urlPrefixCheckBoxStateChanged
 
 	//GEN-FIRST:event_saveToDiskRemoveButtonActionPerformed
 	private void saveToDiskRemoveButtonActionPerformed(
@@ -496,28 +508,28 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton hostnameFilterAddButton;
-	private javax.swing.JLabel hostnameFilterLabel;
-	private javax.swing.JPanel hostnameFilterPanel;
-	private javax.swing.JButton hostnameFilterRemoveButton;
-	private javax.swing.JScrollPane hostnameFilterScrollPane;
-	private javax.swing.JTable hostnameFilterTable;
-	private javax.swing.JPanel limitsPanel;
-	private javax.swing.JLabel linksToFollowLabel;
-	private javax.swing.JTextField linksToFollowTextField;
-	private javax.swing.JLabel recursionDepthLabel;
-	private javax.swing.JTextField recursionDepthTextField;
-	private javax.swing.JButton saveToDiskAddButton;
-	private javax.swing.JLabel saveToDiskFilterLabel;
-	private javax.swing.JPanel saveToDiskFilterPanel;
-	private javax.swing.JScrollPane saveToDiskPane;
-	private javax.swing.JButton saveToDiskRemoveButton;
-	private javax.swing.JTable saveToDiskTable;
-	private javax.swing.JCheckBox urlPrefixCheckBox;
-	private javax.swing.JLabel urlPrefixFieldLabel;
-	private javax.swing.JLabel urlPrefixFilterLabel;
-	private javax.swing.JPanel urlPrefixFilterPanel;
-	private javax.swing.JTextField urlPrefixTextField;
+	protected javax.swing.JButton hostnameFilterAddButton;
+	protected javax.swing.JLabel hostnameFilterLabel;
+	protected javax.swing.JPanel hostnameFilterPanel;
+	protected javax.swing.JButton hostnameFilterRemoveButton;
+	protected javax.swing.JScrollPane hostnameFilterScrollPane;
+	protected javax.swing.JTable hostnameFilterTable;
+	protected javax.swing.JPanel limitsPanel;
+	protected javax.swing.JLabel linksToFollowLabel;
+	protected javax.swing.JTextField linksToFollowTextField;
+	protected javax.swing.JLabel recursionDepthLabel;
+	protected javax.swing.JTextField recursionDepthTextField;
+	protected javax.swing.JButton saveToDiskAddButton;
+	protected javax.swing.JLabel saveToDiskFilterLabel;
+	protected javax.swing.JPanel saveToDiskFilterPanel;
+	protected javax.swing.JScrollPane saveToDiskPane;
+	protected javax.swing.JButton saveToDiskRemoveButton;
+	protected javax.swing.JTable saveToDiskTable;
+	protected javax.swing.JCheckBox urlPrefixCheckBox;
+	protected javax.swing.JLabel urlPrefixFieldLabel;
+	protected javax.swing.JLabel urlPrefixFilterLabel;
+	protected javax.swing.JPanel urlPrefixFilterPanel;
+	protected javax.swing.JTextField urlPrefixTextField;
 	// End of variables declaration//GEN-END:variables
 
 }

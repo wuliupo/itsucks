@@ -6,6 +6,15 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import java.util.List;
+
+import javax.swing.table.TableModel;
+
+import de.phleisch.app.itsucks.filter.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
+import de.phleisch.app.itsucks.io.DownloadJob;
+
 /**
  *
  * @author  __USER__
@@ -17,6 +26,61 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	/** Creates new form EditDownloadJobGroupPanel */
 	public EditDownloadJobGroupPanel() {
 		initComponents();
+	}
+	
+	public void loadJob(DownloadJob pJob, List<JobFilter> pFilters) {
+		
+		DownloadJobFilter downloadJobFilter = null;
+		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
+		
+		
+		for (JobFilter jobFilter : pFilters) {
+			if(jobFilter instanceof DownloadJobFilter) {
+				downloadJobFilter = (DownloadJobFilter) jobFilter;
+				continue;
+			}
+			if(jobFilter instanceof MaxLinksToFollowFilter) {
+				maxLinksToFollowFilter = (MaxLinksToFollowFilter) jobFilter;
+				continue;
+			}
+		}
+		
+		//load basic panel
+		this.downloadJobBasicPanel.nameTextField.setText(pJob.getName());
+		this.downloadJobBasicPanel.urlTextField.setText(pJob.getUrl().toExternalForm());
+		this.downloadJobBasicPanel.savePathTextField.setText(
+				pJob.getSavePath().getAbsolutePath());
+		this.downloadJobBasicPanel.maxRetriesTextField.setText(
+				String.valueOf(pJob.getMaxRetryCount()));
+		
+		//load simple rules
+		if(maxLinksToFollowFilter != null) {
+			this.downloadJobSimpleRulesPanel.linksToFollowTextField.setText(
+					String.valueOf(maxLinksToFollowFilter.getMaxLinksToFollow()));
+		}
+		this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(
+				String.valueOf(pJob.getDepth()));
+		if(downloadJobFilter != null) {
+			
+			if(downloadJobFilter.isAllowOnlyRelativeReferences()) {
+				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(true);
+				this.downloadJobSimpleRulesPanel.urlPrefixTextField.setText(
+						downloadJobFilter.getBaseURL().toExternalForm());
+			} else {
+				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(false);
+			}
+			
+			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.setRowCount(0);
+			
+			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
+			for (String string : allowedHostNames) {
+				this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.addRow(
+						new Object[] {string});
+			}
+			
+		}
+		
+		
 	}
 
 	/** This method is called from within the constructor to

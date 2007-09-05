@@ -236,9 +236,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addContainerGap(24, Short.MAX_VALUE)));
 
 		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
@@ -349,9 +347,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addContainerGap(24, Short.MAX_VALUE)));
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterPanel);
@@ -620,36 +616,36 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JButton advancedFilterAddButton;
-	private javax.swing.JLabel advancedFilterChainExplanationLabel;
-	private javax.swing.JLabel advancedFilterChainLabel;
-	private javax.swing.JList advancedFilterList;
-	private javax.swing.JButton advancedFilterMoveDownButton;
-	private javax.swing.JButton advancedFilterMoveUpButton;
-	private javax.swing.JScrollPane advancedFilterPane;
-	private javax.swing.JButton advancedFilterRemoveButton;
-	private javax.swing.JLabel editAdvancedFilterDescriptionLabel;
-	private javax.swing.JScrollPane editAdvancedFilterDescriptionPane;
-	private javax.swing.JTextArea editAdvancedFilterDescriptionTextArea;
-	private javax.swing.JCheckBox editAdvancedFilterMatchAssumeFinishedFileCheckBox;
-	private javax.swing.JPanel editAdvancedFilterMatchPanel;
-	private javax.swing.JLabel editAdvancedFilterMatchPrioChangeLabel;
-	private javax.swing.JTextField editAdvancedFilterMatchPrioChangeTextField;
-	private javax.swing.JComboBox editAdvancedFilterMatchStatusChangeComboBox;
-	private javax.swing.JLabel editAdvancedFilterMatchStatusChangeLabel;
-	private javax.swing.JTextField editAdvancedFilterNameField;
-	private javax.swing.JLabel editAdvancedFilterNameLabel;
-	private javax.swing.JCheckBox editAdvancedFilterNoMatchAssumeFinishedFileCheckBox;
-	private javax.swing.JPanel editAdvancedFilterNoMatchPanel;
-	private javax.swing.JLabel editAdvancedFilterNoMatchPrioChangeLabel;
-	private javax.swing.JTextField editAdvancedFilterNoMatchPrioChangeTextField;
-	private javax.swing.JComboBox editAdvancedFilterNoMatchStatusChangeComboBox;
-	private javax.swing.JLabel editAdvancedFilterNoMatchStatusChangeLabel;
-	private javax.swing.JButton editAdvancedFilterOpenRegExpEditorButton;
-	private javax.swing.JPanel editAdvancedFilterPanel;
-	private javax.swing.JLabel editAdvancedFilterRegExpLabel;
-	private javax.swing.JScrollPane editAdvancedFilterRegExpPane;
-	private javax.swing.JTextArea editAdvancedFilterRegExpTextArea;
+	protected javax.swing.JButton advancedFilterAddButton;
+	protected javax.swing.JLabel advancedFilterChainExplanationLabel;
+	protected javax.swing.JLabel advancedFilterChainLabel;
+	protected javax.swing.JList advancedFilterList;
+	protected javax.swing.JButton advancedFilterMoveDownButton;
+	protected javax.swing.JButton advancedFilterMoveUpButton;
+	protected javax.swing.JScrollPane advancedFilterPane;
+	protected javax.swing.JButton advancedFilterRemoveButton;
+	protected javax.swing.JLabel editAdvancedFilterDescriptionLabel;
+	protected javax.swing.JScrollPane editAdvancedFilterDescriptionPane;
+	protected javax.swing.JTextArea editAdvancedFilterDescriptionTextArea;
+	protected javax.swing.JCheckBox editAdvancedFilterMatchAssumeFinishedFileCheckBox;
+	protected javax.swing.JPanel editAdvancedFilterMatchPanel;
+	protected javax.swing.JLabel editAdvancedFilterMatchPrioChangeLabel;
+	protected javax.swing.JTextField editAdvancedFilterMatchPrioChangeTextField;
+	protected javax.swing.JComboBox editAdvancedFilterMatchStatusChangeComboBox;
+	protected javax.swing.JLabel editAdvancedFilterMatchStatusChangeLabel;
+	protected javax.swing.JTextField editAdvancedFilterNameField;
+	protected javax.swing.JLabel editAdvancedFilterNameLabel;
+	protected javax.swing.JCheckBox editAdvancedFilterNoMatchAssumeFinishedFileCheckBox;
+	protected javax.swing.JPanel editAdvancedFilterNoMatchPanel;
+	protected javax.swing.JLabel editAdvancedFilterNoMatchPrioChangeLabel;
+	protected javax.swing.JTextField editAdvancedFilterNoMatchPrioChangeTextField;
+	protected javax.swing.JComboBox editAdvancedFilterNoMatchStatusChangeComboBox;
+	protected javax.swing.JLabel editAdvancedFilterNoMatchStatusChangeLabel;
+	protected javax.swing.JButton editAdvancedFilterOpenRegExpEditorButton;
+	protected javax.swing.JPanel editAdvancedFilterPanel;
+	protected javax.swing.JLabel editAdvancedFilterRegExpLabel;
+	protected javax.swing.JScrollPane editAdvancedFilterRegExpPane;
+	protected javax.swing.JTextArea editAdvancedFilterRegExpTextArea;
 	// End of variables declaration//GEN-END:variables
 
 }

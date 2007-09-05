@@ -41,6 +41,8 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		workingThreadsTextField = new javax.swing.JTextField();
 		maxConnectionsLabel = new javax.swing.JLabel();
 		maxConnectionsTextField = new javax.swing.JTextField();
+		maxRetriesLabel = new javax.swing.JLabel();
+		maxRetriesTextField = new javax.swing.JTextField();
 		proxySettingsPanel = new javax.swing.JPanel();
 		enableProxyCheckBox = new javax.swing.JCheckBox();
 		proxyServerLabel = new javax.swing.JLabel();
@@ -199,6 +201,14 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		maxConnectionsTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+		maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		maxRetriesLabel
+				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		maxRetriesLabel.setText("Max. retries before giving up:");
+
+		maxRetriesTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
 		org.jdesktop.layout.GroupLayout connectionSettingsPanelLayout = new org.jdesktop.layout.GroupLayout(
 				connectionSettingsPanel);
 		connectionSettingsPanel.setLayout(connectionSettingsPanelLayout);
@@ -215,9 +225,14 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																workingThreadsLabel)
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
 																maxConnectionsLabel)
 														.add(
-																workingThreadsLabel))
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																maxRetriesLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -226,16 +241,31 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.LEADING,
 																false)
 														.add(
-																maxConnectionsTextField)
-														.add(
-																workingThreadsTextField,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																maxRetriesTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																46,
-																Short.MAX_VALUE))
-										.addContainerGap(214, Short.MAX_VALUE)));
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																connectionSettingsPanelLayout
+																		.createParallelGroup(
+																				org.jdesktop.layout.GroupLayout.LEADING,
+																				false)
+																		.add(
+																				maxConnectionsTextField)
+																		.add(
+																				workingThreadsTextField,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				46,
+																				Short.MAX_VALUE)))
+										.addContainerGap(210, Short.MAX_VALUE)));
 
 		connectionSettingsPanelLayout.linkSize(new java.awt.Component[] {
 				maxConnectionsLabel, workingThreadsLabel },
+				org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+		connectionSettingsPanelLayout.linkSize(new java.awt.Component[] {
+				maxConnectionsTextField, maxRetriesTextField,
+				workingThreadsTextField },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
 		connectionSettingsPanelLayout
@@ -243,6 +273,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
+								org.jdesktop.layout.GroupLayout.TRAILING,
 								connectionSettingsPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
@@ -270,7 +301,21 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(16, Short.MAX_VALUE)));
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED,
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.add(
+												connectionSettingsPanelLayout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(maxRetriesLabel)
+														.add(
+																maxRetriesTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+										.add(16, 16, 16)));
 
 		proxySettingsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Proxy Settings"));
@@ -482,22 +527,18 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				org.jdesktop.layout.GroupLayout.TRAILING,
 				layout.createSequentialGroup().addContainerGap().add(
 						layout.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.TRAILING).add(
-								org.jdesktop.layout.GroupLayout.LEADING,
-								proxySettingsPanel,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).add(
-								org.jdesktop.layout.GroupLayout.LEADING,
+								org.jdesktop.layout.GroupLayout.LEADING).add(
 								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).add(basicParametersPanel,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
-								org.jdesktop.layout.GroupLayout.LEADING,
-								basicParametersPanel,
+								org.jdesktop.layout.GroupLayout.TRAILING,
+								proxySettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)).addContainerGap()));
@@ -512,7 +553,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								113,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
@@ -527,30 +568,32 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JLabel authenticationPasswordLabel;
-	private javax.swing.JTextField authenticationPasswordTextField;
-	private javax.swing.JLabel authenticationUserLabel;
-	private javax.swing.JTextField authenticationUserTextField;
-	private javax.swing.JPanel basicParametersPanel;
-	private javax.swing.JPanel connectionSettingsPanel;
-	private javax.swing.JCheckBox enableAuthenticationCheckBox;
-	private javax.swing.JCheckBox enableProxyCheckBox;
-	private javax.swing.JLabel maxConnectionsLabel;
-	private javax.swing.JTextField maxConnectionsTextField;
-	private javax.swing.JLabel nameLabel;
-	private javax.swing.JTextField nameTextField;
-	private javax.swing.JLabel proxyPortLabel;
-	private javax.swing.JTextField proxyPortTextField;
-	private javax.swing.JLabel proxyServerLabel;
-	private javax.swing.JTextField proxyServerTextField;
-	private javax.swing.JPanel proxySettingsPanel;
-	private javax.swing.JButton savePathButton;
-	private javax.swing.JLabel savePathLabel;
-	private javax.swing.JTextField savePathTextField;
-	private javax.swing.JLabel urlLabel;
-	private javax.swing.JTextField urlTextField;
-	private javax.swing.JLabel workingThreadsLabel;
-	private javax.swing.JTextField workingThreadsTextField;
+	protected javax.swing.JLabel authenticationPasswordLabel;
+	protected javax.swing.JTextField authenticationPasswordTextField;
+	protected javax.swing.JLabel authenticationUserLabel;
+	protected javax.swing.JTextField authenticationUserTextField;
+	protected javax.swing.JPanel basicParametersPanel;
+	protected javax.swing.JPanel connectionSettingsPanel;
+	protected javax.swing.JCheckBox enableAuthenticationCheckBox;
+	protected javax.swing.JCheckBox enableProxyCheckBox;
+	protected javax.swing.JLabel maxConnectionsLabel;
+	protected javax.swing.JTextField maxConnectionsTextField;
+	protected javax.swing.JLabel maxRetriesLabel;
+	protected javax.swing.JTextField maxRetriesTextField;
+	protected javax.swing.JLabel nameLabel;
+	protected javax.swing.JTextField nameTextField;
+	protected javax.swing.JLabel proxyPortLabel;
+	protected javax.swing.JTextField proxyPortTextField;
+	protected javax.swing.JLabel proxyServerLabel;
+	protected javax.swing.JTextField proxyServerTextField;
+	protected javax.swing.JPanel proxySettingsPanel;
+	protected javax.swing.JButton savePathButton;
+	protected javax.swing.JLabel savePathLabel;
+	protected javax.swing.JTextField savePathTextField;
+	protected javax.swing.JLabel urlLabel;
+	protected javax.swing.JTextField urlTextField;
+	protected javax.swing.JLabel workingThreadsLabel;
+	protected javax.swing.JTextField workingThreadsTextField;
 	// End of variables declaration//GEN-END:variables
 
 }
