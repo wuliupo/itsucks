@@ -287,11 +287,11 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		
 		@Override
 		public String toString() {
-			return toHtmlString();
+			return toTextString();
 		}
 		
 		/**
-		 * Returns a string containg all information about this filter.
+		 * Returns a string containing all information about this filter.
 		 * Text format.
 		 * 
 		 * @return
@@ -301,21 +301,6 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 					"Pattern: '" + getPattern() + "' \n" +
 					"Match: " + mMatchAction + "\n" + 
 					"No Match: " + mNoMatchAction;
-		}
-
-		/**
-		 * Returns a string containg all information about this filter.
-		 * HTML format.
-		 * 
-		 * @return
-		 */
-		public String toHtmlString() {
-			return "<html>" +
-					(mName != null ? "Name: '" + mName + "'<br>\n" : "") +
-					"Pattern: '" + getPattern() + "' <br>\n" +
-					"Match: " + mMatchAction + 
-					"<br>\nNo Match: " + mNoMatchAction +
-					"</html>";
 		}
 
 		/**
