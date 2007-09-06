@@ -25,15 +25,15 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		initComponents();
 	}
-	
+
 	protected class RegExpFilterRuleListElement {
-		
+
 		private RegExpFilterRule mRule;
 
 		public RegExpFilterRuleListElement(RegExpFilterRule pRule) {
 			mRule = pRule;
 		}
-		
+
 		@Override
 		public String toString() {
 			return toHtmlString();
@@ -46,12 +46,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		 * @return
 		 */
 		public String toHtmlString() {
-			return "<html>" +
-					(mRule.getName() != null ? "Name: '" + mRule.getName() + "'<br>\n" : "") +
-					"Pattern: '" + mRule.getPattern() + "' <br>\n" +
-					"Match: " + mRule.getMatchAction() + 
-					"<br>\nNo Match: " + mRule.getNoMatchAction() +
-					"</html>";
+			return "<html>"
+					+ (mRule.getName() != null ? "Name: '" + mRule.getName()
+							+ "'<br>\n" : "") + "Pattern: '"
+					+ mRule.getPattern() + "' <br>\n" + "Match: "
+					+ mRule.getMatchAction() + "<br>\nNo Match: "
+					+ mRule.getNoMatchAction() + "</html>";
 		}
 	}
 
@@ -108,19 +108,43 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		advancedFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterAddButton.setText("+");
 		advancedFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterAddButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						advancedFilterAddButtonActionPerformed(evt);
+					}
+				});
 
 		advancedFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterRemoveButton.setText("-");
 		advancedFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterRemoveButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						advancedFilterRemoveButtonActionPerformed(evt);
+					}
+				});
 
 		advancedFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterMoveUpButton.setText("up");
 		advancedFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterMoveUpButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						advancedFilterMoveUpButtonActionPerformed(evt);
+					}
+				});
 
 		advancedFilterMoveDownButton
 				.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterMoveDownButton.setText("down");
 		advancedFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		advancedFilterMoveDownButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						advancedFilterMoveDownButtonActionPerformed(evt);
+					}
+				});
 
 		editAdvancedFilterPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Advanced Filter"));
@@ -275,9 +299,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addContainerGap(24, Short.MAX_VALUE)));
 
 		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
@@ -388,9 +410,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+										.addContainerGap(24, Short.MAX_VALUE)));
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterPanel);
@@ -656,6 +676,63 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_advancedFilterMoveDownButtonActionPerformed
+	private void advancedFilterMoveDownButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		
+		int selection = advancedFilterList.getSelectedIndex();
+		if (selection < (advancedFilterFilterListModel.getSize() - 1)) {
+			Object source = advancedFilterFilterListModel.get(selection);
+
+			//move the entry
+			advancedFilterFilterListModel.moveEntry(selection, 1);
+
+			//move the selection
+			advancedFilterList.setSelectedValue(source, true);
+		}
+		
+	}//GEN-LAST:event_advancedFilterMoveDownButtonActionPerformed
+
+	//GEN-FIRST:event_advancedFilterMoveUpButtonActionPerformed
+	private void advancedFilterMoveUpButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		int selection = advancedFilterList.getSelectedIndex();
+		if (selection > 0) {
+			Object source = advancedFilterFilterListModel.get(selection);
+
+			//move the entry
+			advancedFilterFilterListModel.moveEntry(selection, -1);
+
+			//move the selection
+			advancedFilterList.setSelectedValue(source, true);
+		}
+
+	}//GEN-LAST:event_advancedFilterMoveUpButtonActionPerformed
+
+	//GEN-FIRST:event_advancedFilterAddButtonActionPerformed
+	private void advancedFilterAddButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		advancedFilterFilterListModel
+				.addElement(new RegExpFilterRuleListElement(
+						new RegExpFilterRule()));
+
+	}//GEN-LAST:event_advancedFilterAddButtonActionPerformed
+
+	//GEN-FIRST:event_advancedFilterRemoveButtonActionPerformed
+	private void advancedFilterRemoveButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		int[] selections = advancedFilterList.getSelectedIndices();
+		if (selections.length > 0) {
+			for (int i = selections.length - 1; i >= 0; i--) {
+				advancedFilterFilterListModel.remove(selections[i]);
+			}
+		}
+
+	}//GEN-LAST:event_advancedFilterRemoveButtonActionPerformed	
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

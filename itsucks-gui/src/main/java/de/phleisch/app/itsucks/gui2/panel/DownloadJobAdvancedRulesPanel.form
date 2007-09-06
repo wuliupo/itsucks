@@ -102,6 +102,9 @@
           <Insets value="[2, 4, 2, 4]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterAddButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="advancedFilterRemoveButton">
       <Properties>
@@ -113,6 +116,9 @@
           <Insets value="[2, 4, 2, 4]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterRemoveButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="advancedFilterMoveUpButton">
       <Properties>
@@ -124,6 +130,9 @@
           <Insets value="[2, 4, 2, 4]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterMoveUpButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="advancedFilterMoveDownButton">
       <Properties>
@@ -135,6 +144,9 @@
           <Insets value="[2, 4, 2, 4]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterMoveDownButtonActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="editAdvancedFilterPanel">
       <Properties>
@@ -323,7 +335,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="editAdvancedFilterMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -422,7 +434,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="24" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
