@@ -14,17 +14,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = -4537668236021804263L;
+
 	protected DefaultTableModel hostnameFilterTableModel;
 	protected DefaultTableModel saveToDiskFilterTabelModel;
-	
+
 	/** Creates new form DownloadJobSimpleRulesPanel */
 	public DownloadJobSimpleRulesPanel() {
-		
+
 		hostnameFilterTableModel = new DefaultTableModel();
 		hostnameFilterTableModel.addColumn("Hostname Filter");
 		saveToDiskFilterTabelModel = new DefaultTableModel();
 		saveToDiskFilterTabelModel.addColumn("'Save to disk' Filter");
-		
+
 		initComponents();
 	}
 
@@ -113,7 +115,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																74,
 																Short.MAX_VALUE))
-										.addContainerGap(319, Short.MAX_VALUE)));
+										.addContainerGap(363, Short.MAX_VALUE)));
 
 		limitsPanelLayout.linkSize(new java.awt.Component[] {
 				linksToFollowLabel, recursionDepthLabel },
@@ -196,7 +198,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																urlPrefixFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																520,
+																564,
 																Short.MAX_VALUE)
 														.add(
 																urlPrefixFilterPanelLayout
@@ -250,9 +252,21 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 		hostnameFilterAddButton.setText("+");
 		hostnameFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		hostnameFilterAddButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						hostnameFilterAddButtonActionPerformed(evt);
+					}
+				});
 
 		hostnameFilterRemoveButton.setText("-");
 		hostnameFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		hostnameFilterRemoveButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						hostnameFilterRemoveButtonActionPerformed(evt);
+					}
+				});
 
 		org.jdesktop.layout.GroupLayout hostnameFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
 				hostnameFilterPanel);
@@ -276,7 +290,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				hostnameFilterScrollPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				490,
+																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -294,7 +308,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																hostnameFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																520,
+																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -347,6 +361,12 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 		saveToDiskAddButton.setText("+");
 		saveToDiskAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		saveToDiskAddButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						saveToDiskAddButtonActionPerformed(evt);
+					}
+				});
 
 		saveToDiskRemoveButton.setText("-");
 		saveToDiskRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
@@ -379,7 +399,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				saveToDiskPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				490,
+																				534,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -394,7 +414,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																saveToDiskFilterLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																520,
+																564,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -482,14 +502,54 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addPreferredGap(
+								139, Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addContainerGap()));
+								140, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_hostnameFilterAddButtonActionPerformed
+	private void hostnameFilterAddButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		hostnameFilterTableModel.addRow(new String[] { "" });
+
+	}//GEN-LAST:event_hostnameFilterAddButtonActionPerformed
+
+	//GEN-FIRST:event_hostnameFilterRemoveButtonActionPerformed
+	private void hostnameFilterRemoveButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		int[] selections = hostnameFilterTable.getSelectedRows();
+		if (selections.length > 0) {
+			for (int i = selections.length - 1; i >= 0; i--) {
+				hostnameFilterTableModel.removeRow(selections[i]);
+			}
+		}
+
+	}//GEN-LAST:event_hostnameFilterRemoveButtonActionPerformed
+
+	//GEN-FIRST:event_saveToDiskAddButtonActionPerformed
+	private void saveToDiskAddButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		saveToDiskFilterTabelModel.addRow(new String[] { "" });
+
+	}//GEN-LAST:event_saveToDiskAddButtonActionPerformed
+
+	//GEN-FIRST:event_saveToDiskRemoveButtonActionPerformed
+	private void saveToDiskRemoveButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		int[] selections = saveToDiskTable.getSelectedRows();
+		if (selections.length > 0) {
+			for (int i = selections.length - 1; i >= 0; i--) {
+				saveToDiskFilterTabelModel.removeRow(selections[i]);
+			}
+		}
+
+	}//GEN-LAST:event_saveToDiskRemoveButtonActionPerformed
 
 	//GEN-FIRST:event_urlPrefixCheckBoxStateChanged
 	private void urlPrefixCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {
@@ -499,12 +559,6 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		urlPrefixTextField.setEnabled(enabled);
 
 	}//GEN-LAST:event_urlPrefixCheckBoxStateChanged
-
-	//GEN-FIRST:event_saveToDiskRemoveButtonActionPerformed
-	private void saveToDiskRemoveButtonActionPerformed(
-			java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}//GEN-LAST:event_saveToDiskRemoveButtonActionPerformed
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

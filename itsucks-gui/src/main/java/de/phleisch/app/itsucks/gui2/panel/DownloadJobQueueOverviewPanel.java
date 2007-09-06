@@ -12,6 +12,8 @@ package de.phleisch.app.itsucks.gui2.panel;
  */
 public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = 2406761069696757338L;
+	
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
 		initComponents();

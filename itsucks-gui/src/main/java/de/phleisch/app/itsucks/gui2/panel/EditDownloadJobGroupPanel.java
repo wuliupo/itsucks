@@ -8,8 +8,6 @@ package de.phleisch.app.itsucks.gui2.panel;
 
 import java.util.List;
 
-import javax.swing.JList;
-
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
@@ -94,10 +92,11 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 		
 		//load advanced rules
-		ExtendedListModel model = new ExtendedListModel();
+		ExtendedListModel model = this.downloadJobAdvancedRulesPanel.advancedFilterFilterListModel;
 		this.downloadJobAdvancedRulesPanel.advancedFilterList.setModel(model);
 		for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
-			model.addElement(jobFilterRule);
+			model.addElement(this.downloadJobAdvancedRulesPanel.new RegExpFilterRuleListElement(
+					jobFilterRule));
 		}
 		
 	}

@@ -12,6 +12,8 @@ package de.phleisch.app.itsucks.gui2.panel;
  */
 public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = 3808425383728480173L;
+	
 	/** Creates new form DownloadJobStatusTablePanel */
 	public DownloadJobStatusTablePanel() {
 		initComponents();

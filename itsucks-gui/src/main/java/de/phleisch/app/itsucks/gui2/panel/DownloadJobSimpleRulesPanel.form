@@ -31,9 +31,9 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="hostnameFilterPanel" max="32767" attributes="0"/>
+              <Component id="hostnameFilterPanel" pref="139" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="saveToDiskFilterPanel" pref="129" max="32767" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" pref="140" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
@@ -270,12 +270,8 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="hostnameFilterTable">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="1" rowCount="1">
-                    <Column editable="true" title="Hostname Filter" type="java.lang.String">
-                      <Data value=".*"/>
-                    </Column>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="hostnameFilterTableModel" type="code"/>
                 </Property>
               </Properties>
             </Component>
@@ -288,6 +284,9 @@
               <Insets value="[2, 4, 2, 4]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hostnameFilterAddButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="hostnameFilterRemoveButton">
           <Properties>
@@ -296,6 +295,9 @@
               <Insets value="[2, 4, 2, 4]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hostnameFilterRemoveButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -364,12 +366,8 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="saveToDiskTable">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="1" rowCount="1">
-                    <Column editable="true" title="&apos;Save to Disk&apos; Filter" type="java.lang.String">
-                      <Data value=".*"/>
-                    </Column>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="saveToDiskFilterTabelModel" type="code"/>
                 </Property>
               </Properties>
             </Component>
@@ -382,6 +380,9 @@
               <Insets value="[2, 4, 2, 4]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveToDiskAddButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="saveToDiskRemoveButton">
           <Properties>

@@ -6,15 +6,53 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.panel.ExtendedListModel;
+
 /**
  *
  * @author  __USER__
  */
 public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = 9062521650244140654L;
+
+	protected ExtendedListModel advancedFilterFilterListModel;
+
 	/** Creates new form DownloadJobAdvancedRulesPanel */
 	public DownloadJobAdvancedRulesPanel() {
+		advancedFilterFilterListModel = new ExtendedListModel();
+
 		initComponents();
+	}
+	
+	protected class RegExpFilterRuleListElement {
+		
+		private RegExpFilterRule mRule;
+
+		public RegExpFilterRuleListElement(RegExpFilterRule pRule) {
+			mRule = pRule;
+		}
+		
+		@Override
+		public String toString() {
+			return toHtmlString();
+		}
+
+		/**
+		 * Returns a string containing all information about the filter.
+		 * HTML format.
+		 * 
+		 * @return
+		 */
+		public String toHtmlString() {
+			return "<html>" +
+					(mRule.getName() != null ? "Name: '" + mRule.getName() + "'<br>\n" : "") +
+					"Pattern: '" + mRule.getPattern() + "' <br>\n" +
+					"Match: " + mRule.getMatchAction() + 
+					"<br>\nNo Match: " + mRule.getNoMatchAction() +
+					"</html>";
+		}
 	}
 
 	/** This method is called from within the constructor to
@@ -64,6 +102,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				.setText("<html>Every found link will be filtered through the chain. A link must have the state 'accepted' after running through the chain, otherwise it will be rejected</html>");
 
 		advancedFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
+		advancedFilterList.setModel(advancedFilterFilterListModel);
 		advancedFilterPane.setViewportView(advancedFilterList);
 
 		advancedFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -236,7 +275,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(24, Short.MAX_VALUE)));
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
 		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
@@ -347,7 +388,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(24, Short.MAX_VALUE)));
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterPanel);
