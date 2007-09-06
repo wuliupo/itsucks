@@ -8,11 +8,14 @@ package de.phleisch.app.itsucks.gui2.panel;
 
 import java.util.List;
 
-import javax.swing.table.TableModel;
+import javax.swing.JList;
 
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.panel.ExtendedListModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**
@@ -32,7 +35,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		
 		DownloadJobFilter downloadJobFilter = null;
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
-		
+		RegExpJobFilter regExpJobFilter = null;
 		
 		for (JobFilter jobFilter : pFilters) {
 			if(jobFilter instanceof DownloadJobFilter) {
@@ -41,6 +44,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			}
 			if(jobFilter instanceof MaxLinksToFollowFilter) {
 				maxLinksToFollowFilter = (MaxLinksToFollowFilter) jobFilter;
+				continue;
+			}
+			if(jobFilter instanceof RegExpJobFilter) {
+				regExpJobFilter = (RegExpJobFilter) jobFilter;
 				continue;
 			}
 		}
@@ -86,6 +93,12 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			
 		}
 		
+		//load advanced rules
+		ExtendedListModel model = new ExtendedListModel();
+		this.downloadJobAdvancedRulesPanel.advancedFilterList.setModel(model);
+		for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
+			model.addElement(jobFilterRule);
+		}
 		
 	}
 
