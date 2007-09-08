@@ -6,8 +6,12 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import de.phleisch.app.itsucks.JobParameter;
+import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.panel.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.SwingUtils;
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**
  *
@@ -24,6 +28,16 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		advancedFilterFilterListModel = new ExtendedListModel();
 
 		initComponents();
+
+		//add elements to combo boxes
+		for (ComboBoxEntry entry : mStatusChangeList) {
+			editAdvancedFilterMatchStatusChangeComboBox.addItem(entry);
+			editAdvancedFilterNoMatchStatusChangeComboBox.addItem(entry);
+		}
+
+		//disable advanced edit filter panel
+		SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+				false);
 	}
 
 	protected class RegExpFilterRuleListElement {
@@ -32,6 +46,10 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		public RegExpFilterRuleListElement(RegExpFilterRule pRule) {
 			mRule = pRule;
+		}
+
+		public RegExpFilterRule getRule() {
+			return mRule;
 		}
 
 		@Override
@@ -55,6 +73,51 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		}
 	}
 
+	protected class ComboBoxEntry {
+
+		private String mName;
+		private Object mValue;
+
+		public ComboBoxEntry(String pName, Object pValue) {
+			mName = pName;
+			mValue = pValue;
+		}
+
+		public String getName() {
+			return mName;
+		}
+
+		public Object getValue() {
+			return mValue;
+		}
+
+		@Override
+		public String toString() {
+			return mName.toString();
+		}
+	}
+
+	protected ComboBoxEntry mStatusChangeList[] = new ComboBoxEntry[] {
+			new ComboBoxEntry("No change", null),
+			new ComboBoxEntry("Accept", Boolean.TRUE),
+			new ComboBoxEntry("Reject", Boolean.TRUE), };
+
+	private void updateAdvancedFilter() {
+		
+		Object[] selectedValues = advancedFilterList.getSelectedValues();
+		if (selectedValues == null || selectedValues.length != 1) {
+			return;
+		}
+		
+		RegExpFilterRule rule = ((RegExpFilterRuleListElement) selectedValues[0]).getRule();
+		
+		rule.setName(editAdvancedFilterNameField.getText());
+		
+		//notify list
+		int selectionIndex = advancedFilterList.getSelectedIndex();
+		advancedFilterFilterListModel.fireContentsChanged(selectionIndex, selectionIndex);
+	}
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -103,6 +166,14 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		advancedFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterList.setModel(advancedFilterFilterListModel);
+		advancedFilterList
+				.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+					public void valueChanged(
+							javax.swing.event.ListSelectionEvent evt) {
+						advancedFilterListValueChanged(evt);
+					}
+				});
+
 		advancedFilterPane.setViewportView(advancedFilterList);
 
 		advancedFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -150,6 +221,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				.createTitledBorder("Advanced Filter"));
 		editAdvancedFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		editAdvancedFilterNameLabel.setText("Filter Name:");
+
+		editAdvancedFilterNameField
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						editAdvancedFilterNameFieldFocusLost(evt);
+					}
+				});
 
 		editAdvancedFilterDescriptionLabel.setFont(new java.awt.Font("Dialog",
 				0, 12));
@@ -677,10 +755,104 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_editAdvancedFilterNameFieldFocusLost
+	private void editAdvancedFilterNameFieldFocusLost(
+			java.awt.event.FocusEvent evt) {
+		
+		updateAdvancedFilter();
+		
+	}//GEN-LAST:event_editAdvancedFilterNameFieldFocusLost
+
+	//GEN-FIRST:event_advancedFilterListValueChanged
+	private void advancedFilterListValueChanged(
+			javax.swing.event.ListSelectionEvent evt) {
+
+		Object[] selectedValues = advancedFilterList.getSelectedValues();
+		if (selectedValues != null && selectedValues.length == 1) {
+			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+					true);
+
+			RegExpFilterRule rule = ((RegExpFilterRuleListElement) selectedValues[0])
+					.getRule();
+
+			editAdvancedFilterNameField.setText(rule.getName());
+			editAdvancedFilterDescriptionTextArea.setText("TODO");
+			editAdvancedFilterRegExpTextArea.setText(rule.getPattern()
+					.pattern());
+
+			//match action
+			{
+				RegExpFilterAction matchAction = rule.getMatchAction();
+
+				editAdvancedFilterMatchPrioChangeTextField.setText(String
+						.valueOf(matchAction.getPriorityChange()));
+
+				if (matchAction.getAccept() == null) {
+					editAdvancedFilterMatchStatusChangeComboBox
+							.setSelectedIndex(0);
+				} else if (matchAction.getAccept().booleanValue()) {
+					editAdvancedFilterMatchStatusChangeComboBox
+							.setSelectedIndex(1);
+				} else {
+					editAdvancedFilterMatchStatusChangeComboBox
+							.setSelectedIndex(2);
+				}
+
+				JobParameter assumeCompleteMatchParameter = matchAction
+						.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+				editAdvancedFilterMatchAssumeFinishedFileCheckBox
+						.setSelected(assumeCompleteMatchParameter != null
+								&& assumeCompleteMatchParameter.getValue()
+										.equals(Boolean.TRUE));
+			}
+
+			//no match action
+			{
+				RegExpFilterAction noMatchAction = rule.getNoMatchAction();
+
+				if (noMatchAction.getAccept() == null) {
+					editAdvancedFilterNoMatchStatusChangeComboBox
+							.setSelectedIndex(0);
+				} else if (noMatchAction.getAccept().booleanValue()) {
+					editAdvancedFilterNoMatchStatusChangeComboBox
+							.setSelectedIndex(1);
+				} else {
+					editAdvancedFilterNoMatchStatusChangeComboBox
+							.setSelectedIndex(2);
+				}
+
+				editAdvancedFilterNoMatchPrioChangeTextField.setText(String
+						.valueOf(noMatchAction.getPriorityChange()));
+
+				JobParameter assumeCompleteNoMatchParameter = noMatchAction
+						.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+				editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+						.setSelected(assumeCompleteNoMatchParameter != null
+								&& assumeCompleteNoMatchParameter.getValue()
+										.equals(Boolean.TRUE));
+			}
+
+		} else {
+			
+			//empty all fields
+			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+					false);
+
+			editAdvancedFilterNameField.setText(null);
+			editAdvancedFilterDescriptionTextArea.setText(null);
+			editAdvancedFilterRegExpTextArea.setText(null);
+			editAdvancedFilterMatchStatusChangeComboBox.setSelectedIndex(0);
+			editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+					.setSelected(false);
+
+		}
+
+	}//GEN-LAST:event_advancedFilterListValueChanged
+
 	//GEN-FIRST:event_advancedFilterMoveDownButtonActionPerformed
 	private void advancedFilterMoveDownButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		
+
 		int selection = advancedFilterList.getSelectedIndex();
 		if (selection < (advancedFilterFilterListModel.getSize() - 1)) {
 			Object source = advancedFilterFilterListModel.get(selection);
@@ -691,7 +863,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			//move the selection
 			advancedFilterList.setSelectedValue(source, true);
 		}
-		
+
 	}//GEN-LAST:event_advancedFilterMoveDownButtonActionPerformed
 
 	//GEN-FIRST:event_advancedFilterMoveUpButtonActionPerformed
@@ -715,9 +887,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	private void advancedFilterAddButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
-		advancedFilterFilterListModel
-				.addElement(new RegExpFilterRuleListElement(
-						new RegExpFilterRule()));
+		Object element = new RegExpFilterRuleListElement(new RegExpFilterRule());
+
+		advancedFilterFilterListModel.addElement(element);
+
+		//move the selection
+		advancedFilterList.setSelectedValue(element, true);
 
 	}//GEN-LAST:event_advancedFilterAddButtonActionPerformed
 

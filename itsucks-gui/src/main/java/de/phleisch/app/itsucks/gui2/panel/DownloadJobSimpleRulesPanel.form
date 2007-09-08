@@ -31,9 +31,9 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="hostnameFilterPanel" pref="139" max="32767" attributes="0"/>
+              <Component id="hostnameFilterPanel" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="saveToDiskFilterPanel" pref="140" max="32767" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
@@ -245,7 +245,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="hostnameFilterRemoveButton" linkSize="7" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="hostnameFilterScrollPane" pref="56" max="32767" attributes="0"/>
+                      <Component id="hostnameFilterScrollPane" pref="66" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -341,7 +341,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="saveToDiskRemoveButton" linkSize="5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="saveToDiskPane" alignment="0" pref="56" max="32767" attributes="0"/>
+                      <Component id="saveToDiskPane" alignment="0" pref="64" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

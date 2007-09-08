@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import java.awt.Rectangle;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -342,7 +344,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																hostnameFilterScrollPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																56,
+																66,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -448,7 +450,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																saveToDiskPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																56,
+																64,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -502,11 +504,13 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								139, Short.MAX_VALUE).addPreferredGap(
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								140, Short.MAX_VALUE).addContainerGap()));
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_hostnameFilterAddButtonActionPerformed
@@ -514,6 +518,21 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 			java.awt.event.ActionEvent evt) {
 
 		hostnameFilterTableModel.addRow(new String[] { "" });
+		hostnameFilterTable.getSelectionModel().clearSelection();
+
+		//select new row
+		int row = hostnameFilterTableModel.getRowCount() - 1;
+		hostnameFilterTable.changeSelection(row, 0, true, false);
+
+		//scroll to new row
+		Rectangle rect = hostnameFilterTable.getCellRect(row, 0, true);
+		hostnameFilterTable.scrollRectToVisible(rect);
+
+		//switch focus
+		hostnameFilterTable.requestFocusInWindow();
+
+		//enable editing
+		hostnameFilterTable.editCellAt(row, 0);
 
 	}//GEN-LAST:event_hostnameFilterAddButtonActionPerformed
 
@@ -535,6 +554,21 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 			java.awt.event.ActionEvent evt) {
 
 		saveToDiskFilterTabelModel.addRow(new String[] { "" });
+		saveToDiskTable.getSelectionModel().clearSelection();
+
+		//select new row
+		int row = saveToDiskFilterTabelModel.getRowCount() - 1;
+		saveToDiskTable.changeSelection(row, 0, true, false);
+
+		//scroll to new row
+		Rectangle rect = saveToDiskTable.getCellRect(row, 0, true);
+		saveToDiskTable.scrollRectToVisible(rect);
+
+		//switch focus
+		saveToDiskTable.requestFocusInWindow();
+
+		//enable editing
+		saveToDiskTable.editCellAt(row, 0);
 
 	}//GEN-LAST:event_saveToDiskAddButtonActionPerformed
 

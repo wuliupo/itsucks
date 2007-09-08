@@ -189,17 +189,21 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		workingThreadsLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		workingThreadsLabel.setText("Working Threads:");
+		workingThreadsLabel.setEnabled(false);
 
 		workingThreadsTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		workingThreadsTextField.setEnabled(false);
 
 		maxConnectionsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		maxConnectionsLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		maxConnectionsLabel.setText("Max. connections per server:");
+		maxConnectionsLabel.setEnabled(false);
 
 		maxConnectionsTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		maxConnectionsTextField.setEnabled(false);
 
 		maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		maxRetriesLabel

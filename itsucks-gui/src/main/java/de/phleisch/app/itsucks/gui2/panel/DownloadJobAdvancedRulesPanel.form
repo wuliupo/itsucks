@@ -89,6 +89,9 @@
               <Connection code="advancedFilterFilterListModel" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="advancedFilterListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -226,6 +229,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="editAdvancedFilterNameField">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterNameFieldFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="editAdvancedFilterDescriptionLabel">
           <Properties>

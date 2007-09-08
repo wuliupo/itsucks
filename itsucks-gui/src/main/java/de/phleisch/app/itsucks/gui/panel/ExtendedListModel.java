@@ -30,4 +30,10 @@ public class ExtendedListModel extends DefaultListModel {
 		
 	}
 
+	public void fireContentsChanged(int pIndex0, int pIndex1) {
+		super.fireContentsChanged(this, pIndex0, pIndex1);
+	}
+
+	
+	
 }
