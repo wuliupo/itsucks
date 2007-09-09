@@ -7,11 +7,23 @@
 package de.phleisch.app.itsucks.gui2;
 
 import java.awt.Frame;
+import java.io.File;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.gui.AddDownloadJobBean;
 import de.phleisch.app.itsucks.gui2.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.persistence.JobSerialization;
+import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 /**
  *
@@ -20,6 +32,8 @@ import de.phleisch.app.itsucks.io.DownloadJob;
 public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 3587076557680397119L;
+
+	private static Log mLog = LogFactory.getLog(EditDownloadJobDialog.class);
 
 	private AddDownloadJobCapable mDownloadJobManager = null;
 
@@ -34,6 +48,47 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 	public void loadJob(DownloadJob pJob, List<JobFilter> pFilters) {
 		this.editDownloadJobGroupPanel.loadJob(pJob, pFilters);
+	}
+
+	private void saveDownloadTemplate() {
+		AddDownloadJobBean downloadJob = this.editDownloadJobGroupPanel
+				.buildJob();
+		if (downloadJob == null)
+			return;
+
+		//open dialog
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileNameExtensionFilter(
+				"ItSucks Download Templates (*.xml)", new String[] { "xml" }));
+
+		fc.setSelectedFile(new File("ItSucks_"
+				+ downloadJob.getDownload().getName().replace(' ', '_')
+				+ "_Template.xml"));
+
+		// Show save dialog; this method does not return until the dialog is closed
+		int result = fc.showSaveDialog(this);
+		if (result == JFileChooser.APPROVE_OPTION) {
+
+			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
+					.getApplicationContext().getBean("JobSerialization");
+
+			SerializableJobList jobList = new SerializableJobList();
+			jobList.setFilters(downloadJob.getFilterList());
+			jobList.addJob(downloadJob.getDownload());
+
+			try {
+				serializationManager.serialize(jobList, fc.getSelectedFile());
+			} catch (Exception e1) {
+
+				mLog.error("Error occured while saving download template", e1);
+
+				JOptionPane.showMessageDialog(this,
+						"Error occured while saving download template.\n"
+								+ e1.getMessage(), "Error occured",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
 	}
 
 	/** This method is called from within the constructor to
@@ -63,6 +118,12 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		buttonPanel.add(startButton);
 
 		saveButton.setText("Save as template");
+		saveButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				saveButtonActionPerformed(evt);
+			}
+		});
+
 		buttonPanel.add(saveButton);
 
 		cancelButton.setText("Cancel");
@@ -97,6 +158,11 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_saveButtonActionPerformed
+	private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		saveDownloadTemplate();
+	}//GEN-LAST:event_saveButtonActionPerformed
+
 	//GEN-FIRST:event_cancelButtonActionPerformed
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		dispose();
@@ -104,7 +170,15 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 	//GEN-FIRST:event_startButtonActionPerformed
 	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+
+		AddDownloadJobBean job = this.editDownloadJobGroupPanel.buildJob();
+		if (job == null)
+			return;
+
+		mDownloadJobManager.addDownload(job.getDownload(), job.getFilterList());
+
+		this.dispose();
+
 	}//GEN-LAST:event_startButtonActionPerformed
 
 	//GEN-BEGIN:variables
