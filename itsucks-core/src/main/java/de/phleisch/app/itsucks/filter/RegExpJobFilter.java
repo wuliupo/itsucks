@@ -188,6 +188,7 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		private static final long serialVersionUID = -9012670101396671089L;
 
 		private String mName = null;
+		private String mDescription = null;
 		private Pattern mPattern = null;
 
 		private RegExpFilterAction mMatchAction = null;
@@ -320,6 +321,24 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		public void setName(String pName) {
 			mName = pName;
 		}
+		
+		/**
+		 * Returns the description of the filter.
+		 * 
+		 * @return
+		 */
+		public String getDescription() {
+			return mDescription;
+		}
+
+		/**
+		 * Sets the description of the filter.
+		 * 
+		 * @param pDescription
+		 */
+		public void setDescription(String pDescription) {
+			mDescription = pDescription;
+		}
 
 		/**
 		 * Returns the action in case of an match.
@@ -356,7 +375,7 @@ public class RegExpJobFilter implements JobFilter, Serializable {
 		public void setNoMatchAction(RegExpFilterAction pNoMatchAction) {
 			mNoMatchAction = pNoMatchAction;
 		}
-		
+
 	}
 	
 	/**

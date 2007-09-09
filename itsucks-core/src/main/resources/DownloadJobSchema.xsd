@@ -94,6 +94,8 @@
 					<xs:sequence>
 						<xs:element name="name" type="xs:string"
 							nillable="true" />
+						<xs:element name="description" type="xs:string"
+							nillable="true" />							
 						<xs:element name="pattern" type="xs:string" />
 
 						<xs:element name="matchAction"

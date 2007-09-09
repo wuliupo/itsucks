@@ -255,6 +255,9 @@
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="2"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterDescriptionTextAreaFocusLost"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -279,6 +282,9 @@
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="3"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterRegExpTextAreaFocusLost"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -361,6 +367,9 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterMatchStatusChangeComboBoxActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="editAdvancedFilterMatchPrioChangeLabel">
               <Properties>
@@ -374,6 +383,9 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterMatchPrioChangeTextFieldFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="editAdvancedFilterMatchAssumeFinishedFileCheckBox">
               <Properties>
@@ -390,6 +402,9 @@
                   <Insets value="[0, 0, 0, 0]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -460,6 +475,9 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="editAdvancedFilterNoMatchPrioChangeLabel">
               <Properties>
@@ -473,6 +491,9 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox">
               <Properties>
@@ -489,6 +510,9 @@
                   <Insets value="[0, 0, 0, 0]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -22,11 +22,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 9062521650244140654L;
 
 	protected ExtendedListModel advancedFilterFilterListModel;
+	protected RegExpFilterRule mRuleInEditMode;
 
 	/** Creates new form DownloadJobAdvancedRulesPanel */
 	public DownloadJobAdvancedRulesPanel() {
 		advancedFilterFilterListModel = new ExtendedListModel();
-
+		mRuleInEditMode = null;
+		
 		initComponents();
 
 		//add elements to combo boxes
@@ -100,24 +102,59 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	protected ComboBoxEntry mStatusChangeList[] = new ComboBoxEntry[] {
 			new ComboBoxEntry("No change", null),
 			new ComboBoxEntry("Accept", Boolean.TRUE),
-			new ComboBoxEntry("Reject", Boolean.TRUE), };
+			new ComboBoxEntry("Reject", Boolean.FALSE), };
 
+	
 	private void updateAdvancedFilter() {
-		
+
 		Object[] selectedValues = advancedFilterList.getSelectedValues();
-		if (selectedValues == null || selectedValues.length != 1) {
+		if (mRuleInEditMode == null || selectedValues == null || selectedValues.length != 1) {
 			return;
 		}
 		
-		RegExpFilterRule rule = ((RegExpFilterRuleListElement) selectedValues[0]).getRule();
-		
+		RegExpFilterRule rule = mRuleInEditMode;
+
 		rule.setName(editAdvancedFilterNameField.getText());
+		rule.setDescription(editAdvancedFilterDescriptionTextArea.getText());
+		rule.setPattern(editAdvancedFilterRegExpTextArea.getText());
+		
+		
+		//match Action
+		{
+			RegExpFilterAction matchAction = rule.getMatchAction();
+	
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterMatchStatusChangeComboBox.getSelectedItem();
+			matchAction.setAccept((Boolean) selectedItem.getValue());
+			
+			matchAction.setPriorityChange(
+					Integer.parseInt(editAdvancedFilterMatchPrioChangeTextField.getText()));
+			
+			matchAction.addJobParameter(
+				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, 
+						new Boolean(editAdvancedFilterMatchAssumeFinishedFileCheckBox.isSelected())));
+		}
+		
+		//no match Action
+		{
+			RegExpFilterAction noMatchAction = rule.getNoMatchAction();
+	
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterNoMatchStatusChangeComboBox.getSelectedItem();
+			noMatchAction.setAccept((Boolean) selectedItem.getValue());
+			
+			noMatchAction.setPriorityChange(
+					Integer.parseInt(editAdvancedFilterNoMatchPrioChangeTextField.getText()));
+			
+			noMatchAction.addJobParameter(
+				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, 
+						new Boolean(editAdvancedFilterNoMatchAssumeFinishedFileCheckBox.isSelected())));
+		}
 		
 		//notify list
 		int selectionIndex = advancedFilterList.getSelectedIndex();
-		advancedFilterFilterListModel.fireContentsChanged(selectionIndex, selectionIndex);
+		advancedFilterFilterListModel.fireContentsChanged(selectionIndex,
+				selectionIndex);
 	}
-	
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -238,6 +275,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		editAdvancedFilterDescriptionTextArea.setColumns(20);
 		editAdvancedFilterDescriptionTextArea.setLineWrap(true);
 		editAdvancedFilterDescriptionTextArea.setRows(2);
+		editAdvancedFilterDescriptionTextArea
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						editAdvancedFilterDescriptionTextAreaFocusLost(evt);
+					}
+				});
+
 		editAdvancedFilterDescriptionPane
 				.setViewportView(editAdvancedFilterDescriptionTextArea);
 
@@ -249,6 +293,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		editAdvancedFilterRegExpTextArea.setColumns(20);
 		editAdvancedFilterRegExpTextArea.setLineWrap(true);
 		editAdvancedFilterRegExpTextArea.setRows(3);
+		editAdvancedFilterRegExpTextArea
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						editAdvancedFilterRegExpTextAreaFocusLost(evt);
+					}
+				});
+
 		editAdvancedFilterRegExpPane
 				.setViewportView(editAdvancedFilterRegExpTextArea);
 
@@ -267,6 +318,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		editAdvancedFilterMatchStatusChangeComboBox.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
+		editAdvancedFilterMatchStatusChangeComboBox
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						editAdvancedFilterMatchStatusChangeComboBoxActionPerformed(evt);
+					}
+				});
 
 		editAdvancedFilterMatchPrioChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
@@ -274,6 +331,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		editAdvancedFilterMatchPrioChangeTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		editAdvancedFilterMatchPrioChangeTextField
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						editAdvancedFilterMatchPrioChangeTextFieldFocusLost(evt);
+					}
+				});
 
 		editAdvancedFilterMatchAssumeFinishedFileCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -284,6 +347,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 						0));
 		editAdvancedFilterMatchAssumeFinishedFileCheckBox
 				.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
+					}
+				});
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterMatchPanel);
@@ -387,6 +456,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		editAdvancedFilterNoMatchStatusChangeComboBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
+		editAdvancedFilterNoMatchStatusChangeComboBox
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed(evt);
+					}
+				});
 
 		editAdvancedFilterNoMatchPrioChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
@@ -394,6 +469,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		editAdvancedFilterNoMatchPrioChangeTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		editAdvancedFilterNoMatchPrioChangeTextField
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost(evt);
+					}
+				});
 
 		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -404,6 +485,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 						0));
 		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
 				.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
+					}
+				});
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterNoMatchPanel);
@@ -755,18 +842,90 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 	}// </editor-fold>//GEN-END:initComponents
 
-	//GEN-FIRST:event_editAdvancedFilterNameFieldFocusLost
-	private void editAdvancedFilterNameFieldFocusLost(
-			java.awt.event.FocusEvent evt) {
+	//GEN-FIRST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
+	private void editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(
+			java.awt.event.ActionEvent evt) {
 		
 		updateAdvancedFilter();
 		
+	}//GEN-LAST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
+
+	//GEN-FIRST:event_editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost
+	private void editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost
+
+	//GEN-FIRST:event_editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed
+	private void editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed
+
+	//GEN-FIRST:event_editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed
+	private void editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed
+
+	//GEN-FIRST:event_editAdvancedFilterMatchPrioChangeTextFieldFocusLost
+	private void editAdvancedFilterMatchPrioChangeTextFieldFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterMatchPrioChangeTextFieldFocusLost
+
+	//GEN-FIRST:event_editAdvancedFilterMatchStatusChangeComboBoxActionPerformed
+	private void editAdvancedFilterMatchStatusChangeComboBoxActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterMatchStatusChangeComboBoxActionPerformed
+
+	//GEN-FIRST:event_editAdvancedFilterRegExpTextAreaFocusLost
+	private void editAdvancedFilterRegExpTextAreaFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterRegExpTextAreaFocusLost
+
+	//GEN-FIRST:event_editAdvancedFilterDescriptionTextAreaFocusLost
+	private void editAdvancedFilterDescriptionTextAreaFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		updateAdvancedFilter();
+
+	}//GEN-LAST:event_editAdvancedFilterDescriptionTextAreaFocusLost
+
+	//GEN-FIRST:event_editAdvancedFilterNameFieldFocusLost
+	private void editAdvancedFilterNameFieldFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		updateAdvancedFilter();
+
 	}//GEN-LAST:event_editAdvancedFilterNameFieldFocusLost
 
 	//GEN-FIRST:event_advancedFilterListValueChanged
 	private void advancedFilterListValueChanged(
 			javax.swing.event.ListSelectionEvent evt) {
 
+		//ignore event when list readjusting
+		if(evt.getValueIsAdjusting()) {
+			return;
+		}
+		
+		//remove rule from edit
+		mRuleInEditMode = null;
+		
 		Object[] selectedValues = advancedFilterList.getSelectedValues();
 		if (selectedValues != null && selectedValues.length == 1) {
 			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
@@ -776,16 +935,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 					.getRule();
 
 			editAdvancedFilterNameField.setText(rule.getName());
-			editAdvancedFilterDescriptionTextArea.setText("TODO");
+			editAdvancedFilterDescriptionTextArea.setText(rule.getDescription());
 			editAdvancedFilterRegExpTextArea.setText(rule.getPattern()
 					.pattern());
 
 			//match action
 			{
 				RegExpFilterAction matchAction = rule.getMatchAction();
-
-				editAdvancedFilterMatchPrioChangeTextField.setText(String
-						.valueOf(matchAction.getPriorityChange()));
 
 				if (matchAction.getAccept() == null) {
 					editAdvancedFilterMatchStatusChangeComboBox
@@ -798,6 +954,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 							.setSelectedIndex(2);
 				}
 
+				editAdvancedFilterMatchPrioChangeTextField.setText(String
+						.valueOf(matchAction.getPriorityChange()));
+				
 				JobParameter assumeCompleteMatchParameter = matchAction
 						.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
 				editAdvancedFilterMatchAssumeFinishedFileCheckBox
@@ -832,8 +991,10 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 										.equals(Boolean.TRUE));
 			}
 
-		} else {
+			mRuleInEditMode = rule;
 			
+		} else {
+
 			//empty all fields
 			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
 					false);
@@ -841,9 +1002,16 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			editAdvancedFilterNameField.setText(null);
 			editAdvancedFilterDescriptionTextArea.setText(null);
 			editAdvancedFilterRegExpTextArea.setText(null);
+			
 			editAdvancedFilterMatchStatusChangeComboBox.setSelectedIndex(0);
+			editAdvancedFilterMatchPrioChangeTextField.setText(null);
+			editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				.setSelected(false);
+			
+			editAdvancedFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
+			editAdvancedFilterNoMatchPrioChangeTextField.setText(null);
 			editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
-					.setSelected(false);
+				.setSelected(false);
 
 		}
 
