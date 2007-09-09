@@ -31,7 +31,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTablePanel1">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTableAllPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="All">
@@ -40,7 +40,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTablePanel2">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTableRunningPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Running">
@@ -49,7 +49,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTablePanel3">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTableOpenPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Open">
@@ -58,7 +58,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTablePanel4">
+        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel" name="downloadJobStatusTableFinishedPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Finished">
@@ -67,7 +67,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="infoPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Info">

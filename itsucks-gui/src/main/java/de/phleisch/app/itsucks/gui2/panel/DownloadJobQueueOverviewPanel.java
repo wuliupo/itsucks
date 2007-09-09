@@ -23,8 +23,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 2406761069696757338L;
 	private DispatcherThread mJobDispatcher;
 	private JobListObserver mJobListObserver = new JobListObserver();
-	
-	
+
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
 		initComponents();
@@ -32,39 +31,41 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	public void setDispatcher(DispatcherThread pDispatcher) {
 		mJobDispatcher = pDispatcher;
-		
-		mJobDispatcher.getJobManager().getJobList().addObserver(mJobListObserver);
+
+		mJobDispatcher.getJobManager().getJobList().addObserver(
+				mJobListObserver);
 	}
 
 	public DispatcherThread getDispatcher() {
 		return mJobDispatcher;
 	}
-	
+
 	public void removeDispatcher() {
-		mJobDispatcher.getJobManager().getJobList().deleteObserver(mJobListObserver);
-//		mDownloadStatusTableModel.removeAllDownloadJobs();
-//		mDownloadStatusTableModel.stop();
+		mJobDispatcher.getJobManager().getJobList().deleteObserver(
+				mJobListObserver);
+		//		mDownloadStatusTableModel.removeAllDownloadJobs();
+		//		mDownloadStatusTableModel.stop();
 		mJobDispatcher = null;
 	}
-	
+
 	private class JobListObserver implements Observer {
-	
+
 		public void update(Observable pO, Object pArg) {
 			JobListNotification notification = (JobListNotification) pArg;
-			
-			if(notification.message == JobList.NOTIFICATION_JOB_ADDED) {
+
+			if (notification.message == JobList.NOTIFICATION_JOB_ADDED) {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
-				
-				if(job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
-//					mDownloadStatusTableModel.addDownloadJob(job);
+
+				if (job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
+					//					mDownloadStatusTableModel.addDownloadJob(job);
 				}
-			} else if(notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
+			} else if (notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
-//				mDownloadStatusTableModel.removeDownloadJob(job);
+				//				mDownloadStatusTableModel.removeDownloadJob(job);
 			}
 		}
-	}	
-	
+	}
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -74,32 +75,32 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		jTabbedPane1 = new javax.swing.JTabbedPane();
-		downloadJobStatusTablePanel1 = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTablePanel2 = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTablePanel3 = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTablePanel4 = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
-		jPanel1 = new javax.swing.JPanel();
+		downloadJobStatusTableAllPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableRunningPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableOpenPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableFinishedPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel();
+		infoPanel = new javax.swing.JPanel();
 
 		jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
 		jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jTabbedPane1.addTab("All", downloadJobStatusTablePanel1);
+		jTabbedPane1.addTab("All", downloadJobStatusTableAllPanel);
 
-		jTabbedPane1.addTab("Running", downloadJobStatusTablePanel2);
+		jTabbedPane1.addTab("Running", downloadJobStatusTableRunningPanel);
 
-		jTabbedPane1.addTab("Open", downloadJobStatusTablePanel3);
+		jTabbedPane1.addTab("Open", downloadJobStatusTableOpenPanel);
 
-		jTabbedPane1.addTab("Finished", downloadJobStatusTablePanel4);
+		jTabbedPane1.addTab("Finished", downloadJobStatusTableFinishedPanel);
 
-		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
-				jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(
+		org.jdesktop.layout.GroupLayout infoPanelLayout = new org.jdesktop.layout.GroupLayout(
+				infoPanel);
+		infoPanel.setLayout(infoPanelLayout);
+		infoPanelLayout.setHorizontalGroup(infoPanelLayout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(0, 584,
 				Short.MAX_VALUE));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(
+		infoPanelLayout.setVerticalGroup(infoPanelLayout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(0, 445,
 				Short.MAX_VALUE));
-		jTabbedPane1.addTab("Info", jPanel1);
+		jTabbedPane1.addTab("Info", infoPanel);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -116,11 +117,11 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTablePanel1;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTablePanel2;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTablePanel3;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTablePanel4;
-	private javax.swing.JPanel jPanel1;
+	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTableAllPanel;
+	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTableFinishedPanel;
+	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTableOpenPanel;
+	private de.phleisch.app.itsucks.gui2.panel.DownloadJobStatusTablePanel downloadJobStatusTableRunningPanel;
+	private javax.swing.JPanel infoPanel;
 	private javax.swing.JTabbedPane jTabbedPane1;
 	// End of variables declaration//GEN-END:variables
 

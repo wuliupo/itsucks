@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import de.phleisch.app.itsucks.gui.panel.DownloadJobTableModel;
+
 /**
  *
  * @author  __USER__
@@ -13,9 +15,13 @@ package de.phleisch.app.itsucks.gui2.panel;
 public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 3808425383728480173L;
-	
+
+	private DownloadJobTableModel mDownloadStatusTableModel = null;
+
 	/** Creates new form DownloadJobStatusTablePanel */
 	public DownloadJobStatusTablePanel() {
+		mDownloadStatusTableModel = new DownloadJobTableModel();
+
 		initComponents();
 	}
 
@@ -30,23 +36,7 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 		jDownloadJobStatusScrollPane = new javax.swing.JScrollPane();
 		jDownloadJobStatusTable = new javax.swing.JTable();
 
-		jDownloadJobStatusTable
-				.setModel(new javax.swing.table.DefaultTableModel(
-						new Object[][] {
-
-						}, new String[] { "ID", "Priority", "State",
-								"Progress", "Data retrieved", "Saved to disk",
-								"HTTP Response", "URL" }) {
-					Class[] types = new Class[] { java.lang.Long.class,
-							java.lang.Integer.class, java.lang.Object.class,
-							java.lang.Object.class, java.lang.Object.class,
-							java.lang.String.class, java.lang.String.class,
-							java.lang.Object.class };
-
-					public Class getColumnClass(int columnIndex) {
-						return types[columnIndex];
-					}
-				});
+		jDownloadJobStatusTable.setModel(mDownloadStatusTableModel);
 		jDownloadJobStatusScrollPane.setViewportView(jDownloadJobStatusTable);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
