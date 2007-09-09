@@ -28,6 +28,7 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.LogDialog;
 import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.gui2.ifc.AddDownloadJobCapable;
+import de.phleisch.app.itsucks.gui2.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
@@ -49,7 +50,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	public void addDownload(DownloadJob pDownload, List<JobFilter> pFilterList) {
 
-		DownloadStatusPanel pane = new DownloadStatusPanel();
+		//DownloadStatusPanel pane = new DownloadStatusPanel();
+		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
 
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 				.getApplicationContext().getBean("DispatcherThread");
@@ -76,7 +78,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		// start dispatcher thread
 		try {
-			dispatcher.processJobs();
+			//dispatcher.processJobs();
 
 		} catch (Exception e) {
 			mLog.error("Error starting dispatcher thread", e);

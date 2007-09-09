@@ -6,6 +6,14 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import de.phleisch.app.itsucks.DispatcherThread;
+import de.phleisch.app.itsucks.JobList;
+import de.phleisch.app.itsucks.JobListNotification;
+import de.phleisch.app.itsucks.io.DownloadJob;
+
 /**
  *
  * @author  __USER__
@@ -13,12 +21,50 @@ package de.phleisch.app.itsucks.gui2.panel;
 public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 2406761069696757338L;
+	private DispatcherThread mJobDispatcher;
+	private JobListObserver mJobListObserver = new JobListObserver();
+	
 	
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
 		initComponents();
 	}
 
+	public void setDispatcher(DispatcherThread pDispatcher) {
+		mJobDispatcher = pDispatcher;
+		
+		mJobDispatcher.getJobManager().getJobList().addObserver(mJobListObserver);
+	}
+
+	public DispatcherThread getDispatcher() {
+		return mJobDispatcher;
+	}
+	
+	public void removeDispatcher() {
+		mJobDispatcher.getJobManager().getJobList().deleteObserver(mJobListObserver);
+//		mDownloadStatusTableModel.removeAllDownloadJobs();
+//		mDownloadStatusTableModel.stop();
+		mJobDispatcher = null;
+	}
+	
+	private class JobListObserver implements Observer {
+	
+		public void update(Observable pO, Object pArg) {
+			JobListNotification notification = (JobListNotification) pArg;
+			
+			if(notification.message == JobList.NOTIFICATION_JOB_ADDED) {
+				DownloadJob job = (DownloadJob) notification.affectedJob;
+				
+				if(job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
+//					mDownloadStatusTableModel.addDownloadJob(job);
+				}
+			} else if(notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
+				DownloadJob job = (DownloadJob) notification.affectedJob;
+//				mDownloadStatusTableModel.removeDownloadJob(job);
+			}
+		}
+	}	
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
