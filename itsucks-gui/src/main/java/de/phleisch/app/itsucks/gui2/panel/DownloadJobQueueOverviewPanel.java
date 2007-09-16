@@ -6,6 +6,7 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,7 +24,8 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 2406761069696757338L;
 	private DispatcherThread mJobDispatcher;
 	private JobListObserver mJobListObserver = new JobListObserver();
-
+	private HashSet<DownloadJob> mJobs = new HashSet<DownloadJob>();
+	
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
 		initComponents();
@@ -47,6 +49,26 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		//		mDownloadStatusTableModel.stop();
 		mJobDispatcher = null;
 	}
+	
+	private void addDownloadJob(DownloadJob pJob) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void removeDownloadJob(DownloadJob pJob) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//private void moveDownloadJob(DownloadJob)
+
+	private DownloadJobStatusTablePanel[] getPanelsForState(DownloadJob pJob) {
+		
+		
+		
+		//TODO
+		return null;
+	}
 
 	private class JobListObserver implements Observer {
 
@@ -57,13 +79,14 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
 
 				if (job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
-					//					mDownloadStatusTableModel.addDownloadJob(job);
+					addDownloadJob(job);
 				}
 			} else if (notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
 				DownloadJob job = (DownloadJob) notification.affectedJob;
-				//				mDownloadStatusTableModel.removeDownloadJob(job);
+				removeDownloadJob(job);
 			}
 		}
+
 	}
 
 	/** This method is called from within the constructor to
