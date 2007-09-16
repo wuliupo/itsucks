@@ -8,11 +8,12 @@
 
 package de.phleisch.app.itsucks;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -23,7 +24,7 @@ import java.util.TreeSet;
  * @author olli
  *
  */
-public class SimpleJobListImpl extends Observable implements Observer, JobList {
+public class SimpleJobListImpl extends Observable implements PropertyChangeListener, JobList {
 
 	private SortedSet<JobListEntry> mJobList;
 	private Map<Job, JobListEntry> mJobBackReference;
@@ -43,7 +44,7 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 	public void addJob(Job pJob) {
 		synchronized (this) {
 			pJob.setId(mJobIdSequence ++);
-			pJob.addObserver(this);
+			pJob.addPropertyChangeListener(this);
 			
 			JobListEntry entry = new JobListEntry(pJob);
 			
@@ -67,7 +68,7 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 		if(mJobList.contains(pJob)) return false;
 		
 		synchronized (this) {
-			pJob.deleteObserver(this);
+			pJob.removePropertyChangeListener(this);
 			
 			JobListEntry entry = new JobListEntry(pJob);
 			
@@ -115,14 +116,15 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 	/**
 	 * Is called when a job in the list has changed.
 	 */
-	public void update(Observable pO, Object pArg) {
+	public void propertyChange(PropertyChangeEvent pEvt) {
 		
 		/**
 		 * When a job has changed, the ordering of the list must be refreshed
 		 */
 		
-		if((Integer)pArg == Job.NOTIFICATION_CHANGE) {
-			Job changedJob = (Job)pO;
+		if(Job.JOB_STATE_PROPERTY.equals(pEvt.getPropertyName()) 
+				|| Job.JOB_PRIORITY_PROPERTY.equals(pEvt.getPropertyName())) {
+			Job changedJob = (Job)pEvt.getSource();
 			boolean b;
 			
 			synchronized (this) {
@@ -146,8 +148,8 @@ public class SimpleJobListImpl extends Observable implements Observer, JobList {
 			this.notifyObservers(
 					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));
 			
-		} else if((Integer)pArg == Job.NOTIFICATION_PROGRESS) {
-			Job changedJob = (Job)pO;
+		} else if(Job.JOB_STATE_PROPERTY.equals(pEvt.getPropertyName())) {
+			Job changedJob = (Job)pEvt.getSource();
 			
 			this.notifyObservers(
 					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));

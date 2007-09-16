@@ -7,13 +7,13 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -127,7 +127,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		mRows.add(pJob);
 		addRowCache(pJob, index);
 		fireTableRowsInserted(index, index);
-		pJob.addObserver(mJobObserver);
+		pJob.addPropertyChangeListener(mJobObserver);
 	}
 	
 	public void removeDownloadJob(DownloadJob pJob) {
@@ -135,7 +135,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		if(index > -1) {
 			mRows.remove(index);
 			rebuildRowCache();
-			pJob.deleteObserver(mJobObserver);
+			pJob.removePropertyChangeListener(mJobObserver);
 			fireTableRowsDeleted(index, index);
 		}
 	}
@@ -156,7 +156,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 	public void removeAllDownloadJobs() {
 		for (DownloadJob job : mRows) {
-			job.deleteObserver(mJobObserver);
+			job.removePropertyChangeListener(mJobObserver);
 		}
 		int size = mRows.size();
 		
@@ -387,7 +387,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
     }
 	
     
-	private class JobObserver implements Observer, Runnable {
+	private class JobObserver implements PropertyChangeListener, Runnable {
 		
 		private Thread mEventCollector;
 		private Set<DownloadJob> mChangedJobs;
@@ -410,19 +410,12 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			mStop = true;
 		}
 
-		public void update(Observable pO, Object pArg) {
+		public void propertyChange(PropertyChangeEvent pEvt) {
 			
-			Integer type = (Integer)pArg; 
+			DownloadJob job = (DownloadJob) pEvt.getSource();
 			
-			if(type == Job.NOTIFICATION_CHANGE
-					|| type == Job.NOTIFICATION_PROGRESS) {
-				
-				DownloadJob job = (DownloadJob) pO;
-				
-				synchronized (mChangedJobs) {
-					mChangedJobs.add(job);
-				}
-				
+			synchronized (mChangedJobs) {
+				mChangedJobs.add(job);
 			}
 			
 		}
@@ -465,6 +458,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				
 			}
 		}
+
 	}
 
 }

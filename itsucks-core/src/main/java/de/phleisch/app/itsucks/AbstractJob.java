@@ -8,12 +8,13 @@
 
 package de.phleisch.app.itsucks;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.JobEvent;
@@ -25,15 +26,25 @@ import de.phleisch.app.itsucks.event.JobEvent;
  * @author olli
  *
  */
-public abstract class AbstractJob extends Observable implements Serializable, Job {
+public abstract class AbstractJob implements Serializable, Job {
 
 	private int mId = -1;
 	
 	private String mName;
 	private Map<String, JobParameter> mParameter;
 	
+    /**
+     * Used to handle the listener list for property change events.
+     *
+     * @see #addPropertyChangeListener
+     * @see #removePropertyChangeListener
+     * @see #firePropertyChangeListener
+     */
+    private PropertyChangeSupport accessibleChangeSupport = null;
+	
 	public AbstractJob() {
 		mParameter = new HashMap<String, JobParameter>();
+		accessibleChangeSupport = new PropertyChangeSupport(this);
 	}
 	
 	/**
@@ -108,9 +119,11 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 		if(pState == mState) return;
 		
 		synchronized (this) {
+			int oldState = mState;
 			mState = pState;
-			this.setChanged();
-			this.afterChange();
+			
+			firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
+			afterChange();
 		}
 	}
 	
@@ -132,17 +145,16 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 		}
 		
 		synchronized (this) {
+			int oldPriority = mPriority;
 			mPriority = pPriority;
-			this.setChanged();
-			this.afterChange();
+			
+			firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
+			afterChange();
 		}
 	}
 	
 	protected void afterChange() {
-		this.notifyObservers(NOTIFICATION_CHANGE);
-		
 		sendEvent(new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this));
-		
 	}
 
 	private void sendEvent(JobEvent pEvent) {
@@ -213,6 +225,36 @@ public abstract class AbstractJob extends Observable implements Serializable, Jo
 	 */
 	public abstract void abort();
 	
+    /* (non-Javadoc)
+     * @see de.phleisch.app.itsucks.Job#addPropertyChangeListener(java.beans.PropertyChangeListener)
+     */
+    public void addPropertyChangeListener(PropertyChangeListener pListener) {
+        if (accessibleChangeSupport == null) {
+            accessibleChangeSupport = new PropertyChangeSupport(this);
+        }
+        accessibleChangeSupport.addPropertyChangeListener(pListener);
+    }
+
+    /* (non-Javadoc)
+     * @see de.phleisch.app.itsucks.Job#removePropertyChangeListener(java.beans.PropertyChangeListener)
+     */
+    public void removePropertyChangeListener(PropertyChangeListener pListener) {
+        if (accessibleChangeSupport != null) {
+            accessibleChangeSupport.removePropertyChangeListener(pListener);
+        }
+    }
+	
+    protected void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		if (accessibleChangeSupport != null) {
+
+			accessibleChangeSupport.firePropertyChange(propertyName, oldValue,
+					newValue);
+		}
+
+	}
+
+    
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

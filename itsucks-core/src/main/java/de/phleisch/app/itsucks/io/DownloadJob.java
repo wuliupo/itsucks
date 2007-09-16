@@ -35,6 +35,17 @@ public class DownloadJob extends AbstractJob {
 
 	private static final long serialVersionUID = 1714294563019859104L;
 
+	/**
+	 * Constant used to determine when the progress property has changed.
+	 * The old value in the PropertyChangeEvent will be the old progress
+	 * and the new value will be the new progress.
+	 * 
+	 * @see #getProgress
+	 * @see #addPropertyChangeListener
+	 */
+	public static final String JOB_PROGRESS_PROPERTY = "Progress";
+	
+	
 	public static final String PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
 	
 	private static Log mLog = LogFactory.getLog(DownloadJob.class);
@@ -217,11 +228,11 @@ public class DownloadJob extends AbstractJob {
 
 		public void update(Observable pO, Object pArg) {
 			if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
+				float oldProgress = mProgress;
 				mProgress = mDataRetriever.getProgress();
 				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
 				
-				DownloadJob.this.setChanged();
-				DownloadJob.this.notifyObservers(NOTIFICATION_PROGRESS); // notify observers 
+				firePropertyChange(JOB_PROGRESS_PROPERTY, oldProgress, mProgress);
 			}
 		}
 	}

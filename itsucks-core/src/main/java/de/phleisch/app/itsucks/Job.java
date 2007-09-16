@@ -8,8 +8,8 @@
 
 package de.phleisch.app.itsucks;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.Observer;
 
 /**
  * A job is a single task to be done.
@@ -67,15 +67,24 @@ public interface Job {
 
 	//All notifications which can occur when observing this class
 	/**
-	 * This type of notification will be send if something in the Job changes.
-	 * That could be: progress change, state change, priority change 
+	 * Constant used to determine when the priority property has changed.
+	 * The old value in the PropertyChangeEvent will be the old priority
+	 * and the new value will be the new priority.
+	 * 
+	 * @see #getPriority
+	 * @see #addPropertyChangeListener
 	 */
-	public final static Integer NOTIFICATION_CHANGE = 100;
+	public static final String JOB_PRIORITY_PROPERTY = "Priority";
 
 	/**
-	 * This type of notification will be send if the progress has changed.
+	 * Constant used to determine when the state property has changed.
+	 * The old value in the PropertyChangeEvent will be the old state
+	 * and the new value will be the new state.
+	 * 
+	 * @see #getState
+	 * @see #addPropertyChangeListener
 	 */
-	public final static Integer NOTIFICATION_PROGRESS = 110;
+	public static final String JOB_STATE_PROPERTY = "State";
 
 	//the possible priority values 
 	/**
@@ -199,21 +208,25 @@ public interface Job {
 	 * Aborts the job when running.
 	 */
 	public abstract void abort();
+	
+    /**
+     * Adds a PropertyChangeListener to the listener list.
+     * The listener is registered for all Accessible properties and will
+     * be called when those properties change.
+     *
+     * @see #JOB_PRIORITY_PROPERTY
+     * @see #JOB_STATE_PROPERTY
+     *
+     * @param pListener  The PropertyChangeListener to be added
+     */
+    public void addPropertyChangeListener(PropertyChangeListener pListener);
 
-	
-	/**
-	 * Adds an observer to receive notifications directly from this job.
-	 * Check the NOTIFICATION_* constants for the possible notifications.
-	 * 
-	 * @param o
-	 */
-	public void addObserver(Observer o);
-	
-	/**
-	 * Removes an registered observer.
-	 * 
-	 * @param o
-	 */
-	public void deleteObserver(Observer o);
-	
+    /**
+     * Removes a PropertyChangeListener from the listener list.
+     * This removes a PropertyChangeListener that was registered
+     * for all properties.
+     *
+     * @param pListener  The PropertyChangeListener to be removed
+     */
+    public void removePropertyChangeListener(PropertyChangeListener pListener);
 }
