@@ -7,6 +7,7 @@
 package de.phleisch.app.itsucks.gui2.panel;
 
 import de.phleisch.app.itsucks.gui.panel.DownloadJobTableModel;
+import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**
  *
@@ -23,6 +24,23 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 		mDownloadStatusTableModel = new DownloadJobTableModel();
 
 		initComponents();
+	}
+	
+	public void addDownloadJob(DownloadJob job) {
+		mDownloadStatusTableModel.addDownloadJob(job);
+	}
+
+	public void removeAllDownloadJobs() {
+		mDownloadStatusTableModel.removeAllDownloadJobs();
+	}
+
+	public void removeDownloadJob(DownloadJob job) {
+		mDownloadStatusTableModel.removeDownloadJob(job);
+	}
+	
+	public void shutdown() {
+		removeAllDownloadJobs();
+		mDownloadStatusTableModel.stop();
 	}
 
 	/** This method is called from within the constructor to

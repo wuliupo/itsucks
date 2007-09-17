@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,7 +26,11 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 2406761069696757338L;
 	private DispatcherThread mJobDispatcher;
 	private JobListObserver mJobListObserver = new JobListObserver();
+	private JobListener mJobListener = new JobListener();
 	private HashSet<DownloadJob> mJobs = new HashSet<DownloadJob>();
+	
+	//mutex to be locked against when an job should be added/moved/removed
+	private Object mTableMutex = new Object(); 
 	
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
@@ -45,24 +51,49 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	public void removeDispatcher() {
 		mJobDispatcher.getJobManager().getJobList().deleteObserver(
 				mJobListObserver);
-		//		mDownloadStatusTableModel.removeAllDownloadJobs();
-		//		mDownloadStatusTableModel.stop();
+		
+		downloadJobStatusTableAllPanel.shutdown();
+		downloadJobStatusTableRunningPanel.shutdown();
+		downloadJobStatusTableOpenPanel.shutdown();
+		downloadJobStatusTableFinishedPanel.shutdown();
+		
 		mJobDispatcher = null;
 	}
 	
 	private void addDownloadJob(DownloadJob pJob) {
-		// TODO Auto-generated method stub
+
+		synchronized (mTableMutex) {
+			
+			DownloadJobStatusTablePanel[] panels = getPanelsForState(pJob.getState());
+			for (DownloadJobStatusTablePanel panel : panels) {
+				panel.addDownloadJob(pJob);
+			}
+			
+		}
+		
 		
 	}
 	
 	private void removeDownloadJob(DownloadJob pJob) {
-		// TODO Auto-generated method stub
+		
+		synchronized (mTableMutex) {
+		
+			DownloadJobStatusTablePanel[] panels = getPanelsForState(pJob.getState());
+			for (DownloadJobStatusTablePanel panel : panels) {
+				panel.removeDownloadJob(pJob);
+			}
+		
+		}
 		
 	}
 	
-	//private void moveDownloadJob(DownloadJob)
+	private void moveDownloadJob(DownloadJob pJob, int pOldState) {
+		
+		
+		
+	}
 
-	private DownloadJobStatusTablePanel[] getPanelsForState(DownloadJob pJob) {
+	private DownloadJobStatusTablePanel[] getPanelsForState(int pState) {
 		
 		
 		
@@ -87,6 +118,15 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 			}
 		}
 
+	}
+	
+	private class JobListener implements PropertyChangeListener {
+
+		public void propertyChange(PropertyChangeEvent evt) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 	/** This method is called from within the constructor to
