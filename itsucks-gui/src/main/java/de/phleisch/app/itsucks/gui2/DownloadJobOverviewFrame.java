@@ -26,7 +26,6 @@ import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.LogDialog;
-import de.phleisch.app.itsucks.gui.panel.DownloadStatusPanel;
 import de.phleisch.app.itsucks.gui2.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui2.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -78,7 +77,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		// start dispatcher thread
 		try {
-			//dispatcher.processJobs();
+			dispatcher.processJobs();
 
 		} catch (Exception e) {
 			mLog.error("Error starting dispatcher thread", e);
@@ -156,8 +155,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		if (selectedComponent == null)
 			return;
 
-		DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
-		DispatcherThread dispatcher = pane.getDispatcher();
+		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
+		DispatcherThread dispatcher = panel.getDispatcher();
 
 		if (dispatcher.isPaused()) {
 			dispatcher.unpause();
@@ -173,8 +172,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		if (selectedComponent == null)
 			return;
 
-		DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
-		DispatcherThread dispatcher = pane.getDispatcher();
+		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
+		DispatcherThread dispatcher = panel.getDispatcher();
 
 		dispatcher.stop();
 		try {
@@ -183,8 +182,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			mLog.error(e, e);
 		}
 
-		pane.removeDispatcher();
-		downloadsTabbedPane.remove(pane);
+		panel.removeDispatcher();
+		downloadsTabbedPane.remove(panel);
 
 		//inform the gc that it would be a great oppurtinity to get some memory back
 		System.gc();
@@ -199,8 +198,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			pauseDownloadButton.setText("Pause download");
 			stopDownloadButton.setEnabled(false);
 		} else {
-			DownloadStatusPanel pane = (DownloadStatusPanel) selectedComponent;
-			DispatcherThread dispatcher = pane.getDispatcher();
+			DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
+			DispatcherThread dispatcher = panel.getDispatcher();
 
 			if (dispatcher.isPaused()) {
 				pauseDownloadButton.setText("Unpause download");
@@ -223,20 +222,19 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		Component[] components = downloadsTabbedPane.getComponents();
 		for (int i = 0; i < components.length; i++) {
 
-			DownloadStatusPanel pane = (DownloadStatusPanel) components[i];
-
-			DispatcherThread dispatcher = pane.getDispatcher();
+			DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) components[i];
+			DispatcherThread dispatcher = panel.getDispatcher();
 
 			if (dispatcher.isPaused()) {
 				downloadsTabbedPane.setTitleAt(downloadsTabbedPane
-						.indexOfComponent(pane), pane.getName() + " (paused)");
+						.indexOfComponent(panel), panel.getName() + " (paused)");
 			} else if (dispatcher.isRunning()) {
 				downloadsTabbedPane.setTitleAt(downloadsTabbedPane
-						.indexOfComponent(pane), pane.getName());
+						.indexOfComponent(panel), panel.getName());
 			} else {
 				downloadsTabbedPane
-						.setTitleAt(downloadsTabbedPane.indexOfComponent(pane),
-								pane.getName() + " (finished)");
+						.setTitleAt(downloadsTabbedPane.indexOfComponent(panel),
+								panel.getName() + " (finished)");
 			}
 
 		}

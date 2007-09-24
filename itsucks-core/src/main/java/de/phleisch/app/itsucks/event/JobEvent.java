@@ -8,6 +8,8 @@
 
 package de.phleisch.app.itsucks.event;
 
+import java.beans.PropertyChangeEvent;
+
 import de.phleisch.app.itsucks.Job;
 
 /**
@@ -19,6 +21,7 @@ import de.phleisch.app.itsucks.Job;
 public class JobEvent extends SimpleEvent {
 
 	private Job mJob;
+	private PropertyChangeEvent mPropertyChangeEvent;
 	
 	public JobEvent(Event pEvent, Job pJob) {
 		super(pEvent);
@@ -38,6 +41,14 @@ public class JobEvent extends SimpleEvent {
 	 */
 	public Job getJob() {
 		return mJob;
+	}
+
+	public PropertyChangeEvent getPropertyChangeEvent() {
+		return mPropertyChangeEvent;
+	}
+
+	public void setPropertyChangeEvent(PropertyChangeEvent pPropertyChangeEvent) {
+		mPropertyChangeEvent = pPropertyChangeEvent;
 	}
 
 }

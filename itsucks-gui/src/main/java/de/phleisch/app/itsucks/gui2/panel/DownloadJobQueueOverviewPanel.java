@@ -7,14 +7,16 @@
 package de.phleisch.app.itsucks.gui2.panel;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.phleisch.app.itsucks.DispatcherThread;
-import de.phleisch.app.itsucks.JobList;
-import de.phleisch.app.itsucks.JobListNotification;
+import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.DefaultEventFilter;
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.JobEvent;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**
@@ -25,12 +27,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 2406761069696757338L;
 	private DispatcherThread mJobDispatcher;
-	private JobListObserver mJobListObserver = new JobListObserver();
-	private JobListener mJobListener = new JobListener();
-	private HashSet<DownloadJob> mJobs = new HashSet<DownloadJob>();
-	
-	//mutex to be locked against when an job should be added/moved/removed
-	private Object mTableMutex = new Object(); 
+	private EventObserver mEventObserver = new JobEventObserver();
 	
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
@@ -40,8 +37,11 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	public void setDispatcher(DispatcherThread pDispatcher) {
 		mJobDispatcher = pDispatcher;
 
-		mJobDispatcher.getJobManager().getJobList().addObserver(
-				mJobListObserver);
+		DefaultEventFilter eventFilter = new DefaultEventFilter();
+		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOB);
+		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOBMANAGER);
+		
+		mJobDispatcher.getEventManager().registerObserver(mEventObserver, eventFilter);
 	}
 
 	public DispatcherThread getDispatcher() {
@@ -49,8 +49,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	}
 
 	public void removeDispatcher() {
-		mJobDispatcher.getJobManager().getJobList().deleteObserver(
-				mJobListObserver);
+		mJobDispatcher.getEventManager().unregisterObserver(mEventObserver);
 		
 		downloadJobStatusTableAllPanel.shutdown();
 		downloadJobStatusTableRunningPanel.shutdown();
@@ -61,72 +60,99 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	}
 	
 	private void addDownloadJob(DownloadJob pJob) {
-
-		synchronized (mTableMutex) {
 			
-			DownloadJobStatusTablePanel[] panels = getPanelsForState(pJob.getState());
-			for (DownloadJobStatusTablePanel panel : panels) {
-				panel.addDownloadJob(pJob);
-			}
-			
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob.getState());
+		for (DownloadJobStatusTablePanel panel : panels) {
+			panel.addDownloadJob(pJob);
 		}
-		
-		
 	}
 	
 	private void removeDownloadJob(DownloadJob pJob) {
 		
-		synchronized (mTableMutex) {
-		
-			DownloadJobStatusTablePanel[] panels = getPanelsForState(pJob.getState());
-			for (DownloadJobStatusTablePanel panel : panels) {
-				panel.removeDownloadJob(pJob);
-			}
-		
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob.getState());
+		for (DownloadJobStatusTablePanel panel : panels) {
+			panel.removeDownloadJob(pJob);
 		}
-		
 	}
 	
-	private void moveDownloadJob(DownloadJob pJob, int pOldState) {
+	private void moveDownloadJob(DownloadJob pJob, int pOldState, int pNewState) {
 		
-		
-		
-	}
+		List<DownloadJobStatusTablePanel> oldPanels = getPanelsForState(pOldState);
+		List<DownloadJobStatusTablePanel> newPanels = getPanelsForState(pNewState);
 
-	private DownloadJobStatusTablePanel[] getPanelsForState(int pState) {
-		
-		
-		
-		//TODO
-		return null;
-	}
-
-	private class JobListObserver implements Observer {
-
-		public void update(Observable pO, Object pArg) {
-			JobListNotification notification = (JobListNotification) pArg;
-
-			if (notification.message == JobList.NOTIFICATION_JOB_ADDED) {
-				DownloadJob job = (DownloadJob) notification.affectedJob;
-
-				if (job.getState() != DownloadJob.STATE_ALREADY_PROCESSED) {
-					addDownloadJob(job);
-				}
-			} else if (notification.message == JobList.NOTIFICATION_JOB_REMOVED) {
-				DownloadJob job = (DownloadJob) notification.affectedJob;
-				removeDownloadJob(job);
-			}
+		for (DownloadJobStatusTablePanel oldPanel : oldPanels) {
+//			if(!newPanels.contains(oldPanel)) {
+				oldPanel.removeDownloadJob(pJob);
+//			}
 		}
-
+		
+		for (DownloadJobStatusTablePanel newPanel : newPanels) {
+//			if(!oldPanels.contains(newPanel)) {
+				newPanel.addDownloadJob(pJob);
+//			}
+		}
 	}
-	
-	private class JobListener implements PropertyChangeListener {
 
-		public void propertyChange(PropertyChangeEvent evt) {
-			// TODO Auto-generated method stub
+	private List<DownloadJobStatusTablePanel> getPanelsForState(int pState) {
+		
+		List<DownloadJobStatusTablePanel> panels = new ArrayList<DownloadJobStatusTablePanel>();
+		
+		panels.add(downloadJobStatusTableAllPanel);
+		
+		switch (pState) {
+
+		case Job.STATE_OPEN:
+			panels.add(downloadJobStatusTableOpenPanel);
+			break;
+			
+		case Job.STATE_ASSIGNED:
+		case Job.STATE_IN_PROGRESS:
+			panels.add(downloadJobStatusTableRunningPanel);
+			break;
+		
+		case Job.STATE_CLOSED:
+		case Job.STATE_ERROR:
+		case Job.STATE_FAILED:
+		case Job.STATE_FINISHED:
+		case Job.STATE_IGNORED:
+			panels.add(downloadJobStatusTableFinishedPanel);
+			break;
+			
+		default: 
+			throw new IllegalStateException("Unknown state: " + pState);
 			
 		}
 		
+		return panels;
+	}
+	
+	private class JobEventObserver implements EventObserver {
+
+		public void processEvent(Event pEvent) {
+			
+			JobEvent jobEvent = (JobEvent) pEvent;
+			DownloadJob job = (DownloadJob) jobEvent.getJob();
+
+			if(jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
+				
+				PropertyChangeEvent propertyChangeEvent = jobEvent.getPropertyChangeEvent();
+				
+				if(Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent.getPropertyName())) {
+					moveDownloadJob(job, 
+						(Integer)propertyChangeEvent.getOldValue(), 
+						(Integer)propertyChangeEvent.getNewValue());
+				}
+				
+			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_ADDED.getType()) {
+				
+				addDownloadJob(job);
+				
+			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED.getType()) {
+				
+				removeDownloadJob(job);
+				
+			}
+		}
 	}
 
 	/** This method is called from within the constructor to

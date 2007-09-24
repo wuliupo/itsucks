@@ -11,12 +11,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
@@ -40,15 +40,29 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	
 	private static final int COLUMN_COUNT 		= 7;
 	
-	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
+	//private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
+	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 10000; //ms
 
 	private Vector<DownloadJob> mRows;
-	private Map<DownloadJob, Integer> mJobPosition;
+	private Map<DownloadJob, Integer> mJobPositionCache;
+	private boolean mJobPositionCacheIsInvalid;
+	
 	private JobObserver mJobObserver;
 	
 	public DownloadJobTableModel() {
-		mRows = new Vector<DownloadJob>(); //use vector to be thread safe
-		mJobPosition = new ConcurrentHashMap<DownloadJob, Integer>();
+		mRows = new Vector<DownloadJob>() {
+
+			private static final long serialVersionUID = -2145907653885480640L;
+
+			@Override
+			public int indexOf(Object pO) {
+				System.out.println("Very slow indexOf called: " + pO);
+				return super.indexOf(pO);
+			}
+			
+		}; //use vector to be thread safe on reading operations
+		mJobPositionCache = new ConcurrentHashMap<DownloadJob, Integer>();
+		mJobPositionCacheIsInvalid = false;
 		mJobObserver = new JobObserver();
 		
 		mJobObserver.start();
@@ -123,45 +137,84 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	}
 	
 	public void addDownloadJob(DownloadJob pJob) {
-		int index = mRows.size();
-		mRows.add(pJob);
-		addRowCache(pJob, index);
-		fireTableRowsInserted(index, index);
-		pJob.addPropertyChangeListener(mJobObserver);
+		
+		mJobObserver.queueJobAdd(pJob);
 	}
 	
 	public void removeDownloadJob(DownloadJob pJob) {
-		int index = mRows.indexOf(pJob);
-		if(index > -1) {
-			mRows.remove(index);
-			rebuildRowCache();
-			pJob.removePropertyChangeListener(mJobObserver);
-			fireTableRowsDeleted(index, index);
-		}
+		
+		mJobObserver.queueJobRemove(pJob);
 	}
 
 	private void rebuildRowCache() {
-		mJobPosition.clear();
 		
-		for (int i = 0; i < mRows.size(); i++) {
-			DownloadJob entry = mRows.get(i);
-			addRowCache(entry, i);
+		synchronized (mJobPositionCache) {
+			if(!mJobPositionCacheIsInvalid) return; 
+		
+			mJobPositionCache.clear();
+			
+			for (int i = 0; i < mRows.size(); i++) {
+				DownloadJob entry = mRows.get(i);
+				addRowCache(entry, i);
+			}
 		}
-		
 	}
 
 	private void addRowCache(DownloadJob pEntry, int pIndex) {
-		mJobPosition.put(pEntry, pIndex);
+		synchronized (mJobPositionCache) {
+			mJobPositionCache.put(pEntry, pIndex);
+		}
 	}
+	
+	private Integer findJobRow(DownloadJob pJob) {
+		
+		if(mJobPositionCacheIsInvalid) {
+			rebuildRowCache();
+		}
+		
+		Integer index;
+		synchronized (mJobPositionCache) {
+			index = mJobPositionCache.get(pJob);
+			
+			if(index != null) {
+				if(mRows.get(index) != pJob) {
+					throw new IllegalStateException("Broken cache!");
+				}
+			}
+			
+			if(index == null) {
+				index = mRows.indexOf(pJob); //this is very expensive
+			}
+		}
+		
+		if(index != null && index < 0) {
+			index = null;
+		}
+		
+		return index;
+	}
+	
+//	private void removeRowCache(DownloadJob pEntry) {
+//		
+//		//TODO hier lässt sich noch optimieren, den cache ab dem index nach unten neu aufbauen!
+//		
+//		rebuildRowCache();
+//	}
 
 	public void removeAllDownloadJobs() {
-		for (DownloadJob job : mRows) {
-			job.removePropertyChangeListener(mJobObserver);
-		}
-		int size = mRows.size();
 		
-		mRows.clear();
-		mJobPosition.clear();
+		int size;
+		synchronized(mRows) {
+			for (DownloadJob job : mRows) {
+				job.removePropertyChangeListener(mJobObserver);
+			}
+			size = mRows.size();
+			
+			mRows.clear();
+			mJobPositionCacheIsInvalid = true;
+			rebuildRowCache(); //clear the cache to remove all references
+		}
+		
 		fireTableRowsDeleted(1, size);
 	}
 	
@@ -386,15 +439,39 @@ public class DownloadJobTableModel extends AbstractTableModel {
                              TableModelEvent.ALL_COLUMNS, TableModelEvent.DELETE));
     }
 	
+    static private class TableModelAction {
+    	
+    	private Action mAction;
+    	private DownloadJob mJob;
+    	
+		public TableModelAction(Action pAction, DownloadJob pJob) {
+			mAction = pAction;
+			mJob = pJob;
+		}
+
+		public enum Action
+		{
+			ADD, REMOVE, CHANGE;
+		}
+		
+		public Action getAction() {
+			return mAction;
+		}
+
+		public DownloadJob getJob() {
+			return mJob;
+		};
+	}
     
 	private class JobObserver implements PropertyChangeListener, Runnable {
 		
 		private Thread mEventCollector;
-		private Set<DownloadJob> mChangedJobs;
+		private BlockingDeque<TableModelAction> mActionDequeue = 
+			new LinkedBlockingDeque<TableModelAction>();
+		
 		private boolean mStop;
 		
 		public JobObserver() {
-			mChangedJobs = new HashSet<DownloadJob>();
 			
 			mEventCollector = new Thread(this);
 			mEventCollector.setName("GUI Event Collector");
@@ -414,30 +491,30 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			
 			DownloadJob job = (DownloadJob) pEvt.getSource();
 			
-			synchronized (mChangedJobs) {
-				mChangedJobs.add(job);
-			}
+			mActionDequeue.add(new TableModelAction(TableModelAction.Action.CHANGE, job));
 			
 		}
+		
+		public void queueJobAdd(DownloadJob pJob) {
+			
+			mActionDequeue.add(new TableModelAction(TableModelAction.Action.ADD, pJob));
+		}
+		
+		public void queueJobRemove(DownloadJob pJob) {
+			
+			mActionDequeue.add(new TableModelAction(TableModelAction.Action.REMOVE, pJob));
+		}
 
-		private void updateTableModel(DownloadJob job) {
+		private void updateTableModel(DownloadJob pJob) {
 			
-			Integer index = mJobPosition.get(job);
-			
-			if(index == null) {
-				index = mRows.indexOf(job); //this is very expensive
-				
-				if(index > -1) {
-					addRowCache(job, index);
-				}
-			}
+			Integer index = findJobRow(pJob);
 			
 			if(index != null && index > -1) {
 				fireTableRowsUpdated(index, index);
 			}
 			
 		}
-
+		
 		public void run() {
 			
 			while(!mStop) {
@@ -447,13 +524,63 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				} catch (InterruptedException e) {
 				}
 				
-				List<DownloadJob> changedJobs;
-				synchronized (mChangedJobs) {
-					changedJobs = new ArrayList<DownloadJob>(mChangedJobs);
+				List<TableModelAction> jobActions;
+				/**
+				 * This lock is to be sure no changes are made to the list at the moment
+				 * add no event is coming in at this moment.
+				 */
+				synchronized (mRows) {
+					jobActions = new ArrayList<TableModelAction>(mActionDequeue);
+					mActionDequeue.removeAll(jobActions); //do not use clear 
 				}
 				
-				for (DownloadJob job : changedJobs) {
-					updateTableModel(job);
+				for (TableModelAction action : jobActions) {
+					
+					DownloadJob job = action.getJob();
+					
+					switch(action.getAction()) {
+					
+					case ADD:
+						int index;
+						synchronized(mRows) {
+							index = mRows.size();
+							mRows.add(job);
+							addRowCache(job, index);
+						}
+						fireTableRowsInserted(index, index);
+						job.addPropertyChangeListener(mJobObserver);
+						
+						break;
+						
+					case REMOVE:
+						
+						Integer index2;
+						synchronized(mRows) {
+							
+							index2 = findJobRow(job);
+							
+							if(index2 != null && index2 > -1) {
+								mRows.remove((int)index2);
+								mJobPositionCacheIsInvalid = true;
+								//removeRowCache(job);
+							}
+						}
+						
+						//get out of the synchronization context
+						if(index2 != null && index2 > -1) {
+							job.removePropertyChangeListener(mJobObserver);
+							fireTableRowsDeleted(index2, index2);
+						}
+						
+						break;
+						
+					case CHANGE:
+						updateTableModel(job);
+						break;
+						
+					
+					}
+					
 				}
 				
 			}

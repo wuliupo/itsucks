@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -122,8 +123,9 @@ public abstract class AbstractJob implements Serializable, Job {
 			int oldState = mState;
 			mState = pState;
 			
-			firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
-			afterChange();
+			PropertyChangeEvent firePropertyChange = 
+				firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
+			sendJobChangedEventToDispatcher(firePropertyChange);
 		}
 	}
 	
@@ -148,13 +150,18 @@ public abstract class AbstractJob implements Serializable, Job {
 			int oldPriority = mPriority;
 			mPriority = pPriority;
 			
-			firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
-			afterChange();
+			PropertyChangeEvent firePropertyChange = 
+				firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
+			sendJobChangedEventToDispatcher(firePropertyChange);
 		}
 	}
 	
-	protected void afterChange() {
-		sendEvent(new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this));
+	protected void sendJobChangedEventToDispatcher(PropertyChangeEvent pPropertyChange) {
+		
+		JobEvent event = new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this);
+		event.setPropertyChangeEvent(pPropertyChange);
+		
+		sendEvent(event);
 	}
 
 	private void sendEvent(JobEvent pEvent) {
@@ -244,14 +251,20 @@ public abstract class AbstractJob implements Serializable, Job {
         }
     }
 	
-    protected void firePropertyChange(String propertyName, Object oldValue,
+    protected PropertyChangeEvent firePropertyChange(String propertyName, Object oldValue,
 			Object newValue) {
+    	
+    	if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+    	    return null;
+    	}
+    	PropertyChangeEvent propertyChangeEvent = 
+    		new PropertyChangeEvent(this, propertyName, oldValue, newValue);
+    	
 		if (accessibleChangeSupport != null) {
-
-			accessibleChangeSupport.firePropertyChange(propertyName, oldValue,
-					newValue);
+			accessibleChangeSupport.firePropertyChange(propertyChangeEvent);
 		}
 
+		return propertyChangeEvent;
 	}
 
     
