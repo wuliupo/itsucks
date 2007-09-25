@@ -61,7 +61,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	
 	private void addDownloadJob(DownloadJob pJob) {
 			
-		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob.getState());
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(Job.STATE_OPEN);
 		for (DownloadJobStatusTablePanel panel : panels) {
 			panel.addDownloadJob(pJob);
 		}
@@ -115,6 +115,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		case Job.STATE_FAILED:
 		case Job.STATE_FINISHED:
 		case Job.STATE_IGNORED:
+		case Job.STATE_ALREADY_PROCESSED:
 			panels.add(downloadJobStatusTableFinishedPanel);
 			break;
 			
