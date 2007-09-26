@@ -40,8 +40,8 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	
 	private static final int COLUMN_COUNT 		= 7;
 	
-	//private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
-	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 10000; //ms
+	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
+//	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 10000; //ms
 
 	private Vector<DownloadJob> mRows;
 	private Map<DownloadJob, Integer> mJobPositionCache;
@@ -524,17 +524,8 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				} catch (InterruptedException e) {
 				}
 				
-				List<TableModelAction> jobActions;
-				/**
-				 * This lock is to be sure no changes are made to the list at the moment
-				 * add no event is coming in at this moment.
-				 */
-				synchronized (mRows) {
-					jobActions = new ArrayList<TableModelAction>(mActionDequeue);
-					mActionDequeue.removeAll(jobActions); //do not use clear 
-				}
-				
-				for (TableModelAction action : jobActions) {
+				TableModelAction action;
+				while ((action = mActionDequeue.pollFirst()) != null) {
 					
 					DownloadJob job = action.getJob();
 					
