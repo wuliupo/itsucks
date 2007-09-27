@@ -9,16 +9,20 @@ package de.phleisch.app.itsucks.gui2;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.ApplicationConstants;
+import de.phleisch.app.itsucks.Dispatcher;
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.event.CoreEvents;
@@ -42,6 +46,9 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private static final long serialVersionUID = 6628042574113496207L;
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
+	private Map<Dispatcher, EventObserver> mEventObserver = 
+		new HashMap<Dispatcher, EventObserver>();
+	
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
 		initComponents();
@@ -51,7 +58,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		//DownloadStatusPanel pane = new DownloadStatusPanel();
 		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
-
+		
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 				.getApplicationContext().getBean("DispatcherThread");
 
@@ -61,19 +68,29 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		pane.setDispatcher(dispatcher);
 		pane.setName(pDownload.getName());
 
+		//add pane
+		downloadsTabbedPane.add(pane.getName(), pane);
+		
+		//configure dispatcher
 		dispatcher.addJobFilter(pFilterList);
 		dispatcher.addJob(pDownload);
 
-		dispatcher.getEventManager().registerObserver(new EventObserver() {
-
+		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
 				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_CORE) {
-					updateButtonState();
-					updateTabTitles();
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							updateButtonState();
+							updateTabTitles();
+						}
+					});
 				}
 			}
-
-		});
+		};
+		
+		mEventObserver.put(dispatcher, observer);
+		dispatcher.getEventManager().registerObserver(observer);
 
 		// start dispatcher thread
 		try {
@@ -90,9 +107,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			} catch (InterruptedException e) {
 			}
 		}
-
-		// jTabbedPane.add(pane.getName(), pane);
-		downloadsTabbedPane.add(pane.getName(), pane);
 
 	}
 
@@ -182,8 +196,12 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			mLog.error(e, e);
 		}
 
-		panel.removeDispatcher();
+		EventObserver eventObserver = mEventObserver.get(dispatcher);
+		mEventObserver.remove(dispatcher);
+		dispatcher.getEventManager().unregisterObserver(eventObserver);
+		
 		downloadsTabbedPane.remove(panel);
+		panel.removeDispatcher();
 
 		//inform the gc that it would be a great oppurtinity to get some memory back
 		System.gc();
