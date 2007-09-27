@@ -64,7 +64,9 @@
 							<!-- <classpathPrefix>lib/</classpathPrefix>  -->
 						</manifest>
 
-						<manifestEntries></manifestEntries>
+						<manifestEntries>
+							<SplashScreen-Image>itsucks_splash.png</SplashScreen-Image>
+						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
