@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.event.JobChangedEvent;
 import de.phleisch.app.itsucks.event.JobEvent;
 
 /**
@@ -158,7 +159,7 @@ public abstract class AbstractJob implements Serializable, Job {
 	
 	protected void sendJobChangedEventToDispatcher(PropertyChangeEvent pPropertyChange) {
 		
-		JobEvent event = new JobEvent(CoreEvents.EVENT_JOB_CHANGED, this);
+		JobChangedEvent event = new JobChangedEvent(CoreEvents.EVENT_JOB_CHANGED, this);
 		event.setPropertyChangeEvent(pPropertyChange);
 		
 		sendEvent(event);

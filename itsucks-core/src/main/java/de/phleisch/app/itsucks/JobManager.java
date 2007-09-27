@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.EventDispatcher;
+import de.phleisch.app.itsucks.event.JobAddedEvent;
 import de.phleisch.app.itsucks.event.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 
@@ -46,17 +47,25 @@ public class JobManager {
 		if(pJob == null) return;
 		
 		pJob.setJobManager(this);
-		mJobList.addJob(pJob);
 		
-		mEventDispatcher.fireEvent(
-			new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_ADDED, pJob));
+		int initialState = pJob.getState();
+		JobAddedEvent event = 
+			new JobAddedEvent(CoreEvents.EVENT_JOBMANAGER_JOB_ADDED, pJob);
+		event.setInitialState(initialState);
+		mEventDispatcher.fireEvent(event);
+		
+		
+		mJobList.addJob(pJob);
 	}
 	
 	public void addJob(Job pJob) {
 		if(pJob == null) return;
 		
+		if(pJob.getState() != Job.STATE_OPEN) {
+			throw new IllegalArgumentException("Job is not in state 'open'");
+		}
+		
 		Job job = pJob;
-		job.setJobManager(this);
 		
 		//apply the configured filter to this job
 		job = filterJob(job);

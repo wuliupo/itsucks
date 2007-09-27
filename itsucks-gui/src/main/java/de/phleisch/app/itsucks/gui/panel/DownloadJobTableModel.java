@@ -10,8 +10,6 @@ package de.phleisch.app.itsucks.gui.panel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.BlockingDeque;
@@ -148,19 +146,20 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 	private void rebuildRowCache() {
 		
-		synchronized (mJobPositionCache) {
-			if(!mJobPositionCacheIsInvalid) return; 
+		if(!mJobPositionCacheIsInvalid) return; 
+	
+		mJobPositionCache.clear();
 		
-			mJobPositionCache.clear();
-			
-			for (int i = 0; i < mRows.size(); i++) {
-				DownloadJob entry = mRows.get(i);
-				addRowCache(entry, i);
-			}
+		for (int i = 0; i < mRows.size(); i++) {
+			DownloadJob entry = mRows.get(i);
+			addRowCache(entry, i);
 		}
 	}
 
 	private void addRowCache(DownloadJob pEntry, int pIndex) {
+		
+		if(mJobPositionCacheIsInvalid) return;
+		
 		synchronized (mJobPositionCache) {
 			mJobPositionCache.put(pEntry, pIndex);
 		}
@@ -168,12 +167,13 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	
 	private Integer findJobRow(DownloadJob pJob) {
 		
-		if(mJobPositionCacheIsInvalid) {
-			rebuildRowCache();
-		}
-		
 		Integer index;
+		synchronized (mRows) {
 		synchronized (mJobPositionCache) {
+			if(mJobPositionCacheIsInvalid) {
+				rebuildRowCache();
+			}
+			
 			index = mJobPositionCache.get(pJob);
 			
 			if(index != null) {
@@ -182,10 +182,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				}
 			}
 			
-			if(index == null) {
-				index = mRows.indexOf(pJob); //this is very expensive
-			}
-		}
+//			if(index == null) {
+//				index = mRows.indexOf(pJob); //this is very expensive
+//			}
+		}}
 		
 		if(index != null && index < 0) {
 			index = null;
@@ -194,12 +194,14 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		return index;
 	}
 	
-//	private void removeRowCache(DownloadJob pEntry) {
-//		
-//		//TODO hier lässt sich noch optimieren, den cache ab dem index nach unten neu aufbauen!
-//		
-//		rebuildRowCache();
-//	}
+	private void invalidateRowCache() {
+		if(mJobPositionCacheIsInvalid) return;
+		
+		synchronized (mJobPositionCache) {
+			mJobPositionCacheIsInvalid = true;
+			mJobPositionCache.clear();
+		}
+	}
 
 	public void removeAllDownloadJobs() {
 		
@@ -211,8 +213,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			size = mRows.size();
 			
 			mRows.clear();
-			mJobPositionCacheIsInvalid = true;
-			rebuildRowCache(); //clear the cache to remove all references
+			invalidateRowCache(); //clear the cache to remove all references
 		}
 		
 		fireTableRowsDeleted(1, size);
@@ -552,8 +553,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 							
 							if(index2 != null && index2 > -1) {
 								mRows.remove((int)index2);
-								mJobPositionCacheIsInvalid = true;
-								//removeRowCache(job);
+								invalidateRowCache();
 							}
 						}
 						

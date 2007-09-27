@@ -16,6 +16,8 @@ import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.DefaultEventFilter;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.JobAddedEvent;
+import de.phleisch.app.itsucks.event.JobChangedEvent;
 import de.phleisch.app.itsucks.event.JobEvent;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -59,9 +61,9 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		mJobDispatcher = null;
 	}
 	
-	private void addDownloadJob(DownloadJob pJob) {
+	private void addDownloadJob(DownloadJob pJob, int pInitialState) {
 			
-		List<DownloadJobStatusTablePanel> panels = getPanelsForState(Job.STATE_OPEN);
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pInitialState);
 		for (DownloadJobStatusTablePanel panel : panels) {
 			panel.addDownloadJob(pJob);
 		}
@@ -81,15 +83,15 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		List<DownloadJobStatusTablePanel> newPanels = getPanelsForState(pNewState);
 
 		for (DownloadJobStatusTablePanel oldPanel : oldPanels) {
-//			if(!newPanels.contains(oldPanel)) {
+			if(!newPanels.contains(oldPanel)) {
 				oldPanel.removeDownloadJob(pJob);
-//			}
+			}
 		}
 		
 		for (DownloadJobStatusTablePanel newPanel : newPanels) {
-//			if(!oldPanels.contains(newPanel)) {
+			if(!oldPanels.contains(newPanel)) {
 				newPanel.addDownloadJob(pJob);
-//			}
+			}
 		}
 	}
 
@@ -136,7 +138,8 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 			if(jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
 				
-				PropertyChangeEvent propertyChangeEvent = jobEvent.getPropertyChangeEvent();
+				PropertyChangeEvent propertyChangeEvent = 
+					((JobChangedEvent)jobEvent).getPropertyChangeEvent();
 				
 				if(Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent.getPropertyName())) {
 					moveDownloadJob(job, 
@@ -146,7 +149,10 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 				
 			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_ADDED.getType()) {
 				
-				addDownloadJob(job);
+				int initialState = 
+					((JobAddedEvent)jobEvent).getInitialState();
+				
+				addDownloadJob(job, initialState);
 				
 			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED.getType()) {
 				
