@@ -9,18 +9,23 @@ package de.phleisch.app.itsucks.gui.panel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.Vector;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.gui.util.IndexedList;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
@@ -41,26 +46,14 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
 //	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 10000; //ms
 
-	private Vector<DownloadJob> mRows;
-	private Map<DownloadJob, Integer> mJobPositionCache;
-	private boolean mJobPositionCacheIsInvalid;
+	private static Log mLog = LogFactory.getLog(DownloadJobTableModel.class);
+	
+	private List<DownloadJob> mRows;
 	
 	private JobObserver mJobObserver;
 	
 	public DownloadJobTableModel() {
-		mRows = new Vector<DownloadJob>() {
-
-			private static final long serialVersionUID = -2145907653885480640L;
-
-			@Override
-			public int indexOf(Object pO) {
-				System.out.println("Very slow indexOf called: " + pO);
-				return super.indexOf(pO);
-			}
-			
-		}; //use vector to be thread safe on reading operations
-		mJobPositionCache = new ConcurrentHashMap<DownloadJob, Integer>();
-		mJobPositionCacheIsInvalid = false;
+		mRows = Collections.synchronizedList(new IndexedList<DownloadJob>());
 		mJobObserver = new JobObserver();
 		
 		mJobObserver.start();
@@ -144,79 +137,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		mJobObserver.queueJobRemove(pJob);
 	}
 
-	private void rebuildRowCache() {
-		
-		if(!mJobPositionCacheIsInvalid) return; 
-	
-		mJobPositionCache.clear();
-		
-		for (int i = 0; i < mRows.size(); i++) {
-			DownloadJob entry = mRows.get(i);
-			addRowCache(entry, i);
-		}
-	}
-
-	private void addRowCache(DownloadJob pEntry, int pIndex) {
-		
-		if(mJobPositionCacheIsInvalid) return;
-		
-		synchronized (mJobPositionCache) {
-			mJobPositionCache.put(pEntry, pIndex);
-		}
-	}
-	
-	private Integer findJobRow(DownloadJob pJob) {
-		
-		Integer index;
-		synchronized (mRows) {
-		synchronized (mJobPositionCache) {
-			if(mJobPositionCacheIsInvalid) {
-				rebuildRowCache();
-			}
-			
-			index = mJobPositionCache.get(pJob);
-			
-			if(index != null) {
-				if(mRows.get(index) != pJob) {
-					throw new IllegalStateException("Broken cache!");
-				}
-			}
-			
-//			if(index == null) {
-//				index = mRows.indexOf(pJob); //this is very expensive
-//			}
-		}}
-		
-		if(index != null && index < 0) {
-			index = null;
-		}
-		
-		return index;
-	}
-	
-	private void invalidateRowCache() {
-		if(mJobPositionCacheIsInvalid) return;
-		
-		synchronized (mJobPositionCache) {
-			mJobPositionCacheIsInvalid = true;
-			mJobPositionCache.clear();
-		}
-	}
-
 	public void removeAllDownloadJobs() {
 		
-		int size;
-		synchronized(mRows) {
-			for (DownloadJob job : mRows) {
-				job.removePropertyChangeListener(mJobObserver);
-			}
-			size = mRows.size();
-			
-			mRows.clear();
-			invalidateRowCache(); //clear the cache to remove all references
-		}
+		mJobObserver.queueClear();
 		
-		fireTableRowsDeleted(1, size);
 	}
 	
 	public void stop() {
@@ -452,7 +376,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 		public enum Action
 		{
-			ADD, REMOVE, CHANGE;
+			ADD, REMOVE, CHANGE, CLEAR;
 		}
 		
 		public Action getAction() {
@@ -493,7 +417,6 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			DownloadJob job = (DownloadJob) pEvt.getSource();
 			
 			mActionDequeue.add(new TableModelAction(TableModelAction.Action.CHANGE, job));
-			
 		}
 		
 		public void queueJobAdd(DownloadJob pJob) {
@@ -505,18 +428,22 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			
 			mActionDequeue.add(new TableModelAction(TableModelAction.Action.REMOVE, pJob));
 		}
-
-		private void updateTableModel(DownloadJob pJob) {
+		
+		public void queueClear() {
 			
-			Integer index = findJobRow(pJob);
-			
-			if(index != null && index > -1) {
-				fireTableRowsUpdated(index, index);
-			}
+			mActionDequeue.add(new TableModelAction(TableModelAction.Action.CLEAR, null));
 			
 		}
 		
+		
 		public void run() {
+			
+			Runnable eventRunnable = new Runnable(){
+				public void run() {
+					processEvents();
+				}
+			};
+			
 			
 			while(!mStop) {
 				
@@ -525,53 +452,70 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				} catch (InterruptedException e) {
 				}
 				
-				TableModelAction action;
-				while ((action = mActionDequeue.pollFirst()) != null) {
+				//process the events
+				try {
+					SwingUtilities.invokeAndWait(eventRunnable);
+				} catch (InterruptedException e) {
+					mLog.warn("Interrupted while processing events", e);
+				} catch (InvocationTargetException e) {
+					mLog.error("Error processing events", e);
+				}
+			}
+			
+		}
+
+		private void processEvents() {
+			TableModelAction action;
+			while ((action = mActionDequeue.pollFirst()) != null) {
+				
+				DownloadJob job = action.getJob();
+				
+				switch(action.getAction()) {
+				
+				case CHANGE:
 					
-					DownloadJob job = action.getJob();
+					int indexChange = mRows.indexOf(job);
 					
-					switch(action.getAction()) {
-					
-					case ADD:
-						int index;
-						synchronized(mRows) {
-							index = mRows.size();
-							mRows.add(job);
-							addRowCache(job, index);
-						}
-						fireTableRowsInserted(index, index);
-						job.addPropertyChangeListener(mJobObserver);
-						
-						break;
-						
-					case REMOVE:
-						
-						Integer index2;
-						synchronized(mRows) {
-							
-							index2 = findJobRow(job);
-							
-							if(index2 != null && index2 > -1) {
-								mRows.remove((int)index2);
-								invalidateRowCache();
-							}
-						}
-						
-						//get out of the synchronization context
-						if(index2 != null && index2 > -1) {
-							job.removePropertyChangeListener(mJobObserver);
-							fireTableRowsDeleted(index2, index2);
-						}
-						
-						break;
-						
-					case CHANGE:
-						updateTableModel(job);
-						break;
-						
-					
+					if(indexChange > -1) {
+						fireTableRowsUpdated(indexChange, indexChange);
 					}
 					
+					break;
+				
+				case ADD:
+					mRows.add(job);
+					int indexAdd = mRows.size() - 1;
+					fireTableRowsInserted(indexAdd, indexAdd);
+					job.addPropertyChangeListener(mJobObserver);
+					
+					break;
+					
+				case REMOVE:
+					
+					int indexRemove = mRows.indexOf(job);
+					if(indexRemove < 0) {
+						throw new IllegalStateException("Tried to remove nonexisting entry!");
+					}
+						
+					job.removePropertyChangeListener(mJobObserver);
+					mRows.remove((int)indexRemove);
+					fireTableRowsDeleted(indexRemove, indexRemove);
+					
+					break;
+					
+				case CLEAR:
+					
+					for (DownloadJob registeredJob : mRows) {
+						registeredJob.removePropertyChangeListener(mJobObserver);
+					}
+					
+					int size = mRows.size();
+					mRows.clear();
+					mActionDequeue.clear(); //remove all following events
+					
+					fireTableRowsDeleted(1, size);
+					
+					break;
 				}
 				
 			}
