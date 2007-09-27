@@ -12,7 +12,9 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -44,7 +46,6 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	private static final int COLUMN_COUNT 		= 7;
 	
 	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
-//	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 10000; //ms
 
 	private static Log mLog = LogFactory.getLog(DownloadJobTableModel.class);
 	
@@ -465,6 +466,9 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		}
 
 		private void processEvents() {
+			Set<DownloadJob> alreadyUpdatedJobs = 
+				new HashSet<DownloadJob>();
+			
 			TableModelAction action;
 			while ((action = mActionDequeue.pollFirst()) != null) {
 				
@@ -474,10 +478,13 @@ public class DownloadJobTableModel extends AbstractTableModel {
 				
 				case CHANGE:
 					
-					int indexChange = mRows.indexOf(job);
-					
-					if(indexChange > -1) {
-						fireTableRowsUpdated(indexChange, indexChange);
+					if(!alreadyUpdatedJobs.contains(job)) {
+						alreadyUpdatedJobs.add(job); //only update a job once
+						
+						int indexChange = mRows.indexOf(job);
+						if(indexChange > -1) {
+							fireTableRowsUpdated(indexChange, indexChange);
+						}
 					}
 					
 					break;
