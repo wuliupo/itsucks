@@ -35,6 +35,8 @@ public class JobManager {
 	private JobList mJobList;
 	private List<JobFilter> mJobFilter;
 	
+	private JobContext mJobContext;
+	
 	private EventDispatcher mEventDispatcher;
 	
 	public JobManager() {
