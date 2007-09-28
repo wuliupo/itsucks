@@ -77,8 +77,15 @@ public class JobManager {
 			
 		mEventDispatcher.fireEvent(
 				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
-		
-		addJobUnfiltered(job);
+
+		//check if the job isn't already processed.
+		if(job.getState() != Job.STATE_ALREADY_PROCESSED) {
+			addJobUnfiltered(job);
+			
+		} else {
+			//do not accept this job
+			mLog.debug("Rejected job because it is already processed: " + job);
+		}
 	}
 
 	public boolean removeJob(Job pJob) {
