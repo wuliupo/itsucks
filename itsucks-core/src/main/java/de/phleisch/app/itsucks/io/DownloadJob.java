@@ -227,7 +227,7 @@ public class DownloadJob extends AbstractJob {
 	private class ProgressObserver implements Observer {
 
 		public void update(Observable pO, Object pArg) {
-			if(pArg == DataRetriever.NOTIFICATION_PROGRESS) {
+			if(DataRetriever.NOTIFICATION_PROGRESS.equals(pArg)) {
 				float oldProgress = mProgress;
 				mProgress = mDataRetriever.getProgress();
 				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
