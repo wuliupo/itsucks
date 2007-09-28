@@ -5,7 +5,7 @@
  * olli
  * Created on 26.08.2007
  */
-package de.phleisch.app.itsucks.gui2.panel;
+package de.phleisch.app.itsucks.gui.panel;
 
 /**
  *

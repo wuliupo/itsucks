@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui2.ifc;
+package de.phleisch.app.itsucks.gui.ifc;
 
 import java.util.List;
 

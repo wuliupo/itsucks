@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui2.panel;
+package de.phleisch.app.itsucks.gui.panel;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -210,9 +210,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		tabbedPane = new javax.swing.JTabbedPane();
-		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel();
-		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel();
-		downloadJobAdvancedRulesPanel = new de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel();
+		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel();
+		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel();
+		downloadJobAdvancedRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel();
 
 		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
 
@@ -235,9 +235,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel downloadJobAdvancedRulesPanel;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel downloadJobBasicPanel;
-	private de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel downloadJobAdvancedRulesPanel;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel downloadJobBasicPanel;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
 	private javax.swing.JTabbedPane tabbedPane;
 	// End of variables declaration//GEN-END:variables
 

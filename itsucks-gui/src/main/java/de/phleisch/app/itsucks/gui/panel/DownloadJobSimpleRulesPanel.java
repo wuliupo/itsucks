@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui2.panel;
+package de.phleisch.app.itsucks.gui.panel;
 
 import java.awt.Rectangle;
 

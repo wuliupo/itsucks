@@ -9,7 +9,6 @@ package de.phleisch.app.itsucks.gui;
 
 import javax.swing.SwingUtilities;
 
-import de.phleisch.app.itsucks.gui2.DownloadJobOverviewFrame;
 
 public class MainWindow {
 
