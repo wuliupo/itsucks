@@ -72,7 +72,7 @@ public class WorkerPoolImpl implements WorkerPool {
 		mInitialized = false;
 		
 		//notify all threads waiting for an free worker
-		this.notify();
+		this.notifyAll();
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class WorkerPoolImpl implements WorkerPool {
 		
 		mRealSize = mFreeWorker.size() + mBusyWorker.size();
 		
-		this.notify();
+		this.notifyAll();
 	}
 
 	/* (non-Javadoc)

@@ -148,7 +148,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		if(mPause) {
 			mPause = false;
 			synchronized (this) {
-				this.notify();
+				this.notifyAll();
 			}
 		}
 	}
