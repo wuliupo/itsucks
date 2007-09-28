@@ -34,8 +34,6 @@ public class MainWindow {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				@SuppressWarnings("unused")
-				//MainWindow application = new MainWindow();
-				//application.getJFrame().setVisible(true);
 				
 				DownloadJobOverviewFrame frame2 = new DownloadJobOverviewFrame();
 				frame2.setVisible(true);

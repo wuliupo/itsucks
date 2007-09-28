@@ -5,7 +5,7 @@
 
 	<bean 
 		id="Dispatcher" 
-		class="de.phleisch.app.itsucks.Dispatcher" 
+		class="de.phleisch.app.itsucks.DispatcherImpl" 
 		singleton="false">
 		
 		<property name="jobManager">

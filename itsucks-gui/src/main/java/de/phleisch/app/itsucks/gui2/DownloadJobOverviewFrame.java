@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.ApplicationConstants;
-import de.phleisch.app.itsucks.Dispatcher;
+import de.phleisch.app.itsucks.DispatcherImpl;
 import de.phleisch.app.itsucks.DispatcherThread;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.event.CoreEvents;
@@ -46,8 +46,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private static final long serialVersionUID = 6628042574113496207L;
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
-	private Map<Dispatcher, EventObserver> mEventObserver = 
-		new HashMap<Dispatcher, EventObserver>();
+	private Map<DispatcherImpl, EventObserver> mEventObserver = 
+		new HashMap<DispatcherImpl, EventObserver>();
 	
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {

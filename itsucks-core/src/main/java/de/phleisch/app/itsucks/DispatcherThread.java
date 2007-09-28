@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author olli
  */
-public class DispatcherThread extends Dispatcher {
+public class DispatcherThread extends DispatcherImpl {
 
 	private static Log mLog = LogFactory.getLog(DispatcherThread.class);
 	private static int mCount = 0;
