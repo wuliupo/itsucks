@@ -9,7 +9,7 @@ package de.phleisch.app.itsucks.gui2.panel;
 import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
-import de.phleisch.app.itsucks.gui.panel.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.io.DownloadJob;
 

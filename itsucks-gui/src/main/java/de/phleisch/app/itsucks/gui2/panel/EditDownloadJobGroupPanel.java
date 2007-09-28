@@ -19,8 +19,8 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
-import de.phleisch.app.itsucks.gui.AddDownloadJobBean;
-import de.phleisch.app.itsucks.gui.panel.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.AddDownloadJobBean;
+import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**

@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.util;
 
 import java.util.ArrayList;
 import java.util.List;

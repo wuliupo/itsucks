@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.util;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.gui.util.IndexedList;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.io.http.HttpMetadata;
 

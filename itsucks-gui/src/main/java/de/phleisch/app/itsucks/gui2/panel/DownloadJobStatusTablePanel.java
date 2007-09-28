@@ -6,7 +6,7 @@
 
 package de.phleisch.app.itsucks.gui2.panel;
 
-import de.phleisch.app.itsucks.gui.panel.DownloadJobTableModel;
+import de.phleisch.app.itsucks.gui.util.DownloadJobTableModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
 /**

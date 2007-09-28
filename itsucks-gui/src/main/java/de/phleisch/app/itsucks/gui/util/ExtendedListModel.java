@@ -6,7 +6,7 @@
  * Created on 14.01.2007
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.util;
 
 import javax.swing.DefaultListModel;
 
