@@ -13,12 +13,17 @@ import java.io.InputStream;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
+import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
 
 /**
  * Implentation of an data retriever for the http protocol.
@@ -37,10 +42,10 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	private static int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
 	private static int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
 	
+	private static Object STATIC_MUTEX = new Object();
 	
 	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
 	
-	private static HttpClient mClient = null;
 	private GetMethod mGet = null;
 	private HttpMetadata mMetadata;
 	private String mUserAgent;
@@ -52,15 +57,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private long mBytesToSkip;
 	
-	static {
-     	MultiThreadedHttpConnectionManager connectionManager = 
-      		new MultiThreadedHttpConnectionManager();
-     	//connectionManager.getParams().setDefaultMaxConnectionsPerHost(maxHostConnections); TODO
-     	
-     	mClient = new HttpClient(connectionManager);
-     	
-	}
-	
 	public AdvancedHttpRetriever() {
 		super();
 	}
@@ -71,7 +67,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	public void connect() throws IOException {
 		
 		if(mAbort) return;
-		
+
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
 		
@@ -86,7 +82,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
 		}
 		
-		mClient.executeMethod(mGet);
+		HttpClient client = getHttpClientFromContext();
+		
+		client.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " / " + mGet.getStatusCode());
 		
 		//build metadata
@@ -105,6 +103,77 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mMetadata.setConnection(mGet);
 	}
 	
+	private HttpClient getHttpClientFromContext() {
+		
+		Context jobContext = getContext();
+		
+		HttpClient httpClient = 
+			(HttpClient) jobContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+		
+		if(httpClient == null) {
+			
+			synchronized (STATIC_MUTEX) {
+			
+				//try again, because in the time waiting for the lock, the configuration 
+				//could be created by another thread.
+				httpClient = 
+					(HttpClient) jobContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+				
+				if(httpClient == null) {
+					HttpRetrieverConfiguration configuration = 
+			     		(HttpRetrieverConfiguration) jobContext.getContextParameter(
+			     				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
+			     	
+		     		httpClient = createHttpClient(configuration);
+		     		jobContext.setContextParameter("AdvancedHttpRetriever_HttpClient", httpClient);
+				}
+			}
+		}
+		
+		return httpClient;
+	}
+
+	private HttpClient createHttpClient(HttpRetrieverConfiguration pConfiguration) {
+		
+     	MultiThreadedHttpConnectionManager connectionManager = 
+      		new MultiThreadedHttpConnectionManager();
+     	
+     	HttpClient httpClient = new HttpClient(connectionManager);
+     	
+     	if(pConfiguration != null) {
+     		
+     		HttpConnectionManagerParams params = connectionManager.getParams();
+     		
+     		//set max connections per server
+     		if(pConfiguration.getMaxConnectionsPerServer() != null) {
+     			params.setDefaultMaxConnectionsPerHost(
+     					pConfiguration.getMaxConnectionsPerServer() );
+     		}
+
+     		//set proxy configuration
+     		if(pConfiguration.isProxyEnabled()) {
+     			
+     			httpClient.getHostConfiguration().setProxy(
+     					pConfiguration.getProxyServer(), 
+     					pConfiguration.getProxyPort());
+     		}
+     		if(pConfiguration.isProxyAuthenticatenEnabled()) {
+     			
+     			httpClient.getState().setProxyCredentials(
+     					new AuthScope(
+     							pConfiguration.getProxyServer(), 
+     							AuthScope.ANY_PORT, 
+     							pConfiguration.getProxyRealm(), 
+     							AuthScope.ANY_SCHEME),
+     					new UsernamePasswordCredentials(
+     							pConfiguration.getProxyUser(), 
+     							pConfiguration.getProxyPassword()));
+     		}
+     	}
+     	
+		return httpClient;
+	}
+
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */

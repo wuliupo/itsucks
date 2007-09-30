@@ -125,6 +125,20 @@ public interface Job {
 	public abstract void setJobManager(JobManager pJobManager);
 
 	/**
+	 * The context for this job group.
+	 * 
+	 * @return the context the job belongs.
+	 */
+	public abstract Context getContext();
+
+	/**
+	 * Sets the context for this job group.
+	 * 
+	 * @param pContext the context the job belongs.
+	 */
+	public abstract void setContext(Context pContext);
+	
+	/**
 	 * Returns true when the filter should not be applied for this job. 
 	 * 
 	 * @return 

@@ -23,7 +23,7 @@ import de.phleisch.app.itsucks.event.JobEvent;
 
 /**
  * A job is a single task to be done.
- * This is the abstract class for the basic functioniality.
+ * This is the abstract class for the basic functionality.
  * 
  * @author olli
  *
@@ -34,6 +34,9 @@ public abstract class AbstractJob implements Serializable, Job {
 	
 	private String mName;
 	private Map<String, JobParameter> mParameter;
+	
+	protected transient Context mContext;
+	protected transient JobManager mJobManager;
 	
     /**
      * Used to handle the listener list for property change events.
@@ -65,8 +68,6 @@ public abstract class AbstractJob implements Serializable, Job {
 	 */
 	private boolean mIgnoreFilter = false;
 
-	protected JobManager mJobManager;
-
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#run()
 	 */
@@ -93,6 +94,20 @@ public abstract class AbstractJob implements Serializable, Job {
 		mJobManager = pJobManager;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#getContext()
+	 */
+	public Context getContext() {
+		return mContext;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#setContext(de.phleisch.app.itsucks.Context)
+	 */
+	public void setContext(Context pContext) {
+		mContext = pContext;
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#isIgnoreFilter()
 	 */
@@ -277,6 +292,5 @@ public abstract class AbstractJob implements Serializable, Job {
 		result = PRIME * result + ((mName == null) ? 0 : mName.hashCode());
 		return result;
 	}
-
 
 }

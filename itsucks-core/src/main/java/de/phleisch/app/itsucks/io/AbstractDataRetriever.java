@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.io;
 import java.net.URL;
 import java.util.Observable;
 
+import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 
@@ -23,6 +24,7 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 
 	protected URL mUrl;
 	protected DataProcessorChain mDataProcessorChain;
+	protected Context mContext;
 	
 	public AbstractDataRetriever() {
 		super();
@@ -54,6 +56,14 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 	 */
 	public void setUrl(URL pUrl) {
 		mUrl = pUrl;
+	}
+
+	public Context getContext() {
+		return mContext;
+	}
+
+	public void setContext(Context pContext) {
+		mContext = pContext;
 	}
 
 }

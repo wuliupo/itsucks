@@ -45,8 +45,7 @@ public class DownloadJob extends AbstractJob {
 	 */
 	public static final String JOB_PROGRESS_PROPERTY = "Progress";
 	
-	
-	public static final String PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
+	public static final String JOB_PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
 	
 	private static Log mLog = LogFactory.getLog(DownloadJob.class);
 	
@@ -124,6 +123,7 @@ public class DownloadJob extends AbstractJob {
 			return;
 		}
 		
+		mDataRetriever.setContext(getContext());
 		mDataRetriever.setUrl(url);
 		
 		boolean skip = false;
@@ -136,7 +136,7 @@ public class DownloadJob extends AbstractJob {
 			
 			if(file.exists()) {
 			
-				JobParameter skipParameter = getParameter(PARAMETER_SKIP_DOWNLOADED_FILE);
+				JobParameter skipParameter = getParameter(JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				
 				if(skipParameter != null && Boolean.TRUE.equals(skipParameter.getValue())) {
 					

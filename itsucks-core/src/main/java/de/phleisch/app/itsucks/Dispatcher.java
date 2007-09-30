@@ -23,6 +23,8 @@ public interface Dispatcher {
 	 */
 	public abstract void processJobs() throws Exception;
 
+	public abstract boolean isRunning();
+	
 	/**
 	 * Set the flag to stop the dispatcher
 	 */
@@ -45,6 +47,8 @@ public interface Dispatcher {
 	public abstract WorkerPool getWorkerPool();
 
 	public abstract EventDispatcher getEventManager();
+	
+	public abstract Context getContext();
 
 	/**
 	 * Gets the waiting time between starting two jobs. 
@@ -57,8 +61,6 @@ public interface Dispatcher {
 	 * @param pDispatchDelay
 	 */
 	public abstract void setDispatchDelay(int pDispatchDelay);
-
-	public abstract boolean isRunning();
 
 	public abstract void addJob(Job pJob);
 

@@ -11,7 +11,7 @@ package de.phleisch.app.itsucks;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class JobContext {
+public class Context {
 
 	private Map<Object, Object> mParameters = new ConcurrentHashMap<Object, Object>();
 	

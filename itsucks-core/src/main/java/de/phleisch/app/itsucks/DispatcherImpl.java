@@ -32,7 +32,7 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	
 	@SuppressWarnings("unused")
-	private ApplicationContext mContext;
+	private ApplicationContext mSpringApplicationContext;
 	
 	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
@@ -192,7 +192,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	}
 	
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mContext = pContext;
+		mSpringApplicationContext = pContext;
 	}
 
 	/* (non-Javadoc)
@@ -200,6 +200,13 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 */
 	public EventDispatcher getEventManager() {
 		return mEventManager;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Dispatcher#getContext()
+	 */
+	public Context getContext() {
+		return mJobManager.getContext();
 	}
 	
 	/* (non-Javadoc)

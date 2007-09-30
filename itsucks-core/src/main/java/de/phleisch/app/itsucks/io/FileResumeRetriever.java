@@ -16,6 +16,7 @@ import java.util.Observer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.PersistenceProcessor;
@@ -36,7 +37,7 @@ public class FileResumeRetriever implements DataRetriever {
 	
 	private FileRetriever mFileRetriever;
 	private DataRetriever mDataRetriever;
-
+	
 	private File mLocalFile;
 	
 	private long mResumeOffset;
@@ -44,6 +45,7 @@ public class FileResumeRetriever implements DataRetriever {
 	private boolean mReadFromFile;
 	private boolean mFileFinished;
 	private boolean mResumePrepared;
+	
 	
 	public FileResumeRetriever(DataRetriever pDataRetriever, File pFile) {
 		
@@ -310,6 +312,20 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public int getResultCode() {
 		return mDataRetriever.getResultCode();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getContext()
+	 */
+	public Context getContext() {
+		return mDataRetriever.getContext();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#setContext(de.phleisch.app.itsucks.Context)
+	 */
+	public void setContext(Context pContext) {
+		mDataRetriever.setContext(pContext);
 	}
 
 }

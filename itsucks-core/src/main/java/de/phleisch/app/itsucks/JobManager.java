@@ -35,7 +35,7 @@ public class JobManager {
 	private JobList mJobList;
 	private List<JobFilter> mJobFilter;
 	
-	private JobContext mJobContext;
+	private Context mContext;
 	
 	private EventDispatcher mEventDispatcher;
 	
@@ -43,12 +43,14 @@ public class JobManager {
 		super();
 		
 		mJobFilter = new ArrayList<JobFilter>();
+		mContext = new Context();
 	}
 	
 	private void addJobUnfiltered(Job pJob) {
 		if(pJob == null) return;
 		
 		pJob.setJobManager(this);
+		pJob.setContext(mContext);
 		
 		int initialState = pJob.getState();
 		JobAddedEvent event = 
@@ -166,6 +168,10 @@ public class JobManager {
 
 	public void setEventDispatcher(EventDispatcher pEventManager) {
 		mEventDispatcher = pEventManager;
+	}
+
+	public Context getContext() {
+		return mContext;
 	}
 	
 }

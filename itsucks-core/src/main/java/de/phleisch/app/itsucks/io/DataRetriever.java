@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.io;
 import java.net.URL;
 import java.util.Observer;
 
+import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
 /**
@@ -67,6 +68,9 @@ public interface DataRetriever {
 	 * @return
 	 */
 	public DataProcessorChain getDataProcessorChain();
+
+	public void setContext(Context pContext);
+	public Context getContext();
 	
 	/**
 	 * Returns the URL which is retrieved.
