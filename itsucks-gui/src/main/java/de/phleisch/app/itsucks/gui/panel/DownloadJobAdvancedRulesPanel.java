@@ -130,7 +130,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 					Integer.parseInt(editAdvancedFilterMatchPrioChangeTextField.getText()));
 			
 			matchAction.addJobParameter(
-				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, 
+				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 
 						new Boolean(editAdvancedFilterMatchAssumeFinishedFileCheckBox.isSelected())));
 		}
 		
@@ -145,7 +145,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 					Integer.parseInt(editAdvancedFilterNoMatchPrioChangeTextField.getText()));
 			
 			noMatchAction.addJobParameter(
-				new JobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE, 
+				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 
 						new Boolean(editAdvancedFilterNoMatchAssumeFinishedFileCheckBox.isSelected())));
 		}
 		
@@ -958,7 +958,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 						.valueOf(matchAction.getPriorityChange()));
 				
 				JobParameter assumeCompleteMatchParameter = matchAction
-						.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				editAdvancedFilterMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteMatchParameter != null
 								&& assumeCompleteMatchParameter.getValue()
@@ -984,7 +984,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 						.valueOf(noMatchAction.getPriorityChange()));
 
 				JobParameter assumeCompleteNoMatchParameter = noMatchAction
-						.getJobParameter(DownloadJob.PARAMETER_SKIP_DOWNLOADED_FILE);
+						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteNoMatchParameter != null
 								&& assumeCompleteNoMatchParameter.getValue()

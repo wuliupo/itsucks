@@ -32,6 +32,7 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -74,6 +75,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		dispatcher.addJobFilter(pFilterList);
 		dispatcher.addJob(pDownload);
 
+		HttpRetrieverConfiguration configuration = new HttpRetrieverConfiguration();
+		configuration.setMaxConnectionsPerServer(1);
+		
+		dispatcher.getContext().setContextParameter(
+				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, 
+				configuration);
+		
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
 				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_CORE) {

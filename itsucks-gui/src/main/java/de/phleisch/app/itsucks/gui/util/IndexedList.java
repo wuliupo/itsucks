@@ -13,14 +13,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 public class IndexedList<E> implements List<E> {
 
 	private List<E> mRows;
 	
-	private Map<E, Integer> mHashIndex;
-	private boolean mIndexIsValid;
+//	private Map<E, Integer> mHashIndex;
+//	private boolean mIndexIsValid;
 
 	@SuppressWarnings("unchecked")
 	public IndexedList() {
