@@ -29,7 +29,7 @@ public class SerializationTest extends TestCase {
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
-		filter.setSaveToFileFilter(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
+		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		
 		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
 		
@@ -48,7 +48,7 @@ public class SerializationTest extends TestCase {
 		
 		SerializableJobList deserializedList = serializator.deserialize(file);
 		assertTrue(((DownloadJob)deserializedList.getJobs().get(0)).getUrl().equals(job.getUrl()));
-		assertTrue(((DownloadJobFilter)deserializedList.getFilters().get(0)).getSaveToFileFilter()[0].equals(filter.getSaveToFileFilter()[0]));
+		assertTrue(((DownloadJobFilter)deserializedList.getFilters().get(0)).getSaveToDisk()[0].equals(filter.getSaveToDisk()[0]));
 
 		file.delete();
 	}

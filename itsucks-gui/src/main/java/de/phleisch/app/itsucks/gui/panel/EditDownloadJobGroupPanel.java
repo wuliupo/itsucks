@@ -77,7 +77,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			if(downloadJobFilter.isAllowOnlyRelativeReferences()) {
 				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(true);
 				this.downloadJobSimpleRulesPanel.urlPrefixTextField.setText(
-						downloadJobFilter.getBaseURL().toExternalForm());
+						downloadJobFilter.getURLPrefix().toExternalForm());
 			} else {
 				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(false);
 			}
@@ -90,7 +90,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			}
 
 			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.setRowCount(0);
-			String[] saveToDiskFilter = downloadJobFilter.getSaveToFileFilter();
+			String[] saveToDiskFilter = downloadJobFilter.getSaveToDisk();
 			for (String string : saveToDiskFilter) {
 				this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.addRow(
 						new Object[] {string});
@@ -154,7 +154,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		if(this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
 			downloadJobFilter.setAllowOnlyRelativeReferences(true);
 			try {
-				downloadJobFilter.setBaseURL(new URL(this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText()));
+				downloadJobFilter.setURLPrefix(new URL(this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText()));
 			} catch (MalformedURLException e) {
 				throw new RuntimeException("Bad URL: " + this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText(), e);
 			}
@@ -176,7 +176,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		for (int i = 0; i < saveToDiskFilterRowCount; i++) {
 			saveToDiskFilters.add((String) this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.getValueAt(i, 0));
 		}
-		downloadJobFilter.setSaveToFileFilter(saveToDiskFilters.toArray(new String[saveToDiskFilters.size()]));
+		downloadJobFilter.setSaveToDisk(saveToDiskFilters.toArray(new String[saveToDiskFilters.size()]));
 
 		//advanced rules
 		int advancedFilterCount = this.downloadJobAdvancedRulesPanel.advancedFilterFilterListModel.getSize();

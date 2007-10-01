@@ -69,7 +69,16 @@ public interface DataRetriever {
 	 */
 	public DataProcessorChain getDataProcessorChain();
 
+	/**
+	 * Sets the context for this data retriever.
+	 * @param pContext
+	 */
 	public void setContext(Context pContext);
+	
+	/**
+	 * Gets the context from this data retriver.
+	 * @return
+	 */
 	public Context getContext();
 	
 	/**

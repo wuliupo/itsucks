@@ -51,7 +51,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	public boolean supports(Job pJob) {
 		if(pJob instanceof DownloadJob) {
 			DownloadJob downloadJob = (DownloadJob) pJob;
-			return downloadJob.isSaveToFile();
+			return downloadJob.isSaveToDisk();
 		}
 		
 		return false;

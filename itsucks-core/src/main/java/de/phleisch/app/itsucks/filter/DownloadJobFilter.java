@@ -39,11 +39,11 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 
 	private Set<URI> mAlreadyAddedUrls;
 	
-	private URL mBaseURL = null;
+	private URL mURLPrefix = null;
 	private boolean mAllowOnlyRelativeReferences = false;
 	private int mMaxRecursionDepth = -1; // -1 = unlimited
 	private String mAllowedHostNames[];
-	private String mSaveToFileFilter[];
+	private String mSaveToDisk[];
 	
 	public DownloadJobFilter() {
 		super();
@@ -64,7 +64,7 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 		}
 		
 		if(mAllowOnlyRelativeReferences) {
-			if(!downloadJob.getUrl().toString().startsWith(mBaseURL.toString())) {
+			if(!downloadJob.getUrl().toString().startsWith(mURLPrefix.toString())) {
 				state = Job.STATE_IGNORED;
 			}
 		}
@@ -88,16 +88,16 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 			}
 		}
 		
-		if(mSaveToFileFilter != null) {
+		if(mSaveToDisk != null) {
 			boolean save = false;
-			for (String saveFilter : mSaveToFileFilter) {
+			for (String saveFilter : mSaveToDisk) {
 				if(url.getPath().matches(saveFilter)) {
 					save = true;
 					break;
 				}
 			}
 			
-			downloadJob.setSaveToFile(save);
+			downloadJob.setSaveToDisk(save);
 		}
 		
 		downloadJob.setState(state);
@@ -168,21 +168,21 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	}
 
 	/**
-	 * Gets the allowed base URL
+	 * Gets the prefix URL filter.
 	 * 
 	 * @return
 	 */
-	public URL getBaseURL() {
-		return mBaseURL;
+	public URL getURLPrefix() {
+		return mURLPrefix;
 	}
 
 	/**
-	 * Sets the allowed base URL
+	 * Sets the prefix URL filter.
 	 * 
 	 * @param pBaseURL
 	 */
-	public void setBaseURL(URL pBaseURL) {
-		mBaseURL = pBaseURL;
+	public void setURLPrefix(URL pURLPrefix) {
+		mURLPrefix = pURLPrefix;
 	}
 
 	/**
@@ -208,8 +208,8 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	 * 
 	 * @return
 	 */
-	public String[] getSaveToFileFilter() {
-		return mSaveToFileFilter;
+	public String[] getSaveToDisk() {
+		return mSaveToDisk;
 	}
 
 	/**
@@ -217,8 +217,8 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	 * 
 	 * @return
 	 */	
-	public void setSaveToFileFilter(String[] pSaveToFileFilter) {
-		mSaveToFileFilter = pSaveToFileFilter;
+	public void setSaveToDisk(String[] pSaveToDisk) {
+		mSaveToDisk = pSaveToDisk;
 	}
 
 }

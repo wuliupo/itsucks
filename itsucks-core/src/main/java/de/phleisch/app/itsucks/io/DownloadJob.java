@@ -49,7 +49,7 @@ public class DownloadJob extends AbstractJob {
 	
 	private static Log mLog = LogFactory.getLog(DownloadJob.class);
 	
-	private boolean mSaveToFile = true;
+	private boolean mSaveToDisk = true;
 	private File mSavePath = null;
 	
 	private URL mUrl;
@@ -129,7 +129,7 @@ public class DownloadJob extends AbstractJob {
 		boolean skip = false;
 		
 		//check if this file could be resumed
-		if(isSaveToFile()) {
+		if(isSaveToDisk()) {
 			
 			FileManager fileManager = new FileManager(this.getSavePath());
 			File file = fileManager.buildSavePath(url);
@@ -331,16 +331,16 @@ public class DownloadJob extends AbstractJob {
 	/**
 	 * @return true if this file should be saved as file.
 	 */
-	public boolean isSaveToFile() {
-		return mSaveToFile;
+	public boolean isSaveToDisk() {
+		return mSaveToDisk;
 	}
 
 	/**
 	 * Sets if this file should be saved as file.
 	 * @param pSaveToFile
 	 */
-	public void setSaveToFile(boolean pSaveToFile) {
-		mSaveToFile = pSaveToFile;
+	public void setSaveToDisk(boolean pSaveToDisk) {
+		mSaveToDisk = pSaveToDisk;
 	}
 	
 	/**

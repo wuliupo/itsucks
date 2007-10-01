@@ -88,7 +88,7 @@ public class AppTest extends TestCase {
 		//filter.setAllowOnlyRelativeReferences(true);
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
-		filter.setSaveToFileFilter(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
+		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		dispatcher.addJobFilter(filter);		
 		
 		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");

@@ -23,6 +23,9 @@ public interface Dispatcher {
 	 */
 	public abstract void processJobs() throws Exception;
 
+	/**
+	 * @return true when the dispatcher is running.
+	 */
 	public abstract boolean isRunning();
 	
 	/**
@@ -40,14 +43,33 @@ public interface Dispatcher {
 	 */
 	public abstract void unpause();
 
+	/**
+	 * @return true when the dispatcher is in paused.
+	 */
 	public abstract boolean isPaused();
 
+	/**
+	 * Returns the job manager instance.
+	 * @return
+	 */
 	public abstract JobManager getJobManager();
 
+	/**
+	 * Returns the worker pool instance.
+	 * @return
+	 */
 	public abstract WorkerPool getWorkerPool();
 
+	/**
+	 * Returns the event manager instance.
+	 * @return
+	 */
 	public abstract EventDispatcher getEventManager();
 	
+	/**
+	 * Returns the context for this dispatcher and all included jobs.
+	 * @return
+	 */
 	public abstract Context getContext();
 
 	/**
@@ -62,10 +84,24 @@ public interface Dispatcher {
 	 */
 	public abstract void setDispatchDelay(int pDispatchDelay);
 
+	/**
+	 * Adds an single job to the dispatcher.
+	 * The job must be in state STATE_OPEN.
+	 * 
+	 * @param pJob
+	 */
 	public abstract void addJob(Job pJob);
 
+	/**
+	 * Adds an additional job filter.
+	 * @param pJobFilter
+	 */
 	public abstract void addJobFilter(JobFilter pJobFilter);
 
+	/**
+	 * Adds an list of job filter.
+	 * @param pJobFilter
+	 */
 	public abstract void addJobFilter(List<JobFilter> pJobFilter);
 
 }

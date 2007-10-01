@@ -66,7 +66,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		//job.setParent(pParent) TODO implement
 		job.setPriority(pJob.getPriority());
 		job.setSavePath(pJob.getSavePath() != null ? new File(pJob.getSavePath()) : null);
-		job.setSaveToFile(pJob.isSaveToFile());
+		job.setSaveToDisk(pJob.isSaveToFile());
 		job.setState(pJob.getState());
 		job.setUrl(new URL(pJob.getUrl()));
 		
@@ -84,11 +84,11 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();
 		
 		downloadJobFilter.setAllowOnlyRelativeReferences(pFilter.isAllowOnlyRelativeReferences());
-		downloadJobFilter.setBaseURL(pFilter.getBaseUrl() != null ? new URL(pFilter.getBaseUrl()) : null);
+		downloadJobFilter.setURLPrefix(pFilter.getBaseUrl() != null ? new URL(pFilter.getBaseUrl()) : null);
 		downloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
 
 		List<String> saveToFileFilter = pFilter.getSaveToFileFilter();
-		downloadJobFilter.setSaveToFileFilter(saveToFileFilter.toArray(new String[saveToFileFilter.size()]));
+		downloadJobFilter.setSaveToDisk(saveToFileFilter.toArray(new String[saveToFileFilter.size()]));
 
 		
 		List<String> allowedHostName = pFilter.getAllowedHostName();
@@ -184,7 +184,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		serializedJob.setPriority(pJob.getPriority());
 		serializedJob.setState(pJob.getState());
 		serializedJob.setIgnoreFilter(pJob.isIgnoreFilter());
-		serializedJob.setSaveToFile(pJob.isSaveToFile());
+		serializedJob.setSaveToFile(pJob.isSaveToDisk());
 		serializedJob.setSavePath(pJob.getSavePath().toString());
 		
 		//download job specific fields
@@ -218,13 +218,13 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		serializedDownloadJobFilter.setAllowOnlyRelativeReferences(pFilter.isAllowOnlyRelativeReferences());
 		serializedDownloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
-		serializedDownloadJobFilter.setBaseUrl(pFilter.getBaseURL() != null ? pFilter.getBaseURL().toExternalForm() : null);
+		serializedDownloadJobFilter.setBaseUrl(pFilter.getURLPrefix() != null ? pFilter.getURLPrefix().toExternalForm() : null);
 		
 		for (String allowedHostname : pFilter.getAllowedHostNames()) {
 			serializedDownloadJobFilter.getAllowedHostName().add(allowedHostname);
 		}
 		
-		for (String saveToFile : pFilter.getSaveToFileFilter()) {
+		for (String saveToFile : pFilter.getSaveToDisk()) {
 			serializedDownloadJobFilter.getSaveToFileFilter().add(saveToFile);
 		}
 		
