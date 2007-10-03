@@ -7,6 +7,34 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0 in progress...</h2>
+        <div class='date'>2007-09-10</div>
+        <p>
+        Currently I'm working at the next release of ItSucks. 
+        It will contain many new features:
+        <ul>
+        <li>Complete rewrite of the GUI, makes it much easier to use.</li>
+        <li>Proxy support</li>
+        <li>Configurable count of threads per server</li>
+        </ul>
+		</p>
+      </p>
+
+      <p class="text">
+        <h2>Version 0.2.0 final is released</h2>
+        <div class='date'>2007-09-02</div>
+        <p>
+      This release is the stable version of 0.2.0.
+		</p>
+		<p>
+		Please post any bug/issue you find in the forum.  
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=536682"> ChangeLog 0.2.0</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.2.0-b4 is released</h2>
         <div class='date'>2007-08-14</div>
         <p>
