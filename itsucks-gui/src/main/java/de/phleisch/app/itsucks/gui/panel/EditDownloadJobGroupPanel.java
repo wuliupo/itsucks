@@ -19,9 +19,11 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
-import de.phleisch.app.itsucks.gui.util.AddDownloadJobBean;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
+import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 /**
  *
@@ -108,13 +110,15 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		
 	}
 	
-	public AddDownloadJobBean buildJob() {
+	public SerializableJobList buildJob() {
 		
 		JobFactory jobFactory =  (JobFactory) 
 		SpringContextSingelton.getApplicationContext().getBean("JobFactory");
 		DownloadJob job = jobFactory.createDownloadJob();
 		List<JobFilter> jobFilterList = new ArrayList<JobFilter>();
-		
+		SerializableDispatcherConfiguration dispatcherConfiguration = 
+			new SerializableDispatcherConfiguration();
+		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
 		
 		//build download job
 		job.setIgnoreFilter(true);
@@ -132,7 +136,35 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		job.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField.getText()));
 		job.setMaxRetryCount(Integer.parseInt(this.downloadJobBasicPanel.maxRetriesTextField.getText()));
 		
+		dispatcherConfiguration.setWorkerThreads(
+				Integer.parseInt(this.downloadJobBasicPanel.workingThreadsTextField.getText()));
 
+		//proxy configuration
+		if(this.downloadJobBasicPanel.enableProxyCheckBox.isSelected()) {
+			retrieverConfiguration.setProxyEnabled(true);
+			
+			retrieverConfiguration.setProxyServer(
+					this.downloadJobBasicPanel.proxyServerLabel.getText());
+			
+			retrieverConfiguration.setProxyPort(Integer.parseInt(
+					this.downloadJobBasicPanel.proxyPortTextField.getText()));
+		} else {
+			retrieverConfiguration.setProxyEnabled(false);
+		}
+		
+		if(this.downloadJobBasicPanel.enableAuthenticationCheckBox.isSelected()) {
+			retrieverConfiguration.setProxyAuthenticatenEnabled(true);
+			
+			retrieverConfiguration.setProxyUser(
+					this.downloadJobBasicPanel.authenticationUserTextField.getText());
+			
+			retrieverConfiguration.setProxyPassword(
+					this.downloadJobBasicPanel.authenticationPasswordTextField.getText());
+		} else {
+			retrieverConfiguration.setProxyAuthenticatenEnabled(false);
+		}
+		
+		
 		//simple rules panel
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();
 		jobFilterList.add(downloadJobFilter);
@@ -193,9 +225,13 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 		
 		//build result
-		AddDownloadJobBean result = new AddDownloadJobBean();
-		result.setDownload(job);
-		result.setFilterList(jobFilterList);
+		SerializableJobList result = new SerializableJobList();
+		result.addJob(job);
+		result.setFilters(jobFilterList);
+		result.setDispatcherConfiguration(dispatcherConfiguration);
+		result.putContextParameter(
+				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, 
+				retrieverConfiguration);
 		
 		return result;
 	}

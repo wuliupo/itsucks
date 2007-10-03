@@ -10,7 +10,9 @@ package de.phleisch.app.itsucks.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.JobFilter;
@@ -27,10 +29,13 @@ public class SerializableJobList implements Serializable {
 
 	private List<Job> mJobs;
 	private List<JobFilter> mFilters;
-
+	private Map<String, Object> mContextParameter;
+	private SerializableDispatcherConfiguration mDispatcherConfiguration;
+	
 	public SerializableJobList() {
 		mJobs = new ArrayList<Job>();
 		mFilters = new ArrayList<JobFilter>();
+		mContextParameter = new HashMap<String, Object>();
 	}
 	
 	public void addJob(Job pJob) {
@@ -63,6 +68,27 @@ public class SerializableJobList implements Serializable {
 
 	public void setJobs(List<Job> pJobs) {
 		mJobs = pJobs;
+	}
+
+	public Map<String, Object> getContextParameter() {
+		return mContextParameter;
+	}
+	
+	public void putContextParameter(String pKey, Object pValue) {
+		mContextParameter.put(pKey, pValue);
+	}
+
+	public void setContextParameter(Map<String, Object> pContextParameter) {
+		mContextParameter = pContextParameter;
+	}
+
+	public SerializableDispatcherConfiguration getDispatcherConfiguration() {
+		return mDispatcherConfiguration;
+	}
+
+	public void setDispatcherConfiguration(
+			SerializableDispatcherConfiguration pDispatcherConfiguration) {
+		mDispatcherConfiguration = pDispatcherConfiguration;
 	}
 	
 }

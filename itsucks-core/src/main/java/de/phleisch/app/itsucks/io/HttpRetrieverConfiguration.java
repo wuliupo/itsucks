@@ -17,7 +17,7 @@ public class HttpRetrieverConfiguration {
 	
 	private boolean mProxyEnabled = false;
 	private String mProxyServer;
-	private int mProxyPort;
+	private Integer mProxyPort;
 	
 	private boolean mProxyAuthenticatenEnabled = false;
 	private String mProxyUser;
@@ -43,10 +43,10 @@ public class HttpRetrieverConfiguration {
 	public void setProxyServer(String pProxyServer) {
 		mProxyServer = pProxyServer;
 	}
-	public int getProxyPort() {
+	public Integer getProxyPort() {
 		return mProxyPort;
 	}
-	public void setProxyPort(int pProxyPort) {
+	public void setProxyPort(Integer pProxyPort) {
 		mProxyPort = pProxyPort;
 	}
 	public boolean isProxyAuthenticatenEnabled() {

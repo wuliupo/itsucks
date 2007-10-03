@@ -20,7 +20,6 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.gui.util.AddDownloadJobBean;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
@@ -51,9 +50,9 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	}
 
 	private void saveDownloadTemplate() {
-		AddDownloadJobBean downloadJob = this.editDownloadJobGroupPanel
+		SerializableJobList downloadJobList = this.editDownloadJobGroupPanel
 				.buildJob();
-		if (downloadJob == null)
+		if (downloadJobList == null)
 			return;
 
 		//open dialog
@@ -62,7 +61,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 				"ItSucks Download Templates (*.suck)", new String[] { "suck" }));
 
 		fc.setSelectedFile(new File("ItSucks_"
-				+ downloadJob.getDownload().getName().replace(' ', '_')
+				+ downloadJobList.getJobs().get(0).getName().replace(' ', '_')
 				+ "_Template.suck"));
 
 		// Show save dialog; this method does not return until the dialog is closed
@@ -72,12 +71,8 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
 					.getApplicationContext().getBean("JobSerialization");
 
-			SerializableJobList jobList = new SerializableJobList();
-			jobList.setFilters(downloadJob.getFilterList());
-			jobList.addJob(downloadJob.getDownload());
-
 			try {
-				serializationManager.serialize(jobList, fc.getSelectedFile());
+				serializationManager.serialize(downloadJobList, fc.getSelectedFile());
 			} catch (Exception e1) {
 
 				mLog.error("Error occured while saving download template", e1);
@@ -171,11 +166,11 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	//GEN-FIRST:event_startButtonActionPerformed
 	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-		AddDownloadJobBean job = this.editDownloadJobGroupPanel.buildJob();
+		SerializableJobList job = this.editDownloadJobGroupPanel.buildJob();
 		if (job == null)
 			return;
 
-		mDownloadJobManager.addDownload(job.getDownload(), job.getFilterList());
+		mDownloadJobManager.addDownload((DownloadJob)job.getJobs().get(0), job.getFilters());
 
 		this.dispose();
 

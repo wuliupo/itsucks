@@ -46,6 +46,15 @@
 	<xs:complexType name="serializedJobFilter" abstract="true">
 	</xs:complexType>
 
+	<xs:element name="serializedContextParameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string" />
+				<xs:any minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
 	<xs:element name="serializedDispatcherConfiguration">
 		<xs:complexType>
 			<xs:sequence>
@@ -54,5 +63,7 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+
+
 
 </xs:schema>

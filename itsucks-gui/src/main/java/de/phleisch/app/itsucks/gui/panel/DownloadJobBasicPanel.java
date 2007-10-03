@@ -325,32 +325,57 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		enableProxyCheckBox.setBorder(javax.swing.BorderFactory
 				.createEmptyBorder(0, 0, 0, 0));
 		enableProxyCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		enableProxyCheckBox
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						enableProxyCheckBoxStateChanged(evt);
+					}
+				});
 
 		proxyServerLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		proxyServerLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		proxyServerLabel.setText("Server:");
+		proxyServerLabel.setEnabled(false);
+
+		proxyServerTextField.setEnabled(false);
 
 		proxyPortLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		proxyPortLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		proxyPortLabel.setText("Port:");
+		proxyPortLabel.setEnabled(false);
+
+		proxyPortTextField.setEnabled(false);
 
 		enableAuthenticationCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
-		enableAuthenticationCheckBox.setText("Enable authentication");
+		enableAuthenticationCheckBox.setText("Enable proxy authentication");
 		enableAuthenticationCheckBox.setBorder(javax.swing.BorderFactory
 				.createEmptyBorder(0, 0, 0, 0));
+		enableAuthenticationCheckBox.setEnabled(false);
 		enableAuthenticationCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		enableAuthenticationCheckBox
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						enableAuthenticationCheckBoxStateChanged(evt);
+					}
+				});
 
 		authenticationUserLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		authenticationUserLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		authenticationUserLabel.setText("User:");
+		authenticationUserLabel.setEnabled(false);
+
+		authenticationUserTextField.setEnabled(false);
 
 		authenticationPasswordLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		authenticationPasswordLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		authenticationPasswordLabel.setText("Password:");
+		authenticationPasswordLabel.setEnabled(false);
+
+		authenticationPasswordTextField.setEnabled(false);
 
 		org.jdesktop.layout.GroupLayout proxySettingsPanelLayout = new org.jdesktop.layout.GroupLayout(
 				proxySettingsPanel);
@@ -367,29 +392,6 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 												proxySettingsPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(
-																proxySettingsPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				proxyServerLabel)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				proxyServerTextField,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				130,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				proxyPortLabel)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				proxyPortTextField,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				122,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 														.add(
 																proxySettingsPanelLayout
 																		.createParallelGroup(
@@ -424,19 +426,45 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																								enableAuthenticationCheckBox)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED,
-																								255,
+																								218,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
 														.add(
 																proxySettingsPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				enableProxyCheckBox,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				107,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																				proxySettingsPanelLayout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.TRAILING,
+																								false)
+																						.add(
+																								org.jdesktop.layout.GroupLayout.LEADING,
+																								enableProxyCheckBox,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								org.jdesktop.layout.GroupLayout.LEADING,
+																								proxySettingsPanelLayout
+																										.createSequentialGroup()
+																										.add(
+																												proxyServerLabel)
+																										.addPreferredGap(
+																												org.jdesktop.layout.LayoutStyle.RELATED)
+																										.add(
+																												proxyServerTextField,
+																												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																												130,
+																												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
 																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED,
-																				288,
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				proxyPortLabel)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				proxyPortTextField,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				122,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
 										.add(44, 44, 44)));
 
@@ -551,6 +579,37 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_enableProxyCheckBoxStateChanged
+	private void enableProxyCheckBoxStateChanged(
+			javax.swing.event.ChangeEvent evt) {
+
+		boolean enabled = enableProxyCheckBox.isSelected();
+
+		proxyServerLabel.setEnabled(enabled);
+		proxyServerTextField.setEnabled(enabled);
+		proxyPortLabel.setEnabled(enabled);
+		proxyPortTextField.setEnabled(enabled);
+
+		if (!enabled) {
+			enableAuthenticationCheckBox.setSelected(false);
+		}
+		enableAuthenticationCheckBox.setEnabled(enabled);
+
+	}//GEN-LAST:event_enableProxyCheckBoxStateChanged
+
+	//GEN-FIRST:event_enableAuthenticationCheckBoxStateChanged
+	private void enableAuthenticationCheckBoxStateChanged(
+			javax.swing.event.ChangeEvent evt) {
+
+		boolean enabled = enableAuthenticationCheckBox.isSelected();
+
+		authenticationUserLabel.setEnabled(enabled);
+		authenticationUserTextField.setEnabled(enabled);
+		authenticationPasswordLabel.setEnabled(enabled);
+		authenticationPasswordTextField.setEnabled(enabled);
+
+	}//GEN-LAST:event_enableAuthenticationCheckBoxStateChanged
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

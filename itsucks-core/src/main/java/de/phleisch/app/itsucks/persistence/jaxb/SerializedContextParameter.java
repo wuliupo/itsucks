@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -29,7 +28,7 @@ import org.w3c.dom.Element;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="version" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;any/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -41,39 +40,39 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "version",
+    "name",
     "any"
 })
-@XmlRootElement(name = "serializedJobs")
-public class SerializedJobs {
+@XmlRootElement(name = "serializedContextParameter")
+public class SerializedContextParameter {
 
     @XmlElement(required = true)
-    protected String version;
+    protected String name;
     @XmlAnyElement(lax = true)
     protected List<Object> any;
 
     /**
-     * Gets the value of the version property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getVersion() {
-        return version;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the version property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setVersion(String value) {
-        this.version = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
     /**
@@ -94,7 +93,6 @@ public class SerializedJobs {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Element }
      * {@link Object }
      * 
      * 
