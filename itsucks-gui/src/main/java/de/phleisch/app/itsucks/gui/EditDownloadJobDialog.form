@@ -33,7 +33,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="de.phleisch.app.itsucks.gui2.panel.EditDownloadJobGroupPanel" name="editDownloadJobGroupPanel">
+    <Component class="de.phleisch.app.itsucks.gui.panel.EditDownloadJobGroupPanel" name="editDownloadJobGroupPanel">
     </Component>
     <Container class="javax.swing.JPanel" name="buttonPanel">
 

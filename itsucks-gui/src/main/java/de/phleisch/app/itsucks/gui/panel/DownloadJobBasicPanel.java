@@ -189,21 +189,17 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		workingThreadsLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		workingThreadsLabel.setText("Working Threads:");
-		workingThreadsLabel.setEnabled(false);
 
 		workingThreadsTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-		workingThreadsTextField.setEnabled(false);
 
 		maxConnectionsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		maxConnectionsLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		maxConnectionsLabel.setText("Max. connections per server:");
-		maxConnectionsLabel.setEnabled(false);
 
 		maxConnectionsTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-		maxConnectionsTextField.setEnabled(false);
 
 		maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		maxRetriesLabel
@@ -328,47 +324,33 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		enableProxyCheckBox.setText("Enable Proxy");
 		enableProxyCheckBox.setBorder(javax.swing.BorderFactory
 				.createEmptyBorder(0, 0, 0, 0));
-		enableProxyCheckBox.setEnabled(false);
 		enableProxyCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
 		proxyServerLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		proxyServerLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		proxyServerLabel.setText("Server:");
-		proxyServerLabel.setEnabled(false);
-
-		proxyServerTextField.setEnabled(false);
 
 		proxyPortLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		proxyPortLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		proxyPortLabel.setText("Port:");
-		proxyPortLabel.setEnabled(false);
-
-		proxyPortTextField.setEnabled(false);
 
 		enableAuthenticationCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
 		enableAuthenticationCheckBox.setText("Enable authentication");
 		enableAuthenticationCheckBox.setBorder(javax.swing.BorderFactory
 				.createEmptyBorder(0, 0, 0, 0));
-		enableAuthenticationCheckBox.setEnabled(false);
 		enableAuthenticationCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
 		authenticationUserLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		authenticationUserLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		authenticationUserLabel.setText("User:");
-		authenticationUserLabel.setEnabled(false);
-
-		authenticationUserTextField.setEnabled(false);
 
 		authenticationPasswordLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		authenticationPasswordLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		authenticationPasswordLabel.setText("Password:");
-		authenticationPasswordLabel.setEnabled(false);
-
-		authenticationPasswordTextField.setEnabled(false);
 
 		org.jdesktop.layout.GroupLayout proxySettingsPanelLayout = new org.jdesktop.layout.GroupLayout(
 				proxySettingsPanel);

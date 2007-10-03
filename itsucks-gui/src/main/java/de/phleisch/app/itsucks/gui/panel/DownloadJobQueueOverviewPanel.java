@@ -30,7 +30,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 2406761069696757338L;
 	private DispatcherThread mJobDispatcher;
 	private EventObserver mEventObserver = new JobEventObserver();
-	
+
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
 		initComponents();
@@ -42,8 +42,9 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		DefaultEventFilter eventFilter = new DefaultEventFilter();
 		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOB);
 		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOBMANAGER);
-		
-		mJobDispatcher.getEventManager().registerObserver(mEventObserver, eventFilter);
+
+		mJobDispatcher.getEventManager().registerObserver(mEventObserver,
+				eventFilter);
 	}
 
 	public DispatcherThread getDispatcher() {
@@ -52,66 +53,67 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	public void removeDispatcher() {
 		mJobDispatcher.getEventManager().unregisterObserver(mEventObserver);
-		
+
 		downloadJobStatusTableAllPanel.shutdown();
 		downloadJobStatusTableRunningPanel.shutdown();
 		downloadJobStatusTableOpenPanel.shutdown();
 		downloadJobStatusTableFinishedPanel.shutdown();
-		
+
 		mJobDispatcher = null;
 	}
-	
+
 	private void addDownloadJob(DownloadJob pJob, int pInitialState) {
-			
+
 		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pInitialState);
 		for (DownloadJobStatusTablePanel panel : panels) {
 			panel.addDownloadJob(pJob);
 		}
 	}
-	
+
 	private void removeDownloadJob(DownloadJob pJob) {
-		
-		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob.getState());
+
+		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob
+				.getState());
 		for (DownloadJobStatusTablePanel panel : panels) {
 			panel.removeDownloadJob(pJob);
 		}
 	}
-	
+
 	private void moveDownloadJob(DownloadJob pJob, int pOldState, int pNewState) {
-		
+
 		List<DownloadJobStatusTablePanel> oldPanels = getPanelsForState(pOldState);
 		List<DownloadJobStatusTablePanel> newPanels = getPanelsForState(pNewState);
 
 		for (DownloadJobStatusTablePanel oldPanel : oldPanels) {
-			if(!newPanels.contains(oldPanel)) {
+			if (!newPanels.contains(oldPanel)) {
 				oldPanel.removeDownloadJob(pJob);
 			}
 		}
-		
+
 		for (DownloadJobStatusTablePanel newPanel : newPanels) {
-			if(!oldPanels.contains(newPanel)) {
+			if (!oldPanels.contains(newPanel)) {
 				newPanel.addDownloadJob(pJob);
 			}
 		}
 	}
 
 	private List<DownloadJobStatusTablePanel> getPanelsForState(int pState) {
-		
+
 		List<DownloadJobStatusTablePanel> panels = new ArrayList<DownloadJobStatusTablePanel>();
-		
+
 		panels.add(downloadJobStatusTableAllPanel);
-		
+
 		switch (pState) {
 
 		case Job.STATE_OPEN:
 			panels.add(downloadJobStatusTableOpenPanel);
 			break;
-			
+
 		case Job.STATE_ASSIGNED:
 		case Job.STATE_IN_PROGRESS:
 			panels.add(downloadJobStatusTableRunningPanel);
 			break;
-		
+
 		case Job.STATE_CLOSED:
 		case Job.STATE_ERROR:
 		case Job.STATE_FAILED:
@@ -120,44 +122,46 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		case Job.STATE_ALREADY_PROCESSED:
 			panels.add(downloadJobStatusTableFinishedPanel);
 			break;
-			
-		default: 
+
+		default:
 			throw new IllegalStateException("Unknown state: " + pState);
-			
+
 		}
-		
+
 		return panels;
 	}
-	
+
 	private class JobEventObserver implements EventObserver {
 
 		public void processEvent(Event pEvent) {
-			
+
 			JobEvent jobEvent = (JobEvent) pEvent;
 			DownloadJob job = (DownloadJob) jobEvent.getJob();
 
-			if(jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
-				
-				PropertyChangeEvent propertyChangeEvent = 
-					((JobChangedEvent)jobEvent).getPropertyChangeEvent();
-				
-				if(Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent.getPropertyName())) {
-					moveDownloadJob(job, 
-						(Integer)propertyChangeEvent.getOldValue(), 
-						(Integer)propertyChangeEvent.getNewValue());
+			if (jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
+
+				PropertyChangeEvent propertyChangeEvent = ((JobChangedEvent) jobEvent)
+						.getPropertyChangeEvent();
+
+				if (Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent
+						.getPropertyName())) {
+					moveDownloadJob(job, (Integer) propertyChangeEvent
+							.getOldValue(), (Integer) propertyChangeEvent
+							.getNewValue());
 				}
-				
-			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_ADDED.getType()) {
-				
-				int initialState = 
-					((JobAddedEvent)jobEvent).getInitialState();
-				
+
+			} else if (jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_ADDED
+					.getType()) {
+
+				int initialState = ((JobAddedEvent) jobEvent).getInitialState();
+
 				addDownloadJob(job, initialState);
-				
-			} else if(jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED.getType()) {
-				
+
+			} else if (jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED
+					.getType()) {
+
 				removeDownloadJob(job);
-				
+
 			}
 		}
 	}
@@ -171,21 +175,21 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		jTabbedPane1 = new javax.swing.JTabbedPane();
-		downloadJobStatusTableAllPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
 		downloadJobStatusTableRunningPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
 		downloadJobStatusTableOpenPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
 		downloadJobStatusTableFinishedPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableAllPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
 		infoPanel = new javax.swing.JPanel();
 
 		jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
 		jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jTabbedPane1.addTab("All", downloadJobStatusTableAllPanel);
-
 		jTabbedPane1.addTab("Running", downloadJobStatusTableRunningPanel);
 
 		jTabbedPane1.addTab("Open", downloadJobStatusTableOpenPanel);
 
 		jTabbedPane1.addTab("Finished", downloadJobStatusTableFinishedPanel);
+
+		jTabbedPane1.addTab("All", downloadJobStatusTableAllPanel);
 
 		org.jdesktop.layout.GroupLayout infoPanelLayout = new org.jdesktop.layout.GroupLayout(
 				infoPanel);

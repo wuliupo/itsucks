@@ -25,7 +25,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobBasicPanel" name="downloadJobBasicPanel">
+        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel" name="downloadJobBasicPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Basic Parameters">
@@ -34,7 +34,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobSimpleRulesPanel" name="downloadJobSimpleRulesPanel">
+        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel" name="downloadJobSimpleRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Simple Rules">
@@ -43,7 +43,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui2.panel.DownloadJobAdvancedRulesPanel" name="downloadJobAdvancedRulesPanel">
+        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel" name="downloadJobAdvancedRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Advanced Rules">
