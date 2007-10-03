@@ -126,7 +126,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		//open dialog
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileNameExtensionFilter(
-				"ItSucks Download Templates (*.xml)", new String[] { "xml" }));
+				"ItSucks Download Templates (*.suck)", new String[] { "suck" }));
 
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(this);

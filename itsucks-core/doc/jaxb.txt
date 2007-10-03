@@ -1,0 +1,3 @@
+How to regenerate jaxb classes:
+
+bin/xjc.sh ~/workspace/itsucks/trunk/itsucks-core/src/main/resources/DownloadJobSchema.xsd -p de.phleisch.app.itsucks.persistence.jaxb -d  ~/workspace/itsucks/trunk/itsucks-core/src/main/java/

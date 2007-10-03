@@ -59,11 +59,11 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		//open dialog
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileNameExtensionFilter(
-				"ItSucks Download Templates (*.xml)", new String[] { "xml" }));
+				"ItSucks Download Templates (*.suck)", new String[] { "suck" }));
 
 		fc.setSelectedFile(new File("ItSucks_"
 				+ downloadJob.getDownload().getName().replace(' ', '_')
-				+ "_Template.xml"));
+				+ "_Template.suck"));
 
 		// Show save dialog; this method does not return until the dialog is closed
 		int result = fc.showSaveDialog(this);

@@ -66,10 +66,9 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		//job.setParent(pParent) TODO implement
 		job.setPriority(pJob.getPriority());
 		job.setSavePath(pJob.getSavePath() != null ? new File(pJob.getSavePath()) : null);
-		job.setSaveToDisk(pJob.isSaveToFile());
+		job.setSaveToDisk(pJob.isSaveToDisk());
 		job.setState(pJob.getState());
 		job.setUrl(new URL(pJob.getUrl()));
-		
 		
 		for (SerializedJobParameter serializedJobParameter : pJob.getParameter()) {
 			job.addParameter(convertSerializedJobParameterToClass(serializedJobParameter));
@@ -83,12 +82,11 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();
 		
-		downloadJobFilter.setURLPrefix(pFilter.getBaseUrl() != null ? new URL(pFilter.getBaseUrl()) : null);
+		downloadJobFilter.setURLPrefix(pFilter.getUrlPrefix() != null ? new URL(pFilter.getUrlPrefix()) : null);
 		downloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
 
-		List<String> saveToFileFilter = pFilter.getSaveToFileFilter();
-		downloadJobFilter.setSaveToDisk(saveToFileFilter.toArray(new String[saveToFileFilter.size()]));
-
+		List<String> saveToDisk = pFilter.getSaveToDisk();
+		downloadJobFilter.setSaveToDisk(saveToDisk.toArray(new String[saveToDisk.size()]));
 		
 		List<String> allowedHostName = pFilter.getAllowedHostName();
 		downloadJobFilter.setAllowedHostNames(allowedHostName.toArray(new String[allowedHostName.size()]));
@@ -132,6 +130,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		RegExpFilterRule filterRule = new RegExpJobFilter.RegExpFilterRule();
 		
 		filterRule.setName(pSerializedFilterRule.getName());
+		filterRule.setDescription(pSerializedFilterRule.getDescription());
 		filterRule.setPattern(pSerializedFilterRule.getPattern());
 		
 		filterRule.setMatchAction(convertSerializedRegExpJobFilterActionToClass(pSerializedFilterRule.getMatchAction()));
@@ -183,7 +182,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		serializedJob.setPriority(pJob.getPriority());
 		serializedJob.setState(pJob.getState());
 		serializedJob.setIgnoreFilter(pJob.isIgnoreFilter());
-		serializedJob.setSaveToFile(pJob.isSaveToDisk());
+		serializedJob.setSaveToDisk(pJob.isSaveToDisk());
 		serializedJob.setSavePath(pJob.getSavePath().toString());
 		
 		//download job specific fields
@@ -216,14 +215,14 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		SerializedDownloadJobFilter serializedDownloadJobFilter = mBeanFactory.createSerializedDownloadJobFilter();
 		
 		serializedDownloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
-		serializedDownloadJobFilter.setBaseUrl(pFilter.getURLPrefix() != null ? pFilter.getURLPrefix().toExternalForm() : null);
+		serializedDownloadJobFilter.setUrlPrefix(pFilter.getURLPrefix() != null ? pFilter.getURLPrefix().toExternalForm() : null);
 		
 		for (String allowedHostname : pFilter.getAllowedHostNames()) {
 			serializedDownloadJobFilter.getAllowedHostName().add(allowedHostname);
 		}
 		
 		for (String saveToFile : pFilter.getSaveToDisk()) {
-			serializedDownloadJobFilter.getSaveToFileFilter().add(saveToFile);
+			serializedDownloadJobFilter.getSaveToDisk().add(saveToFile);
 		}
 		
 		for (URI alreadyAddedURI : pFilter.getAlreadyAddedUrls()) {
@@ -251,6 +250,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			
 			SerializedRegExpJobFilterRule serializedFilterRule = mBeanFactory.createSerializedRegExpJobFilterRule();
 			serializedFilterRule.setName(filterRule.getName());
+			serializedFilterRule.setDescription(filterRule.getDescription());
 			serializedFilterRule.setPattern(filterRule.getPattern().pattern());
 			
 			serializedFilterRule.setMatchAction(convertRegExpFilterActionToBean(filterRule.getMatchAction()));
