@@ -20,7 +20,7 @@
 						<xs:element name="maxRetryCount" type="xs:int" />
 						<xs:element name="minTimeBetweenRetry"
 							type="xs:long" nillable="true" />
-						<xs:element name="saveToFile" type="xs:boolean" />
+						<xs:element name="saveToDisk" type="xs:boolean" />
 						<xs:element name="savePath" type="xs:string"
 							nillable="true" />
 					</xs:sequence>
@@ -37,15 +37,13 @@
 
 					<xs:sequence>
 
-						<xs:element name="allowOnlyRelativeReferences"
-							type="xs:boolean" />
 						<xs:element name="maxRecursionDepth"
 							type="xs:int" />
-						<xs:element name="baseUrl" type="xs:string"
+						<xs:element name="urlPrefix" type="xs:string"
 							nillable="true" />
 						<xs:element name="allowedHostName"
 							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
-						<xs:element name="saveToFileFilter"
+						<xs:element name="saveToDisk"
 							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
 						<xs:element name="alreadyAddedUri"
 							type="xs:string" maxOccurs="unbounded" minOccurs="0" />
@@ -95,7 +93,7 @@
 						<xs:element name="name" type="xs:string"
 							nillable="true" />
 						<xs:element name="description" type="xs:string"
-							nillable="true" />							
+							nillable="true" />
 						<xs:element name="pattern" type="xs:string" />
 
 						<xs:element name="matchAction"
@@ -127,5 +125,22 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="serializedHttpRetrieverConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="maxConnectionsPerServer"
+					type="xs:int" />
+				<xs:element name="proxyEnabled" type="xs:boolean"></xs:element>
+				<xs:element name="proxyServer" type="xs:string" nillable="true"></xs:element>
+				<xs:element name="proxyPort" type="xs:int" nillable="true"></xs:element>
+				<xs:element name="proxyAuthenticationEnabled"
+					type="xs:boolean">
+				</xs:element>
+				<xs:element name="proxyUser" type="xs:string" nillable="true"></xs:element>
+				<xs:element name="proxyPassword" type="xs:string" nillable="true"></xs:element>
+				<xs:element name="proxyRealm" type="xs:string" nillable="true"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>
