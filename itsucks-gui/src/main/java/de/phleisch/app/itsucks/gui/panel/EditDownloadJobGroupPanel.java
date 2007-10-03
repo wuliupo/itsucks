@@ -74,7 +74,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 				String.valueOf(downloadJobFilter.getMaxRecursionDepth()));
 		if(downloadJobFilter != null) {
 			
-			if(downloadJobFilter.isAllowOnlyRelativeReferences()) {
+			if(downloadJobFilter.getURLPrefix() != null) {
 				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(true);
 				this.downloadJobSimpleRulesPanel.urlPrefixTextField.setText(
 						downloadJobFilter.getURLPrefix().toExternalForm());
@@ -152,14 +152,13 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 		
 		if(this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
-			downloadJobFilter.setAllowOnlyRelativeReferences(true);
 			try {
 				downloadJobFilter.setURLPrefix(new URL(this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText()));
 			} catch (MalformedURLException e) {
 				throw new RuntimeException("Bad URL: " + this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText(), e);
 			}
 		} else {
-			downloadJobFilter.setAllowOnlyRelativeReferences(false);
+			downloadJobFilter.setURLPrefix(null);
 		}
 		
 		int hostnameFilterRowCount = 

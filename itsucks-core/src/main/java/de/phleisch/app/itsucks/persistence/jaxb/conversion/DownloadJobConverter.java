@@ -83,7 +83,6 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();
 		
-		downloadJobFilter.setAllowOnlyRelativeReferences(pFilter.isAllowOnlyRelativeReferences());
 		downloadJobFilter.setURLPrefix(pFilter.getBaseUrl() != null ? new URL(pFilter.getBaseUrl()) : null);
 		downloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
 
@@ -216,7 +215,6 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		SerializedDownloadJobFilter serializedDownloadJobFilter = mBeanFactory.createSerializedDownloadJobFilter();
 		
-		serializedDownloadJobFilter.setAllowOnlyRelativeReferences(pFilter.isAllowOnlyRelativeReferences());
 		serializedDownloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
 		serializedDownloadJobFilter.setBaseUrl(pFilter.getURLPrefix() != null ? pFilter.getURLPrefix().toExternalForm() : null);
 		

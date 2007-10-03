@@ -46,4 +46,13 @@
 	<xs:complexType name="serializedJobFilter" abstract="true">
 	</xs:complexType>
 
+	<xs:element name="serializedDispatcherConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="workerThreads" type="xs:int" />
+				<xs:element name="dispatchDelay" type="xs:int"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>

@@ -40,7 +40,6 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	private Set<URI> mAlreadyAddedUrls;
 	
 	private URL mURLPrefix = null;
-	private boolean mAllowOnlyRelativeReferences = false;
 	private int mMaxRecursionDepth = -1; // -1 = unlimited
 	private String mAllowedHostNames[];
 	private String mSaveToDisk[];
@@ -63,7 +62,7 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 			state = Job.STATE_ALREADY_PROCESSED;
 		}
 		
-		if(mAllowOnlyRelativeReferences) {
+		if(mURLPrefix != null) {
 			if(!downloadJob.getUrl().toString().startsWith(mURLPrefix.toString())) {
 				state = Job.STATE_IGNORED;
 			}
@@ -113,24 +112,6 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	}
 
 	/**
-	 * Returns if only relative links should be followed.
-	 * 
-	 * @return
-	 */
-	public boolean isAllowOnlyRelativeReferences() {
-		return mAllowOnlyRelativeReferences;
-	}
-
-	/**
-	 * Sets if only relative links should be followed.
-	 * 
-	 * @param pAllowOnlyRelativeReferences
-	 */
-	public void setAllowOnlyRelativeReferences(boolean pAllowOnlyRelativeReferences) {
-		mAllowOnlyRelativeReferences = pAllowOnlyRelativeReferences;
-	}
-
-	/**
 	 * Returns a set of all already known urls.
 	 * 
 	 * @return
@@ -177,7 +158,8 @@ public class DownloadJobFilter implements JobFilter, Serializable {
 	}
 
 	/**
-	 * Sets the prefix URL filter.
+	 * Sets the prefix URL filter. 
+	 * URL's which do not begin with this prefix will be rejected. 
 	 * 
 	 * @param pBaseURL
 	 */
