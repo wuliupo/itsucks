@@ -85,6 +85,17 @@ public class JAXBJobSerialization
 			jobs.getAny().add(beanConverter.convertClassToBean(jobFilter));
 		}
 		
+		//convert context parameter
+		//TODO
+		
+		//convert configuration included in the pJobList
+		BeanConverter beanConverter = manager.getClassConverter(
+				pJobList.getDispatcherConfiguration().getClass());
+		jobs.getAny().add(beanConverter.convertClassToBean(
+				pJobList.getDispatcherConfiguration()));
+		
+		
+		
 		marshaller.marshal(jobs, pOutputStream);
 		
 		pOutputStream.close();
