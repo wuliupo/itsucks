@@ -129,7 +129,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="maxConnectionsPerServer"
-					type="xs:int" />
+					type="xs:int" nillable="true"/>
 				<xs:element name="proxyEnabled" type="xs:boolean"></xs:element>
 				<xs:element name="proxyServer" type="xs:string" nillable="true"></xs:element>
 				<xs:element name="proxyPort" type="xs:int" nillable="true"></xs:element>

@@ -19,7 +19,7 @@ public class HttpRetrieverConfiguration {
 	private String mProxyServer;
 	private Integer mProxyPort;
 	
-	private boolean mProxyAuthenticatenEnabled = false;
+	private boolean mProxyAuthenticationEnabled = false;
 	private String mProxyUser;
 	private String mProxyPassword;
 	private String mProxyRealm;
@@ -49,11 +49,11 @@ public class HttpRetrieverConfiguration {
 	public void setProxyPort(Integer pProxyPort) {
 		mProxyPort = pProxyPort;
 	}
-	public boolean isProxyAuthenticatenEnabled() {
-		return mProxyAuthenticatenEnabled;
+	public boolean isProxyAuthenticationEnabled() {
+		return mProxyAuthenticationEnabled;
 	}
-	public void setProxyAuthenticatenEnabled(boolean pProxyAuthenticatenEnabled) {
-		mProxyAuthenticatenEnabled = pProxyAuthenticatenEnabled;
+	public void setProxyAuthenticationEnabled(boolean pProxyAuthenticationEnabled) {
+		mProxyAuthenticationEnabled = pProxyAuthenticationEnabled;
 	}
 	public String getProxyUser() {
 		return mProxyUser;

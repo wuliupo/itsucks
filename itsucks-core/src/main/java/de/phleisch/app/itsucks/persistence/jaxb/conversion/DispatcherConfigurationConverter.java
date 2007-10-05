@@ -67,7 +67,7 @@ public class DispatcherConfigurationConverter extends AbstractBeanConverter {
 	public List<Class<?>> getSupportedBeanConverter() {
 		
 		Class<?>[] supportedBeanConvertClasses = new Class<?>[] {
-			SerializableDispatcherConfiguration.class,
+			SerializedDispatcherConfiguration.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);

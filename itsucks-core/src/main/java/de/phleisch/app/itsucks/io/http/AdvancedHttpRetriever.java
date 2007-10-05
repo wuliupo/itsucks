@@ -157,7 +157,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
      					pConfiguration.getProxyServer(), 
      					pConfiguration.getProxyPort());
      		}
-     		if(pConfiguration.isProxyAuthenticatenEnabled()) {
+     		if(pConfiguration.isProxyAuthenticationEnabled()) {
      			
      			httpClient.getState().setProxyCredentials(
      					new AuthScope(

@@ -170,7 +170,8 @@
 		<property name="converters">
 			<list>
 				<ref bean="DownloadJobConverter"/>
-				<ref bean="DispatcherConfigurationConverter"/>	
+				<ref bean="DispatcherConfigurationConverter"/>
+				<ref bean="HttpRetrieverConfigurationConverter"/>
 			</list>
 		</property>
 	</bean>
@@ -185,11 +186,17 @@
 		</property>
 	</bean>
 	
-		<bean
+	<bean
 		id="DispatcherConfigurationConverter"
 		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.DispatcherConfigurationConverter"
 		singleton="false">
 	</bean>
+	
+	<bean
+		id="HttpRetrieverConfigurationConverter"
+		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.HttpRetrieverConfigurationConverter"
+		singleton="false">
+	</bean>	
 	
 </beans>
 

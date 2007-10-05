@@ -25,6 +25,7 @@ import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContextParameter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobs;
@@ -137,19 +138,45 @@ public class JAXBJobSerialization
 		
 		for (Object serializedEntry : jobs.getAny()) {
 			
-			BeanConverter beanConverter = 
-				mBeanConverterManager.getBeanConverter(serializedEntry.getClass());
-			if(beanConverter == null) {
-				throw new IllegalStateException("Cannot find bean converter for class: " + serializedEntry.getClass());
-			}
+			
 			
 			if(serializedEntry instanceof SerializedJob) {
+				
+				BeanConverter beanConverter = 
+					mBeanConverterManager.getBeanConverter(serializedEntry.getClass());
+				
 				Job job = (Job) beanConverter.convertBeanToClass(serializedEntry);
 				deserializedJobList.addJob(job);
 			} else if(serializedEntry instanceof SerializedJobFilter) {
+
+				BeanConverter beanConverter = 
+					mBeanConverterManager.getBeanConverter(serializedEntry.getClass());
 				
 				JobFilter jobFilter = (JobFilter) beanConverter.convertBeanToClass(serializedEntry);
 				deserializedJobList.addFilter(jobFilter);
+				
+			} else if(serializedEntry instanceof SerializedContextParameter) {
+				
+				SerializedContextParameter contextParameter = 
+					(SerializedContextParameter) serializedEntry;
+				
+				String key = contextParameter.getName();
+				Object value = contextParameter.getAny().get(0);
+				
+				BeanConverter beanConverter = 
+					mBeanConverterManager.getBeanConverter(value.getClass());
+				deserializedJobList.putContextParameter(key, 
+						beanConverter.convertBeanToClass(value));
+				
+			} else if(serializedEntry instanceof SerializedDispatcherConfiguration) {
+				
+				BeanConverter beanConverter = 
+					mBeanConverterManager.getBeanConverter(serializedEntry.getClass());
+				
+				SerializableDispatcherConfiguration configuration = 
+					(SerializableDispatcherConfiguration) beanConverter.convertBeanToClass(serializedEntry);
+				deserializedJobList.setDispatcherConfiguration(configuration);
+				
 			} else {
 				throw new IllegalStateException("Unknown type found during unmarshalling: " + serializedEntry);
 			}
