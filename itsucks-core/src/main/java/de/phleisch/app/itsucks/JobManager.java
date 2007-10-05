@@ -52,12 +52,13 @@ public class JobManager {
 		pJob.setJobManager(this);
 		pJob.setContext(mContext);
 		
-		int initialState = pJob.getState();
+		// This event must be fired before adding the job to the list.
+		// When adding the job, the job list changes the state and produces
+		// an STATE_CHANGE event. 
 		JobAddedEvent event = 
 			new JobAddedEvent(CoreEvents.EVENT_JOBMANAGER_JOB_ADDED, pJob);
-		event.setInitialState(initialState);
+		event.setInitialState(pJob.getState());
 		mEventDispatcher.fireEvent(event);
-		
 		
 		mJobList.addJob(pJob);
 	}
