@@ -11,7 +11,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
@@ -25,16 +24,16 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.DispatcherImpl;
 import de.phleisch.app.itsucks.DispatcherThread;
+import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
+import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 /**
@@ -55,8 +54,10 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		initComponents();
 	}
 
-	public void addDownload(DownloadJob pDownload, List<JobFilter> pFilterList) {
+	public void addDownload(SerializableJobList pJob) {
 
+		Job pDownloadJob = pJob.getJobs().get(0);
+		
 		//DownloadStatusPanel pane = new DownloadStatusPanel();
 		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
 		
@@ -67,21 +68,33 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			throw new RuntimeException("Can't instatiate dispatcher!");
 		}
 		pane.setDispatcher(dispatcher);
-		pane.setName(pDownload.getName());
+		pane.setName(pDownloadJob.getName());
 
 		//add pane
 		downloadsTabbedPane.add(pane.getName(), pane);
+
+		//apply dispatcher configuration
+		SerializableDispatcherConfiguration dispatcherConfiguration = 
+			pJob.getDispatcherConfiguration();
+		if(dispatcherConfiguration != null) {
+			Integer dispatchDelay = dispatcherConfiguration.getDispatchDelay();
+			if(dispatchDelay != null) {
+				dispatcher.setDispatchDelay(dispatchDelay);
+			}
+			
+			Integer workerThreads = dispatcherConfiguration.getWorkerThreads();
+			if(workerThreads != null) {
+				dispatcher.getWorkerPool().setSize(workerThreads);
+			}
+		}
 		
 		//configure dispatcher
-		dispatcher.addJobFilter(pFilterList);
-		dispatcher.addJob(pDownload);
+		dispatcher.addJobFilter(pJob.getFilters());
+		dispatcher.addJob(pDownloadJob);
 
-		HttpRetrieverConfiguration configuration = new HttpRetrieverConfiguration();
-		configuration.setMaxConnectionsPerServer(1);
-		
-		dispatcher.getContext().setContextParameter(
-				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, 
-				configuration);
+		//add all context parameter
+		dispatcher.getContext().putAllContextParameter(
+				pJob.getContextParameter());
 		
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {

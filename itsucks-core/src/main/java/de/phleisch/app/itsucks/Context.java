@@ -22,6 +22,10 @@ public class Context {
 	public Object getContextParameter(Object pKey) {
 		return mParameters.get(pKey);
 	}
+
+	public void putAllContextParameter(Map<String, Object> contextParameter) {
+		mParameters.putAll(contextParameter);
+	}
 	
 	
 }

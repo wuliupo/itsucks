@@ -18,7 +18,6 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -177,8 +176,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		if (job == null)
 			return;
 
-		mDownloadJobManager.addDownload((DownloadJob) job.getJobs().get(0), job
-				.getFilters());
+		mDownloadJobManager.addDownload(job);
 
 		this.dispose();
 
