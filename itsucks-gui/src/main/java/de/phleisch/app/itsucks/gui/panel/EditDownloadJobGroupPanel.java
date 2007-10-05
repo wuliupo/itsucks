@@ -153,7 +153,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 		
 		if(this.downloadJobBasicPanel.enableAuthenticationCheckBox.isSelected()) {
-			retrieverConfiguration.setProxyAuthenticatenEnabled(true);
+			retrieverConfiguration.setProxyAuthenticationEnabled(true);
 			
 			retrieverConfiguration.setProxyUser(
 					this.downloadJobBasicPanel.authenticationUserTextField.getText());
@@ -161,7 +161,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			retrieverConfiguration.setProxyPassword(
 					this.downloadJobBasicPanel.authenticationPasswordTextField.getText());
 		} else {
-			retrieverConfiguration.setProxyAuthenticatenEnabled(false);
+			retrieverConfiguration.setProxyAuthenticationEnabled(false);
 		}
 		
 		
