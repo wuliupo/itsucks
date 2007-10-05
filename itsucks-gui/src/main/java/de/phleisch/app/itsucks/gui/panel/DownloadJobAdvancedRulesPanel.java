@@ -126,8 +126,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterMatchStatusChangeComboBox.getSelectedItem();
 			matchAction.setAccept((Boolean) selectedItem.getValue());
 			
-			matchAction.setPriorityChange(
-					Integer.parseInt(editAdvancedFilterMatchPrioChangeTextField.getText()));
+			try {
+				matchAction.setPriorityChange(
+						Integer.parseInt(editAdvancedFilterMatchPrioChangeTextField.getText()));
+			} catch(NumberFormatException ex) {
+				editAdvancedFilterMatchPrioChangeTextField.setText(
+						String.valueOf(matchAction.getPriorityChange()));
+			}
 			
 			matchAction.addJobParameter(
 				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 
@@ -141,8 +146,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterNoMatchStatusChangeComboBox.getSelectedItem();
 			noMatchAction.setAccept((Boolean) selectedItem.getValue());
 			
-			noMatchAction.setPriorityChange(
-					Integer.parseInt(editAdvancedFilterNoMatchPrioChangeTextField.getText()));
+			try {
+				noMatchAction.setPriorityChange(
+						Integer.parseInt(editAdvancedFilterNoMatchPrioChangeTextField.getText()));
+			} catch(NumberFormatException ex) {
+				editAdvancedFilterNoMatchPrioChangeTextField.setText(
+						String.valueOf(noMatchAction.getPriorityChange()));
+			}
 			
 			noMatchAction.addJobParameter(
 				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 

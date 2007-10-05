@@ -7,8 +7,11 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.awt.Rectangle;
+import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+
+import de.phleisch.app.itsucks.gui.util.FieldValidator;
 
 /**
  *
@@ -32,6 +35,27 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		initComponents();
 	}
 
+	public List<String> validateFields() {
+		
+		FieldValidator validator = new FieldValidator();
+
+		validator.assertInteger(
+				this.recursionDepthTextField.getText(), 
+				"Enter a valid number for the recursion depth.");		
+		
+		validator.assertInteger(
+				this.linksToFollowTextField.getText(), 
+				"Enter a valid number of links to follow.");
+		
+		if(this.urlPrefixCheckBox.isSelected()) {
+			validator.assertURL(
+					this.urlPrefixTextField.getText(), 
+					"Enter a valid URL prefix.");
+		}
+		
+		return validator.getErrors();
+	}
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is

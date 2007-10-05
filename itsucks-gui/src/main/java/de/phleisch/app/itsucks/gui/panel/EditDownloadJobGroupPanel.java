@@ -290,23 +290,30 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		boolean result = true;
 		
 		List<String> errorsBasicPanel = downloadJobBasicPanel.validateFields();
+		List<String> errorsSimplePanel = downloadJobSimpleRulesPanel.validateFields();
 		
 		if(errorsBasicPanel.size() > 0) {
 			result = false;
 			tabbedPane.setSelectedComponent(downloadJobBasicPanel);
-			
-			StringBuffer buffer = new StringBuffer();
-			for (String string : errorsBasicPanel) {
-				buffer.append(string + '\n');
-			}
-			
-			JOptionPane.showMessageDialog(this,
-					buffer.toString(), "Validation errors",
-					JOptionPane.ERROR_MESSAGE);
+			displayErrors(errorsBasicPanel);
+		} else if(errorsSimplePanel.size() > 0) {
+			result = false;
+			tabbedPane.setSelectedComponent(downloadJobSimpleRulesPanel);
+			displayErrors(errorsSimplePanel);
 		}
 		
-		
 		return result;
+	}
+
+	private void displayErrors(List<String> errorsBasicPanel) {
+		StringBuffer buffer = new StringBuffer();
+		for (String string : errorsBasicPanel) {
+			buffer.append(string + '\n');
+		}
+		
+		JOptionPane.showMessageDialog(this,
+				buffer.toString(), "Validation errors",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	/** This method is called from within the constructor to
