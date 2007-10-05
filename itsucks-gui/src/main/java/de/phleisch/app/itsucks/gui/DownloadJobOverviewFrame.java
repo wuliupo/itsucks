@@ -46,9 +46,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private static final long serialVersionUID = 6628042574113496207L;
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
-	private Map<DispatcherImpl, EventObserver> mEventObserver = 
-		new HashMap<DispatcherImpl, EventObserver>();
-	
+	private Map<DispatcherImpl, EventObserver> mEventObserver = new HashMap<DispatcherImpl, EventObserver>();
+
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
 		initComponents();
@@ -57,10 +56,10 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	public void addDownload(SerializableJobList pJob) {
 
 		Job pDownloadJob = pJob.getJobs().get(0);
-		
+
 		//DownloadStatusPanel pane = new DownloadStatusPanel();
 		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
-		
+
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 				.getApplicationContext().getBean("DispatcherThread");
 
@@ -74,20 +73,20 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		downloadsTabbedPane.add(pane.getName(), pane);
 
 		//apply dispatcher configuration
-		SerializableDispatcherConfiguration dispatcherConfiguration = 
-			pJob.getDispatcherConfiguration();
-		if(dispatcherConfiguration != null) {
+		SerializableDispatcherConfiguration dispatcherConfiguration = pJob
+				.getDispatcherConfiguration();
+		if (dispatcherConfiguration != null) {
 			Integer dispatchDelay = dispatcherConfiguration.getDispatchDelay();
-			if(dispatchDelay != null) {
+			if (dispatchDelay != null) {
 				dispatcher.setDispatchDelay(dispatchDelay);
 			}
-			
+
 			Integer workerThreads = dispatcherConfiguration.getWorkerThreads();
-			if(workerThreads != null) {
+			if (workerThreads != null) {
 				dispatcher.getWorkerPool().setSize(workerThreads);
 			}
 		}
-		
+
 		//configure dispatcher
 		dispatcher.addJobFilter(pJob.getFilters());
 		dispatcher.addJob(pDownloadJob);
@@ -95,11 +94,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		//add all context parameter
 		dispatcher.getContext().putAllContextParameter(
 				pJob.getContextParameter());
-		
+
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
 				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_CORE) {
-					
+
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							updateButtonState();
@@ -109,7 +108,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 				}
 			}
 		};
-		
+
 		mEventObserver.put(dispatcher, observer);
 		dispatcher.getEventManager().registerObserver(observer);
 
@@ -132,14 +131,14 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	}
 
 	private void openAddDownloadDialog() {
-		
+
 		JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
-		.getApplicationContext().getBean("JobSerialization");
-		
+				.getApplicationContext().getBean("JobSerialization");
+
 		SerializableJobList jobList = null;
 		try {
-			jobList = serializationManager.deserialize(
-				this.getClass().getResourceAsStream("/ItSucks_Default_Template.suck"));
+			jobList = serializationManager.deserialize(this.getClass()
+					.getResourceAsStream("/ItSucks_Default_Template.suck"));
 		} catch (Exception e1) {
 
 			mLog.error("Error occured while loading download template", e1);
@@ -149,19 +148,16 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 							+ e1.getMessage(), "Error occured",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 		if (jobList != null) {
-			
+
 			//set defaults
 			DownloadJob job = (DownloadJob) jobList.getJobs().get(0);
-			
-			job.setSavePath(new File(System.getProperty("user.home") 
-					+ File.separatorChar 
-					+ "itsucks" 
-					+ File.separatorChar));
-			
-			EditDownloadJobDialog dialog = new EditDownloadJobDialog(this,
-					this);
+
+			job.setSavePath(new File(System.getProperty("user.home")
+					+ File.separatorChar + "itsucks" + File.separatorChar));
+
+			EditDownloadJobDialog dialog = new EditDownloadJobDialog(this, this);
 			dialog.loadJob(jobList);
 			dialog.setVisible(true);
 		}
@@ -170,8 +166,10 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private void loadDownload() {
 		//open dialog
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileNameExtensionFilter(
-				"ItSucks Download Templates (*.suck)", new String[] { "suck" }));
+		fc
+				.setFileFilter(new FileNameExtensionFilter(
+						"ItSucks Download Templates (*.suck)",
+						new String[] { "suck" }));
 
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(this);
@@ -249,7 +247,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		EventObserver eventObserver = mEventObserver.get(dispatcher);
 		mEventObserver.remove(dispatcher);
 		dispatcher.getEventManager().unregisterObserver(eventObserver);
-		
+
 		downloadsTabbedPane.remove(panel);
 		panel.removeDispatcher();
 
@@ -294,15 +292,17 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			DispatcherThread dispatcher = panel.getDispatcher();
 
 			if (dispatcher.isPaused()) {
-				downloadsTabbedPane.setTitleAt(downloadsTabbedPane
-						.indexOfComponent(panel), panel.getName() + " (paused)");
+				downloadsTabbedPane
+						.setTitleAt(
+								downloadsTabbedPane.indexOfComponent(panel),
+								panel.getName() + " (paused)");
 			} else if (dispatcher.isRunning()) {
 				downloadsTabbedPane.setTitleAt(downloadsTabbedPane
 						.indexOfComponent(panel), panel.getName());
 			} else {
-				downloadsTabbedPane
-						.setTitleAt(downloadsTabbedPane.indexOfComponent(panel),
-								panel.getName() + " (finished)");
+				downloadsTabbedPane.setTitleAt(downloadsTabbedPane
+						.indexOfComponent(panel), panel.getName()
+						+ " (finished)");
 			}
 
 		}
@@ -422,7 +422,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		toolsMenu.setText("Tools");
 		regExpTesterMenuItem.setText("Regular Expression Tester");
-		regExpTesterMenuItem.setEnabled(false);
+		regExpTesterMenuItem
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						regExpTesterMenuItemActionPerformed(evt);
+					}
+				});
+
 		toolsMenu.add(regExpTesterMenuItem);
 
 		logWindowMenuItem.setText("Open log window");
@@ -468,9 +474,19 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								338, Short.MAX_VALUE)));
+								270, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_regExpTesterMenuItemActionPerformed
+	private void regExpTesterMenuItemActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		
+		TestRegularExpressionDialog tester = 
+			new TestRegularExpressionDialog(this);
+		tester.setVisible(true);
+		
+	}//GEN-LAST:event_regExpTesterMenuItemActionPerformed
 
 	//GEN-FIRST:event_logWindowMenuItemActionPerformed
 	private void logWindowMenuItemActionPerformed(java.awt.event.ActionEvent evt) {

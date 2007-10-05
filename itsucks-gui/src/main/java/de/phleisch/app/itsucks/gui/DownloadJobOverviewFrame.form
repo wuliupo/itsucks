@@ -43,8 +43,10 @@
             <MenuItem class="javax.swing.JMenuItem" name="regExpTesterMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Regular Expression Tester"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regExpTesterMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="logWindowMenuItem">
               <Properties>
@@ -107,7 +109,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="toolBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="downloadsTabbedPane" pref="304" max="32767" attributes="0"/>
+              <Component id="downloadsTabbedPane" pref="270" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
