@@ -8,7 +8,6 @@ package de.phleisch.app.itsucks.gui;
 
 import java.awt.Frame;
 import java.io.File;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -18,7 +17,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
@@ -45,8 +43,8 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		initComponents();
 	}
 
-	public void loadJob(DownloadJob pJob, List<JobFilter> pFilters) {
-		this.editDownloadJobGroupPanel.loadJob(pJob, pFilters);
+	public void loadJob(SerializableJobList pJobList) {
+		this.editDownloadJobGroupPanel.loadJob(pJobList);
 	}
 
 	private void saveDownloadTemplate() {

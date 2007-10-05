@@ -138,8 +138,6 @@ public class JAXBJobSerialization
 		
 		for (Object serializedEntry : jobs.getAny()) {
 			
-			
-			
 			if(serializedEntry instanceof SerializedJob) {
 				
 				BeanConverter beanConverter = 

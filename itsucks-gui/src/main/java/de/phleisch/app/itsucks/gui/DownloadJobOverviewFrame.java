@@ -152,11 +152,9 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			if (jobList != null) {
 				//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
 
-				DownloadJob job = (DownloadJob) jobList.getJobs().get(0);
-
 				EditDownloadJobDialog dialog = new EditDownloadJobDialog(this,
 						this);
-				dialog.loadJob(job, jobList.getFilters());
+				dialog.loadJob(jobList);
 				dialog.setVisible(true);
 			}
 

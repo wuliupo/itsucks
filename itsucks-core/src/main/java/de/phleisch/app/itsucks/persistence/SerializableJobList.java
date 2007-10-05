@@ -74,6 +74,10 @@ public class SerializableJobList implements Serializable {
 		return mContextParameter;
 	}
 	
+	public Object getContextParameter(String pKey) {
+		return mContextParameter.get(pKey);
+	}
+	
 	public void putContextParameter(String pKey, Object pValue) {
 		mContextParameter.put(pKey, pValue);
 	}

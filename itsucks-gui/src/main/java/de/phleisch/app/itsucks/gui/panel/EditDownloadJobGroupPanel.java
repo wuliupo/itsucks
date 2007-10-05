@@ -38,7 +38,17 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		initComponents();
 	}
 	
-	public void loadJob(DownloadJob pJob, List<JobFilter> pFilters) {
+	public void loadJob(SerializableJobList pJobList) {
+		
+		DownloadJob pJob = (DownloadJob) pJobList.getJobs().get(0);
+		List<JobFilter> pFilters = pJobList.getFilters();
+		
+		SerializableDispatcherConfiguration dispatcherConfiguration = 
+			pJobList.getDispatcherConfiguration();
+		
+		HttpRetrieverConfiguration httpRetrieverConfiguration = 
+			(HttpRetrieverConfiguration) pJobList.getContextParameter(
+					HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
 		
 		DownloadJobFilter downloadJobFilter = null;
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
@@ -66,6 +76,38 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 				pJob.getSavePath().getAbsolutePath());
 		this.downloadJobBasicPanel.maxRetriesTextField.setText(
 				String.valueOf(pJob.getMaxRetryCount()));
+		
+		if(dispatcherConfiguration != null) {
+			if(dispatcherConfiguration.getWorkerThreads() != null) {
+				this.downloadJobBasicPanel.workingThreadsTextField.setText(
+						String.valueOf(dispatcherConfiguration.getWorkerThreads()));
+			}
+		}
+		
+		if(httpRetrieverConfiguration != null) {
+			
+			if(httpRetrieverConfiguration.getMaxConnectionsPerServer() != null) {
+				this.downloadJobBasicPanel.maxConnectionsTextField.setText(String.valueOf(
+						httpRetrieverConfiguration.getMaxConnectionsPerServer()));
+			}
+			
+			if(httpRetrieverConfiguration.isProxyEnabled()) {
+				this.downloadJobBasicPanel.enableProxyCheckBox.setSelected(true);
+				this.downloadJobBasicPanel.proxyServerTextField.setText(
+						httpRetrieverConfiguration.getProxyServer());
+				this.downloadJobBasicPanel.proxyPortTextField.setText(String.valueOf(
+						httpRetrieverConfiguration.getProxyPort()));
+				
+				if(httpRetrieverConfiguration.isProxyAuthenticationEnabled()) {
+					
+					this.downloadJobBasicPanel.enableAuthenticationCheckBox.setSelected(true);
+					this.downloadJobBasicPanel.authenticationUserTextField.setText(
+							httpRetrieverConfiguration.getProxyUser());
+					this.downloadJobBasicPanel.authenticationPasswordTextField.setText(
+							httpRetrieverConfiguration.getProxyPassword());
+				}
+			}
+		}
 		
 		//load simple rules
 		if(maxLinksToFollowFilter != null) {
@@ -139,12 +181,15 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		dispatcherConfiguration.setWorkerThreads(
 				Integer.parseInt(this.downloadJobBasicPanel.workingThreadsTextField.getText()));
 
+		retrieverConfiguration.setMaxConnectionsPerServer(
+				Integer.parseInt(this.downloadJobBasicPanel.maxConnectionsTextField.getText()));
+		
 		//proxy configuration
 		if(this.downloadJobBasicPanel.enableProxyCheckBox.isSelected()) {
 			retrieverConfiguration.setProxyEnabled(true);
 			
 			retrieverConfiguration.setProxyServer(
-					this.downloadJobBasicPanel.proxyServerLabel.getText());
+					this.downloadJobBasicPanel.proxyServerTextField.getText());
 			
 			retrieverConfiguration.setProxyPort(Integer.parseInt(
 					this.downloadJobBasicPanel.proxyPortTextField.getText()));
