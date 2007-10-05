@@ -55,8 +55,10 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 		//open dialog
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileNameExtensionFilter(
-				"ItSucks Download Templates (*.suck)", new String[] { "suck" }));
+		fc
+				.setFileFilter(new FileNameExtensionFilter(
+						"ItSucks Download Templates (*.suck)",
+						new String[] { "suck" }));
 
 		fc.setSelectedFile(new File("ItSucks_"
 				+ downloadJobList.getJobs().get(0).getName().replace(' ', '_')
@@ -70,16 +72,17 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 					.getApplicationContext().getBean("JobSerialization");
 
 			try {
-				serializationManager.serialize(downloadJobList, fc.getSelectedFile());
+				serializationManager.serialize(downloadJobList, fc
+						.getSelectedFile());
 			} catch (Exception e1) {
 
 				mLog.error("Error occured while saving download template", e1);
 
 				String message = e1.getMessage();
-				if(message == null) {
+				if (message == null) {
 					message = e1.toString();
 				}
-				
+
 				JOptionPane.showMessageDialog(this,
 						"Error occured while saving download template.\n"
 								+ message, "Error occured",
@@ -104,6 +107,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		cancelButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Edit download job");
 		setLocationByPlatform(true);
 
 		startButton.setText("Start download");
@@ -173,7 +177,8 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		if (job == null)
 			return;
 
-		mDownloadJobManager.addDownload((DownloadJob)job.getJobs().get(0), job.getFilters());
+		mDownloadJobManager.addDownload((DownloadJob) job.getJobs().get(0), job
+				.getFilters());
 
 		this.dispose();
 

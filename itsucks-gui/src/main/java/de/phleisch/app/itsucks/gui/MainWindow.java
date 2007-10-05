@@ -9,7 +9,6 @@ package de.phleisch.app.itsucks.gui;
 
 import javax.swing.SwingUtilities;
 
-
 public class MainWindow {
 
 	/**
@@ -24,7 +23,6 @@ public class MainWindow {
 			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
 			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			//UIManager.setLookAndFeel("javax.swing.plaf.synth.SynthLookAndFeel");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -32,11 +30,8 @@ public class MainWindow {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				@SuppressWarnings("unused")
-				
-				DownloadJobOverviewFrame frame2 = new DownloadJobOverviewFrame();
-				frame2.setVisible(true);
-				
+				DownloadJobOverviewFrame frame = new DownloadJobOverviewFrame();
+				frame.setVisible(true);
 			}
 		});
 	}

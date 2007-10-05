@@ -41,6 +41,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		limitsPanel = new javax.swing.JPanel();
+		limitsLabel = new javax.swing.JLabel();
 		recursionDepthLabel = new javax.swing.JLabel();
 		recursionDepthTextField = new javax.swing.JTextField();
 		linksToFollowLabel = new javax.swing.JLabel();
@@ -65,6 +66,10 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 
 		limitsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Limits"));
+		limitsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		limitsLabel
+				.setText("<html>Set a limit to stop crawling when the limit is reached. To disable a limit, enter -1 as value.</html>");
+
 		recursionDepthLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		recursionDepthLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -101,23 +106,36 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																recursionDepthLabel)
-														.add(linksToFollowLabel))
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												limitsPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																false)
-														.add(
-																recursionDepthTextField)
-														.add(
-																linksToFollowTextField,
+																limitsLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																74,
-																Short.MAX_VALUE))
-										.addContainerGap(363, Short.MAX_VALUE)));
+																564,
+																Short.MAX_VALUE)
+														.add(
+																limitsPanelLayout
+																		.createSequentialGroup()
+																		.add(
+																				limitsPanelLayout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.LEADING)
+																						.add(
+																								recursionDepthLabel)
+																						.add(
+																								linksToFollowLabel))
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				limitsPanelLayout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.LEADING,
+																								false)
+																						.add(
+																								recursionDepthTextField)
+																						.add(
+																								linksToFollowTextField,
+																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																								74,
+																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+										.addContainerGap()));
 
 		limitsPanelLayout.linkSize(new java.awt.Component[] {
 				linksToFollowLabel, recursionDepthLabel },
@@ -130,6 +148,9 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 						.add(
 								limitsPanelLayout
 										.createSequentialGroup()
+										.add(limitsLabel)
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												limitsPanelLayout
 														.createParallelGroup(
@@ -344,7 +365,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																hostnameFilterScrollPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																66,
+																56,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -450,7 +471,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 														.add(
 																saveToDiskPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																64,
+																56,
 																Short.MAX_VALUE))
 										.addContainerGap()));
 
@@ -504,13 +525,11 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addPreferredGap(
+								139, Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addContainerGap()));
+								137, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_hostnameFilterAddButtonActionPerformed
@@ -602,6 +621,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 	protected javax.swing.JButton hostnameFilterRemoveButton;
 	protected javax.swing.JScrollPane hostnameFilterScrollPane;
 	protected javax.swing.JTable hostnameFilterTable;
+	protected javax.swing.JLabel limitsLabel;
 	protected javax.swing.JPanel limitsPanel;
 	protected javax.swing.JLabel linksToFollowLabel;
 	protected javax.swing.JTextField linksToFollowTextField;

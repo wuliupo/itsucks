@@ -11,9 +11,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="connectionSettingsPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="basicParametersPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="proxySettingsPanel" alignment="1" max="32767" attributes="0"/>
@@ -25,13 +25,13 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="basicParametersPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="connectionSettingsPanel" min="-2" pref="113" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="connectionSettingsPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="proxySettingsPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="3"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -152,42 +152,40 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="workingThreadsLabel" linkSize="3" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="maxConnectionsLabel" linkSize="3" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="maxRetriesLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="workingThreadsLabel" linkSize="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="maxRetriesTextField" linkSize="7" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="maxConnectionsTextField" linkSize="7" max="32767" attributes="1"/>
-                          <Component id="workingThreadsTextField" linkSize="7" alignment="0" pref="46" max="32767" attributes="1"/>
-                      </Group>
+                      <Component id="workingThreadsTextField" linkSize="7" pref="46" max="32767" attributes="1"/>
+                      <Component id="maxConnectionsTextField" linkSize="7" alignment="0" min="-2" max="-2" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="210" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="workingThreadsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="workingThreadsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="workingThreadsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="maxConnectionsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="maxConnectionsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="maxRetriesLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="maxRetriesTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

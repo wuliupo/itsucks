@@ -223,41 +223,34 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 										.add(
 												connectionSettingsPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
+																org.jdesktop.layout.GroupLayout.TRAILING)
 														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																workingThreadsLabel)
-														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
 																maxConnectionsLabel)
+														.add(maxRetriesLabel)
 														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																maxRetriesLabel))
+																workingThreadsLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												connectionSettingsPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																false)
+																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																maxRetriesTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																46,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
-																connectionSettingsPanelLayout
-																		.createParallelGroup(
-																				org.jdesktop.layout.GroupLayout.LEADING,
-																				false)
-																		.add(
-																				maxConnectionsTextField)
-																		.add(
-																				workingThreadsTextField,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				46,
-																				Short.MAX_VALUE)))
-										.addContainerGap(210, Short.MAX_VALUE)));
+																workingThreadsTextField,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																46,
+																Short.MAX_VALUE)
+														.add(
+																maxConnectionsTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap()));
 
 		connectionSettingsPanelLayout.linkSize(new java.awt.Component[] {
 				maxConnectionsLabel, workingThreadsLabel },
@@ -282,12 +275,12 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																workingThreadsLabel)
-														.add(
 																workingThreadsTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																workingThreadsLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -302,9 +295,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
+												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												connectionSettingsPanelLayout
 														.createParallelGroup(
@@ -315,7 +306,9 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.add(16, 16, 16)));
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
 		proxySettingsPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Proxy Settings"));
@@ -541,18 +534,20 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
+				org.jdesktop.layout.GroupLayout.TRAILING,
 				layout.createSequentialGroup().addContainerGap().add(
 						layout.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING).add(
+								org.jdesktop.layout.GroupLayout.TRAILING).add(
+								org.jdesktop.layout.GroupLayout.LEADING,
 								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).add(basicParametersPanel,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE).add(
-								org.jdesktop.layout.GroupLayout.TRAILING,
-								proxySettingsPanel,
+								org.jdesktop.layout.GroupLayout.LEADING,
+								basicParametersPanel,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).add(proxySettingsPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)).addContainerGap()));
@@ -567,7 +562,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								connectionSettingsPanel,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-								113,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
