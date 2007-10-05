@@ -7,6 +7,10 @@
  */
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author  olli
@@ -70,6 +74,11 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		savePathLabel.setText("Save path:");
 
 		savePathButton.setText("Browse");
+		savePathButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				savePathButtonActionPerformed(evt);
+			}
+		});
 
 		org.jdesktop.layout.GroupLayout basicParametersPanelLayout = new org.jdesktop.layout.GroupLayout(
 				basicParametersPanel);
@@ -574,6 +583,23 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_savePathButtonActionPerformed
+	private void savePathButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		//open dialog
+		JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		fc.setSelectedFile(new File(this.savePathTextField.getText()));
+		
+		//Show load dialog; this method does not return until the dialog is closed
+		int result = fc.showOpenDialog(this);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			this.savePathTextField.setText(fc.getSelectedFile().getAbsolutePath());
+		}
+		
+	}//GEN-LAST:event_savePathButtonActionPerformed
 
 	//GEN-FIRST:event_enableProxyCheckBoxStateChanged
 	private void enableProxyCheckBoxStateChanged(
