@@ -8,8 +8,11 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFileChooser;
+
+import de.phleisch.app.itsucks.gui.util.FieldValidator;
 
 /**
  *
@@ -24,6 +27,67 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		initComponents();
 	}
 
+	public List<String> validateFields() {
+		
+		FieldValidator validator = new FieldValidator();
+		
+		validator.assertNotEmpty(
+				this.nameTextField.getText(), 
+				"Enter a valid name.");
+		
+		validator.assertURL(
+				this.urlTextField.getText(), 
+				"Enter a valid URL.");
+		
+		if(validator.assertNotEmpty(
+				this.savePathTextField.getText(), 
+				"Enter a valid path to save files.")) {
+			
+			File path = new File(this.savePathTextField.getText());
+			if(!path.exists()) {
+				validator.addError("Path to save files does not exist.");
+			} else if(!path.canWrite()) {
+				validator.addError("Path to save files is not writable.");
+			}
+		}
+		
+		validator.assertInteger(
+				this.workingThreadsTextField.getText(), 
+				"Enter a valid number of working threads.");
+		
+		validator.assertInteger(
+				this.maxConnectionsTextField.getText(), 
+				"Enter a valid number of max. connections per server.");
+		
+		validator.assertInteger(
+				this.maxRetriesTextField.getText(), 
+				"Enter a valid number of max. retries.");
+		
+		if(this.enableProxyCheckBox.isSelected()) {
+			
+			validator.assertNotEmpty(
+					this.proxyServerTextField.getText(), 
+					"Enter a valid proxy server.");
+			
+			validator.assertInteger(
+					this.proxyPortTextField.getText(), 
+					"Enter a valid proxy port.");
+		}
+		
+		if(this.enableAuthenticationCheckBox.isSelected()) {
+			
+			validator.assertNotEmpty(
+					this.authenticationUserTextField.getText(), 
+					"Enter a valid proxy user.");
+			
+			validator.assertNotEmpty(
+					this.authenticationPasswordTextField.getText(), 
+					"Enter a valid proxy password.");
+		}
+		
+		return validator.getErrors();
+	}
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is

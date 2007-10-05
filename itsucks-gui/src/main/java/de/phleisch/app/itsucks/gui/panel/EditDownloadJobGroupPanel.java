@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
@@ -154,6 +156,8 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	
 	public SerializableJobList buildJob() {
 		
+		if(!validatePanels()) return null;
+		
 		JobFactory jobFactory =  (JobFactory) 
 		SpringContextSingelton.getApplicationContext().getBean("JobFactory");
 		DownloadJob job = jobFactory.createDownloadJob();
@@ -277,6 +281,30 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		result.putContextParameter(
 				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, 
 				retrieverConfiguration);
+		
+		return result;
+	}
+
+	private boolean validatePanels() {
+		
+		boolean result = true;
+		
+		List<String> errorsBasicPanel = downloadJobBasicPanel.validateFields();
+		
+		if(errorsBasicPanel.size() > 0) {
+			result = false;
+			tabbedPane.setSelectedComponent(downloadJobBasicPanel);
+			
+			StringBuffer buffer = new StringBuffer();
+			for (String string : errorsBasicPanel) {
+				buffer.append(string + '\n');
+			}
+			
+			JOptionPane.showMessageDialog(this,
+					buffer.toString(), "Validation errors",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 		
 		return result;
 	}
