@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilterRule;
 
 public class DownloadJobConverter extends AbstractBeanConverter {
 
-	private ObjectFactory mBeanFactory = null;
+	private ObjectFactory mBeanFactory = new ObjectFactory();
 	private JobFactory mJobFactory;
 	
 	public Object convertBeanToClass(Object pBean) throws Exception {
@@ -276,12 +277,33 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedFilterAction;
 	}
 
-	public void setBeanFactory(ObjectFactory pBeanFactory) {
-		mBeanFactory = pBeanFactory;
-	}
-
 	public void setJobFactory(JobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
+	}
+
+	
+	public List<Class<?>> getSupportedBeanConverter() {
+		
+		Class<?>[] supportedBeanConvertClasses = new Class<?>[] {
+			SerializedDownloadJob.class,
+			SerializedDownloadJobFilter.class,
+			SerializedMaxLinksToFollowFilter.class,
+			SerializedRegExpJobFilter.class,
+		};
+		
+		return Arrays.asList(supportedBeanConvertClasses);
+	}
+
+	public List<Class<?>> getSupportedClassConverter() {
+		
+		Class<?>[] supportedClassConvertClasses = new Class<?>[] {
+			DownloadJob.class,
+			DownloadJobFilter.class,
+			MaxLinksToFollowFilter.class,
+			RegExpJobFilter.class,
+		};
+		
+		return Arrays.asList(supportedClassConvertClasses);
 	}
 
 }

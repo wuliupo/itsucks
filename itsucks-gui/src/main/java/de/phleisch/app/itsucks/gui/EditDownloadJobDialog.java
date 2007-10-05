@@ -77,9 +77,14 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 				mLog.error("Error occured while saving download template", e1);
 
+				String message = e1.getMessage();
+				if(message == null) {
+					message = e1.toString();
+				}
+				
 				JOptionPane.showMessageDialog(this,
 						"Error occured while saving download template.\n"
-								+ e1.getMessage(), "Error occured",
+								+ message, "Error occured",
 						JOptionPane.ERROR_MESSAGE);
 			}
 

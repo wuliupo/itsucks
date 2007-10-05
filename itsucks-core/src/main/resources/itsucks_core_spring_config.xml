@@ -155,7 +155,40 @@
 		<property name="jobFactory">
 			<ref bean="JobFactory"/>
 		</property>
+
+		<property name="beanConverterManager">
+			<ref bean="BeanConverterManager"/>
+		</property>
+
+	</bean>
+
+	<bean
+		id="BeanConverterManager"
+		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverterManager"
+		singleton="false">
 		
+		<property name="converters">
+			<list>
+				<ref bean="DownloadJobConverter"/>
+				<ref bean="DispatcherConfigurationConverter"/>	
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		id="DownloadJobConverter"
+		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.DownloadJobConverter"
+		singleton="false">
+		
+		<property name="jobFactory">
+			<ref bean="JobFactory"/>
+		</property>
+	</bean>
+	
+		<bean
+		id="DispatcherConfigurationConverter"
+		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.DispatcherConfigurationConverter"
+		singleton="false">
 	</bean>
 	
 </beans>

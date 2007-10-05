@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BeanConverterManager {
@@ -27,8 +28,15 @@ public class BeanConverterManager {
 	 * @param pBean
 	 * @param pConverter
 	 */
-	public BeanConverter getClassConverter(Class<?> pClass) {
-		return mClassConverter.get(pClass);
+	public BeanConverter getClassConverter(Class<?> pClass) 
+			throws ConversionNotSupportedException {
+		
+		BeanConverter converter = mClassConverter.get(pClass);
+		if(converter == null) {
+			throw new ConversionNotSupportedException("Conversion not supported: " + pClass.getName());
+		}
+		
+		return converter;
 	}
 
 	/**
@@ -37,8 +45,47 @@ public class BeanConverterManager {
 	 * @param pBean
 	 * @param pConverter
 	 */
-	public BeanConverter getBeanConverter(Class<?> pBean) {
-		return mBeanConverter.get(pBean);
+	public BeanConverter getBeanConverter(Class<?> pBean) 
+			throws ConversionNotSupportedException {
+		
+		BeanConverter converter = mBeanConverter.get(pBean);
+		
+		if(converter == null) {
+			throw new ConversionNotSupportedException("Conversion not supported: " + pBean.getName());
+		}
+		
+		return converter;
+	}
+	
+	/**
+	 * Register all supported convert abilities from the converter.
+	 * @param pConverer
+	 */
+	public void setConverters(List<BeanConverter> pConverterList) {
+		for (BeanConverter beanConverter : pConverterList) {
+			registerConverter(beanConverter);
+		}
+	}
+	
+	/**
+	 * Register all supported convert abilities from the converter.
+	 * @param pConverer
+	 */
+	public void registerConverter(BeanConverter pConverter) {
+		
+		List<Class<?>> supportedClassConverter = 
+			pConverter.getSupportedClassConverter();
+		
+		for (Class<?> class1 : supportedClassConverter) {
+			registerClassConverter(class1, pConverter);
+		}
+		
+		List<Class<?>> supportedBeanConverter = 
+			pConverter.getSupportedBeanConverter();
+		
+		for (Class<?> class1 : supportedBeanConverter) {
+			registerBeanConverter(class1, pConverter);
+		}
 	}
 	
 	/**
@@ -62,4 +109,24 @@ public class BeanConverterManager {
 		mClassConverter.put(pClass, pConverter);
 	}
 	
+	private class ConversionNotSupportedException extends Exception {
+
+		private static final long serialVersionUID = -5316702756221123193L;
+
+		public ConversionNotSupportedException() {
+			super();
+		}
+
+		public ConversionNotSupportedException(String pMessage, Throwable pCause) {
+			super(pMessage, pCause);
+		}
+
+		public ConversionNotSupportedException(String pMessage) {
+			super(pMessage);
+		}
+
+		public ConversionNotSupportedException(Throwable pCause) {
+			super(pCause);
+		}
+	}
 }

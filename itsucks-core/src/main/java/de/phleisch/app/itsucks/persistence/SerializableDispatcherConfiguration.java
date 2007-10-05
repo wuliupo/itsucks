@@ -8,7 +8,12 @@
 
 package de.phleisch.app.itsucks.persistence;
 
-public class SerializableDispatcherConfiguration {
+import java.io.Serializable;
+
+public class SerializableDispatcherConfiguration implements Serializable {
+	
+	private static final long serialVersionUID = -3337563079037751258L;
+	
 	private Integer mWorkerThreads;
 	private Integer mDispatchDelay;
 	

@@ -10,6 +10,8 @@ package de.phleisch.app.itsucks.persistence;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,22 +22,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter;
-import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
-import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
-import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedContextParameter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobs;
-import de.phleisch.app.itsucks.persistence.jaxb.SerializedMaxLinksToFollowFilter;
-import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverter;
 import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverterManager;
-import de.phleisch.app.itsucks.persistence.jaxb.conversion.DownloadJobConverter;
 
 /**
  * This class implements the JobSerialization interface using the 
@@ -50,6 +44,8 @@ public class JAXBJobSerialization
 
 	@SuppressWarnings("unused")
 	private ApplicationContext mContext;
+	
+	private BeanConverterManager mBeanConverterManager;
 	
 	public JAXBJobSerialization() {
 	}
@@ -67,58 +63,59 @@ public class JAXBJobSerialization
 				   new Boolean(true));
 
 		ObjectFactory beanFactory = new ObjectFactory();
-		BeanConverterManager manager = getBeanConverterManager(beanFactory);
-		
 		
 		SerializedJobs jobs = beanFactory.createSerializedJobs();
 		jobs.setVersion("1.0");
 		
 		//convert jobs included in the pJobList
 		for (Job job : pJobList.getJobs()) {
-			BeanConverter beanConverter = manager.getClassConverter(job.getClass());
+			BeanConverter beanConverter = 
+				mBeanConverterManager.getClassConverter(job.getClass());
 			jobs.getAny().add(beanConverter.convertClassToBean(job));
 		}
 		
 		//convert filter included in the pJobList
 		for (JobFilter jobFilter : pJobList.getFilters()) {
-			BeanConverter beanConverter = manager.getClassConverter(jobFilter.getClass());
+			BeanConverter beanConverter = 
+				mBeanConverterManager.getClassConverter(jobFilter.getClass());
 			jobs.getAny().add(beanConverter.convertClassToBean(jobFilter));
 		}
 		
 		//convert context parameter
-		//TODO
+		if(pJobList.getContextParameter() != null) {
+			
+			Set<Entry<String, Object>> entrySet = 
+				pJobList.getContextParameter().entrySet();
+
+			for (Entry<String, Object> entry : entrySet) {
+				
+				BeanConverter beanConverter = mBeanConverterManager.getClassConverter(
+						entry.getValue().getClass());
+				
+				SerializedContextParameter serializedContextParameter = 
+					beanFactory.createSerializedContextParameter();
+				
+				serializedContextParameter.setName(entry.getKey());
+				serializedContextParameter.getAny().add(
+						beanConverter.convertClassToBean(entry.getValue()));
+
+				jobs.getAny().add(serializedContextParameter);
+			}
+			
+		}
 		
 		//convert configuration included in the pJobList
-		BeanConverter beanConverter = manager.getClassConverter(
-				pJobList.getDispatcherConfiguration().getClass());
-		jobs.getAny().add(beanConverter.convertClassToBean(
-				pJobList.getDispatcherConfiguration()));
+		if(pJobList.getDispatcherConfiguration() != null) {
+			BeanConverter beanConverter = mBeanConverterManager.getClassConverter(
+					pJobList.getDispatcherConfiguration().getClass());
+			jobs.getAny().add(beanConverter.convertClassToBean(
+					pJobList.getDispatcherConfiguration()));
+		}
 		
-		
-		
+
 		marshaller.marshal(jobs, pOutputStream);
 		
 		pOutputStream.close();
-	}
-
-	private BeanConverterManager getBeanConverterManager(ObjectFactory beanFactory) {
-		//TODO move to spring
-		BeanConverterManager manager = new BeanConverterManager();
-		DownloadJobConverter converter = new DownloadJobConverter();
-		converter.setBeanFactory(beanFactory);
-		converter.setJobFactory(mJobFactory);
-		
-		manager.registerClassConverter(DownloadJob.class, converter);
-		manager.registerClassConverter(DownloadJobFilter.class, converter);
-		manager.registerClassConverter(MaxLinksToFollowFilter.class, converter);
-		manager.registerClassConverter(RegExpJobFilter.class, converter);
-		
-		manager.registerBeanConverter(SerializedDownloadJob.class, converter);
-		manager.registerBeanConverter(SerializedDownloadJobFilter.class, converter);
-		manager.registerBeanConverter(SerializedMaxLinksToFollowFilter.class, converter);
-		manager.registerBeanConverter(SerializedRegExpJobFilter.class, converter);
-		
-		return manager;
 	}
 
 	private JAXBContext createJAXBContext() throws JAXBException {
@@ -134,15 +131,14 @@ public class JAXBJobSerialization
 		SerializableJobList deserializedJobList = new SerializableJobList();
 		
 		JAXBContext jc = createJAXBContext();
-		ObjectFactory beanFactory = new ObjectFactory();
-		BeanConverterManager manager = getBeanConverterManager(beanFactory);
 		
 		Unmarshaller unmarshaller = jc.createUnmarshaller();
 		SerializedJobs jobs = (SerializedJobs) unmarshaller.unmarshal(pInputStream);
 		
 		for (Object serializedEntry : jobs.getAny()) {
 			
-			BeanConverter beanConverter = manager.getBeanConverter(serializedEntry.getClass());
+			BeanConverter beanConverter = 
+				mBeanConverterManager.getBeanConverter(serializedEntry.getClass());
 			if(beanConverter == null) {
 				throw new IllegalStateException("Cannot find bean converter for class: " + serializedEntry.getClass());
 			}
@@ -165,6 +161,14 @@ public class JAXBJobSerialization
 	
 	public void setApplicationContext(ApplicationContext pContext) {
 		mContext = pContext;
+	}
+
+	public BeanConverterManager getBeanConverterManager() {
+		return mBeanConverterManager;
+	}
+
+	public void setBeanConverterManager(BeanConverterManager pBeanConverterManager) {
+		mBeanConverterManager = pBeanConverterManager;
 	}
 
 }

@@ -58,8 +58,8 @@
 	<xs:element name="serializedDispatcherConfiguration">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="workerThreads" type="xs:int" />
-				<xs:element name="dispatchDelay" type="xs:int"></xs:element>
+				<xs:element name="workerThreads" type="xs:int" nillable="true"/>
+				<xs:element name="dispatchDelay" type="xs:int" nillable="true"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
