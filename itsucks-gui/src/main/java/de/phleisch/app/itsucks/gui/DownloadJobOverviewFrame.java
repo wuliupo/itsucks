@@ -9,6 +9,7 @@ package de.phleisch.app.itsucks.gui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,8 +119,39 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	}
 
 	private void openAddDownloadDialog() {
-		EditDownloadJobDialog frame = new EditDownloadJobDialog(this, this);
-		frame.setVisible(true);
+		
+		JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
+		.getApplicationContext().getBean("JobSerialization");
+		
+		SerializableJobList jobList = null;
+		try {
+			jobList = serializationManager.deserialize(
+				this.getClass().getResourceAsStream("/ItSucks_Default_Template.suck"));
+		} catch (Exception e1) {
+
+			mLog.error("Error occured while loading download template", e1);
+
+			JOptionPane.showMessageDialog(this,
+					"Error occured while loading download template.\n"
+							+ e1.getMessage(), "Error occured",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if (jobList != null) {
+			
+			//set defaults
+			DownloadJob job = (DownloadJob) jobList.getJobs().get(0);
+			
+			job.setSavePath(new File(System.getProperty("user.home") 
+					+ File.separatorChar 
+					+ "itsucks" 
+					+ File.separatorChar));
+			
+			EditDownloadJobDialog dialog = new EditDownloadJobDialog(this,
+					this);
+			dialog.loadJob(jobList);
+			dialog.setVisible(true);
+		}
 	}
 
 	private void loadDownload() {
