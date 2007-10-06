@@ -444,11 +444,17 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		menuBar.add(toolsMenu);
 
 		helpMenu.setText("Help");
-		helpMenu.setEnabled(false);
 		contentsMenuItem.setText("Contents");
+		contentsMenuItem.setEnabled(false);
 		helpMenu.add(contentsMenuItem);
 
 		aboutMenuItem.setText("About");
+		aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				aboutMenuItemActionPerformed(evt);
+			}
+		});
+
 		helpMenu.add(aboutMenuItem);
 
 		menuBar.add(helpMenu);
@@ -474,9 +480,17 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								360, Short.MAX_VALUE)));
+								258, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_aboutMenuItemActionPerformed
+	private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+
+		AboutDialog about = new AboutDialog(this, true);
+		about.setVisible(true);
+
+	}//GEN-LAST:event_aboutMenuItemActionPerformed
 
 	//GEN-FIRST:event_regExpTesterMenuItemActionPerformed
 	private void regExpTesterMenuItemActionPerformed(
