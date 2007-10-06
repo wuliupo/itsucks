@@ -1,15 +1,11 @@
-/* Copyright (C) 2006-2007 Oliver Mihatsch (banishedknight@users.sf.net)
- * This is free software distributed under the terms of the
- * GNU Public License.  See the file COPYING for details. 
+/*
+ * EditRegularExpression2Panel.java
  *
- * $Id$
- * Created on 21.01.2007
+ * Created on __DATE__, __TIME__
  */
 
 package de.phleisch.app.itsucks.gui.panel;
 
-import java.awt.Font;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,256 +13,337 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
-public class EditRegularExpressionPanel extends JPanel {
+/**
+ *
+ * @author  __USER__
+ */
+public class EditRegularExpressionPanel extends javax.swing.JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JScrollPane jRegExpPane = null;
-	private JScrollPane jTestTextPane = null;
-	private JTextArea jTestTextField = null;
-	private JTextArea jRegExpField = null;
-	private JLabel jTestTextLabel = null;
-	private JLabel jRegExpLabel = null;
-	private JRadioButton jPartialRadioButton = null;
-	private JRadioButton jFullRadioButton = null;
-	private JButton jTestButton = null;
-	private JLabel jResultLabel = null;
-	private JLabel jMatchLabel = null;
-	private JScrollPane jHelpTextPane = null;
-	private JLabel jHelpText = null;
-	
-	/**
-	 * This is the default constructor
-	 */
+	private static final long serialVersionUID = -3119407899490219128L;
+
+	/** Creates new form EditRegularExpression2Panel */
 	public EditRegularExpressionPanel() {
-		super();
-		initialize();
-	}
+		initComponents();
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
-	private void initialize() {
-		
-		jMatchLabel = new JLabel();
-		jMatchLabel.setBounds(new Rectangle(380, 300, 81, 21));
-		jMatchLabel.setText("");
-		jResultLabel = new JLabel();
-		jResultLabel.setBounds(new Rectangle(300, 300, 71, 21));
-		jResultLabel.setHorizontalTextPosition(SwingConstants.LEADING);
-		jResultLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		jResultLabel.setText("Result:");
-		jRegExpLabel = new JLabel();
-		jRegExpLabel.setBounds(new Rectangle(20, 20, 271, 21));
-		jRegExpLabel.setText("Regular Expression:");
-		jTestTextLabel = new JLabel();
-		jTestTextLabel.setBounds(new Rectangle(20, 200, 261, 21));
-		jTestTextLabel.setText("Test text for regular expressions:");
-		this.setLayout(null);
-		this.setSize(898, 359);
-		this.add(getJHelpTextPane(), null);
-		this.add(jRegExpLabel, null);
-		this.add(getJRegExpPane(), null);
-		this.add(jTestTextLabel, null);
-		this.add(getJTestTextPane(), null);
-		this.add(getJPartialRadioButton(), null);
-		this.add(getJFullRadioButton(), null);
-		this.add(getJTestButton(), null);
-		this.add(jResultLabel, null);
-		this.add(jMatchLabel, null);
-		
-		ButtonGroup group = new ButtonGroup();
-		group.add(getJPartialRadioButton());
-		group.add(getJFullRadioButton());
-	}
-
-	/**
-	 * This method initializes jRegExpPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */
-	private JScrollPane getJRegExpPane() {
-		if (jRegExpPane == null) {
-			jRegExpPane = new JScrollPane();
-			jRegExpPane.setBounds(new Rectangle(20, 40, 441, 131));
-			jRegExpPane.setViewportView(getJRegExpField());
+		try {
+			StringBuffer helpText = loadHelpText();
+			this.docuLabel.setText(helpText.toString());
+		} catch (IOException e) {
+			this.docuLabel.setText("Error loading help!");
 		}
-		return jRegExpPane;
-	}
-
-	/**
-	 * This method initializes jTestTextPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */
-	private JScrollPane getJTestTextPane() {
-		if (jTestTextPane == null) {
-			jTestTextPane = new JScrollPane();
-			jTestTextPane.setBounds(new Rectangle(20, 220, 441, 61));
-			jTestTextPane.setViewportView(getJTestTextField());
-		}
-		return jTestTextPane;
-	}
-
-	/**
-	 * This method initializes jTestTextField	
-	 * 	
-	 * @return javax.swing.JTextArea	
-	 */
-	private JTextArea getJTestTextField() {
-		if (jTestTextField == null) {
-			jTestTextField = new JTextArea();
-		}
-		return jTestTextField;
-	}
-
-	/**
-	 * This method initializes jRegExpField	
-	 * 	
-	 * @return javax.swing.JTextArea	
-	 */
-	private JTextArea getJRegExpField() {
-		if (jRegExpField == null) {
-			jRegExpField = new JTextArea();
-		}
-		return jRegExpField;
-	}
-
-	/**
-	 * This method initializes jPartialRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
-	 */
-	private JRadioButton getJPartialRadioButton() {
-		if (jPartialRadioButton == null) {
-			jPartialRadioButton = new JRadioButton();
-			jPartialRadioButton.setBounds(new Rectangle(20, 290, 111, 21));
-			jPartialRadioButton.setSelected(true);
-			jPartialRadioButton.setText("Partial match");
-		}
-		return jPartialRadioButton;
-	}
-
-	/**
-	 * This method initializes jFullRadioButton	
-	 * 	
-	 * @return javax.swing.JRadioButton	
-	 */
-	private JRadioButton getJFullRadioButton() {
-		if (jFullRadioButton == null) {
-			jFullRadioButton = new JRadioButton();
-			jFullRadioButton.setBounds(new Rectangle(20, 310, 101, 21));
-			jFullRadioButton.setText("Full match");
-		}
-		return jFullRadioButton;
-	}
-
-	/**
-	 * This method initializes jTestButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJTestButton() {
-		if (jTestButton == null) {
-			jTestButton = new JButton();
-			jTestButton.setBounds(new Rectangle(160, 300, 121, 21));
-			jTestButton.setText("Test it");
-			jTestButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					//<html><font color=\"green\">match</font></html>
-					String regExp = jRegExpField.getText();
-					String testText = jTestTextField.getText();
-					
-					Pattern pattern = null;
-					try {
-						pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
-					} catch(PatternSyntaxException ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage(), 
-								"Regular expression error", JOptionPane.ERROR_MESSAGE );
-						return;
-					}
-					
-					Matcher m = pattern.matcher(testText);
-					
-					boolean result = false;
-					if(jPartialRadioButton.isSelected()) {
-						result = m.find();
-					} else if(jFullRadioButton.isSelected()) {
-						result = m.matches();
-					}
-					
-					if(result) {
-						jMatchLabel.setText("<html><font color=\"green\">match</font></html>");
-					} else {
-						jMatchLabel.setText("<html><font color=\"red\">no match</font></html>");
-					}
-				}
-			});
-		}
-		return jTestButton;
-	}
-
-	/**
-	 * This method initializes jHelpTextPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */
-	private JScrollPane getJHelpTextPane() {
-		if (jHelpTextPane == null) {
-			jHelpText = new JLabel();
-			
-			StringBuffer text;
-			try {
-				text = loadHelpText();
-			} catch (IOException e) {
-				text = new StringBuffer(e.getMessage());
-			}
-			jHelpText.setText(text.toString());
-			jHelpText.setFont(new Font("Dialog", Font.PLAIN, 10));
-			jHelpTextPane = new JScrollPane();
-			jHelpTextPane.setBounds(new Rectangle(470, 10, 421, 341));
-			jHelpTextPane.setViewportView(jHelpText);
-		}
-		return jHelpTextPane;
 	}
 
 	private StringBuffer loadHelpText() throws IOException {
 		StringBuffer text = new StringBuffer();
-		
-		InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("RegularExpressionHelp.html");
-		if(resourceAsStream == null) {
+
+		InputStream resourceAsStream = getClass().getClassLoader()
+				.getResourceAsStream("RegularExpressionHelp.html");
+		if (resourceAsStream == null) {
 			text.append("Error loading help text!");
 			return text;
 		}
-		
+
 		InputStreamReader reader = new InputStreamReader(resourceAsStream);
-		
-		char buffer[] = new char[1024]; 
-		while(reader.ready()) {
+
+		char buffer[] = new char[1024];
+		while (reader.ready()) {
 			int read = reader.read(buffer);
 			text.append(buffer, 0, read);
 		}
 		reader.close();
 		return text;
 	}
-	
-	public void setRegularExpression(String pExpression) {
-		this.jRegExpField.setText(pExpression);
-	}
-	
+
 	public String getRegularExpression() {
-		return this.jRegExpField.getText();
+		return this.regularExpressionTextArea.getText();
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="26,15"
+	public void setRegularExpression(String pExpression) {
+		this.regularExpressionTextArea.setText(pExpression);
+	}
+	
+	/** This method is called from within the constructor to
+	 * initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is
+	 * always regenerated by the Form Editor.
+	 */
+	//GEN-BEGIN:initComponents
+	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
+	private void initComponents() {
+		matchingButtonGroup = new javax.swing.ButtonGroup();
+		regularExpressionLabel = new javax.swing.JLabel();
+		regularExpressionScrollPane = new javax.swing.JScrollPane();
+		regularExpressionTextArea = new javax.swing.JTextArea();
+		testTextLabel = new javax.swing.JLabel();
+		testTextScrollPane = new javax.swing.JScrollPane();
+		testTextTextArea = new javax.swing.JTextArea();
+		partialMatchRadioButton = new javax.swing.JRadioButton();
+		fullMatchRadioButton = new javax.swing.JRadioButton();
+		testButton = new javax.swing.JButton();
+		resultLabel = new javax.swing.JLabel();
+		matchResultLabel = new javax.swing.JLabel();
+		docuScrollPane = new javax.swing.JScrollPane();
+		docuLabel = new javax.swing.JLabel();
+
+		regularExpressionLabel.setText("Regular Expression:");
+
+		regularExpressionTextArea.setColumns(20);
+		regularExpressionTextArea.setLineWrap(true);
+		regularExpressionTextArea.setRows(5);
+		regularExpressionScrollPane.setViewportView(regularExpressionTextArea);
+
+		testTextLabel.setText("Test text for regular expression:");
+
+		testTextTextArea.setColumns(20);
+		testTextTextArea.setLineWrap(true);
+		testTextTextArea.setRows(5);
+		testTextScrollPane.setViewportView(testTextTextArea);
+
+		matchingButtonGroup.add(partialMatchRadioButton);
+		partialMatchRadioButton.setSelected(true);
+		partialMatchRadioButton.setText("Partial match");
+		partialMatchRadioButton.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		partialMatchRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+		matchingButtonGroup.add(fullMatchRadioButton);
+		fullMatchRadioButton.setText("Full match");
+		fullMatchRadioButton.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		fullMatchRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+		testButton.setText("Test it");
+		testButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				testButtonActionPerformed(evt);
+			}
+		});
+
+		resultLabel.setText("Result:");
+
+		matchResultLabel.setText(" ");
+
+		docuLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+		docuLabel.setText("Docu");
+		docuScrollPane.setViewportView(docuLabel);
+
+		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
+				this);
+		this.setLayout(layout);
+		layout
+				.setHorizontalGroup(layout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.add(
+												layout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.LEADING)
+														.add(
+																testTextLabel,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																437,
+																Short.MAX_VALUE)
+														.add(
+																layout
+																		.createSequentialGroup()
+																		.add(
+																				layout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.LEADING)
+																						.add(
+																								fullMatchRadioButton)
+																						.add(
+																								partialMatchRadioButton))
+																		.add(
+																				42,
+																				42,
+																				42)
+																		.add(
+																				testButton,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				126,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				resultLabel,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				56,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				matchResultLabel,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				47,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																layout
+																		.createSequentialGroup()
+																		.add(
+																				regularExpressionLabel,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				437,
+																				Short.MAX_VALUE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED))
+														.add(
+																regularExpressionScrollPane,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																437,
+																Short.MAX_VALUE)
+														.add(
+																testTextScrollPane,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																437,
+																Short.MAX_VALUE))
+										.add(23, 23, 23)
+										.add(
+												docuScrollPane,
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												420, Short.MAX_VALUE)
+										.addContainerGap()));
+		layout
+				.setVerticalGroup(layout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								layout
+										.createSequentialGroup()
+										.addContainerGap()
+										.add(
+												layout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.LEADING)
+														.add(
+																layout
+																		.createSequentialGroup()
+																		.add(
+																				docuScrollPane,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				275,
+																				Short.MAX_VALUE)
+																		.addContainerGap())
+														.add(
+																layout
+																		.createSequentialGroup()
+																		.add(
+																				regularExpressionLabel)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				regularExpressionScrollPane,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				83,
+																				Short.MAX_VALUE)
+																		.add(
+																				27,
+																				27,
+																				27)
+																		.add(
+																				testTextLabel)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				testTextScrollPane)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				layout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.TRAILING)
+																						.add(
+																								layout
+																										.createSequentialGroup()
+																										.add(
+																												layout
+																														.createParallelGroup(
+																																org.jdesktop.layout.GroupLayout.BASELINE)
+																														.add(
+																																testButton)
+																														.add(
+																																resultLabel)
+																														.add(
+																																matchResultLabel,
+																																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																																28,
+																																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+																										.add(
+																												3,
+																												3,
+																												3))
+																						.add(
+																								layout
+																										.createSequentialGroup()
+																										.add(
+																												partialMatchRadioButton)
+																										.addPreferredGap(
+																												org.jdesktop.layout.LayoutStyle.RELATED)
+																										.add(
+																												fullMatchRadioButton)))
+																		.add(
+																				15,
+																				15,
+																				15)))));
+	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_testButtonActionPerformed
+	private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+		String regExp = this.regularExpressionTextArea.getText();
+		String testText = this.testTextTextArea.getText();
+
+		Pattern pattern = null;
+		try {
+			pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
+		} catch (PatternSyntaxException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(),
+					"Regular expression error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		Matcher m = pattern.matcher(testText);
+
+		boolean result = false;
+		if (this.partialMatchRadioButton.isSelected()) {
+			result = m.find();
+		} else if (this.fullMatchRadioButton.isSelected()) {
+			result = m.matches();
+		}
+
+		if (result) {
+			this.matchResultLabel
+					.setText("<html><font color=\"green\">match</font></html>");
+		} else {
+			this.matchResultLabel
+					.setText("<html><font color=\"red\">no match</font></html>");
+		}
+	}//GEN-LAST:event_testButtonActionPerformed
+
+	//GEN-BEGIN:variables
+	// Variables declaration - do not modify
+	private javax.swing.JLabel docuLabel;
+	private javax.swing.JScrollPane docuScrollPane;
+	private javax.swing.JRadioButton fullMatchRadioButton;
+	private javax.swing.JLabel matchResultLabel;
+	private javax.swing.ButtonGroup matchingButtonGroup;
+	private javax.swing.JRadioButton partialMatchRadioButton;
+	private javax.swing.JLabel regularExpressionLabel;
+	private javax.swing.JScrollPane regularExpressionScrollPane;
+	private javax.swing.JTextArea regularExpressionTextArea;
+	private javax.swing.JLabel resultLabel;
+	private javax.swing.JButton testButton;
+	private javax.swing.JLabel testTextLabel;
+	private javax.swing.JScrollPane testTextScrollPane;
+	private javax.swing.JTextArea testTextTextArea;
+	// End of variables declaration//GEN-END:variables
+
+
+}

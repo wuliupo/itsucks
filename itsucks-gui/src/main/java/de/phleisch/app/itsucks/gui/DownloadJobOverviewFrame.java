@@ -474,18 +474,18 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								270, Short.MAX_VALUE)));
+								360, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_regExpTesterMenuItemActionPerformed
 	private void regExpTesterMenuItemActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		
-		TestRegularExpressionDialog tester = 
-			new TestRegularExpressionDialog(this);
+
+		TestRegularExpressionDialog tester = new TestRegularExpressionDialog(
+				this, false);
 		tester.setVisible(true);
-		
+
 	}//GEN-LAST:event_regExpTesterMenuItemActionPerformed
 
 	//GEN-FIRST:event_logWindowMenuItemActionPerformed

@@ -6,9 +6,12 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.awt.Dialog;
+
 import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -28,7 +31,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	public DownloadJobAdvancedRulesPanel() {
 		advancedFilterFilterListModel = new ExtendedListModel();
 		mRuleInEditMode = null;
-		
+
 		initComponents();
 
 		//add elements to combo boxes
@@ -104,61 +107,68 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			new ComboBoxEntry("Accept", Boolean.TRUE),
 			new ComboBoxEntry("Reject", Boolean.FALSE), };
 
-	
 	private void updateAdvancedFilter() {
 
 		Object[] selectedValues = advancedFilterList.getSelectedValues();
-		if (mRuleInEditMode == null || selectedValues == null || selectedValues.length != 1) {
+		if (mRuleInEditMode == null || selectedValues == null
+				|| selectedValues.length != 1) {
 			return;
 		}
-		
+
 		RegExpFilterRule rule = mRuleInEditMode;
 
 		rule.setName(editAdvancedFilterNameField.getText());
 		rule.setDescription(editAdvancedFilterDescriptionTextArea.getText());
 		rule.setPattern(editAdvancedFilterRegExpTextArea.getText());
-		
-		
+
 		//match Action
 		{
 			RegExpFilterAction matchAction = rule.getMatchAction();
-	
-			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterMatchStatusChangeComboBox.getSelectedItem();
+
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterMatchStatusChangeComboBox
+					.getSelectedItem();
 			matchAction.setAccept((Boolean) selectedItem.getValue());
-			
+
 			try {
-				matchAction.setPriorityChange(
-						Integer.parseInt(editAdvancedFilterMatchPrioChangeTextField.getText()));
-			} catch(NumberFormatException ex) {
-				editAdvancedFilterMatchPrioChangeTextField.setText(
-						String.valueOf(matchAction.getPriorityChange()));
+				matchAction.setPriorityChange(Integer
+						.parseInt(editAdvancedFilterMatchPrioChangeTextField
+								.getText()));
+			} catch (NumberFormatException ex) {
+				editAdvancedFilterMatchPrioChangeTextField.setText(String
+						.valueOf(matchAction.getPriorityChange()));
 			}
-			
-			matchAction.addJobParameter(
-				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 
-						new Boolean(editAdvancedFilterMatchAssumeFinishedFileCheckBox.isSelected())));
+
+			matchAction.addJobParameter(new JobParameter(
+					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+					new Boolean(
+							editAdvancedFilterMatchAssumeFinishedFileCheckBox
+									.isSelected())));
 		}
-		
+
 		//no match Action
 		{
 			RegExpFilterAction noMatchAction = rule.getNoMatchAction();
-	
-			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterNoMatchStatusChangeComboBox.getSelectedItem();
+
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterNoMatchStatusChangeComboBox
+					.getSelectedItem();
 			noMatchAction.setAccept((Boolean) selectedItem.getValue());
-			
+
 			try {
-				noMatchAction.setPriorityChange(
-						Integer.parseInt(editAdvancedFilterNoMatchPrioChangeTextField.getText()));
-			} catch(NumberFormatException ex) {
-				editAdvancedFilterNoMatchPrioChangeTextField.setText(
-						String.valueOf(noMatchAction.getPriorityChange()));
+				noMatchAction.setPriorityChange(Integer
+						.parseInt(editAdvancedFilterNoMatchPrioChangeTextField
+								.getText()));
+			} catch (NumberFormatException ex) {
+				editAdvancedFilterNoMatchPrioChangeTextField.setText(String
+						.valueOf(noMatchAction.getPriorityChange()));
 			}
-			
-			noMatchAction.addJobParameter(
-				new JobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE, 
-						new Boolean(editAdvancedFilterNoMatchAssumeFinishedFileCheckBox.isSelected())));
+
+			noMatchAction.addJobParameter(new JobParameter(
+					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+					new Boolean(
+							editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+									.isSelected())));
 		}
-		
+
 		//notify list
 		int selectionIndex = advancedFilterList.getSelectedIndex();
 		advancedFilterFilterListModel.fireContentsChanged(selectionIndex,
@@ -319,6 +329,12 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				.setText("Open Regular Expression Editor");
 		editAdvancedFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(
 				2, 4, 2, 4));
+		editAdvancedFilterOpenRegExpEditorButton
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						editAdvancedFilterOpenRegExpEditorButtonActionPerformed(evt);
+					}
+				});
 
 		editAdvancedFilterMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of match"));
@@ -852,12 +868,31 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
+	private void editAdvancedFilterOpenRegExpEditorButtonActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		
+		EditRegularExpressionDialog dialog = 
+			new EditRegularExpressionDialog(
+					(Dialog) getRootPane().getParent(), true);
+		
+		dialog.setRegularExpression(
+				this.editAdvancedFilterRegExpTextArea.getText());
+		dialog.setVisible(true);
+		
+		if(dialog.isOk()) {
+			//copy the value from the editor
+			this.editAdvancedFilterRegExpTextArea.setText(
+					dialog.getRegularExpression());
+		}
+	}//GEN-LAST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
+
 	//GEN-FIRST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
 	private void editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		
+
 		updateAdvancedFilter();
-		
+
 	}//GEN-LAST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
 
 	//GEN-FIRST:event_editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost
@@ -929,13 +964,13 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			javax.swing.event.ListSelectionEvent evt) {
 
 		//ignore event when list readjusting
-		if(evt.getValueIsAdjusting()) {
+		if (evt.getValueIsAdjusting()) {
 			return;
 		}
-		
+
 		//remove rule from edit
 		mRuleInEditMode = null;
-		
+
 		Object[] selectedValues = advancedFilterList.getSelectedValues();
 		if (selectedValues != null && selectedValues.length == 1) {
 			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
@@ -945,7 +980,8 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 					.getRule();
 
 			editAdvancedFilterNameField.setText(rule.getName());
-			editAdvancedFilterDescriptionTextArea.setText(rule.getDescription());
+			editAdvancedFilterDescriptionTextArea
+					.setText(rule.getDescription());
 			editAdvancedFilterRegExpTextArea.setText(rule.getPattern()
 					.pattern());
 
@@ -966,7 +1002,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 				editAdvancedFilterMatchPrioChangeTextField.setText(String
 						.valueOf(matchAction.getPriorityChange()));
-				
+
 				JobParameter assumeCompleteMatchParameter = matchAction
 						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				editAdvancedFilterMatchAssumeFinishedFileCheckBox
@@ -1002,7 +1038,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			}
 
 			mRuleInEditMode = rule;
-			
+
 		} else {
 
 			//empty all fields
@@ -1012,16 +1048,16 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			editAdvancedFilterNameField.setText(null);
 			editAdvancedFilterDescriptionTextArea.setText(null);
 			editAdvancedFilterRegExpTextArea.setText(null);
-			
+
 			editAdvancedFilterMatchStatusChangeComboBox.setSelectedIndex(0);
 			editAdvancedFilterMatchPrioChangeTextField.setText(null);
 			editAdvancedFilterMatchAssumeFinishedFileCheckBox
-				.setSelected(false);
-			
+					.setSelected(false);
+
 			editAdvancedFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
 			editAdvancedFilterNoMatchPrioChangeTextField.setText(null);
 			editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
-				.setSelected(false);
+					.setSelected(false);
 
 		}
 
