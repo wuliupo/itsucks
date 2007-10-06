@@ -12,6 +12,8 @@ package de.phleisch.app.itsucks.gui;
  */
 public class TestRegularExpressionDialog extends javax.swing.JDialog {
 
+	private static final long serialVersionUID = 1267650677497411057L;
+
 	/** Creates new form TestRegularExpressionDialog */
 	public TestRegularExpressionDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
