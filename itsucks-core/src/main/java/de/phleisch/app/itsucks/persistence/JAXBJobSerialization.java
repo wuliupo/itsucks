@@ -21,6 +21,7 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import de.phleisch.app.itsucks.ApplicationConstants;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
@@ -66,7 +67,7 @@ public class JAXBJobSerialization
 		ObjectFactory beanFactory = new ObjectFactory();
 		
 		SerializedJobs jobs = beanFactory.createSerializedJobs();
-		jobs.setVersion("1.0");
+		jobs.setVersion(ApplicationConstants.APPLICATION_VERSION);
 		
 		//convert jobs included in the pJobList
 		for (Job job : pJobList.getJobs()) {
