@@ -21,7 +21,7 @@ import de.phleisch.app.itsucks.processing.DataProcessorManager;
  * 
  * Factory to create new Jobs.
  * Internally spring is used, but this factory also implements the
- * feature to inject dependencies into deserialized jobs and not jobs
+ * feature to inject dependencies into deserialized jobs and jobs
  * not created over spring.
  * 
  * @author olli
