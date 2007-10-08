@@ -205,7 +205,8 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 				
 				URI uri = null;
 				try {
-					uri = mBaseURI.resolve(match);
+					match = match.replaceAll(" ", "%20"); //try to fix broken url's
+					uri = mBaseURI.resolve(new URI(match));
 				} catch(Exception ex) {
 					mLog.warn("Resolving of base url failed: " +
 							"Match: " + match + " BaseURI: " + mBaseURI, ex);
