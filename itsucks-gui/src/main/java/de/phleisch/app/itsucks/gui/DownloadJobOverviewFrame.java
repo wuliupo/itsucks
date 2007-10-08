@@ -480,7 +480,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								258, Short.MAX_VALUE)));
+								406, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 

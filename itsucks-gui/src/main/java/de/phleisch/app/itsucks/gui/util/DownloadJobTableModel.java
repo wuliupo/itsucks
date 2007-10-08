@@ -34,14 +34,13 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 7125707024529473869L;
 
-	private static final int COLUMN_ID 			= 0;
-	private static final int COLUMN_PRIORITY 	= 1;
-	private static final int COLUMN_STATE 		= 2;
-	private static final int COLUMN_PROGRESS 	= 3;
-	private static final int COLUMN_KILOBYTES 	= 4;
-	private static final int COLUMN_RESULT 		= 5;
-	private static final int COLUMN_URL 		= 6;
-	
+	public static final int COLUMN_ID 			= 0;
+	public static final int COLUMN_URL 			= 1;
+	public static final int COLUMN_STATE 		= 2;
+	public static final int COLUMN_PROGRESS 	= 3;
+	public static final int COLUMN_KILOBYTES 	= 4;
+	public static final int COLUMN_PRIORITY 	= 5;
+	public static final int COLUMN_RESULT 		= 6;
 	private static final int COLUMN_COUNT 		= 7;
 	
 	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms

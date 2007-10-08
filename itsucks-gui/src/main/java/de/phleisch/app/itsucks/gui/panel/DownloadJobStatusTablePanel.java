@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import javax.swing.table.TableColumnModel;
+
 import de.phleisch.app.itsucks.gui.util.DownloadJobTableModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
@@ -22,8 +24,22 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 	/** Creates new form DownloadJobStatusTablePanel */
 	public DownloadJobStatusTablePanel() {
 		mDownloadStatusTableModel = new DownloadJobTableModel();
-
+		
 		initComponents();
+		initPreferredColumnWidth();
+	}
+
+	private void initPreferredColumnWidth() {
+		
+		TableColumnModel columnModel = this.jDownloadJobStatusTable.getColumnModel();
+		
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_ID).setPreferredWidth(5);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_URL).setPreferredWidth(300);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_STATE).setPreferredWidth(25);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_PROGRESS).setPreferredWidth(20);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_KILOBYTES).setPreferredWidth(30);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_PRIORITY).setPreferredWidth(20);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_RESULT).setPreferredWidth(40);
 	}
 	
 	public void addDownloadJob(DownloadJob job) {
