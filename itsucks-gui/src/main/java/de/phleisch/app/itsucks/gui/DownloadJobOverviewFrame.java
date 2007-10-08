@@ -337,6 +337,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle(ApplicationConstants.APPLICATION_TITLE);
 		setLocationByPlatform(true);
+		downloadsTabbedPane
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						downloadsTabbedPaneStateChanged(evt);
+					}
+				});
+
 		downloadsTabbedPane.getAccessibleContext().setAccessibleName(
 				"Download 1");
 
@@ -480,9 +487,15 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								406, Short.MAX_VALUE)));
+								372, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+
+	//GEN-FIRST:event_downloadsTabbedPaneStateChanged
+	private void downloadsTabbedPaneStateChanged(
+			javax.swing.event.ChangeEvent evt) {
+		updateButtonState();
+	}//GEN-LAST:event_downloadsTabbedPaneStateChanged
 
 	//GEN-FIRST:event_aboutMenuItemActionPerformed
 	private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -535,7 +548,8 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		openAddDownloadDialog();
 	}// GEN-LAST:event_createNewJobMenuItemActionPerformed
 
-	private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_exitMenuItemActionPerformed
+	// GEN-FIRST:event_exitMenuItemActionPerformed
+	private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
 		System.exit(0);
 	}// GEN-LAST:event_exitMenuItemActionPerformed
 

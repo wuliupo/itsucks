@@ -70,7 +70,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;Every found link will be filtered through the chain. A link must have the state &apos;accepted&apos; after running through the chain, otherwise it will be rejected&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;Every found URL will be filtered through the chain. Filtering starts with the first entry in the list and ends with the last entry.&lt;/html&gt;"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="advancedFilterPane">
@@ -350,7 +350,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="editAdvancedFilterMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -458,7 +458,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

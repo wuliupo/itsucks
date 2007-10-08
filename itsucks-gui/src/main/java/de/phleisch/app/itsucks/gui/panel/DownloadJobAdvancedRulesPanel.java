@@ -219,7 +219,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		advancedFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog",
 				0, 12));
 		advancedFilterChainExplanationLabel
-				.setText("<html>Every found link will be filtered through the chain. A link must have the state 'accepted' after running through the chain, otherwise it will be rejected</html>");
+				.setText("<html>Every found URL will be filtered through the chain. Filtering starts with the first entry in the list and ends with the last entry.</html>");
 
 		advancedFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
 		advancedFilterList.setModel(advancedFilterFilterListModel);
@@ -472,7 +472,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(24, Short.MAX_VALUE)));
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
 		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
@@ -601,7 +603,9 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
 												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
-										.addContainerGap(24, Short.MAX_VALUE)));
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
 
 		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
 				editAdvancedFilterPanel);
@@ -871,19 +875,18 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	//GEN-FIRST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
 	private void editAdvancedFilterOpenRegExpEditorButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
-		
-		EditRegularExpressionDialog dialog = 
-			new EditRegularExpressionDialog(
-					(Dialog) getRootPane().getParent(), true);
-		
-		dialog.setRegularExpression(
-				this.editAdvancedFilterRegExpTextArea.getText());
+
+		EditRegularExpressionDialog dialog = new EditRegularExpressionDialog(
+				(Dialog) getRootPane().getParent(), true);
+
+		dialog.setRegularExpression(this.editAdvancedFilterRegExpTextArea
+				.getText());
 		dialog.setVisible(true);
-		
-		if(dialog.isOk()) {
+
+		if (dialog.isOk()) {
 			//copy the value from the editor
-			this.editAdvancedFilterRegExpTextArea.setText(
-					dialog.getRegularExpression());
+			this.editAdvancedFilterRegExpTextArea.setText(dialog
+					.getRegularExpression());
 		}
 	}//GEN-LAST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
 
