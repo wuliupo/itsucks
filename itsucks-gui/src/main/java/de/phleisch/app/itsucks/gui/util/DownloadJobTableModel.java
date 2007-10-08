@@ -91,7 +91,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			break;			
 			
 		case COLUMN_RESULT:
-			name = "Result";
+			name = "Http Response";
 			break;					
 			
 		default:
