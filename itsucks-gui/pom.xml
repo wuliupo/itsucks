@@ -65,7 +65,7 @@
 						</manifest>
 
 						<manifestEntries>
-							<SplashScreen-Image>itsucks_splash.png</SplashScreen-Image>
+							<SplashScreen-Image>itsucks_splash.jpg</SplashScreen-Image>
 						</manifestEntries>
 					</archive>
 				</configuration>
