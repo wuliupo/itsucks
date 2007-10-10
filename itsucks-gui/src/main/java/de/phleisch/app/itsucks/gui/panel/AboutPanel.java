@@ -36,9 +36,9 @@ public class AboutPanel extends javax.swing.JPanel {
 		textLabel = new javax.swing.JLabel();
 
 		imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/itsucks_splash.png")));
+				"/itsucks_small.jpg")));
 
-		headingLabel.setFont(new java.awt.Font("Dialog", 1, 36));
+		headingLabel.setFont(new java.awt.Font("Dialog", 1, 14));
 		headingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		headingLabel.setText("ItSucks (Version)");
 
@@ -51,15 +51,16 @@ public class AboutPanel extends javax.swing.JPanel {
 				this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(imageLabel,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.add(headingLabel,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 512,
-						Short.MAX_VALUE).add(
-						layout.createSequentialGroup().add(textLabel,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								500, Short.MAX_VALUE).addContainerGap()));
+				org.jdesktop.layout.GroupLayout.LEADING).add(headingLabel,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229,
+				Short.MAX_VALUE).add(textLabel,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229,
+				Short.MAX_VALUE).add(
+				layout.createSequentialGroup().addContainerGap().add(
+						imageLabel,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE).addContainerGap()));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				layout.createSequentialGroup().add(imageLabel).addPreferredGap(

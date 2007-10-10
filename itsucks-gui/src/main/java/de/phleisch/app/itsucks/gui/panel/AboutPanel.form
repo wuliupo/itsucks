@@ -11,10 +11,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="imageLabel" alignment="0" max="32767" attributes="0"/>
-          <Component id="headingLabel" alignment="0" pref="512" max="32767" attributes="0"/>
+          <Component id="headingLabel" alignment="0" pref="229" max="32767" attributes="0"/>
+          <Component id="textLabel" alignment="0" pref="229" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="textLabel" pref="500" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="imageLabel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -35,14 +36,14 @@
     <Component class="javax.swing.JLabel" name="imageLabel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/itsucks_splash.png"/>
+          <Image iconType="3" name="/itsucks_small.jpg"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="headingLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="36" style="1"/>
+          <Font name="Dialog" size="14" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="ItSucks (Version)"/>
