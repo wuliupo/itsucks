@@ -56,7 +56,7 @@
 
 						<manifest>
 							<mainClass>
-								de.phleisch.app.itsucks.gui.MainWindow
+								de.phleisch.app.itsucks.gui.Main
 							</mainClass>
 							<packageName>itsucks-gui</packageName>
 							<addClasspath>true</addClasspath>
