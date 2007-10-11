@@ -887,6 +887,8 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 			//copy the value from the editor
 			this.editAdvancedFilterRegExpTextArea.setText(dialog
 					.getRegularExpression());
+			
+			updateAdvancedFilter();
 		}
 	}//GEN-LAST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
 
