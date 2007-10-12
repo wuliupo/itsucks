@@ -7,6 +7,27 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre1 is released</h2>
+        <div class='date'>2007-10-12</div>
+        <p>
+		The first pre release of the version 0.3.0 is released. It should
+		be pretty stable so don't hesitate to download it.
+        <ul>
+        <li>Complete rewrite of the GUI, makes it much easier to use.</li>
+        <li>Proxy support</li>
+        <li>Configurable count of threads per server</li>
+        <li>Refactoring of core api to make using easier and more intuitive</li> 
+        </ul>
+		</p>
+		<p>
+		I'm happy about feedback and please post any bug/issue you find in the forum.  
+		</p>		
+		<p>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=545989"> ChangeLog 0.3.0-pre1</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0 in progress...</h2>
         <div class='date'>2007-09-10</div>
         <p>
@@ -24,7 +45,7 @@ include_once('include/header.php.inc');
         <h2>Version 0.2.0 final is released</h2>
         <div class='date'>2007-09-02</div>
         <p>
-      This release is the stable version of 0.2.0.
+		This release is the stable version of 0.2.0.
 		</p>
 		<p>
 		Please post any bug/issue you find in the forum.  

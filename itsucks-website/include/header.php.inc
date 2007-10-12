@@ -36,7 +36,7 @@
     <div class="sidebar">
       <ul>
         <li><a class="down" href="http://sourceforge.net/project/showfiles.php?group_id=186141"><img style=
-        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.2.0</a></li>
+        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.3.0</a></li>
       </ul>
 
       <div>
