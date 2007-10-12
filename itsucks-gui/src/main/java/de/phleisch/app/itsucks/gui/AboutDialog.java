@@ -29,13 +29,14 @@ public class AboutDialog extends javax.swing.JDialog {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		aboutPanel = new de.phleisch.app.itsucks.gui.panel.AboutPanel();
+		jPanel1 = new javax.swing.JPanel();
 		closeButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("About ItSucks");
 		setLocationByPlatform(true);
 		setName("aboutDialog");
-		setResizable(false);
+		getAccessibleContext().setAccessibleParent(null);
 
 		closeButton.setText("Woah!");
 		closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -44,21 +45,17 @@ public class AboutDialog extends javax.swing.JDialog {
 			}
 		});
 
+		jPanel1.add(closeButton);
+
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(
-				org.jdesktop.layout.GroupLayout.TRAILING,
-				layout.createSequentialGroup().addContainerGap(
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE).add(aboutPanel,
-						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()).add(
-				layout.createSequentialGroup().add(83, 83, 83).add(closeButton)
-						.addContainerGap(98, Short.MAX_VALUE)));
+				org.jdesktop.layout.GroupLayout.LEADING).add(jPanel1,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 241,
+				Short.MAX_VALUE).add(aboutPanel,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 241,
+				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				layout.createSequentialGroup().addContainerGap().add(
@@ -68,7 +65,8 @@ public class AboutDialog extends javax.swing.JDialog {
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								closeButton).addContainerGap(
+								jPanel1,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)));
 		pack();
@@ -79,22 +77,11 @@ public class AboutDialog extends javax.swing.JDialog {
 		this.dispose();
 	}//GEN-LAST:event_jButton1ActionPerformed
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new AboutDialog(new javax.swing.JFrame(), true)
-						.setVisible(true);
-			}
-		});
-	}
-
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private de.phleisch.app.itsucks.gui.panel.AboutPanel aboutPanel;
 	private javax.swing.JButton closeButton;
+	private javax.swing.JPanel jPanel1;
 	// End of variables declaration//GEN-END:variables
 
 }

@@ -31,6 +31,8 @@ public class TestRegularExpressionDialog extends javax.swing.JDialog {
 		editRegularExpression2Panel1 = new de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Regular Expression Tester");
+		setLocationByPlatform(true);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				getContentPane());
@@ -47,18 +49,6 @@ public class TestRegularExpressionDialog extends javax.swing.JDialog {
 				Short.MAX_VALUE));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
-
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new TestRegularExpressionDialog(new javax.swing.JFrame(), true)
-						.setVisible(true);
-			}
-		});
-	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

@@ -4,6 +4,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Regular Expression Editor"/>
+    <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -38,7 +39,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="de.phleisch.app.itsucks.gui.panel.EditRegularExpression2Panel" name="editRegularExpression2Panel1">
+    <Component class="de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel" name="editRegularExpression2Panel1">
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
 

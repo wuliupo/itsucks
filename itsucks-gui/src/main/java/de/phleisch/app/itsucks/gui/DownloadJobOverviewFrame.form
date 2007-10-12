@@ -88,6 +88,7 @@
       <Connection code="ApplicationConstants.APPLICATION_TITLE" type="code"/>
     </Property>
     <Property name="locationByPlatform" type="boolean" value="true"/>
+    <Property name="name" type="java.lang.String" value="mainFrame"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
@@ -112,7 +113,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="toolBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="downloadsTabbedPane" pref="372" max="32767" attributes="0"/>
+              <Component id="downloadsTabbedPane" pref="338" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -36,7 +36,7 @@ public class EditRegularExpressionDialog extends javax.swing.JDialog {
 	public String getRegularExpression() {
 		return this.editRegularExpression2Panel1.getRegularExpression();
 	}
-	
+
 	public boolean isOk() {
 		return mOk;
 	}
@@ -60,6 +60,7 @@ public class EditRegularExpressionDialog extends javax.swing.JDialog {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Regular Expression Editor");
+		setLocationByPlatform(true);
 
 		jButton1.setText("Ok");
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -114,18 +115,6 @@ public class EditRegularExpressionDialog extends javax.swing.JDialog {
 		mOk = true;
 		this.dispose();
 	}//GEN-LAST:event_jButton1ActionPerformed
-
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new EditRegularExpressionDialog(new javax.swing.JFrame(), true)
-						.setVisible(true);
-			}
-		});
-	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

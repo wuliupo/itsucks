@@ -337,6 +337,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle(ApplicationConstants.APPLICATION_TITLE);
 		setLocationByPlatform(true);
+		setName("mainFrame");
 		downloadsTabbedPane
 				.addChangeListener(new javax.swing.event.ChangeListener() {
 					public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -487,7 +488,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								372, Short.MAX_VALUE)));
+								338, Short.MAX_VALUE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -500,7 +501,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	//GEN-FIRST:event_aboutMenuItemActionPerformed
 	private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
 
-		AboutDialog about = new AboutDialog(this, true);
+		AboutDialog about = new AboutDialog(this, false);
 		about.setVisible(true);
 
 	}//GEN-LAST:event_aboutMenuItemActionPerformed

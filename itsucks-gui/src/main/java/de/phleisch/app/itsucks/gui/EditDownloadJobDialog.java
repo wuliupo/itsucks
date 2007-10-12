@@ -149,7 +149,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				layout.createSequentialGroup().add(editDownloadJobGroupPanel,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 594,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 613,
 						Short.MAX_VALUE).addPreferredGap(
 						org.jdesktop.layout.LayoutStyle.RELATED).add(
 						buttonPanel,
