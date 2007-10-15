@@ -136,6 +136,19 @@ public class ProcessorChainImpl implements DataProcessorChain {
 	}
 	
 	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#rollback()
+	 */
+	public void rollback() {
+		
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			DataProcessor processor = it.next();
+			
+			processor.rollback();
+		}
+		
+	}
+	
+	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
 	 */
 	public void process(byte[] pBuffer, int pBytes) throws Exception {

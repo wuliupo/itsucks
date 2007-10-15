@@ -35,6 +35,11 @@ public abstract class AbstractDataProcessor implements DataProcessor {
 	public void finish() throws Exception {}
 
 	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#rollback()
+	 */
+	public void rollback() {}
+	
+	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
 	 */
 	public boolean canResume() {

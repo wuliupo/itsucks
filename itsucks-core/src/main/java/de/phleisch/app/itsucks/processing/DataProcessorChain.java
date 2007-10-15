@@ -68,6 +68,13 @@ public interface DataProcessorChain {
 	public abstract void finish() throws Exception;
 
 	/**
+	 * Rollback the chain in case of an error.
+	 * 
+	 * @throws Exception
+	 */
+	public abstract void rollback();
+	
+	/**
 	 * Processes the given data chunk and dispatches it to the processors.
 	 * 
 	 * @param pBuffer

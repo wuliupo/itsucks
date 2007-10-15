@@ -189,8 +189,16 @@ public class DownloadJob extends AbstractJob {
 		dataProcessorChain.init();
 		
 		if(dataProcessorChain.containsConsumer() && mDataRetriever.isDataAvailable()) {
-			
-			mDataRetriever.retrieve();
+			try {
+				mDataRetriever.retrieve();
+			} catch(Exception ex) {
+				
+				mLog.error("Error retrieving/processing data.", ex);
+				dataProcessorChain.rollback();
+				dataProcessorChain.finish();
+				
+				throw ex;
+			}
 		}
 		
 		dataProcessorChain.finish();

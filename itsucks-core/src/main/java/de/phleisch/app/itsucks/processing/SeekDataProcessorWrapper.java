@@ -13,7 +13,7 @@ import de.phleisch.app.itsucks.Job;
 /**
  * This is data processor wrapper which encapsulates another data processor
  * and skips a given count of bytes before giving the data to the encapsulates
- * processor. This is useful for fileresuming to skip the bytes which are already on 
+ * processor. This is useful for resuming a file to skip the bytes which are already on 
  * the disk.
  * 
  * @author olli
@@ -53,6 +53,13 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 		mDataProcessor.init();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#rollback()
+	 */
+	public void rollback() {
+		mDataProcessor.rollback();
+	}	
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
 	 */

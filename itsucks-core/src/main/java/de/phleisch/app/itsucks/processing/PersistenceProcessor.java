@@ -39,6 +39,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	private OutputStream mBufferedOut = null;
 	
 	private long mResumeAt;
+	private boolean mPreserveDataWhenRollback = true;
 	
 	public PersistenceProcessor() {
 		super();
@@ -167,6 +168,29 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 			mBufferedOut.close();
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#rollback()
+	 */
+	@Override
+	public void rollback() {
+		super.rollback();
+		
+		if(mBufferedOut != null) {
+			try {
+				mBufferedOut.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Error closing file", e);
+			}
+		}
+		mBufferedOut = null;
+		
+		//delete the file when configurated
+		if(!mPreserveDataWhenRollback) {
+			mFile.delete();
+		}
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
@@ -180,6 +204,22 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 */
 	public boolean isConsumer() {
 		return true;
+	}
+
+	/**
+	 * Gets if the persistence processor should preserve the file in case of an chain error.
+	 */
+	public boolean isPreserveDataWhenRollback() {
+		return mPreserveDataWhenRollback;
+	}
+
+	/**
+	 * Sets if the persistence processor should preserve the file in case of an chain error.
+	 * 
+	 * @param pPreserveDataWhenRollback
+	 */
+	public void setPreserveDataWhenRollback(boolean pPreserveDataWhenRollback) {
+		mPreserveDataWhenRollback = pPreserveDataWhenRollback;
 	}
 
 
