@@ -81,6 +81,10 @@
 		id="PersistenceProcessor" 
 		class="de.phleisch.app.itsucks.processing.PersistenceProcessor" 
 		singleton="false">
+		
+		<property name="preserveDataWhenRollback">
+			<value>true</value>
+		</property>
 	</bean>
 	
 	<bean 
@@ -199,5 +203,3 @@
 	</bean>	
 	
 </beans>
-
-
