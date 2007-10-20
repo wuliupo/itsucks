@@ -12,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class FieldValidator {
 
@@ -77,6 +80,22 @@ public class FieldValidator {
 		return result;
 	}
 	
+	public boolean assertRegExp(String pRegExp, String pValue, String pMessage) {
+		
+		Pattern pattern = null;
+		try {
+			pattern = Pattern.compile(pRegExp);
+		} catch (PatternSyntaxException ex) {
+			throw new RuntimeException("Bad regular expression given.", ex);
+		}
+		
+		Matcher m = pattern.matcher(pValue);
+		boolean result = m.matches();
+		
+		if(!result) addError(pMessage);
+		return result;
+	}
+	
 	public void addError(String pMessage) {
 		mErrors.add(pMessage);
 		
@@ -85,4 +104,5 @@ public class FieldValidator {
 	public List<String> getErrors() {
 		return new ArrayList<String>(mErrors);
 	}
+
 }

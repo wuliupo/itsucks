@@ -310,10 +310,21 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 
 		//file size filter
-		FileSizeFilter fileSizeFilter = new FileSizeFilter();
-		fileSizeFilter.setMinSize(100000);
-		fileSizeFilter.setAcceptWhenLengthNotSet(false);
-		jobFilterList.add(fileSizeFilter);
+		if (this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox.isSelected()) {
+
+			FileSizeFilter fileSizeFilter = new FileSizeFilter();
+			
+			fileSizeFilter.setMinSizeAsText(
+					this.downloadJobSpecialRulesPanel.fileSizeMinField.getText().trim());
+			fileSizeFilter.setMaxSizeAsText(
+					this.downloadJobSpecialRulesPanel.fileSizeMaxField.getText().trim());
+
+			fileSizeFilter.setAcceptWhenLengthNotSet(
+					this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
+						.getSelectedIndex() > 0 ? false : true);
+			
+			jobFilterList.add(fileSizeFilter);
+		}
 
 		//build result
 		SerializableJobList result = new SerializableJobList();
@@ -335,6 +346,8 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		List<String> errorsBasicPanel = downloadJobBasicPanel.validateFields();
 		List<String> errorsSimplePanel = downloadJobSimpleRulesPanel
 				.validateFields();
+		List<String> errorsSpecialPanel = downloadJobSpecialRulesPanel
+				.validateFields();
 
 		if (errorsBasicPanel.size() > 0) {
 			result = false;
@@ -344,6 +357,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			result = false;
 			tabbedPane.setSelectedComponent(downloadJobSimpleRulesPanel);
 			displayErrors(errorsSimplePanel);
+		} else if (errorsSpecialPanel.size() > 0) {
+			result = false;
+			tabbedPane.setSelectedComponent(downloadJobSpecialRulesPanel);
+			displayErrors(errorsSpecialPanel);
 		}
 
 		return result;
@@ -370,14 +387,14 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		tabbedPane = new javax.swing.JTabbedPane();
 		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel();
 		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel();
-		downloadJobSpecialRulesPanel1 = new de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel();
+		downloadJobSpecialRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel();
 		downloadJobRegExpRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobRegExpRulesPanel();
 
 		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
 
 		tabbedPane.addTab("Simple Rules", downloadJobSimpleRulesPanel);
 
-		tabbedPane.addTab("Special Rules", downloadJobSpecialRulesPanel1);
+		tabbedPane.addTab("Special Rules", downloadJobSpecialRulesPanel);
 
 		tabbedPane.addTab("Advanced RegExp Rules", downloadJobRegExpRulesPanel);
 
@@ -399,7 +416,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	private de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel downloadJobBasicPanel;
 	private de.phleisch.app.itsucks.gui.panel.DownloadJobRegExpRulesPanel downloadJobRegExpRulesPanel;
 	private de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel downloadJobSpecialRulesPanel1;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel downloadJobSpecialRulesPanel;
 	private javax.swing.JTabbedPane tabbedPane;
 	// End of variables declaration//GEN-END:variables
 

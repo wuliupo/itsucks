@@ -9,6 +9,9 @@
 package de.phleisch.app.itsucks.filter;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.JobParameter;
@@ -28,7 +31,12 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	
 	private FileSizeConfig mConfig = new FileSizeConfig();
 	
-	public class FileSizeConfig {
+	private String mMinSizeAsText;
+	private String mMaxSizeAsText;
+	
+	public class FileSizeConfig implements Serializable {
+		
+		private static final long serialVersionUID = -6074309604039842435L;
 		
 		private long mMinSize = -1;
 		private long mMaxSize = -1;
@@ -92,6 +100,26 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	}
 
 	/**
+	 * Sets the lower limit for the file size. 
+	 * Set to -1 to disable limit.
+	 * Valid units are KB, MB, GB. 
+	 * 
+	 * @param pValue
+	 */
+	public void setMinSizeAsText(String pMinSize) {
+		setMinSize(parseTextValue(pMinSize));
+		mMinSizeAsText = pMinSize;
+	}
+
+	/**
+	 * Gets the lower limit for the file size. 
+	 * Set to -1 to disable limit.
+	 */
+	public String getMinSizeAsText() {
+		return mMinSizeAsText;
+	}
+	
+	/**
 	 * Returns the upper limit for the file size.
 	 * 
 	 * @return
@@ -111,6 +139,26 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	}
 
 	/**
+	 * Sets the upper limit for the file size. 
+	 * Set to -1 to disable limit.
+	 * Valid units are KB, MB, GB. 
+	 * 
+	 * @param pValue
+	 */
+	public void setMaxSizeAsText(String pMaxSize) {
+		setMaxSize(parseTextValue(pMaxSize));
+		mMaxSizeAsText = pMaxSize;
+	}
+	
+	/**
+	 * Gets the upper limit for the file size. 
+	 * Set to -1 to disable limit.
+	 */
+	public String getMaxSizeAsText() {
+		return mMaxSizeAsText;
+	}
+	
+	/**
 	 * Returns if an file should be accepted when it's length is not known.
 	 * 
 	 * @return
@@ -128,4 +176,35 @@ public class FileSizeFilter implements JobFilter, Serializable {
 		mConfig.setAcceptWhenLengthNotSet(pAcceptWhenLengthNotSet);
 	}
 
+	private long parseTextValue(String pMinSize) {
+		String regExp = "^([-]?[0-9]{1,})[ ]*(KB|kb|MB|mb|GB|gb|$)$";
+		
+		Pattern pattern = null;
+		try {
+			pattern = Pattern.compile(regExp);
+		} catch (PatternSyntaxException ex) {
+			throw new RuntimeException("Bad regular expression given.", ex);
+		}
+		
+		Matcher matcher = pattern.matcher(pMinSize);
+		if(!matcher.matches()) {
+			throw new IllegalArgumentException("Bad value given: " + pMinSize);
+		}
+		
+		long value = Long.parseLong(matcher.group(1));
+		String unit = matcher.group(2);
+		if(unit != null && !"".equals(unit)) {
+			
+			if(unit.equalsIgnoreCase("KB")) {
+				value *= 1024;
+			} else if(unit.equalsIgnoreCase("MB")) {
+				value *= 1024 * 1024;
+			} else if(unit.equalsIgnoreCase("GB")) {
+				value *= 1024 * 1024 * 1024;
+			}
+		}
+		
+		return value;
+	}
+	
 }

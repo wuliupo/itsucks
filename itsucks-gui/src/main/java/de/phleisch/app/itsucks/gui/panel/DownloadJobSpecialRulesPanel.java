@@ -6,6 +6,10 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
+import java.util.List;
+
+import de.phleisch.app.itsucks.gui.util.FieldValidator;
+
 /**
  *
  * @author  __USER__
@@ -13,10 +17,28 @@ package de.phleisch.app.itsucks.gui.panel;
 public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = -2550810599331718712L;
-	
+
 	/** Creates new form DownloadJobSpecialRulesPanel */
 	public DownloadJobSpecialRulesPanel() {
 		initComponents();
+	}
+
+	public List<String> validateFields() {
+
+		FieldValidator validator = new FieldValidator();
+
+		if (fileSizeEnableCheckBox.isSelected()) {
+
+			String regExp = "^([-]?[0-9]{1,})[ ]*(KB|kb|MB|mb|GB|gb|$)$";
+
+			validator.assertRegExp(regExp, this.fileSizeMinField.getText()
+					.trim(), "Enter a valid value for the minimum file size.");
+
+			validator.assertRegExp(regExp, this.fileSizeMaxField.getText()
+					.trim(), "Enter a valid value for the maximum file size.");
+		}
+
+		return validator.getErrors();
 	}
 
 	/** This method is called from within the constructor to
@@ -257,7 +279,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(288, Short.MAX_VALUE)));
+						.addContainerGap(258, Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_fileSizeEnableCheckBoxStateChanged
@@ -277,16 +299,16 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JCheckBox fileSizeEnableCheckBox;
-	private javax.swing.JLabel fileSizeLabel;
-	private javax.swing.JTextField fileSizeMaxField;
-	private javax.swing.JLabel fileSizeMaxLabel;
-	private javax.swing.JTextField fileSizeMinField;
-	private javax.swing.JLabel fileSizeMinLabel;
-	private javax.swing.JComboBox fileSizeNotKnownComboBox;
-	private javax.swing.JLabel fileSizeNotKnownLabel;
-	private javax.swing.JPanel fileSizePanel;
-	private javax.swing.JLabel fileSizeUnitExplanationLabel;
+	protected javax.swing.JCheckBox fileSizeEnableCheckBox;
+	protected javax.swing.JLabel fileSizeLabel;
+	protected javax.swing.JTextField fileSizeMaxField;
+	protected javax.swing.JLabel fileSizeMaxLabel;
+	protected javax.swing.JTextField fileSizeMinField;
+	protected javax.swing.JLabel fileSizeMinLabel;
+	protected javax.swing.JComboBox fileSizeNotKnownComboBox;
+	protected javax.swing.JLabel fileSizeNotKnownLabel;
+	protected javax.swing.JPanel fileSizePanel;
+	protected javax.swing.JLabel fileSizeUnitExplanationLabel;
 	// End of variables declaration//GEN-END:variables
 
 }
