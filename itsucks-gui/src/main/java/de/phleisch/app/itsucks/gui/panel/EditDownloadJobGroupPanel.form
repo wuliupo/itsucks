@@ -43,11 +43,20 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel" name="downloadJobAdvancedRulesPanel">
+        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel" name="downloadJobSpecialRulesPanel1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Advanced Rules">
-                <Property name="tabTitle" type="java.lang.String" value="Advanced Rules"/>
+              <JTabbedPaneConstraints tabName="Special Rules">
+                <Property name="tabTitle" type="java.lang.String" value="Special Rules"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="de.phleisch.app.itsucks.gui.panel.DownloadJobRegExpRulesPanel" name="downloadJobRegExpRulesPanel">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Advanced RegExp Rules">
+                <Property name="tabTitle" type="java.lang.String" value="Advanced RegExp Rules"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

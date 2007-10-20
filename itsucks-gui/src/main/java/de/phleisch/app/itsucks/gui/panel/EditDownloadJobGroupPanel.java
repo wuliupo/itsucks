@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
@@ -34,274 +35,317 @@ import de.phleisch.app.itsucks.persistence.SerializableJobList;
 public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 8250877774474103209L;
-	
+
 	/** Creates new form EditDownloadJobGroupPanel */
 	public EditDownloadJobGroupPanel() {
 		initComponents();
 	}
-	
+
 	public void loadJob(SerializableJobList pJobList) {
-		
+
 		DownloadJob pJob = (DownloadJob) pJobList.getJobs().get(0);
 		List<JobFilter> pFilters = pJobList.getFilters();
-		
-		SerializableDispatcherConfiguration dispatcherConfiguration = 
-			pJobList.getDispatcherConfiguration();
-		
-		HttpRetrieverConfiguration httpRetrieverConfiguration = 
-			(HttpRetrieverConfiguration) pJobList.getContextParameter(
-					HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
-		
+
+		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
+				.getDispatcherConfiguration();
+
+		HttpRetrieverConfiguration httpRetrieverConfiguration = (HttpRetrieverConfiguration) pJobList
+				.getContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
+
 		DownloadJobFilter downloadJobFilter = null;
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
 		RegExpJobFilter regExpJobFilter = null;
-		
+
 		for (JobFilter jobFilter : pFilters) {
-			if(jobFilter instanceof DownloadJobFilter) {
+			if (jobFilter instanceof DownloadJobFilter) {
 				downloadJobFilter = (DownloadJobFilter) jobFilter;
 				continue;
 			}
-			if(jobFilter instanceof MaxLinksToFollowFilter) {
+			if (jobFilter instanceof MaxLinksToFollowFilter) {
 				maxLinksToFollowFilter = (MaxLinksToFollowFilter) jobFilter;
 				continue;
 			}
-			if(jobFilter instanceof RegExpJobFilter) {
+			if (jobFilter instanceof RegExpJobFilter) {
 				regExpJobFilter = (RegExpJobFilter) jobFilter;
 				continue;
 			}
 		}
-		
+
 		//load basic panel
 		this.downloadJobBasicPanel.nameTextField.setText(pJob.getName());
-		this.downloadJobBasicPanel.urlTextField.setText(pJob.getUrl().toExternalForm());
-		this.downloadJobBasicPanel.savePathTextField.setText(
-				pJob.getSavePath().getAbsolutePath());
-		this.downloadJobBasicPanel.maxRetriesTextField.setText(
-				String.valueOf(pJob.getMaxRetryCount()));
-		
-		if(dispatcherConfiguration != null) {
-			if(dispatcherConfiguration.getWorkerThreads() != null) {
-				this.downloadJobBasicPanel.workingThreadsTextField.setText(
-						String.valueOf(dispatcherConfiguration.getWorkerThreads()));
+		this.downloadJobBasicPanel.urlTextField.setText(pJob.getUrl()
+				.toExternalForm());
+		this.downloadJobBasicPanel.savePathTextField.setText(pJob.getSavePath()
+				.getAbsolutePath());
+		this.downloadJobBasicPanel.maxRetriesTextField.setText(String
+				.valueOf(pJob.getMaxRetryCount()));
+
+		if (dispatcherConfiguration != null) {
+			if (dispatcherConfiguration.getWorkerThreads() != null) {
+				this.downloadJobBasicPanel.workingThreadsTextField
+						.setText(String.valueOf(dispatcherConfiguration
+								.getWorkerThreads()));
 			}
 		}
-		
-		if(httpRetrieverConfiguration != null) {
-			
-			if(httpRetrieverConfiguration.getMaxConnectionsPerServer() != null) {
-				this.downloadJobBasicPanel.maxConnectionsTextField.setText(String.valueOf(
-						httpRetrieverConfiguration.getMaxConnectionsPerServer()));
+
+		if (httpRetrieverConfiguration != null) {
+
+			if (httpRetrieverConfiguration.getMaxConnectionsPerServer() != null) {
+				this.downloadJobBasicPanel.maxConnectionsTextField
+						.setText(String.valueOf(httpRetrieverConfiguration
+								.getMaxConnectionsPerServer()));
 			}
-			
-			if(httpRetrieverConfiguration.isProxyEnabled()) {
-				this.downloadJobBasicPanel.enableProxyCheckBox.setSelected(true);
-				this.downloadJobBasicPanel.proxyServerTextField.setText(
-						httpRetrieverConfiguration.getProxyServer());
-				this.downloadJobBasicPanel.proxyPortTextField.setText(String.valueOf(
-						httpRetrieverConfiguration.getProxyPort()));
-				
-				if(httpRetrieverConfiguration.isProxyAuthenticationEnabled()) {
-					
-					this.downloadJobBasicPanel.enableAuthenticationCheckBox.setSelected(true);
-					this.downloadJobBasicPanel.authenticationUserTextField.setText(
-							httpRetrieverConfiguration.getProxyUser());
-					this.downloadJobBasicPanel.authenticationPasswordTextField.setText(
-							httpRetrieverConfiguration.getProxyPassword());
+
+			if (httpRetrieverConfiguration.isProxyEnabled()) {
+				this.downloadJobBasicPanel.enableProxyCheckBox
+						.setSelected(true);
+				this.downloadJobBasicPanel.proxyServerTextField
+						.setText(httpRetrieverConfiguration.getProxyServer());
+				this.downloadJobBasicPanel.proxyPortTextField.setText(String
+						.valueOf(httpRetrieverConfiguration.getProxyPort()));
+
+				if (httpRetrieverConfiguration.isProxyAuthenticationEnabled()) {
+
+					this.downloadJobBasicPanel.enableAuthenticationCheckBox
+							.setSelected(true);
+					this.downloadJobBasicPanel.authenticationUserTextField
+							.setText(httpRetrieverConfiguration.getProxyUser());
+					this.downloadJobBasicPanel.authenticationPasswordTextField
+							.setText(httpRetrieverConfiguration
+									.getProxyPassword());
 				}
 			}
 		}
-		
+
 		//load simple rules
-		if(maxLinksToFollowFilter != null) {
-			this.downloadJobSimpleRulesPanel.linksToFollowTextField.setText(
-					String.valueOf(maxLinksToFollowFilter.getMaxLinksToFollow()));
+		if (maxLinksToFollowFilter != null) {
+			this.downloadJobSimpleRulesPanel.linksToFollowTextField
+					.setText(String.valueOf(maxLinksToFollowFilter
+							.getMaxLinksToFollow()));
 		}
-		this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(
-				String.valueOf(downloadJobFilter.getMaxRecursionDepth()));
-		if(downloadJobFilter != null) {
-			
-			if(downloadJobFilter.getURLPrefix() != null) {
-				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(true);
-				this.downloadJobSimpleRulesPanel.urlPrefixTextField.setText(
-						downloadJobFilter.getURLPrefix().toExternalForm());
+		this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(String
+				.valueOf(downloadJobFilter.getMaxRecursionDepth()));
+		if (downloadJobFilter != null) {
+
+			if (downloadJobFilter.getURLPrefix() != null) {
+				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox
+						.setSelected(true);
+				this.downloadJobSimpleRulesPanel.urlPrefixTextField
+						.setText(downloadJobFilter.getURLPrefix()
+								.toExternalForm());
 			} else {
-				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.setSelected(false);
-			}
-			
-			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.setRowCount(0);
-			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
-			for (String string : allowedHostNames) {
-				this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.addRow(
-						new Object[] {string});
+				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox
+						.setSelected(false);
 			}
 
-			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.setRowCount(0);
+			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
+					.setRowCount(0);
+			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
+			for (String string : allowedHostNames) {
+				this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
+						.addRow(new Object[] { string });
+			}
+
+			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
+					.setRowCount(0);
 			String[] saveToDiskFilter = downloadJobFilter.getSaveToDisk();
 			for (String string : saveToDiskFilter) {
-				this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.addRow(
-						new Object[] {string});
+				this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
+						.addRow(new Object[] { string });
 			}
-			
+
 		}
-		
+
 		//load advanced rules
-		ExtendedListModel model = this.downloadJobAdvancedRulesPanel.advancedFilterFilterListModel;
-		this.downloadJobAdvancedRulesPanel.advancedFilterList.setModel(model);
+		ExtendedListModel model = this.downloadJobRegExpRulesPanel.regExpFilterListModel;
+		this.downloadJobRegExpRulesPanel.regExpFilterList.setModel(model);
 		for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
-			model.addElement(this.downloadJobAdvancedRulesPanel.new RegExpFilterRuleListElement(
-					jobFilterRule));
+			model
+					.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
+							jobFilterRule));
 		}
-		
+
 	}
-	
+
 	public SerializableJobList buildJob() {
-		
-		if(!validatePanels()) return null;
-		
-		JobFactory jobFactory =  (JobFactory) 
-		SpringContextSingelton.getApplicationContext().getBean("JobFactory");
+
+		if (!validatePanels())
+			return null;
+
+		JobFactory jobFactory = (JobFactory) SpringContextSingelton
+				.getApplicationContext().getBean("JobFactory");
 		DownloadJob job = jobFactory.createDownloadJob();
 		List<JobFilter> jobFilterList = new ArrayList<JobFilter>();
-		SerializableDispatcherConfiguration dispatcherConfiguration = 
-			new SerializableDispatcherConfiguration();
+		SerializableDispatcherConfiguration dispatcherConfiguration = new SerializableDispatcherConfiguration();
 		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
-		
+
 		//build download job
 		job.setIgnoreFilter(true);
 		job.setState(DownloadJob.STATE_OPEN);
-		
+
 		//basic panel
 		job.setName(this.downloadJobBasicPanel.nameTextField.getText());
-		
+
 		try {
-			job.setUrl(new URL(this.downloadJobBasicPanel.urlTextField.getText()));
+			job.setUrl(new URL(this.downloadJobBasicPanel.urlTextField
+					.getText()));
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Bad URL: " + this.downloadJobBasicPanel.urlTextField.getText(), e);
+			throw new RuntimeException("Bad URL: "
+					+ this.downloadJobBasicPanel.urlTextField.getText(), e);
 		}
 
-		job.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField.getText()));
-		job.setMaxRetryCount(Integer.parseInt(this.downloadJobBasicPanel.maxRetriesTextField.getText()));
-		
-		dispatcherConfiguration.setWorkerThreads(
-				Integer.parseInt(this.downloadJobBasicPanel.workingThreadsTextField.getText()));
+		job.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField
+				.getText()));
+		job.setMaxRetryCount(Integer
+				.parseInt(this.downloadJobBasicPanel.maxRetriesTextField
+						.getText()));
 
-		retrieverConfiguration.setMaxConnectionsPerServer(
-				Integer.parseInt(this.downloadJobBasicPanel.maxConnectionsTextField.getText()));
-		
+		dispatcherConfiguration.setWorkerThreads(Integer
+				.parseInt(this.downloadJobBasicPanel.workingThreadsTextField
+						.getText()));
+
+		retrieverConfiguration.setMaxConnectionsPerServer(Integer
+				.parseInt(this.downloadJobBasicPanel.maxConnectionsTextField
+						.getText()));
+
 		//proxy configuration
-		if(this.downloadJobBasicPanel.enableProxyCheckBox.isSelected()) {
+		if (this.downloadJobBasicPanel.enableProxyCheckBox.isSelected()) {
 			retrieverConfiguration.setProxyEnabled(true);
-			
-			retrieverConfiguration.setProxyServer(
-					this.downloadJobBasicPanel.proxyServerTextField.getText());
-			
-			retrieverConfiguration.setProxyPort(Integer.parseInt(
-					this.downloadJobBasicPanel.proxyPortTextField.getText()));
+
+			retrieverConfiguration
+					.setProxyServer(this.downloadJobBasicPanel.proxyServerTextField
+							.getText());
+
+			retrieverConfiguration.setProxyPort(Integer
+					.parseInt(this.downloadJobBasicPanel.proxyPortTextField
+							.getText()));
 		} else {
 			retrieverConfiguration.setProxyEnabled(false);
 		}
-		
-		if(this.downloadJobBasicPanel.enableAuthenticationCheckBox.isSelected()) {
+
+		if (this.downloadJobBasicPanel.enableAuthenticationCheckBox
+				.isSelected()) {
 			retrieverConfiguration.setProxyAuthenticationEnabled(true);
-			
-			retrieverConfiguration.setProxyUser(
-					this.downloadJobBasicPanel.authenticationUserTextField.getText());
-			
-			retrieverConfiguration.setProxyPassword(
-					this.downloadJobBasicPanel.authenticationPasswordTextField.getText());
+
+			retrieverConfiguration
+					.setProxyUser(this.downloadJobBasicPanel.authenticationUserTextField
+							.getText());
+
+			retrieverConfiguration
+					.setProxyPassword(this.downloadJobBasicPanel.authenticationPasswordTextField
+							.getText());
 		} else {
 			retrieverConfiguration.setProxyAuthenticationEnabled(false);
 		}
-		
-		
+
 		//simple rules panel
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();
 		jobFilterList.add(downloadJobFilter);
-		
-		String maxRecursionDepth = 
-			this.downloadJobSimpleRulesPanel.recursionDepthTextField.getText();
-		if(maxRecursionDepth != null && maxRecursionDepth.length() > 0) {
-			downloadJobFilter.setMaxRecursionDepth(Integer.parseInt(maxRecursionDepth));
+
+		String maxRecursionDepth = this.downloadJobSimpleRulesPanel.recursionDepthTextField
+				.getText();
+		if (maxRecursionDepth != null && maxRecursionDepth.length() > 0) {
+			downloadJobFilter.setMaxRecursionDepth(Integer
+					.parseInt(maxRecursionDepth));
 		}
-		
-		String maxLinksToFollow = 
-			this.downloadJobSimpleRulesPanel.linksToFollowTextField.getText();
-		if(maxLinksToFollow != null && maxLinksToFollow.length() > 0) {
+
+		String maxLinksToFollow = this.downloadJobSimpleRulesPanel.linksToFollowTextField
+				.getText();
+		if (maxLinksToFollow != null && maxLinksToFollow.length() > 0) {
 			MaxLinksToFollowFilter maxLinksToFollowFilter = new MaxLinksToFollowFilter();
-			maxLinksToFollowFilter.setMaxLinksToFollow(Integer.parseInt(maxLinksToFollow));
+			maxLinksToFollowFilter.setMaxLinksToFollow(Integer
+					.parseInt(maxLinksToFollow));
 			jobFilterList.add(maxLinksToFollowFilter);
 		}
-		
-		if(this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
+
+		if (this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
 			try {
-				downloadJobFilter.setURLPrefix(new URL(this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText()));
+				downloadJobFilter.setURLPrefix(new URL(
+						this.downloadJobSimpleRulesPanel.urlPrefixTextField
+								.getText()));
 			} catch (MalformedURLException e) {
-				throw new RuntimeException("Bad URL: " + this.downloadJobSimpleRulesPanel.urlPrefixTextField.getText(), e);
+				throw new RuntimeException("Bad URL: "
+						+ this.downloadJobSimpleRulesPanel.urlPrefixTextField
+								.getText(), e);
 			}
 		} else {
 			downloadJobFilter.setURLPrefix(null);
 		}
-		
-		int hostnameFilterRowCount = 
-			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.getRowCount();
+
+		int hostnameFilterRowCount = this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
+				.getRowCount();
 		List<String> allowedHostnames = new ArrayList<String>();
 		for (int i = 0; i < hostnameFilterRowCount; i++) {
-			allowedHostnames.add((String) this.downloadJobSimpleRulesPanel.hostnameFilterTableModel.getValueAt(i, 0));
+			allowedHostnames
+					.add((String) this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
+							.getValueAt(i, 0));
 		}
-		downloadJobFilter.setAllowedHostNames(allowedHostnames.toArray(new String[allowedHostnames.size()]));
+		downloadJobFilter.setAllowedHostNames(allowedHostnames
+				.toArray(new String[allowedHostnames.size()]));
 
-		int saveToDiskFilterRowCount = 
-			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.getRowCount();
+		int saveToDiskFilterRowCount = this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
+				.getRowCount();
 		List<String> saveToDiskFilters = new ArrayList<String>();
 		for (int i = 0; i < saveToDiskFilterRowCount; i++) {
-			saveToDiskFilters.add((String) this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel.getValueAt(i, 0));
+			saveToDiskFilters
+					.add((String) this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
+							.getValueAt(i, 0));
 		}
-		downloadJobFilter.setSaveToDisk(saveToDiskFilters.toArray(new String[saveToDiskFilters.size()]));
+		downloadJobFilter.setSaveToDisk(saveToDiskFilters
+				.toArray(new String[saveToDiskFilters.size()]));
 
 		//advanced rules
-		int advancedFilterCount = this.downloadJobAdvancedRulesPanel.advancedFilterFilterListModel.getSize();
-		if(advancedFilterCount > 0) {
+		int advancedFilterCount = this.downloadJobRegExpRulesPanel.regExpFilterListModel
+				.getSize();
+		if (advancedFilterCount > 0) {
 			RegExpJobFilter regExpFilter = new RegExpJobFilter();
-			
+
 			for (int i = 0; i < advancedFilterCount; i++) {
-				RegExpFilterRule rule = ((DownloadJobAdvancedRulesPanel.RegExpFilterRuleListElement)
-						this.downloadJobAdvancedRulesPanel.advancedFilterFilterListModel.get(i))
-						.getRule();
+				RegExpFilterRule rule = ((DownloadJobRegExpRulesPanel.RegExpFilterRuleListElement) this.downloadJobRegExpRulesPanel.regExpFilterListModel
+						.get(i)).getRule();
 				regExpFilter.addFilterRule(rule);
 			}
-			
+
 			jobFilterList.add(regExpFilter);
 		}
-		
+
+		//file size filter
+		FileSizeFilter fileSizeFilter = new FileSizeFilter();
+		fileSizeFilter.setMinSize(100000);
+		fileSizeFilter.setAcceptWhenLengthNotSet(false);
+		jobFilterList.add(fileSizeFilter);
+
 		//build result
 		SerializableJobList result = new SerializableJobList();
 		result.addJob(job);
 		result.setFilters(jobFilterList);
 		result.setDispatcherConfiguration(dispatcherConfiguration);
-		result.putContextParameter(
-				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, 
-				retrieverConfiguration);
-		
+		result
+				.putContextParameter(
+						HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
+						retrieverConfiguration);
+
 		return result;
 	}
 
 	private boolean validatePanels() {
-		
+
 		boolean result = true;
-		
+
 		List<String> errorsBasicPanel = downloadJobBasicPanel.validateFields();
-		List<String> errorsSimplePanel = downloadJobSimpleRulesPanel.validateFields();
-		
-		if(errorsBasicPanel.size() > 0) {
+		List<String> errorsSimplePanel = downloadJobSimpleRulesPanel
+				.validateFields();
+
+		if (errorsBasicPanel.size() > 0) {
 			result = false;
 			tabbedPane.setSelectedComponent(downloadJobBasicPanel);
 			displayErrors(errorsBasicPanel);
-		} else if(errorsSimplePanel.size() > 0) {
+		} else if (errorsSimplePanel.size() > 0) {
 			result = false;
 			tabbedPane.setSelectedComponent(downloadJobSimpleRulesPanel);
 			displayErrors(errorsSimplePanel);
 		}
-		
+
 		return result;
 	}
 
@@ -310,10 +354,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		for (String string : errorsBasicPanel) {
 			buffer.append(string + '\n');
 		}
-		
-		JOptionPane.showMessageDialog(this,
-				buffer.toString(), "Validation errors",
-				JOptionPane.ERROR_MESSAGE);
+
+		JOptionPane.showMessageDialog(this, buffer.toString(),
+				"Validation errors", JOptionPane.ERROR_MESSAGE);
 	}
 
 	/** This method is called from within the constructor to
@@ -327,13 +370,16 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		tabbedPane = new javax.swing.JTabbedPane();
 		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel();
 		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel();
-		downloadJobAdvancedRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel();
+		downloadJobSpecialRulesPanel1 = new de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel();
+		downloadJobRegExpRulesPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobRegExpRulesPanel();
 
 		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
 
 		tabbedPane.addTab("Simple Rules", downloadJobSimpleRulesPanel);
 
-		tabbedPane.addTab("Advanced Rules", downloadJobAdvancedRulesPanel);
+		tabbedPane.addTab("Special Rules", downloadJobSpecialRulesPanel1);
+
+		tabbedPane.addTab("Advanced RegExp Rules", downloadJobRegExpRulesPanel);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -350,9 +396,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobAdvancedRulesPanel downloadJobAdvancedRulesPanel;
 	private de.phleisch.app.itsucks.gui.panel.DownloadJobBasicPanel downloadJobBasicPanel;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobRegExpRulesPanel downloadJobRegExpRulesPanel;
 	private de.phleisch.app.itsucks.gui.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
+	private de.phleisch.app.itsucks.gui.panel.DownloadJobSpecialRulesPanel downloadJobSpecialRulesPanel1;
 	private javax.swing.JTabbedPane tabbedPane;
 	// End of variables declaration//GEN-END:variables
 

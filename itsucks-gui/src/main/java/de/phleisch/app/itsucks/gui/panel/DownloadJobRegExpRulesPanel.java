@@ -20,28 +20,28 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  *
  * @author  __USER__
  */
-public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
+public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 9062521650244140654L;
 
-	protected ExtendedListModel advancedFilterFilterListModel;
+	protected ExtendedListModel regExpFilterListModel;
 	protected RegExpFilterRule mRuleInEditMode;
 
 	/** Creates new form DownloadJobAdvancedRulesPanel */
-	public DownloadJobAdvancedRulesPanel() {
-		advancedFilterFilterListModel = new ExtendedListModel();
+	public DownloadJobRegExpRulesPanel() {
+		regExpFilterListModel = new ExtendedListModel();
 		mRuleInEditMode = null;
 
 		initComponents();
 
 		//add elements to combo boxes
 		for (ComboBoxEntry entry : mStatusChangeList) {
-			editAdvancedFilterMatchStatusChangeComboBox.addItem(entry);
-			editAdvancedFilterNoMatchStatusChangeComboBox.addItem(entry);
+			editRegExpFilterMatchStatusChangeComboBox.addItem(entry);
+			editRegExpFilterNoMatchStatusChangeComboBox.addItem(entry);
 		}
 
 		//disable advanced edit filter panel
-		SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+		SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel,
 				false);
 	}
 
@@ -109,7 +109,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 	private void updateAdvancedFilter() {
 
-		Object[] selectedValues = advancedFilterList.getSelectedValues();
+		Object[] selectedValues = regExpFilterList.getSelectedValues();
 		if (mRuleInEditMode == null || selectedValues == null
 				|| selectedValues.length != 1) {
 			return;
@@ -117,31 +117,31 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 
 		RegExpFilterRule rule = mRuleInEditMode;
 
-		rule.setName(editAdvancedFilterNameField.getText());
-		rule.setDescription(editAdvancedFilterDescriptionTextArea.getText());
-		rule.setPattern(editAdvancedFilterRegExpTextArea.getText());
+		rule.setName(editRegExpFilterNameField.getText());
+		rule.setDescription(editRegExpFilterDescriptionTextArea.getText());
+		rule.setPattern(editRegExpFilterRegExpTextArea.getText());
 
 		//match Action
 		{
 			RegExpFilterAction matchAction = rule.getMatchAction();
 
-			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterMatchStatusChangeComboBox
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editRegExpFilterMatchStatusChangeComboBox
 					.getSelectedItem();
 			matchAction.setAccept((Boolean) selectedItem.getValue());
 
 			try {
 				matchAction.setPriorityChange(Integer
-						.parseInt(editAdvancedFilterMatchPrioChangeTextField
+						.parseInt(editRegExpFilterMatchPrioChangeTextField
 								.getText()));
 			} catch (NumberFormatException ex) {
-				editAdvancedFilterMatchPrioChangeTextField.setText(String
+				editRegExpFilterMatchPrioChangeTextField.setText(String
 						.valueOf(matchAction.getPriorityChange()));
 			}
 
 			matchAction.addJobParameter(new JobParameter(
 					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
 					new Boolean(
-							editAdvancedFilterMatchAssumeFinishedFileCheckBox
+							editRegExpFilterMatchAssumeFinishedFileCheckBox
 									.isSelected())));
 		}
 
@@ -149,29 +149,29 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		{
 			RegExpFilterAction noMatchAction = rule.getNoMatchAction();
 
-			ComboBoxEntry selectedItem = (ComboBoxEntry) editAdvancedFilterNoMatchStatusChangeComboBox
+			ComboBoxEntry selectedItem = (ComboBoxEntry) editRegExpFilterNoMatchStatusChangeComboBox
 					.getSelectedItem();
 			noMatchAction.setAccept((Boolean) selectedItem.getValue());
 
 			try {
 				noMatchAction.setPriorityChange(Integer
-						.parseInt(editAdvancedFilterNoMatchPrioChangeTextField
+						.parseInt(editRegExpFilterNoMatchPrioChangeTextField
 								.getText()));
 			} catch (NumberFormatException ex) {
-				editAdvancedFilterNoMatchPrioChangeTextField.setText(String
+				editRegExpFilterNoMatchPrioChangeTextField.setText(String
 						.valueOf(noMatchAction.getPriorityChange()));
 			}
 
 			noMatchAction.addJobParameter(new JobParameter(
 					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
 					new Boolean(
-							editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+							editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 									.isSelected())));
 		}
 
 		//notify list
-		int selectionIndex = advancedFilterList.getSelectedIndex();
-		advancedFilterFilterListModel.fireContentsChanged(selectionIndex,
+		int selectionIndex = regExpFilterList.getSelectedIndex();
+		regExpFilterListModel.fireContentsChanged(selectionIndex,
 				selectionIndex);
 	}
 
@@ -183,499 +183,496 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		advancedFilterChainLabel = new javax.swing.JLabel();
-		advancedFilterChainExplanationLabel = new javax.swing.JLabel();
-		advancedFilterPane = new javax.swing.JScrollPane();
-		advancedFilterList = new javax.swing.JList();
-		advancedFilterAddButton = new javax.swing.JButton();
-		advancedFilterRemoveButton = new javax.swing.JButton();
-		advancedFilterMoveUpButton = new javax.swing.JButton();
-		advancedFilterMoveDownButton = new javax.swing.JButton();
-		editAdvancedFilterPanel = new javax.swing.JPanel();
-		editAdvancedFilterNameLabel = new javax.swing.JLabel();
-		editAdvancedFilterNameField = new javax.swing.JTextField();
-		editAdvancedFilterDescriptionLabel = new javax.swing.JLabel();
-		editAdvancedFilterDescriptionPane = new javax.swing.JScrollPane();
-		editAdvancedFilterDescriptionTextArea = new javax.swing.JTextArea();
-		editAdvancedFilterRegExpLabel = new javax.swing.JLabel();
-		editAdvancedFilterRegExpPane = new javax.swing.JScrollPane();
-		editAdvancedFilterRegExpTextArea = new javax.swing.JTextArea();
-		editAdvancedFilterOpenRegExpEditorButton = new javax.swing.JButton();
-		editAdvancedFilterMatchPanel = new javax.swing.JPanel();
-		editAdvancedFilterMatchStatusChangeLabel = new javax.swing.JLabel();
-		editAdvancedFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
-		editAdvancedFilterMatchPrioChangeLabel = new javax.swing.JLabel();
-		editAdvancedFilterMatchPrioChangeTextField = new javax.swing.JTextField();
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
-		editAdvancedFilterNoMatchPanel = new javax.swing.JPanel();
-		editAdvancedFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
-		editAdvancedFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
-		editAdvancedFilterNoMatchPrioChangeLabel = new javax.swing.JLabel();
-		editAdvancedFilterNoMatchPrioChangeTextField = new javax.swing.JTextField();
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
+		regExpFilterChainLabel = new javax.swing.JLabel();
+		regExpFilterChainExplanationLabel = new javax.swing.JLabel();
+		regExpFilterPane = new javax.swing.JScrollPane();
+		regExpFilterList = new javax.swing.JList();
+		regExpFilterAddButton = new javax.swing.JButton();
+		regExpFilterRemoveButton = new javax.swing.JButton();
+		regExpFilterMoveUpButton = new javax.swing.JButton();
+		regExpFilterMoveDownButton = new javax.swing.JButton();
+		editRegExpFilterPanel = new javax.swing.JPanel();
+		editRegExpFilterNameLabel = new javax.swing.JLabel();
+		editRegExpFilterNameField = new javax.swing.JTextField();
+		editRegExpFilterDescriptionLabel = new javax.swing.JLabel();
+		editRegExpFilterDescriptionPane = new javax.swing.JScrollPane();
+		editRegExpFilterDescriptionTextArea = new javax.swing.JTextArea();
+		editRegExpFilterRegExpLabel = new javax.swing.JLabel();
+		editRegExpFilterRegExpPane = new javax.swing.JScrollPane();
+		editRegExpFilterRegExpTextArea = new javax.swing.JTextArea();
+		editRegExpFilterOpenRegExpEditorButton = new javax.swing.JButton();
+		editRegExpFilterMatchPanel = new javax.swing.JPanel();
+		editRegExpFilterMatchStatusChangeLabel = new javax.swing.JLabel();
+		editRegExpFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
+		editRegExpFilterMatchPrioChangeLabel = new javax.swing.JLabel();
+		editRegExpFilterMatchPrioChangeTextField = new javax.swing.JTextField();
+		editRegExpFilterMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
+		editRegExpFilterNoMatchPanel = new javax.swing.JPanel();
+		editRegExpFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
+		editRegExpFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
+		editRegExpFilterNoMatchPrioChangeLabel = new javax.swing.JLabel();
+		editRegExpFilterNoMatchPrioChangeTextField = new javax.swing.JTextField();
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
 
-		advancedFilterChainLabel.setText("Advanced Filter Chain");
+		regExpFilterChainLabel.setText("Regular Expression Filter Chain");
 
-		advancedFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog",
+		regExpFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog",
 				0, 12));
-		advancedFilterChainExplanationLabel
+		regExpFilterChainExplanationLabel
 				.setText("<html>Every found URL will be filtered through the chain. Filtering starts with the first entry in the list and ends with the last entry.</html>");
 
-		advancedFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
-		advancedFilterList.setModel(advancedFilterFilterListModel);
-		advancedFilterList
+		regExpFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
+		regExpFilterList.setModel(regExpFilterListModel);
+		regExpFilterList
 				.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 					public void valueChanged(
 							javax.swing.event.ListSelectionEvent evt) {
-						advancedFilterListValueChanged(evt);
+						regExpFilterListValueChanged(evt);
 					}
 				});
 
-		advancedFilterPane.setViewportView(advancedFilterList);
+		regExpFilterPane.setViewportView(regExpFilterList);
 
-		advancedFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		advancedFilterAddButton.setText("+");
-		advancedFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		advancedFilterAddButton
+		regExpFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		regExpFilterAddButton.setText("+");
+		regExpFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		regExpFilterAddButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						advancedFilterAddButtonActionPerformed(evt);
+						regExpFilterAddButtonActionPerformed(evt);
 					}
 				});
 
-		advancedFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		advancedFilterRemoveButton.setText("-");
-		advancedFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		advancedFilterRemoveButton
+		regExpFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		regExpFilterRemoveButton.setText("-");
+		regExpFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		regExpFilterRemoveButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						advancedFilterRemoveButtonActionPerformed(evt);
+						regExpFilterRemoveButtonActionPerformed(evt);
 					}
 				});
 
-		advancedFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		advancedFilterMoveUpButton.setText("up");
-		advancedFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		advancedFilterMoveUpButton
+		regExpFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		regExpFilterMoveUpButton.setText("up");
+		regExpFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		regExpFilterMoveUpButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						advancedFilterMoveUpButtonActionPerformed(evt);
+						regExpFilterMoveUpButtonActionPerformed(evt);
 					}
 				});
 
-		advancedFilterMoveDownButton
-				.setFont(new java.awt.Font("Dialog", 0, 12));
-		advancedFilterMoveDownButton.setText("down");
-		advancedFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		advancedFilterMoveDownButton
+		regExpFilterMoveDownButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		regExpFilterMoveDownButton.setText("down");
+		regExpFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+		regExpFilterMoveDownButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						advancedFilterMoveDownButtonActionPerformed(evt);
+						regExpFilterMoveDownButtonActionPerformed(evt);
 					}
 				});
 
-		editAdvancedFilterPanel.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Advanced Filter"));
-		editAdvancedFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-		editAdvancedFilterNameLabel.setText("Filter Name:");
+		editRegExpFilterPanel.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Regular Expression Filter"));
+		editRegExpFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		editRegExpFilterNameLabel.setText("Filter Name:");
 
-		editAdvancedFilterNameField
+		editRegExpFilterNameField
 				.addFocusListener(new java.awt.event.FocusAdapter() {
 					public void focusLost(java.awt.event.FocusEvent evt) {
-						editAdvancedFilterNameFieldFocusLost(evt);
+						editRegExpFilterNameFieldFocusLost(evt);
 					}
 				});
 
-		editAdvancedFilterDescriptionLabel.setFont(new java.awt.Font("Dialog",
-				0, 12));
-		editAdvancedFilterDescriptionLabel
+		editRegExpFilterDescriptionLabel.setFont(new java.awt.Font("Dialog", 0,
+				12));
+		editRegExpFilterDescriptionLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		editAdvancedFilterDescriptionLabel.setText("Filter Description:");
+		editRegExpFilterDescriptionLabel.setText("Filter Description:");
 
-		editAdvancedFilterDescriptionTextArea.setColumns(20);
-		editAdvancedFilterDescriptionTextArea.setLineWrap(true);
-		editAdvancedFilterDescriptionTextArea.setRows(2);
-		editAdvancedFilterDescriptionTextArea
+		editRegExpFilterDescriptionTextArea.setColumns(20);
+		editRegExpFilterDescriptionTextArea.setLineWrap(true);
+		editRegExpFilterDescriptionTextArea.setRows(2);
+		editRegExpFilterDescriptionTextArea
 				.addFocusListener(new java.awt.event.FocusAdapter() {
 					public void focusLost(java.awt.event.FocusEvent evt) {
-						editAdvancedFilterDescriptionTextAreaFocusLost(evt);
+						editRegExpFilterDescriptionTextAreaFocusLost(evt);
 					}
 				});
 
-		editAdvancedFilterDescriptionPane
-				.setViewportView(editAdvancedFilterDescriptionTextArea);
+		editRegExpFilterDescriptionPane
+				.setViewportView(editRegExpFilterDescriptionTextArea);
 
-		editAdvancedFilterRegExpLabel
-				.setFont(new java.awt.Font("Dialog", 0, 12));
-		editAdvancedFilterRegExpLabel
+		editRegExpFilterRegExpLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		editRegExpFilterRegExpLabel
 				.setText("Regular Expression, partial match:");
 
-		editAdvancedFilterRegExpTextArea.setColumns(20);
-		editAdvancedFilterRegExpTextArea.setLineWrap(true);
-		editAdvancedFilterRegExpTextArea.setRows(3);
-		editAdvancedFilterRegExpTextArea
+		editRegExpFilterRegExpTextArea.setColumns(20);
+		editRegExpFilterRegExpTextArea.setLineWrap(true);
+		editRegExpFilterRegExpTextArea.setRows(3);
+		editRegExpFilterRegExpTextArea
 				.addFocusListener(new java.awt.event.FocusAdapter() {
 					public void focusLost(java.awt.event.FocusEvent evt) {
-						editAdvancedFilterRegExpTextAreaFocusLost(evt);
+						editRegExpFilterRegExpTextAreaFocusLost(evt);
 					}
 				});
 
-		editAdvancedFilterRegExpPane
-				.setViewportView(editAdvancedFilterRegExpTextArea);
+		editRegExpFilterRegExpPane
+				.setViewportView(editRegExpFilterRegExpTextArea);
 
-		editAdvancedFilterOpenRegExpEditorButton.setFont(new java.awt.Font(
+		editRegExpFilterOpenRegExpEditorButton.setFont(new java.awt.Font(
 				"Dialog", 0, 10));
-		editAdvancedFilterOpenRegExpEditorButton
+		editRegExpFilterOpenRegExpEditorButton
 				.setText("Open Regular Expression Editor");
-		editAdvancedFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(
-				2, 4, 2, 4));
-		editAdvancedFilterOpenRegExpEditorButton
+		editRegExpFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(2,
+				4, 2, 4));
+		editRegExpFilterOpenRegExpEditorButton
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editAdvancedFilterOpenRegExpEditorButtonActionPerformed(evt);
+						editRegExpFilterOpenRegExpEditorButtonActionPerformed(evt);
 					}
 				});
 
-		editAdvancedFilterMatchPanel.setBorder(javax.swing.BorderFactory
+		editRegExpFilterMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of match"));
-		editAdvancedFilterMatchStatusChangeLabel.setFont(new java.awt.Font(
+		editRegExpFilterMatchStatusChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
-		editAdvancedFilterMatchStatusChangeLabel.setText("Change status:");
+		editRegExpFilterMatchStatusChangeLabel.setText("Change status:");
 
-		editAdvancedFilterMatchStatusChangeComboBox.setFont(new java.awt.Font(
+		editRegExpFilterMatchStatusChangeComboBox.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
-		editAdvancedFilterMatchStatusChangeComboBox
+		editRegExpFilterMatchStatusChangeComboBox
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editAdvancedFilterMatchStatusChangeComboBoxActionPerformed(evt);
+						editRegExpFilterMatchStatusChangeComboBoxActionPerformed(evt);
 					}
 				});
 
-		editAdvancedFilterMatchPrioChangeLabel.setFont(new java.awt.Font(
+		editRegExpFilterMatchPrioChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
-		editAdvancedFilterMatchPrioChangeLabel.setText("Priority change:");
+		editRegExpFilterMatchPrioChangeLabel.setText("Priority change:");
 
-		editAdvancedFilterMatchPrioChangeTextField
+		editRegExpFilterMatchPrioChangeTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-		editAdvancedFilterMatchPrioChangeTextField
+		editRegExpFilterMatchPrioChangeTextField
 				.addFocusListener(new java.awt.event.FocusAdapter() {
 					public void focusLost(java.awt.event.FocusEvent evt) {
-						editAdvancedFilterMatchPrioChangeTextFieldFocusLost(evt);
+						editRegExpFilterMatchPrioChangeTextFieldFocusLost(evt);
 					}
 				});
 
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+		editRegExpFilterMatchAssumeFinishedFileCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+		editRegExpFilterMatchAssumeFinishedFileCheckBox
 				.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+		editRegExpFilterMatchAssumeFinishedFileCheckBox
 				.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0,
 						0));
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+		editRegExpFilterMatchAssumeFinishedFileCheckBox
 				.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		editAdvancedFilterMatchAssumeFinishedFileCheckBox
+		editRegExpFilterMatchAssumeFinishedFileCheckBox
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
+						editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
 					}
 				});
 
-		org.jdesktop.layout.GroupLayout editAdvancedFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editAdvancedFilterMatchPanel);
-		editAdvancedFilterMatchPanel
-				.setLayout(editAdvancedFilterMatchPanelLayout);
-		editAdvancedFilterMatchPanelLayout
-				.setHorizontalGroup(editAdvancedFilterMatchPanelLayout
+		org.jdesktop.layout.GroupLayout editRegExpFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editRegExpFilterMatchPanel);
+		editRegExpFilterMatchPanel.setLayout(editRegExpFilterMatchPanelLayout);
+		editRegExpFilterMatchPanelLayout
+				.setHorizontalGroup(editRegExpFilterMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterMatchPanelLayout
+								editRegExpFilterMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterMatchPanelLayout
+												editRegExpFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																editAdvancedFilterMatchAssumeFinishedFileCheckBox,
+																editRegExpFilterMatchAssumeFinishedFileCheckBox,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																265,
 																Short.MAX_VALUE)
 														.add(
-																editAdvancedFilterMatchPanelLayout
+																editRegExpFilterMatchPanelLayout
 																		.createParallelGroup(
 																				org.jdesktop.layout.GroupLayout.TRAILING,
 																				false)
 																		.add(
 																				org.jdesktop.layout.GroupLayout.LEADING,
-																				editAdvancedFilterMatchPanelLayout
+																				editRegExpFilterMatchPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								editAdvancedFilterMatchStatusChangeLabel)
+																								editRegExpFilterMatchStatusChangeLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								editAdvancedFilterMatchStatusChangeComboBox,
+																								editRegExpFilterMatchStatusChangeComboBox,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																								128,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 																		.add(
 																				org.jdesktop.layout.GroupLayout.LEADING,
-																				editAdvancedFilterMatchPanelLayout
+																				editRegExpFilterMatchPanelLayout
 																						.createSequentialGroup()
 																						.add(
-																								editAdvancedFilterMatchPrioChangeLabel)
+																								editRegExpFilterMatchPrioChangeLabel)
 																						.addPreferredGap(
 																								org.jdesktop.layout.LayoutStyle.RELATED)
 																						.add(
-																								editAdvancedFilterMatchPrioChangeTextField))))
+																								editRegExpFilterMatchPrioChangeTextField))))
 										.addContainerGap()));
 
-		editAdvancedFilterMatchPanelLayout.linkSize(new java.awt.Component[] {
-				editAdvancedFilterMatchPrioChangeLabel,
-				editAdvancedFilterMatchStatusChangeLabel },
+		editRegExpFilterMatchPanelLayout.linkSize(new java.awt.Component[] {
+				editRegExpFilterMatchPrioChangeLabel,
+				editRegExpFilterMatchStatusChangeLabel },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		editAdvancedFilterMatchPanelLayout
-				.setVerticalGroup(editAdvancedFilterMatchPanelLayout
+		editRegExpFilterMatchPanelLayout
+				.setVerticalGroup(editRegExpFilterMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterMatchPanelLayout
+								editRegExpFilterMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterMatchPanelLayout
+												editRegExpFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																editAdvancedFilterMatchStatusChangeLabel)
+																editRegExpFilterMatchStatusChangeLabel)
 														.add(
-																editAdvancedFilterMatchStatusChangeComboBox,
+																editRegExpFilterMatchStatusChangeComboBox,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterMatchPanelLayout
+												editRegExpFilterMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																editAdvancedFilterMatchPrioChangeLabel)
+																editRegExpFilterMatchPrioChangeLabel)
 														.add(
-																editAdvancedFilterMatchPrioChangeTextField,
+																editRegExpFilterMatchPrioChangeTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterMatchAssumeFinishedFileCheckBox)
+												editRegExpFilterMatchAssumeFinishedFileCheckBox)
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		editAdvancedFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
+		editRegExpFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Action in case of no match"));
-		editAdvancedFilterNoMatchStatusChangeLabel.setFont(new java.awt.Font(
+		editRegExpFilterNoMatchStatusChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
-		editAdvancedFilterNoMatchStatusChangeLabel.setText("Change status:");
+		editRegExpFilterNoMatchStatusChangeLabel.setText("Change status:");
 
-		editAdvancedFilterNoMatchStatusChangeComboBox
-				.setFont(new java.awt.Font("Dialog", 0, 12));
-		editAdvancedFilterNoMatchStatusChangeComboBox
+		editRegExpFilterNoMatchStatusChangeComboBox.setFont(new java.awt.Font(
+				"Dialog", 0, 12));
+		editRegExpFilterNoMatchStatusChangeComboBox
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed(evt);
+						editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed(evt);
 					}
 				});
 
-		editAdvancedFilterNoMatchPrioChangeLabel.setFont(new java.awt.Font(
+		editRegExpFilterNoMatchPrioChangeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
-		editAdvancedFilterNoMatchPrioChangeLabel.setText("Priority change:");
+		editRegExpFilterNoMatchPrioChangeLabel.setText("Priority change:");
 
-		editAdvancedFilterNoMatchPrioChangeTextField
+		editRegExpFilterNoMatchPrioChangeTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-		editAdvancedFilterNoMatchPrioChangeTextField
+		editRegExpFilterNoMatchPrioChangeTextField
 				.addFocusListener(new java.awt.event.FocusAdapter() {
 					public void focusLost(java.awt.event.FocusEvent evt) {
-						editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost(evt);
+						editRegExpFilterNoMatchPrioChangeTextFieldFocusLost(evt);
 					}
 				});
 
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 				.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 				.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0,
 						0));
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 				.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+		editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
+						editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
 					}
 				});
 
-		org.jdesktop.layout.GroupLayout editAdvancedFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editAdvancedFilterNoMatchPanel);
-		editAdvancedFilterNoMatchPanel
-				.setLayout(editAdvancedFilterNoMatchPanelLayout);
-		editAdvancedFilterNoMatchPanelLayout
-				.setHorizontalGroup(editAdvancedFilterNoMatchPanelLayout
+		org.jdesktop.layout.GroupLayout editRegExpFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editRegExpFilterNoMatchPanel);
+		editRegExpFilterNoMatchPanel
+				.setLayout(editRegExpFilterNoMatchPanelLayout);
+		editRegExpFilterNoMatchPanelLayout
+				.setHorizontalGroup(editRegExpFilterNoMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterNoMatchPanelLayout
+								editRegExpFilterNoMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterNoMatchPanelLayout
+												editRegExpFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																editAdvancedFilterNoMatchAssumeFinishedFileCheckBox,
+																editRegExpFilterNoMatchAssumeFinishedFileCheckBox,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																277,
 																Short.MAX_VALUE)
 														.add(
-																editAdvancedFilterNoMatchPanelLayout
+																editRegExpFilterNoMatchPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				editAdvancedFilterNoMatchPanelLayout
+																				editRegExpFilterNoMatchPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								editAdvancedFilterNoMatchPrioChangeLabel)
+																								editRegExpFilterNoMatchPrioChangeLabel)
 																						.add(
-																								editAdvancedFilterNoMatchStatusChangeLabel))
+																								editRegExpFilterNoMatchStatusChangeLabel))
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				editAdvancedFilterNoMatchPanelLayout
+																				editRegExpFilterNoMatchPanelLayout
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING,
 																								false)
 																						.add(
-																								editAdvancedFilterNoMatchPrioChangeTextField)
+																								editRegExpFilterNoMatchPrioChangeTextField)
 																						.add(
-																								editAdvancedFilterNoMatchStatusChangeComboBox,
+																								editRegExpFilterNoMatchStatusChangeComboBox,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																								128,
 																								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
 										.addContainerGap()));
-		editAdvancedFilterNoMatchPanelLayout
-				.setVerticalGroup(editAdvancedFilterNoMatchPanelLayout
+		editRegExpFilterNoMatchPanelLayout
+				.setVerticalGroup(editRegExpFilterNoMatchPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterNoMatchPanelLayout
+								editRegExpFilterNoMatchPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterNoMatchPanelLayout
+												editRegExpFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																editAdvancedFilterNoMatchStatusChangeComboBox,
+																editRegExpFilterNoMatchStatusChangeComboBox,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
-																editAdvancedFilterNoMatchStatusChangeLabel))
+																editRegExpFilterNoMatchStatusChangeLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterNoMatchPanelLayout
+												editRegExpFilterNoMatchPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																editAdvancedFilterNoMatchPrioChangeLabel)
+																editRegExpFilterNoMatchPrioChangeLabel)
 														.add(
-																editAdvancedFilterNoMatchPrioChangeTextField,
+																editRegExpFilterNoMatchPrioChangeTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterNoMatchAssumeFinishedFileCheckBox)
+												editRegExpFilterNoMatchAssumeFinishedFileCheckBox)
 										.addContainerGap(
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
-		org.jdesktop.layout.GroupLayout editAdvancedFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editAdvancedFilterPanel);
-		editAdvancedFilterPanel.setLayout(editAdvancedFilterPanelLayout);
-		editAdvancedFilterPanelLayout
-				.setHorizontalGroup(editAdvancedFilterPanelLayout
+		org.jdesktop.layout.GroupLayout editRegExpFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
+				editRegExpFilterPanel);
+		editRegExpFilterPanel.setLayout(editRegExpFilterPanelLayout);
+		editRegExpFilterPanelLayout
+				.setHorizontalGroup(editRegExpFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterPanelLayout
+								editRegExpFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterPanelLayout
+												editRegExpFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																editAdvancedFilterRegExpPane,
+																editRegExpFilterRegExpPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																616,
 																Short.MAX_VALUE)
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																editAdvancedFilterPanelLayout
+																editRegExpFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				editAdvancedFilterMatchPanel,
+																				editRegExpFilterMatchPanel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				editAdvancedFilterNoMatchPanel,
+																				editRegExpFilterNoMatchPanel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE))
 														.add(
-																editAdvancedFilterPanelLayout
+																editRegExpFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				editAdvancedFilterNameLabel)
+																				editRegExpFilterNameLabel)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				editAdvancedFilterNameField,
+																				editRegExpFilterNameField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				138,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				editAdvancedFilterDescriptionLabel,
+																				editRegExpFilterDescriptionLabel,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				111,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				editAdvancedFilterDescriptionPane,
+																				editRegExpFilterDescriptionPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				261,
 																				Short.MAX_VALUE))
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																editAdvancedFilterPanelLayout
+																editRegExpFilterPanelLayout
 																		.createSequentialGroup()
 																		.add(
-																				editAdvancedFilterRegExpLabel,
+																				editRegExpFilterRegExpLabel,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				441,
 																				Short.MAX_VALUE)
@@ -685,64 +682,64 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																				175))
 														.add(
 																org.jdesktop.layout.GroupLayout.TRAILING,
-																editAdvancedFilterOpenRegExpEditorButton))
+																editRegExpFilterOpenRegExpEditorButton))
 										.addContainerGap()));
-		editAdvancedFilterPanelLayout
-				.setVerticalGroup(editAdvancedFilterPanelLayout
+		editRegExpFilterPanelLayout
+				.setVerticalGroup(editRegExpFilterPanelLayout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								editAdvancedFilterPanelLayout
+								editRegExpFilterPanelLayout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												editAdvancedFilterPanelLayout
+												editRegExpFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																editAdvancedFilterPanelLayout
+																editRegExpFilterPanelLayout
 																		.createParallelGroup(
 																				org.jdesktop.layout.GroupLayout.BASELINE)
 																		.add(
-																				editAdvancedFilterNameLabel)
+																				editRegExpFilterNameLabel)
 																		.add(
-																				editAdvancedFilterNameField,
+																				editRegExpFilterNameField,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.add(
-																				editAdvancedFilterDescriptionLabel))
+																				editRegExpFilterDescriptionLabel))
 														.add(
-																editAdvancedFilterDescriptionPane,
+																editRegExpFilterDescriptionPane,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																41,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(editAdvancedFilterRegExpLabel)
+										.add(editRegExpFilterRegExpLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterRegExpPane,
+												editRegExpFilterRegExpPane,
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												58, Short.MAX_VALUE)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterOpenRegExpEditorButton)
+												editRegExpFilterOpenRegExpEditorButton)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterPanelLayout
+												editRegExpFilterPanelLayout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING,
 																false)
 														.add(
-																editAdvancedFilterMatchPanel,
+																editRegExpFilterMatchPanel,
 																0, 131,
 																Short.MAX_VALUE)
 														.add(
-																editAdvancedFilterNoMatchPanel,
+																editRegExpFilterNoMatchPanel,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																131,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -766,7 +763,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																org.jdesktop.layout.GroupLayout.TRAILING)
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																editAdvancedFilterPanel,
+																editRegExpFilterPanel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																Short.MAX_VALUE)
@@ -774,7 +771,7 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																layout
 																		.createSequentialGroup()
 																		.add(
-																				advancedFilterPane,
+																				regExpFilterPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																				599,
 																				Short.MAX_VALUE)
@@ -785,30 +782,30 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																						.createParallelGroup(
 																								org.jdesktop.layout.GroupLayout.LEADING)
 																						.add(
-																								advancedFilterRemoveButton)
+																								regExpFilterRemoveButton)
 																						.add(
-																								advancedFilterAddButton)
+																								regExpFilterAddButton)
 																						.add(
-																								advancedFilterMoveUpButton)
+																								regExpFilterMoveUpButton)
 																						.add(
-																								advancedFilterMoveDownButton)))
+																								regExpFilterMoveDownButton)))
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																advancedFilterChainExplanationLabel,
+																regExpFilterChainExplanationLabel,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 																650,
 																Short.MAX_VALUE)
 														.add(
 																org.jdesktop.layout.GroupLayout.LEADING,
-																advancedFilterChainLabel))
+																regExpFilterChainLabel))
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { advancedFilterAddButton,
-				advancedFilterRemoveButton },
+		layout.linkSize(new java.awt.Component[] { regExpFilterAddButton,
+				regExpFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		layout.linkSize(new java.awt.Component[] {
-				advancedFilterMoveDownButton, advancedFilterMoveUpButton },
+		layout.linkSize(new java.awt.Component[] { regExpFilterMoveDownButton,
+				regExpFilterMoveUpButton },
 				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
 		layout
@@ -819,11 +816,11 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 								layout
 										.createSequentialGroup()
 										.addContainerGap()
-										.add(advancedFilterChainLabel)
+										.add(regExpFilterChainLabel)
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												advancedFilterChainExplanationLabel,
+												regExpFilterChainExplanationLabel,
 												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 												35,
 												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -837,135 +834,134 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 																layout
 																		.createSequentialGroup()
 																		.add(
-																				advancedFilterAddButton)
+																				regExpFilterAddButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				advancedFilterRemoveButton)
+																				regExpFilterRemoveButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				advancedFilterMoveUpButton)
+																				regExpFilterMoveUpButton)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				advancedFilterMoveDownButton))
-														.add(
-																advancedFilterPane,
+																				regExpFilterMoveDownButton))
+														.add(regExpFilterPane,
 																0, 0,
 																Short.MAX_VALUE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
-												editAdvancedFilterPanel,
+												editRegExpFilterPanel,
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												341, Short.MAX_VALUE)
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { advancedFilterAddButton,
-				advancedFilterRemoveButton },
+		layout.linkSize(new java.awt.Component[] { regExpFilterAddButton,
+				regExpFilterRemoveButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
-		layout.linkSize(new java.awt.Component[] {
-				advancedFilterMoveDownButton, advancedFilterMoveUpButton },
+		layout.linkSize(new java.awt.Component[] { regExpFilterMoveDownButton,
+				regExpFilterMoveUpButton },
 				org.jdesktop.layout.GroupLayout.VERTICAL);
 
 	}// </editor-fold>//GEN-END:initComponents
 
-	//GEN-FIRST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
-	private void editAdvancedFilterOpenRegExpEditorButtonActionPerformed(
+	//GEN-FIRST:event_editRegExpFilterOpenRegExpEditorButtonActionPerformed
+	private void editRegExpFilterOpenRegExpEditorButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		EditRegularExpressionDialog dialog = new EditRegularExpressionDialog(
 				(Dialog) getRootPane().getParent(), true);
 
-		dialog.setRegularExpression(this.editAdvancedFilterRegExpTextArea
+		dialog.setRegularExpression(this.editRegExpFilterRegExpTextArea
 				.getText());
 		dialog.setVisible(true);
 
 		if (dialog.isOk()) {
 			//copy the value from the editor
-			this.editAdvancedFilterRegExpTextArea.setText(dialog
+			this.editRegExpFilterRegExpTextArea.setText(dialog
 					.getRegularExpression());
-			
+
 			updateAdvancedFilter();
 		}
-	}//GEN-LAST:event_editAdvancedFilterOpenRegExpEditorButtonActionPerformed
+	}//GEN-LAST:event_editRegExpFilterOpenRegExpEditorButtonActionPerformed
 
-	//GEN-FIRST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
-	private void editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(
+	//GEN-FIRST:event_editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
+	private void editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
+	}//GEN-LAST:event_editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
 
-	//GEN-FIRST:event_editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost
-	private void editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost(
+	//GEN-FIRST:event_editRegExpFilterNoMatchPrioChangeTextFieldFocusLost
+	private void editRegExpFilterNoMatchPrioChangeTextFieldFocusLost(
 			java.awt.event.FocusEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost
+	}//GEN-LAST:event_editRegExpFilterNoMatchPrioChangeTextFieldFocusLost
 
-	//GEN-FIRST:event_editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed
-	private void editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed(
+	//GEN-FIRST:event_editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed
+	private void editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed
+	}//GEN-LAST:event_editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed
 
-	//GEN-FIRST:event_editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed
-	private void editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed(
+	//GEN-FIRST:event_editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed
+	private void editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed
+	}//GEN-LAST:event_editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed
 
-	//GEN-FIRST:event_editAdvancedFilterMatchPrioChangeTextFieldFocusLost
-	private void editAdvancedFilterMatchPrioChangeTextFieldFocusLost(
+	//GEN-FIRST:event_editRegExpFilterMatchPrioChangeTextFieldFocusLost
+	private void editRegExpFilterMatchPrioChangeTextFieldFocusLost(
 			java.awt.event.FocusEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterMatchPrioChangeTextFieldFocusLost
+	}//GEN-LAST:event_editRegExpFilterMatchPrioChangeTextFieldFocusLost
 
-	//GEN-FIRST:event_editAdvancedFilterMatchStatusChangeComboBoxActionPerformed
-	private void editAdvancedFilterMatchStatusChangeComboBoxActionPerformed(
+	//GEN-FIRST:event_editRegExpFilterMatchStatusChangeComboBoxActionPerformed
+	private void editRegExpFilterMatchStatusChangeComboBoxActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterMatchStatusChangeComboBoxActionPerformed
+	}//GEN-LAST:event_editRegExpFilterMatchStatusChangeComboBoxActionPerformed
 
-	//GEN-FIRST:event_editAdvancedFilterRegExpTextAreaFocusLost
-	private void editAdvancedFilterRegExpTextAreaFocusLost(
+	//GEN-FIRST:event_editRegExpFilterRegExpTextAreaFocusLost
+	private void editRegExpFilterRegExpTextAreaFocusLost(
 			java.awt.event.FocusEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterRegExpTextAreaFocusLost
+	}//GEN-LAST:event_editRegExpFilterRegExpTextAreaFocusLost
 
-	//GEN-FIRST:event_editAdvancedFilterDescriptionTextAreaFocusLost
-	private void editAdvancedFilterDescriptionTextAreaFocusLost(
+	//GEN-FIRST:event_editRegExpFilterDescriptionTextAreaFocusLost
+	private void editRegExpFilterDescriptionTextAreaFocusLost(
 			java.awt.event.FocusEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterDescriptionTextAreaFocusLost
+	}//GEN-LAST:event_editRegExpFilterDescriptionTextAreaFocusLost
 
-	//GEN-FIRST:event_editAdvancedFilterNameFieldFocusLost
-	private void editAdvancedFilterNameFieldFocusLost(
+	//GEN-FIRST:event_editRegExpFilterNameFieldFocusLost
+	private void editRegExpFilterNameFieldFocusLost(
 			java.awt.event.FocusEvent evt) {
 
 		updateAdvancedFilter();
 
-	}//GEN-LAST:event_editAdvancedFilterNameFieldFocusLost
+	}//GEN-LAST:event_editRegExpFilterNameFieldFocusLost
 
-	//GEN-FIRST:event_advancedFilterListValueChanged
-	private void advancedFilterListValueChanged(
+	//GEN-FIRST:event_regExpFilterListValueChanged
+	private void regExpFilterListValueChanged(
 			javax.swing.event.ListSelectionEvent evt) {
 
 		//ignore event when list readjusting
@@ -976,18 +972,18 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		//remove rule from edit
 		mRuleInEditMode = null;
 
-		Object[] selectedValues = advancedFilterList.getSelectedValues();
+		Object[] selectedValues = regExpFilterList.getSelectedValues();
 		if (selectedValues != null && selectedValues.length == 1) {
-			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+			SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel,
 					true);
 
 			RegExpFilterRule rule = ((RegExpFilterRuleListElement) selectedValues[0])
 					.getRule();
 
-			editAdvancedFilterNameField.setText(rule.getName());
-			editAdvancedFilterDescriptionTextArea
+			editRegExpFilterNameField.setText(rule.getName());
+			editRegExpFilterDescriptionTextArea
 					.setText(rule.getDescription());
-			editAdvancedFilterRegExpTextArea.setText(rule.getPattern()
+			editRegExpFilterRegExpTextArea.setText(rule.getPattern()
 					.pattern());
 
 			//match action
@@ -995,22 +991,22 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				RegExpFilterAction matchAction = rule.getMatchAction();
 
 				if (matchAction.getAccept() == null) {
-					editAdvancedFilterMatchStatusChangeComboBox
+					editRegExpFilterMatchStatusChangeComboBox
 							.setSelectedIndex(0);
 				} else if (matchAction.getAccept().booleanValue()) {
-					editAdvancedFilterMatchStatusChangeComboBox
+					editRegExpFilterMatchStatusChangeComboBox
 							.setSelectedIndex(1);
 				} else {
-					editAdvancedFilterMatchStatusChangeComboBox
+					editRegExpFilterMatchStatusChangeComboBox
 							.setSelectedIndex(2);
 				}
 
-				editAdvancedFilterMatchPrioChangeTextField.setText(String
+				editRegExpFilterMatchPrioChangeTextField.setText(String
 						.valueOf(matchAction.getPriorityChange()));
 
 				JobParameter assumeCompleteMatchParameter = matchAction
 						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
-				editAdvancedFilterMatchAssumeFinishedFileCheckBox
+				editRegExpFilterMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteMatchParameter != null
 								&& assumeCompleteMatchParameter.getValue()
 										.equals(Boolean.TRUE));
@@ -1021,22 +1017,22 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 				RegExpFilterAction noMatchAction = rule.getNoMatchAction();
 
 				if (noMatchAction.getAccept() == null) {
-					editAdvancedFilterNoMatchStatusChangeComboBox
+					editRegExpFilterNoMatchStatusChangeComboBox
 							.setSelectedIndex(0);
 				} else if (noMatchAction.getAccept().booleanValue()) {
-					editAdvancedFilterNoMatchStatusChangeComboBox
+					editRegExpFilterNoMatchStatusChangeComboBox
 							.setSelectedIndex(1);
 				} else {
-					editAdvancedFilterNoMatchStatusChangeComboBox
+					editRegExpFilterNoMatchStatusChangeComboBox
 							.setSelectedIndex(2);
 				}
 
-				editAdvancedFilterNoMatchPrioChangeTextField.setText(String
+				editRegExpFilterNoMatchPrioChangeTextField.setText(String
 						.valueOf(noMatchAction.getPriorityChange()));
 
 				JobParameter assumeCompleteNoMatchParameter = noMatchAction
 						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
-				editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+				editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteNoMatchParameter != null
 								&& assumeCompleteNoMatchParameter.getValue()
 										.equals(Boolean.TRUE));
@@ -1047,119 +1043,119 @@ public class DownloadJobAdvancedRulesPanel extends javax.swing.JPanel {
 		} else {
 
 			//empty all fields
-			SwingUtils.setContainerAndChildrenEnabled(editAdvancedFilterPanel,
+			SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel,
 					false);
 
-			editAdvancedFilterNameField.setText(null);
-			editAdvancedFilterDescriptionTextArea.setText(null);
-			editAdvancedFilterRegExpTextArea.setText(null);
+			editRegExpFilterNameField.setText(null);
+			editRegExpFilterDescriptionTextArea.setText(null);
+			editRegExpFilterRegExpTextArea.setText(null);
 
-			editAdvancedFilterMatchStatusChangeComboBox.setSelectedIndex(0);
-			editAdvancedFilterMatchPrioChangeTextField.setText(null);
-			editAdvancedFilterMatchAssumeFinishedFileCheckBox
+			editRegExpFilterMatchStatusChangeComboBox.setSelectedIndex(0);
+			editRegExpFilterMatchPrioChangeTextField.setText(null);
+			editRegExpFilterMatchAssumeFinishedFileCheckBox
 					.setSelected(false);
 
-			editAdvancedFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
-			editAdvancedFilterNoMatchPrioChangeTextField.setText(null);
-			editAdvancedFilterNoMatchAssumeFinishedFileCheckBox
+			editRegExpFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
+			editRegExpFilterNoMatchPrioChangeTextField.setText(null);
+			editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 					.setSelected(false);
 
 		}
 
-	}//GEN-LAST:event_advancedFilterListValueChanged
+	}//GEN-LAST:event_regExpFilterListValueChanged
 
-	//GEN-FIRST:event_advancedFilterMoveDownButtonActionPerformed
-	private void advancedFilterMoveDownButtonActionPerformed(
+	//GEN-FIRST:event_regExpFilterMoveDownButtonActionPerformed
+	private void regExpFilterMoveDownButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
-		int selection = advancedFilterList.getSelectedIndex();
-		if (selection < (advancedFilterFilterListModel.getSize() - 1)) {
-			Object source = advancedFilterFilterListModel.get(selection);
+		int selection = regExpFilterList.getSelectedIndex();
+		if (selection < (regExpFilterListModel.getSize() - 1)) {
+			Object source = regExpFilterListModel.get(selection);
 
 			//move the entry
-			advancedFilterFilterListModel.moveEntry(selection, 1);
+			regExpFilterListModel.moveEntry(selection, 1);
 
 			//move the selection
-			advancedFilterList.setSelectedValue(source, true);
+			regExpFilterList.setSelectedValue(source, true);
 		}
 
-	}//GEN-LAST:event_advancedFilterMoveDownButtonActionPerformed
+	}//GEN-LAST:event_regExpFilterMoveDownButtonActionPerformed
 
-	//GEN-FIRST:event_advancedFilterMoveUpButtonActionPerformed
-	private void advancedFilterMoveUpButtonActionPerformed(
+	//GEN-FIRST:event_regExpFilterMoveUpButtonActionPerformed
+	private void regExpFilterMoveUpButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
-		int selection = advancedFilterList.getSelectedIndex();
+		int selection = regExpFilterList.getSelectedIndex();
 		if (selection > 0) {
-			Object source = advancedFilterFilterListModel.get(selection);
+			Object source = regExpFilterListModel.get(selection);
 
 			//move the entry
-			advancedFilterFilterListModel.moveEntry(selection, -1);
+			regExpFilterListModel.moveEntry(selection, -1);
 
 			//move the selection
-			advancedFilterList.setSelectedValue(source, true);
+			regExpFilterList.setSelectedValue(source, true);
 		}
 
-	}//GEN-LAST:event_advancedFilterMoveUpButtonActionPerformed
+	}//GEN-LAST:event_regExpFilterMoveUpButtonActionPerformed
 
-	//GEN-FIRST:event_advancedFilterAddButtonActionPerformed
-	private void advancedFilterAddButtonActionPerformed(
+	//GEN-FIRST:event_regExpFilterAddButtonActionPerformed
+	private void regExpFilterAddButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
 		Object element = new RegExpFilterRuleListElement(new RegExpFilterRule());
 
-		advancedFilterFilterListModel.addElement(element);
+		regExpFilterListModel.addElement(element);
 
 		//move the selection
-		advancedFilterList.setSelectedValue(element, true);
+		regExpFilterList.setSelectedValue(element, true);
 
-	}//GEN-LAST:event_advancedFilterAddButtonActionPerformed
+	}//GEN-LAST:event_regExpFilterAddButtonActionPerformed
 
-	//GEN-FIRST:event_advancedFilterRemoveButtonActionPerformed
-	private void advancedFilterRemoveButtonActionPerformed(
+	//GEN-FIRST:event_regExpFilterRemoveButtonActionPerformed
+	private void regExpFilterRemoveButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
-		int[] selections = advancedFilterList.getSelectedIndices();
+		int[] selections = regExpFilterList.getSelectedIndices();
 		if (selections.length > 0) {
 			for (int i = selections.length - 1; i >= 0; i--) {
-				advancedFilterFilterListModel.remove(selections[i]);
+				regExpFilterListModel.remove(selections[i]);
 			}
 		}
 
-	}//GEN-LAST:event_advancedFilterRemoveButtonActionPerformed	
+	}//GEN-LAST:event_regExpFilterRemoveButtonActionPerformed	
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	protected javax.swing.JButton advancedFilterAddButton;
-	protected javax.swing.JLabel advancedFilterChainExplanationLabel;
-	protected javax.swing.JLabel advancedFilterChainLabel;
-	protected javax.swing.JList advancedFilterList;
-	protected javax.swing.JButton advancedFilterMoveDownButton;
-	protected javax.swing.JButton advancedFilterMoveUpButton;
-	protected javax.swing.JScrollPane advancedFilterPane;
-	protected javax.swing.JButton advancedFilterRemoveButton;
-	protected javax.swing.JLabel editAdvancedFilterDescriptionLabel;
-	protected javax.swing.JScrollPane editAdvancedFilterDescriptionPane;
-	protected javax.swing.JTextArea editAdvancedFilterDescriptionTextArea;
-	protected javax.swing.JCheckBox editAdvancedFilterMatchAssumeFinishedFileCheckBox;
-	protected javax.swing.JPanel editAdvancedFilterMatchPanel;
-	protected javax.swing.JLabel editAdvancedFilterMatchPrioChangeLabel;
-	protected javax.swing.JTextField editAdvancedFilterMatchPrioChangeTextField;
-	protected javax.swing.JComboBox editAdvancedFilterMatchStatusChangeComboBox;
-	protected javax.swing.JLabel editAdvancedFilterMatchStatusChangeLabel;
-	protected javax.swing.JTextField editAdvancedFilterNameField;
-	protected javax.swing.JLabel editAdvancedFilterNameLabel;
-	protected javax.swing.JCheckBox editAdvancedFilterNoMatchAssumeFinishedFileCheckBox;
-	protected javax.swing.JPanel editAdvancedFilterNoMatchPanel;
-	protected javax.swing.JLabel editAdvancedFilterNoMatchPrioChangeLabel;
-	protected javax.swing.JTextField editAdvancedFilterNoMatchPrioChangeTextField;
-	protected javax.swing.JComboBox editAdvancedFilterNoMatchStatusChangeComboBox;
-	protected javax.swing.JLabel editAdvancedFilterNoMatchStatusChangeLabel;
-	protected javax.swing.JButton editAdvancedFilterOpenRegExpEditorButton;
-	protected javax.swing.JPanel editAdvancedFilterPanel;
-	protected javax.swing.JLabel editAdvancedFilterRegExpLabel;
-	protected javax.swing.JScrollPane editAdvancedFilterRegExpPane;
-	protected javax.swing.JTextArea editAdvancedFilterRegExpTextArea;
+	protected javax.swing.JLabel editRegExpFilterDescriptionLabel;
+	protected javax.swing.JScrollPane editRegExpFilterDescriptionPane;
+	protected javax.swing.JTextArea editRegExpFilterDescriptionTextArea;
+	protected javax.swing.JCheckBox editRegExpFilterMatchAssumeFinishedFileCheckBox;
+	protected javax.swing.JPanel editRegExpFilterMatchPanel;
+	protected javax.swing.JLabel editRegExpFilterMatchPrioChangeLabel;
+	protected javax.swing.JTextField editRegExpFilterMatchPrioChangeTextField;
+	protected javax.swing.JComboBox editRegExpFilterMatchStatusChangeComboBox;
+	protected javax.swing.JLabel editRegExpFilterMatchStatusChangeLabel;
+	protected javax.swing.JTextField editRegExpFilterNameField;
+	protected javax.swing.JLabel editRegExpFilterNameLabel;
+	protected javax.swing.JCheckBox editRegExpFilterNoMatchAssumeFinishedFileCheckBox;
+	protected javax.swing.JPanel editRegExpFilterNoMatchPanel;
+	protected javax.swing.JLabel editRegExpFilterNoMatchPrioChangeLabel;
+	protected javax.swing.JTextField editRegExpFilterNoMatchPrioChangeTextField;
+	protected javax.swing.JComboBox editRegExpFilterNoMatchStatusChangeComboBox;
+	protected javax.swing.JLabel editRegExpFilterNoMatchStatusChangeLabel;
+	protected javax.swing.JButton editRegExpFilterOpenRegExpEditorButton;
+	protected javax.swing.JPanel editRegExpFilterPanel;
+	protected javax.swing.JLabel editRegExpFilterRegExpLabel;
+	protected javax.swing.JScrollPane editRegExpFilterRegExpPane;
+	protected javax.swing.JTextArea editRegExpFilterRegExpTextArea;
+	protected javax.swing.JButton regExpFilterAddButton;
+	protected javax.swing.JLabel regExpFilterChainExplanationLabel;
+	protected javax.swing.JLabel regExpFilterChainLabel;
+	protected javax.swing.JList regExpFilterList;
+	protected javax.swing.JButton regExpFilterMoveDownButton;
+	protected javax.swing.JButton regExpFilterMoveUpButton;
+	protected javax.swing.JScrollPane regExpFilterPane;
+	protected javax.swing.JButton regExpFilterRemoveButton;
 	// End of variables declaration//GEN-END:variables
 
 }

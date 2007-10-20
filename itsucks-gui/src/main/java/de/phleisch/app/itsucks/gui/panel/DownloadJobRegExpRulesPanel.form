@@ -14,19 +14,19 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="editAdvancedFilterPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="editRegExpFilterPanel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="advancedFilterPane" pref="599" max="32767" attributes="0"/>
+                      <Component id="regExpFilterPane" pref="599" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="advancedFilterRemoveButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="advancedFilterAddButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="advancedFilterMoveUpButton" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="advancedFilterMoveDownButton" linkSize="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="regExpFilterRemoveButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="regExpFilterAddButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="regExpFilterMoveUpButton" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="regExpFilterMoveDownButton" linkSize="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="advancedFilterChainExplanationLabel" alignment="0" pref="650" max="32767" attributes="0"/>
-                  <Component id="advancedFilterChainLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="regExpFilterChainExplanationLabel" alignment="0" pref="650" max="32767" attributes="0"/>
+                  <Component id="regExpFilterChainLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -36,36 +36,36 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="advancedFilterChainLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="regExpFilterChainLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="advancedFilterChainExplanationLabel" min="-2" pref="35" max="-2" attributes="0"/>
+              <Component id="regExpFilterChainExplanationLabel" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="advancedFilterAddButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="regExpFilterAddButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="advancedFilterRemoveButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="regExpFilterRemoveButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="advancedFilterMoveUpButton" linkSize="4" min="-2" max="-2" attributes="0"/>
+                      <Component id="regExpFilterMoveUpButton" linkSize="4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="advancedFilterMoveDownButton" linkSize="4" min="-2" max="-2" attributes="0"/>
+                      <Component id="regExpFilterMoveDownButton" linkSize="4" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="advancedFilterPane" min="0" pref="0" max="32767" attributes="2"/>
+                  <Component id="regExpFilterPane" min="0" pref="0" max="32767" attributes="2"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="editAdvancedFilterPanel" pref="341" max="32767" attributes="0"/>
+              <Component id="editRegExpFilterPanel" pref="341" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="advancedFilterChainLabel">
+    <Component class="javax.swing.JLabel" name="regExpFilterChainLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Advanced Filter Chain"/>
+        <Property name="text" type="java.lang.String" value="Regular Expression Filter Chain"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="advancedFilterChainExplanationLabel">
+    <Component class="javax.swing.JLabel" name="regExpFilterChainExplanationLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -73,29 +73,29 @@
         <Property name="text" type="java.lang.String" value="&lt;html&gt;Every found URL will be filtered through the chain. Filtering starts with the first entry in the list and ends with the last entry.&lt;/html&gt;"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="advancedFilterPane">
+    <Container class="javax.swing.JScrollPane" name="regExpFilterPane">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="advancedFilterList">
+        <Component class="javax.swing.JList" name="regExpFilterList">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="advancedFilterFilterListModel" type="code"/>
+              <Connection code="regExpFilterFilterListModel" type="code"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="advancedFilterListValueChanged"/>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="regExpFilterListValueChanged"/>
           </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="advancedFilterAddButton">
+    <Component class="javax.swing.JButton" name="regExpFilterAddButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -106,10 +106,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterAddButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regExpFilterAddButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="advancedFilterRemoveButton">
+    <Component class="javax.swing.JButton" name="regExpFilterRemoveButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -120,10 +120,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterRemoveButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regExpFilterRemoveButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="advancedFilterMoveUpButton">
+    <Component class="javax.swing.JButton" name="regExpFilterMoveUpButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -134,10 +134,10 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterMoveUpButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regExpFilterMoveUpButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="advancedFilterMoveDownButton">
+    <Component class="javax.swing.JButton" name="regExpFilterMoveDownButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -148,14 +148,14 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="advancedFilterMoveDownButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="regExpFilterMoveDownButtonActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="editAdvancedFilterPanel">
+    <Container class="javax.swing.JPanel" name="editRegExpFilterPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Advanced Filter"/>
+            <TitledBorder title="Regular Expression Filter"/>
           </Border>
         </Property>
       </Properties>
@@ -166,26 +166,26 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editAdvancedFilterRegExpPane" alignment="1" pref="616" max="32767" attributes="0"/>
+                      <Component id="editRegExpFilterRegExpPane" alignment="1" pref="616" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="editAdvancedFilterMatchPanel" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterMatchPanel" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterNoMatchPanel" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchPanel" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="editAdvancedFilterNameLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNameLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterNameField" min="-2" pref="138" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNameField" min="-2" pref="138" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterDescriptionLabel" min="-2" pref="111" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterDescriptionLabel" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterDescriptionPane" pref="261" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterDescriptionPane" pref="261" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="editAdvancedFilterRegExpLabel" pref="441" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterRegExpLabel" pref="441" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="editAdvancedFilterOpenRegExpEditorButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="editRegExpFilterOpenRegExpEditorButton" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -197,22 +197,22 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editAdvancedFilterNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterNameField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterDescriptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterDescriptionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="editAdvancedFilterDescriptionPane" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="editRegExpFilterDescriptionPane" min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="editAdvancedFilterRegExpLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="editRegExpFilterRegExpLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editAdvancedFilterRegExpPane" pref="58" max="32767" attributes="0"/>
+                  <Component id="editRegExpFilterRegExpPane" pref="58" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="editAdvancedFilterOpenRegExpEditorButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="editRegExpFilterOpenRegExpEditorButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="editAdvancedFilterMatchPanel" min="0" pref="131" max="32767" attributes="1"/>
-                      <Component id="editAdvancedFilterNoMatchPanel" alignment="0" min="-2" pref="131" max="-2" attributes="1"/>
+                      <Component id="editRegExpFilterMatchPanel" min="0" pref="131" max="32767" attributes="1"/>
+                      <Component id="editRegExpFilterNoMatchPanel" alignment="0" min="-2" pref="131" max="-2" attributes="1"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -220,7 +220,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="editAdvancedFilterNameLabel">
+        <Component class="javax.swing.JLabel" name="editRegExpFilterNameLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -228,12 +228,12 @@
             <Property name="text" type="java.lang.String" value="Filter Name:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="editAdvancedFilterNameField">
+        <Component class="javax.swing.JTextField" name="editRegExpFilterNameField">
           <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterNameFieldFocusLost"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterNameFieldFocusLost"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="editAdvancedFilterDescriptionLabel">
+        <Component class="javax.swing.JLabel" name="editRegExpFilterDescriptionLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -242,26 +242,26 @@
             <Property name="text" type="java.lang.String" value="Filter Description:"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="editAdvancedFilterDescriptionPane">
+        <Container class="javax.swing.JScrollPane" name="editRegExpFilterDescriptionPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="editAdvancedFilterDescriptionTextArea">
+            <Component class="javax.swing.JTextArea" name="editRegExpFilterDescriptionTextArea">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="2"/>
               </Properties>
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterDescriptionTextAreaFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterDescriptionTextAreaFocusLost"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="editAdvancedFilterRegExpLabel">
+        <Component class="javax.swing.JLabel" name="editRegExpFilterRegExpLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
@@ -269,26 +269,26 @@
             <Property name="text" type="java.lang.String" value="Regular Expression, partial match:"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="editAdvancedFilterRegExpPane">
+        <Container class="javax.swing.JScrollPane" name="editRegExpFilterRegExpPane">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="editAdvancedFilterRegExpTextArea">
+            <Component class="javax.swing.JTextArea" name="editRegExpFilterRegExpTextArea">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="lineWrap" type="boolean" value="true"/>
                 <Property name="rows" type="int" value="3"/>
               </Properties>
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterRegExpTextAreaFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterRegExpTextAreaFocusLost"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="editAdvancedFilterOpenRegExpEditorButton">
+        <Component class="javax.swing.JButton" name="editRegExpFilterOpenRegExpEditorButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="10" style="0"/>
@@ -299,10 +299,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterOpenRegExpEditorButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterOpenRegExpEditorButtonActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JPanel" name="editAdvancedFilterMatchPanel">
+        <Container class="javax.swing.JPanel" name="editRegExpFilterMatchPanel">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -317,17 +317,17 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="editAdvancedFilterMatchAssumeFinishedFileCheckBox" alignment="0" pref="265" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterMatchAssumeFinishedFileCheckBox" alignment="0" pref="265" max="32767" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="editAdvancedFilterMatchStatusChangeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="editRegExpFilterMatchStatusChangeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="editAdvancedFilterMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="0"/>
+                                  <Component id="editRegExpFilterMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="editAdvancedFilterMatchPrioChangeLabel" linkSize="7" min="-2" max="-2" attributes="1"/>
+                                  <Component id="editRegExpFilterMatchPrioChangeLabel" linkSize="7" min="-2" max="-2" attributes="1"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="editAdvancedFilterMatchPrioChangeTextField" max="32767" attributes="0"/>
+                                  <Component id="editRegExpFilterMatchPrioChangeTextField" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -340,23 +340,23 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editAdvancedFilterMatchStatusChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterMatchStatusChangeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterMatchStatusChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterMatchStatusChangeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editAdvancedFilterMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editAdvancedFilterMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="editRegExpFilterMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="editAdvancedFilterMatchStatusChangeLabel">
+            <Component class="javax.swing.JLabel" name="editRegExpFilterMatchStatusChangeLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -364,17 +364,17 @@
                 <Property name="text" type="java.lang.String" value="Change status:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="editAdvancedFilterMatchStatusChangeComboBox">
+            <Component class="javax.swing.JComboBox" name="editRegExpFilterMatchStatusChangeComboBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterMatchStatusChangeComboBoxActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterMatchStatusChangeComboBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="editAdvancedFilterMatchPrioChangeLabel">
+            <Component class="javax.swing.JLabel" name="editRegExpFilterMatchPrioChangeLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -382,15 +382,15 @@
                 <Property name="text" type="java.lang.String" value="Priority change:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="editAdvancedFilterMatchPrioChangeTextField">
+            <Component class="javax.swing.JTextField" name="editRegExpFilterMatchPrioChangeTextField">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterMatchPrioChangeTextFieldFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterMatchPrioChangeTextFieldFocusLost"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="editAdvancedFilterMatchAssumeFinishedFileCheckBox">
+            <Component class="javax.swing.JCheckBox" name="editRegExpFilterMatchAssumeFinishedFileCheckBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -406,12 +406,12 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterMatchAssumeFinishedFileCheckBoxActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="editAdvancedFilterNoMatchPanel">
+        <Container class="javax.swing.JPanel" name="editRegExpFilterNoMatchPanel">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -426,16 +426,16 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox" alignment="0" pref="277" max="32767" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchAssumeFinishedFileCheckBox" alignment="0" pref="277" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="editAdvancedFilterNoMatchPrioChangeLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="editAdvancedFilterNoMatchStatusChangeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="editRegExpFilterNoMatchPrioChangeLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="editRegExpFilterNoMatchStatusChangeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="editAdvancedFilterNoMatchPrioChangeTextField" max="32767" attributes="1"/>
-                                  <Component id="editAdvancedFilterNoMatchStatusChangeComboBox" alignment="0" min="-2" pref="128" max="-2" attributes="1"/>
+                                  <Component id="editRegExpFilterNoMatchPrioChangeTextField" max="32767" attributes="1"/>
+                                  <Component id="editRegExpFilterNoMatchStatusChangeComboBox" alignment="0" min="-2" pref="128" max="-2" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
@@ -448,23 +448,23 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editAdvancedFilterNoMatchStatusChangeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterNoMatchStatusChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchStatusChangeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchStatusChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editAdvancedFilterNoMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editAdvancedFilterNoMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="editRegExpFilterNoMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="editAdvancedFilterNoMatchStatusChangeLabel">
+            <Component class="javax.swing.JLabel" name="editRegExpFilterNoMatchStatusChangeLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -472,17 +472,17 @@
                 <Property name="text" type="java.lang.String" value="Change status:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="editAdvancedFilterNoMatchStatusChangeComboBox">
+            <Component class="javax.swing.JComboBox" name="editRegExpFilterNoMatchStatusChangeComboBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterNoMatchStatusChangeComboBoxActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="editAdvancedFilterNoMatchPrioChangeLabel">
+            <Component class="javax.swing.JLabel" name="editRegExpFilterNoMatchPrioChangeLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -490,15 +490,15 @@
                 <Property name="text" type="java.lang.String" value="Priority change:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="editAdvancedFilterNoMatchPrioChangeTextField">
+            <Component class="javax.swing.JTextField" name="editRegExpFilterNoMatchPrioChangeTextField">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
               <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editAdvancedFilterNoMatchPrioChangeTextFieldFocusLost"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterNoMatchPrioChangeTextFieldFocusLost"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="editAdvancedFilterNoMatchAssumeFinishedFileCheckBox">
+            <Component class="javax.swing.JCheckBox" name="editRegExpFilterNoMatchAssumeFinishedFileCheckBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -514,7 +514,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editAdvancedFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
