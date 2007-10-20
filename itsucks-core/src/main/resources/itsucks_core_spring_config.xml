@@ -69,7 +69,11 @@
 		
 		<property name="processors">
 			<list>
+				<!-- filter processors -->
 				<idref bean="HttpRedirectorProcessor"/>
+				<idref bean="FilterSizeProcessor"/>
+				
+				<!-- real data processors -->
 				<idref bean="HtmlParser"/>
 				<idref bean="PersistenceProcessor"/>
 			</list>
@@ -82,7 +86,7 @@
 		class="de.phleisch.app.itsucks.processing.PersistenceProcessor" 
 		singleton="false">
 		
-		<property name="preserveDataWhenRollback">
+		<property name="preserveDataOnRollback">
 			<value>true</value>
 		</property>
 	</bean>
@@ -97,6 +101,13 @@
 	<bean 
 		id="HttpRedirectorProcessor" 
 		class="de.phleisch.app.itsucks.processing.HttpRedirectorProcessor" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="FilterSizeProcessor" 
+		class="de.phleisch.app.itsucks.processing.FilterFileSizeProcessor" 
 		singleton="false">
 		
 	</bean>

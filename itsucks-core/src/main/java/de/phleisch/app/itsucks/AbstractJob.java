@@ -227,10 +227,8 @@ public abstract class AbstractJob implements Serializable, Job {
 		}
 	}
 	
-	/**
-	 * Returns the parameter under the given key or null.
-	 * @param pKey
-	 * @return
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.Job#getParameter(java.lang.String)
 	 */
 	public JobParameter getParameter(String pKey) {
 		return mParameter.get(pKey);

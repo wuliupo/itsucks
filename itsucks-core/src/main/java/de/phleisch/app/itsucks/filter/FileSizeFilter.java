@@ -11,9 +11,8 @@ package de.phleisch.app.itsucks.filter;
 import java.io.Serializable;
 
 import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.io.Metadata;
-import de.phleisch.app.itsucks.io.http.HttpMetadata;
 
 /**
  * This filter is able to filter DownloadJobs by the content length of the file. 
@@ -23,53 +22,47 @@ import de.phleisch.app.itsucks.io.http.HttpMetadata;
  */
 public class FileSizeFilter implements JobFilter, Serializable {
 
+	public static final String FILE_SIZE_CONFIG_PARAMETER = "FileSizeConfig";
+
 	private static final long serialVersionUID = 7530902338022529741L;
 	
-	private long mMinSize = -1;
-	private long mMaxSize = -1;
-	private boolean mAcceptWhenLenghtNotSet = true;
+	private FileSizeConfig mConfig = new FileSizeConfig();
+	
+	public class FileSizeConfig {
+		
+		private long mMinSize = -1;
+		private long mMaxSize = -1;
+		private boolean mAcceptWhenLengthNotSet = true;
+		
+		public long getMinSize() {
+			return mMinSize;
+		}
+		public void setMinSize(long pMinSize) {
+			mMinSize = pMinSize;
+		}
+		public long getMaxSize() {
+			return mMaxSize;
+		}
+		public void setMaxSize(long pMaxSize) {
+			mMaxSize = pMaxSize;
+		}
+		public boolean isAcceptWhenLengthNotSet() {
+			return mAcceptWhenLengthNotSet;
+		}
+		public void setAcceptWhenLengthNotSet(boolean pAcceptWhenLengthNotSet) {
+			mAcceptWhenLengthNotSet = pAcceptWhenLengthNotSet;
+		}
+		
+	}
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.filter.JobFilter#filter(de.phleisch.app.itsucks.Job)
 	 */
 	public Job filter(Job pJob) throws Exception {
 		
-		DownloadJob downloadJob = (DownloadJob) pJob;
-		if(downloadJob.isSaveToDisk()) {
-			
-			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
-			long contentLength = 0;
-			
-			if(metadata instanceof HttpMetadata) {
-				HttpMetadata httpMetadata = (HttpMetadata) metadata;
-				contentLength = httpMetadata.getContentLength();
-			}
-			
-			if(contentLength > 0) {
-				downloadJob.setSaveToDisk(checkContentLength(contentLength));
-			}
-			
-		}
+		pJob.addParameter(new JobParameter(FILE_SIZE_CONFIG_PARAMETER, mConfig));
 		
 		return pJob;
-	}
-
-	private boolean checkContentLength(long pContentLength) {
-		
-		if(pContentLength <= 0) {
-			return mAcceptWhenLenghtNotSet;
-		}
-		
-		boolean accept = true;
-		if(accept && mMinSize > -1) {
-			accept = pContentLength >= mMinSize;
-		}
-		
-		if(accept && mMaxSize > -1) {
-			accept = pContentLength <= mMaxSize;
-		}
-		
-		return accept;
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +78,7 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	 * @return
 	 */
 	public long getMinSize() {
-		return mMinSize;
+		return mConfig.getMinSize();
 	}
 
 	/**
@@ -95,7 +88,7 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	 * @param pMinSize
 	 */
 	public void setMinSize(long pMinSize) {
-		mMinSize = pMinSize;
+		mConfig.setMinSize(pMinSize);
 	}
 
 	/**
@@ -104,7 +97,7 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	 * @return
 	 */
 	public long getMaxSize() {
-		return mMaxSize;
+		return mConfig.getMaxSize();
 	}
 
 	/**
@@ -114,7 +107,7 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	 * @param pMaxSize
 	 */
 	public void setMaxSize(long pMaxSize) {
-		mMaxSize = pMaxSize;
+		mConfig.setMaxSize(pMaxSize);
 	}
 
 	/**
@@ -122,17 +115,17 @@ public class FileSizeFilter implements JobFilter, Serializable {
 	 * 
 	 * @return
 	 */
-	public boolean isAcceptWhenLenghtNotSet() {
-		return mAcceptWhenLenghtNotSet;
+	public boolean isAcceptWhenLengthNotSet() {
+		return mConfig.isAcceptWhenLengthNotSet();
 	}
 
 	/**
 	 * Sets if an file should be accepted when it's length is not known.
 	 * 
-	 * @param pAcceptWhenLenghtNotSet
+	 * @param pAcceptWhenLengthNotSet
 	 */
-	public void setAcceptWhenLenghtNotSet(boolean pAcceptWhenLenghtNotSet) {
-		mAcceptWhenLenghtNotSet = pAcceptWhenLenghtNotSet;
+	public void setAcceptWhenLengthNotSet(boolean pAcceptWhenLengthNotSet) {
+		mConfig.setAcceptWhenLengthNotSet(pAcceptWhenLengthNotSet);
 	}
 
 }

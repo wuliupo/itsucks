@@ -39,7 +39,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	private OutputStream mBufferedOut = null;
 	
 	private long mResumeAt;
-	private boolean mPreserveDataWhenRollback = true;
+	private boolean mPreserveDataOnRollback = true;
 	
 	public PersistenceProcessor() {
 		super();
@@ -186,7 +186,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		mBufferedOut = null;
 		
 		//delete the file when configurated
-		if(!mPreserveDataWhenRollback) {
+		if(!mPreserveDataOnRollback) {
 			mFile.delete();
 		}
 		
@@ -209,8 +209,8 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	/**
 	 * Gets if the persistence processor should preserve the file in case of an chain error.
 	 */
-	public boolean isPreserveDataWhenRollback() {
-		return mPreserveDataWhenRollback;
+	public boolean isPreserveDataOnRollback() {
+		return mPreserveDataOnRollback;
 	}
 
 	/**
@@ -218,8 +218,8 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 * 
 	 * @param pPreserveDataWhenRollback
 	 */
-	public void setPreserveDataWhenRollback(boolean pPreserveDataWhenRollback) {
-		mPreserveDataWhenRollback = pPreserveDataWhenRollback;
+	public void setPreserveDataOnRollback(boolean pPreserveDataOnRollback) {
+		mPreserveDataOnRollback = pPreserveDataOnRollback;
 	}
 
 

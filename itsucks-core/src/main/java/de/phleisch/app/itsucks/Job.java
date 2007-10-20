@@ -213,6 +213,13 @@ public interface Job {
 	public abstract void addParameter(JobParameter pParameter);
 	
 	/**
+	 * Returns the parameter under the given key or null.
+	 * @param pKey
+	 * @return
+	 */
+	public abstract JobParameter getParameter(String pKey);
+	
+	/**
 	 * Get a list of all job parameter
 	 * @return
 	 */
