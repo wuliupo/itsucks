@@ -124,6 +124,22 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	
+	<!-- FileSizeFilter -->
+	<xs:element name="serializedFileSizeFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+
+					<xs:sequence>
+						<xs:element name="maxFileSize" type="xs:string"/>
+						<xs:element name="minFileSize" type="xs:string"/>
+						<xs:element name="acceptWhenLengthNotSet" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="serializedHttpRetrieverConfiguration">
 		<xs:complexType>

@@ -19,6 +19,7 @@ import java.util.Set;
 import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
@@ -27,6 +28,7 @@ import de.phleisch.app.itsucks.io.DownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedFileSizeFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobParameter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedMaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilter;
@@ -289,6 +291,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedDownloadJobFilter.class,
 			SerializedMaxLinksToFollowFilter.class,
 			SerializedRegExpJobFilter.class,
+			SerializedFileSizeFilter.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);
@@ -301,6 +304,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			DownloadJobFilter.class,
 			MaxLinksToFollowFilter.class,
 			RegExpJobFilter.class,
+			FileSizeFilter.class,
 		};
 		
 		return Arrays.asList(supportedClassConvertClasses);
