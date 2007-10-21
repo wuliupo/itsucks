@@ -55,6 +55,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		DownloadJobFilter downloadJobFilter = null;
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
 		RegExpJobFilter regExpJobFilter = null;
+		FileSizeFilter fileSizeFilter = null;
 
 		for (JobFilter jobFilter : pFilters) {
 			if (jobFilter instanceof DownloadJobFilter) {
@@ -67,6 +68,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			}
 			if (jobFilter instanceof RegExpJobFilter) {
 				regExpJobFilter = (RegExpJobFilter) jobFilter;
+				continue;
+			}
+			if (jobFilter instanceof FileSizeFilter) {
+				fileSizeFilter = (FileSizeFilter) jobFilter;
 				continue;
 			}
 		}
@@ -156,12 +161,24 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 		}
 
+		//load special rules
+		if (fileSizeFilter != null) {
+			
+			this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox.setSelected(true);
+			
+			this.downloadJobSpecialRulesPanel.fileSizeMinField.setText(
+					fileSizeFilter.getMinSizeAsText());
+			this.downloadJobSpecialRulesPanel.fileSizeMaxField.setText(
+					fileSizeFilter.getMaxSizeAsText());
+			this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox.setSelectedIndex(
+					fileSizeFilter.isAcceptWhenLengthNotSet() ? 0 : 1);
+		}
+		
 		//load advanced rules
 		ExtendedListModel model = this.downloadJobRegExpRulesPanel.regExpFilterListModel;
 		this.downloadJobRegExpRulesPanel.regExpFilterList.setModel(model);
 		for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
-			model
-					.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
+			model.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
 							jobFilterRule));
 		}
 

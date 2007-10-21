@@ -50,6 +50,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedMaxLinksToFollowFilterToClass((SerializedMaxLinksToFollowFilter) pBean);
 		} if(pBean instanceof SerializedRegExpJobFilter) {
 			return convertSerializedRegExpJobFilterToClass((SerializedRegExpJobFilter) pBean);
+		} if(pBean instanceof SerializedFileSizeFilter) {
+			return convertSerializedFileSizeFilterToClass((SerializedFileSizeFilter) pBean);
 		}
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
@@ -160,6 +162,19 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		return new JobParameter(pSerializedJobParameter.getKey(), pSerializedJobParameter.getValue());
 	}
+	
+	private Object convertSerializedFileSizeFilterToClass(
+			SerializedFileSizeFilter pBean) {
+		
+		FileSizeFilter fileSizeFilter = new FileSizeFilter();
+		
+		fileSizeFilter.setMinSizeAsText(pBean.getMinFileSize());
+		fileSizeFilter.setMaxSizeAsText(pBean.getMaxFileSize());
+		fileSizeFilter.setAcceptWhenLengthNotSet(
+				pBean.isAcceptWhenLengthNotSet());
+		
+		return fileSizeFilter;
+	}
 
 	public Object convertClassToBean(Object pObject) {
 		
@@ -171,6 +186,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertMaxLinksToFollowFilterToBean((MaxLinksToFollowFilter) pObject);
 		} if(pObject instanceof RegExpJobFilter) {
 			return convertRegExpJobFilterToBean((RegExpJobFilter) pObject);
+		} if(pObject instanceof FileSizeFilter) {
+			return convertFileSizeFilterToBean((FileSizeFilter) pObject);
 		}
 			
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
@@ -215,7 +232,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 
 	private SerializedDownloadJobFilter convertDownloadJobFilterToBean(DownloadJobFilter pFilter) {
 		
-		SerializedDownloadJobFilter serializedDownloadJobFilter = mBeanFactory.createSerializedDownloadJobFilter();
+		SerializedDownloadJobFilter serializedDownloadJobFilter = 
+			mBeanFactory.createSerializedDownloadJobFilter();
 		
 		serializedDownloadJobFilter.setMaxRecursionDepth(pFilter.getMaxRecursionDepth());
 		serializedDownloadJobFilter.setUrlPrefix(pFilter.getURLPrefix() != null ? pFilter.getURLPrefix().toExternalForm() : null);
@@ -237,7 +255,9 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 
 	private SerializedMaxLinksToFollowFilter convertMaxLinksToFollowFilterToBean(MaxLinksToFollowFilter pFilter) {
 		
-		SerializedMaxLinksToFollowFilter maxLinksToFollowFilter = mBeanFactory.createSerializedMaxLinksToFollowFilter();
+		SerializedMaxLinksToFollowFilter maxLinksToFollowFilter = 
+			mBeanFactory.createSerializedMaxLinksToFollowFilter();
+		
 		maxLinksToFollowFilter.setMaxLinksToFollow(pFilter.getMaxLinksToFollow());
 		
 		return maxLinksToFollowFilter;
@@ -245,13 +265,16 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	
 	private SerializedRegExpJobFilter convertRegExpJobFilterToBean(RegExpJobFilter pFilter) {
 		
-		SerializedRegExpJobFilter regExpJobFilter = mBeanFactory.createSerializedRegExpJobFilter();
+		SerializedRegExpJobFilter regExpJobFilter = 
+			mBeanFactory.createSerializedRegExpJobFilter();
 
 		regExpJobFilter.setLetUnfilteredJobsPass(pFilter.isLetUnfilteredJobsPass());
 		
 		for (RegExpFilterRule filterRule : pFilter.getFilterRules()) {
 			
-			SerializedRegExpJobFilterRule serializedFilterRule = mBeanFactory.createSerializedRegExpJobFilterRule();
+			SerializedRegExpJobFilterRule serializedFilterRule = 
+				mBeanFactory.createSerializedRegExpJobFilterRule();
+			
 			serializedFilterRule.setName(filterRule.getName());
 			serializedFilterRule.setDescription(filterRule.getDescription());
 			serializedFilterRule.setPattern(filterRule.getPattern().pattern());
@@ -267,7 +290,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	
 	private SerializedRegExpJobFilterAction convertRegExpFilterActionToBean(RegExpFilterAction pMatchAction) {
 		
-		SerializedRegExpJobFilterAction serializedFilterAction = mBeanFactory.createSerializedRegExpJobFilterAction();
+		SerializedRegExpJobFilterAction serializedFilterAction = 
+			mBeanFactory.createSerializedRegExpJobFilterAction();
 		
 		serializedFilterAction.setAccept(pMatchAction.getAccept());
 		serializedFilterAction.setPriorityChange(pMatchAction.getPriorityChange());
@@ -278,11 +302,33 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		return serializedFilterAction;
 	}
+	
+	private Object convertFileSizeFilterToBean(FileSizeFilter pFileSizeFilter) {
+		
+		SerializedFileSizeFilter serializedFileSizeFilter = 
+			mBeanFactory.createSerializedFileSizeFilter();
+		
+		if(pFileSizeFilter.getMinSizeAsText() != null) { 
+			serializedFileSizeFilter.setMinFileSize(pFileSizeFilter.getMinSizeAsText());
+		} else {
+			serializedFileSizeFilter.setMinFileSize(String.valueOf(pFileSizeFilter.getMinSize()));
+		}
+		
+		if(pFileSizeFilter.getMaxSizeAsText() != null) {
+			serializedFileSizeFilter.setMaxFileSize(pFileSizeFilter.getMaxSizeAsText());
+		} else {
+			serializedFileSizeFilter.setMaxFileSize(String.valueOf(pFileSizeFilter.getMaxSize()));
+		}
+		
+		serializedFileSizeFilter.setAcceptWhenLengthNotSet(
+				pFileSizeFilter.isAcceptWhenLengthNotSet());
+		
+		return serializedFileSizeFilter;
+	}
 
 	public void setJobFactory(JobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}
-
 	
 	public List<Class<?>> getSupportedBeanConverter() {
 		
