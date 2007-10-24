@@ -64,7 +64,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				.createTitledBorder("File Size Filter"));
 		fileSizeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		fileSizeLabel
-				.setText("<html>Set file size limits to prevent ItSucks to save files on the disk. To get the file size a connection has to be opened to server. This can be slow when the server respone time is bad. It is not guranteed the server can send the file size (eg. dynamic sites).</html>");
+				.setText("<html>Set file size limits to prevent ItSucks to save certain files on the disk. To get the file size, a connection has to be opened to server. This can be slow when the server respone time is bad. It is not guranteed the server can send the file size (eg. dynamic sites).</html>");
 
 		fileSizeEnableCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
 		fileSizeEnableCheckBox.setText("Enable File Size Filter");
@@ -279,7 +279,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(258, Short.MAX_VALUE)));
+						.addContainerGap(213, Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_fileSizeEnableCheckBoxStateChanged
