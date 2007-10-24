@@ -25,7 +25,7 @@ public class FilterBadCharsProcessor extends AbstractDataProcessor {
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
 	 */
 	public boolean isConsumer() {
-		return true;
+		return false;
 	}
 
 	/* (non-Javadoc)
