@@ -13,6 +13,7 @@ include_once('include/header.php.inc');
       The application also provides a swing GUI and a console interface. 
       All backend functionalities are also available in a separate library, they can be easily used for other projects.
       </p>
+      <br><br><br><br><br><br><br>&nbsp; <!-- fix for ie6 -->
     </div>
     
 <?

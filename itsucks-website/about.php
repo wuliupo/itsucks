@@ -9,7 +9,7 @@ include_once('include/header.php.inc');
       
         <h2>Requirements to run ItSucks</h2>
       	<ul>
-          <li>Java JRE 1.5 or better (1.6 recommended). 
+          <li>Java JRE 1.6 or better. 
           You can get it at <a href="http://java.sun.com">http://java.sun.com</a>.</li>
           <li>min. 256 MB RAM (the more the better, java craves for memory)</li>
         </ul>

@@ -7,6 +7,21 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre2 is released</h2>
+        <div class='date'>2007-10-24</div>
+        <p>
+		Second release of the 0.3.0 branch. It contains a new file size filter.
+        <ul>
+        <li>Added new tab 'special filters' including the new file size filter.</li>
+        <li>Added support to abort processing chains</li>
+        </ul>
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=549312"> ChangeLog 0.3.0-pre2</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre1 is released</h2>
         <div class='date'>2007-10-12</div>
         <p>
@@ -23,7 +38,7 @@ include_once('include/header.php.inc');
 		I'm happy about feedback and please post any bug/issue you find in the forum.  
 		</p>		
 		<p>
-		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=545989"> ChangeLog 0.3.0-pre1</a>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=545989"> ChangeLog 0.3.0-pre1</a>
 		</p>
       </p>
 
