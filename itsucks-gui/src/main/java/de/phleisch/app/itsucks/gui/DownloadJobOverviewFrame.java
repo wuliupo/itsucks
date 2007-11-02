@@ -29,6 +29,7 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.filter.TimeLimitFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -89,6 +90,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		//configure dispatcher
 		dispatcher.addJobFilter(pJob.getFilters());
+		
+//		TimeLimitFilter limitFilter = new TimeLimitFilter();
+//		limitFilter.setTimeLimit(20 * 1000);
+//		dispatcher.addJobFilter(limitFilter);
+		
 		dispatcher.addJob(pDownloadJob);
 
 		//add all context parameter
@@ -97,7 +103,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
-				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_CORE) {
+				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_DISPATCHER) {
 
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
