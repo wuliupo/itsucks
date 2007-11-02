@@ -13,7 +13,9 @@ import java.io.Serializable;
 import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.io.DownloadJob;
 
-public class MaxLinksToFollowFilter implements JobFilter, Serializable {
+public class MaxLinksToFollowFilter
+		extends AbstractJobFilter
+		implements JobFilter, Serializable {
 
 	private static final long serialVersionUID = -8017814372426119881L;
 	

@@ -47,7 +47,7 @@ public class CoreEvents {
 	/**
 	 * Core events
 	 */
-	public final static int EVENT_CATEGORY_CORE 		= 200;
+	public final static int EVENT_CATEGORY_DISPATCHER	= 200;
 	
 	/**
 	 * Events send by the jobmanager.
@@ -77,25 +77,25 @@ public class CoreEvents {
 	 * This event is fired when the job dispatcher started
 	 */
 	public final static ConstEvent 
-		EVENT_DISPATCHER_START = new ConstEvent(2001, EVENT_CATEGORY_CORE);
+		EVENT_DISPATCHER_START = new ConstEvent(2001, EVENT_CATEGORY_DISPATCHER);
 
 	/**
 	 * This event is fired when the job dispatcher paused
 	 */	
 	public final static ConstEvent 
-		EVENT_DISPATCHER_PAUSE = new ConstEvent(2002, EVENT_CATEGORY_CORE);
+		EVENT_DISPATCHER_PAUSE = new ConstEvent(2002, EVENT_CATEGORY_DISPATCHER);
 
 	/**
 	 * This event is fired when the job dispatcher unpaused
 	 */	
 	public final static ConstEvent 
-		EVENT_DISPATCHER_UNPAUSE = new ConstEvent(2003, EVENT_CATEGORY_CORE);
+		EVENT_DISPATCHER_UNPAUSE = new ConstEvent(2003, EVENT_CATEGORY_DISPATCHER);
 
 	/**
 	 * This event is fired when the job dispatcher stopped/finished
 	 */
 	public final static ConstEvent 
-		EVENT_DISPATCHER_FINISH = new ConstEvent(2004, EVENT_CATEGORY_CORE);
+		EVENT_DISPATCHER_FINISH = new ConstEvent(2004, EVENT_CATEGORY_DISPATCHER);
 
 	/**
 	 * This event is fired when a new job is added to the JobManager

@@ -102,7 +102,7 @@ public class DownloadJob extends AbstractJob {
 					mDataRetriever = null;
 				}
 			} catch (Exception e) {
-				mLog.warn("Problem in disconnecting after error", e);
+				mLog.warn("Error occured while trying to disconnect", e);
 			}
 		}
 		

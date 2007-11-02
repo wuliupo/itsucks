@@ -7,6 +7,7 @@
 
 package de.phleisch.app.itsucks.filter;
 
+import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.Job;
 
 /**
@@ -37,4 +38,10 @@ public interface JobFilter {
 	 */
 	public Job filter(Job pJob) throws Exception;
 
+	/**
+	 * Sets the context the filter is used in.
+	 * @param pContext
+	 */
+	public void setContext(Context pContext);
+	
 }

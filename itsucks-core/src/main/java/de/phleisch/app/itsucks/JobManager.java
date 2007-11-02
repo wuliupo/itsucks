@@ -138,21 +138,20 @@ public class JobManager {
 	public JobList getJobList() {
 		return mJobList;
 	}
-
+	
 	public void setJobList(JobList pJobList) {
 		mJobList = pJobList;
 	}
 
-	public void setJobFilter(List<JobFilter> pJobFilter) {
-		mJobFilter.addAll(pJobFilter);
-	}
-
 	public void addJobFilter(JobFilter pJobFilter) {
 		mJobFilter.add(pJobFilter);
+		pJobFilter.setContext(mContext);
 	}
 	
 	public void addJobFilter(List<JobFilter> pJobFilter) {
-		mJobFilter.addAll(pJobFilter);
+		for (JobFilter jobFilter : pJobFilter) {
+			addJobFilter(jobFilter);
+		}
 	}
 
 	public boolean removeJobFilter(JobFilter pJobFilter) {
@@ -169,10 +168,11 @@ public class JobManager {
 
 	public void setEventDispatcher(EventDispatcher pEventManager) {
 		mEventDispatcher = pEventManager;
+		mContext.setEventDispatcher(mEventDispatcher);
 	}
 
 	public Context getContext() {
 		return mContext;
 	}
-	
+
 }

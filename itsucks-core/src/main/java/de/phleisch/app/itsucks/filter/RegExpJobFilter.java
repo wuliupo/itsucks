@@ -29,7 +29,9 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  * 
  * @author olli
  */
-public class RegExpJobFilter implements JobFilter, Serializable {
+public class RegExpJobFilter
+		extends AbstractJobFilter
+		implements JobFilter, Serializable {
 	
 	private static final long serialVersionUID = 8668860787246814610L;
 

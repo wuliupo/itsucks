@@ -23,7 +23,9 @@ import de.phleisch.app.itsucks.io.DownloadJob;
  * @author olli
  *
  */
-public class FileSizeFilter implements JobFilter, Serializable {
+public class FileSizeFilter 
+		extends AbstractJobFilter
+		implements JobFilter, Serializable {
 
 	public static final String FILE_SIZE_CONFIG_PARAMETER = "FileSizeConfig";
 
