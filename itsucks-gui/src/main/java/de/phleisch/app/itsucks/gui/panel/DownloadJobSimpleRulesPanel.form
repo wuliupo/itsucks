@@ -11,9 +11,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="limitsPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="urlPrefixFilterPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="hostnameFilterPanel" alignment="0" max="32767" attributes="0"/>
@@ -26,15 +26,15 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="limitsPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="hostnameFilterPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="hostnameFilterPanel" pref="139" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="saveToDiskFilterPanel" pref="137" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="1"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,6 +66,16 @@
                               <Component id="recursionDepthTextField" max="32767" attributes="1"/>
                               <Component id="linksToFollowTextField" alignment="0" min="-2" pref="74" max="-2" attributes="1"/>
                           </Group>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="timeLimitLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="timeLimitTextField" min="-2" pref="74" max="-2" attributes="0"/>
+                                  <EmptySpace pref="178" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="jLabel1" pref="252" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -80,11 +90,16 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="recursionDepthLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="recursionDepthTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="timeLimitTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="timeLimitLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="linksToFollowLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="linksToFollowTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="linksToFollowLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="linksToFollowTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -128,6 +143,24 @@
         <Component class="javax.swing.JTextField" name="linksToFollowTextField">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="timeLimitLabel">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Time limit:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="timeLimitTextField">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Allowed units are: s (seconds), m (minutes), h (hours) and d (days).&lt;/html&gt;"/>
           </Properties>
         </Component>
       </SubComponents>

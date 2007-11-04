@@ -29,7 +29,6 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.event.CoreEvents;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.filter.TimeLimitFilter;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.io.DownloadJob;

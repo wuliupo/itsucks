@@ -21,6 +21,7 @@ import de.phleisch.app.itsucks.filter.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -56,6 +57,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
 		RegExpJobFilter regExpJobFilter = null;
 		FileSizeFilter fileSizeFilter = null;
+		TimeLimitFilter timeLimitFilter = null;
 
 		for (JobFilter jobFilter : pFilters) {
 			if (jobFilter instanceof DownloadJobFilter) {
@@ -72,6 +74,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			}
 			if (jobFilter instanceof FileSizeFilter) {
 				fileSizeFilter = (FileSizeFilter) jobFilter;
+				continue;
+			}
+			if (jobFilter instanceof TimeLimitFilter) {
+				timeLimitFilter = (TimeLimitFilter) jobFilter;
 				continue;
 			}
 		}
@@ -127,9 +133,19 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			this.downloadJobSimpleRulesPanel.linksToFollowTextField
 					.setText(String.valueOf(maxLinksToFollowFilter
 							.getMaxLinksToFollow()));
+		} else {
+			this.downloadJobSimpleRulesPanel.linksToFollowTextField.setText("-1");
 		}
 		this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(String
 				.valueOf(downloadJobFilter.getMaxRecursionDepth()));
+		if(timeLimitFilter != null) {
+			this.downloadJobSimpleRulesPanel.timeLimitTextField
+				.setText(timeLimitFilter.getTimeLimitAsText());
+		} else {
+			this.downloadJobSimpleRulesPanel.timeLimitTextField.setText("-1");
+		}
+		
+		
 		if (downloadJobFilter != null) {
 
 			if (downloadJobFilter.getURLPrefix() != null) {
@@ -275,6 +291,13 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			jobFilterList.add(maxLinksToFollowFilter);
 		}
 
+		String timeLimit = this.downloadJobSimpleRulesPanel.timeLimitTextField.getText();
+		if (timeLimit != null && timeLimit.length() > 0) {
+			TimeLimitFilter timeLimitFilter = new TimeLimitFilter();
+			timeLimitFilter.setTimeLimitAsText(timeLimit);
+			jobFilterList.add(timeLimitFilter);
+		}
+		
 		if (this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
 			try {
 				downloadJobFilter.setURLPrefix(new URL(
