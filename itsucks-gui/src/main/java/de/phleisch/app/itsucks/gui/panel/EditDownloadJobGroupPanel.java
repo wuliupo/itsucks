@@ -288,14 +288,19 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			MaxLinksToFollowFilter maxLinksToFollowFilter = new MaxLinksToFollowFilter();
 			maxLinksToFollowFilter.setMaxLinksToFollow(Integer
 					.parseInt(maxLinksToFollow));
-			jobFilterList.add(maxLinksToFollowFilter);
+			
+			if(maxLinksToFollowFilter.getMaxLinksToFollow() > -1) {
+				jobFilterList.add(maxLinksToFollowFilter);
+			}
 		}
 
 		String timeLimit = this.downloadJobSimpleRulesPanel.timeLimitTextField.getText();
 		if (timeLimit != null && timeLimit.length() > 0) {
 			TimeLimitFilter timeLimitFilter = new TimeLimitFilter();
 			timeLimitFilter.setTimeLimitAsText(timeLimit);
-			jobFilterList.add(timeLimitFilter);
+			if(timeLimitFilter.getTimeLimit() > -1) { 
+				jobFilterList.add(timeLimitFilter);
+			}
 		}
 		
 		if (this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
