@@ -9,6 +9,9 @@
 package de.phleisch.app.itsucks.filter;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.Job;
@@ -24,6 +27,7 @@ public class TimeLimitFilter
 
 	private static final long serialVersionUID = -8017814372426119881L;
 	
+	private String mTimeLimitAsText;
 	private long mTimeLimit = 0;
 	
 	private long mStartTime = 0;
@@ -115,5 +119,48 @@ public class TimeLimitFilter
 		mTimeLimit = pTimeLimit;
 	}
 
+	public String getTimeLimitAsText() {
+		return mTimeLimitAsText;
+	}
+
+	public void setTimeLimitAsText(String pTimeLimitAsText) {
+		setTimeLimit(parseTextValue(pTimeLimitAsText));
+		mTimeLimitAsText = pTimeLimitAsText;
+	}
+
+	private long parseTextValue(String pTimeLimit) {
+		String regExp = "^([-]?[0-9]{1,})[ ]*(s|m|h|d|S|M|H|D|$)$";
+		
+		Pattern pattern = null;
+		try {
+			pattern = Pattern.compile(regExp);
+		} catch (PatternSyntaxException ex) {
+			throw new RuntimeException("Bad regular expression given.", ex);
+		}
+		
+		Matcher matcher = pattern.matcher(pTimeLimit);
+		if(!matcher.matches()) {
+			throw new IllegalArgumentException("Bad value given: " + pTimeLimit);
+		}
+		
+		long value = Long.parseLong(matcher.group(1));
+		String unit = matcher.group(2);
+		if(unit != null && !"".equals(unit)) {
+			
+			if(unit.equalsIgnoreCase("s")) {
+				value *= 1000;
+			} else if(unit.equalsIgnoreCase("m")) {
+				value *= 1000 * 60;
+			} else if(unit.equalsIgnoreCase("h")) {
+				value *= 1000 * 60 * 60;
+			} else if(unit.equalsIgnoreCase("d")) {
+				value *= 1000 * 60 * 60 * 24;
+			}
+		} else {
+			value *= 1000; //default is seconds
+		}
+		
+		return value;
+	}
 	
 }

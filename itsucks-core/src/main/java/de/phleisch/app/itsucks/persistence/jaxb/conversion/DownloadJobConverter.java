@@ -22,6 +22,7 @@ import de.phleisch.app.itsucks.filter.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.io.DownloadJob;
@@ -34,6 +35,7 @@ import de.phleisch.app.itsucks.persistence.jaxb.SerializedMaxLinksToFollowFilter
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilterAction;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilterRule;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedTimeLimitFilter;
 
 public class DownloadJobConverter extends AbstractBeanConverter {
 
@@ -52,6 +54,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedRegExpJobFilterToClass((SerializedRegExpJobFilter) pBean);
 		} if(pBean instanceof SerializedFileSizeFilter) {
 			return convertSerializedFileSizeFilterToClass((SerializedFileSizeFilter) pBean);
+		} if(pBean instanceof SerializedTimeLimitFilter) {
+			return convertSerializedTimeLimitFilterToClass((SerializedTimeLimitFilter) pBean);
 		}
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
@@ -176,6 +180,16 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return fileSizeFilter;
 	}
 
+	private Object convertSerializedTimeLimitFilterToClass(
+			SerializedTimeLimitFilter pBean) {
+		
+		TimeLimitFilter timeLimitFilter = new TimeLimitFilter();
+		
+		timeLimitFilter.setTimeLimitAsText(pBean.getTimeLimit());
+		
+		return timeLimitFilter;
+	}
+	
 	public Object convertClassToBean(Object pObject) {
 		
 		if(pObject instanceof DownloadJob) {
@@ -188,6 +202,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertRegExpJobFilterToBean((RegExpJobFilter) pObject);
 		} if(pObject instanceof FileSizeFilter) {
 			return convertFileSizeFilterToBean((FileSizeFilter) pObject);
+		} if(pObject instanceof TimeLimitFilter) {
+			return convertTimeLimitFilterToBean((TimeLimitFilter) pObject);
 		}
 			
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
@@ -326,6 +342,20 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedFileSizeFilter;
 	}
 
+	private Object convertTimeLimitFilterToBean(TimeLimitFilter pTimeLimitFilter) {
+		
+		SerializedTimeLimitFilter serializedTimeLimitFilter = 
+			mBeanFactory.createSerializedTimeLimitFilter();
+		
+		if(pTimeLimitFilter.getTimeLimitAsText() != null) { 
+			serializedTimeLimitFilter.setTimeLimit(pTimeLimitFilter.getTimeLimitAsText());
+		} else {
+			serializedTimeLimitFilter.setTimeLimit(String.valueOf(pTimeLimitFilter.getTimeLimit() * 1000));
+		}
+		
+		return serializedTimeLimitFilter;
+	}
+	
 	public void setJobFactory(JobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}
@@ -338,6 +368,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedMaxLinksToFollowFilter.class,
 			SerializedRegExpJobFilter.class,
 			SerializedFileSizeFilter.class,
+			SerializedTimeLimitFilter.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);
@@ -351,6 +382,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			MaxLinksToFollowFilter.class,
 			RegExpJobFilter.class,
 			FileSizeFilter.class,
+			TimeLimitFilter.class,
 		};
 		
 		return Arrays.asList(supportedClassConvertClasses);

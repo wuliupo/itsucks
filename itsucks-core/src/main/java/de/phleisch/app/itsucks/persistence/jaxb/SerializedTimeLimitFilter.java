@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.persistence.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
  *       &lt;sequence>
- *         &lt;element name="maxLinksToFollow" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="timeLimit" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -35,29 +36,38 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "maxLinksToFollow"
+    "timeLimit"
 })
-@XmlRootElement(name = "serializedMaxLinksToFollowFilter")
-public class SerializedMaxLinksToFollowFilter
+@XmlRootElement(name = "serializedTimeLimitFilter")
+public class SerializedTimeLimitFilter
     extends SerializedJobFilter
 {
 
-    protected int maxLinksToFollow;
+    @XmlElement(required = true)
+    protected String timeLimit;
 
     /**
-     * Gets the value of the maxLinksToFollow property.
+     * Gets the value of the timeLimit property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public int getMaxLinksToFollow() {
-        return maxLinksToFollow;
+    public String getTimeLimit() {
+        return timeLimit;
     }
 
     /**
-     * Sets the value of the maxLinksToFollow property.
+     * Sets the value of the timeLimit property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setMaxLinksToFollow(int value) {
-        this.maxLinksToFollow = value;
+    public void setTimeLimit(String value) {
+        this.timeLimit = value;
     }
 
 }

@@ -140,6 +140,20 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	
+	<!-- TimeLimitFilter -->
+	<xs:element name="serializedTimeLimitFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+
+					<xs:sequence>
+						<xs:element name="timeLimit" type="xs:string"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>	
 
 	<xs:element name="serializedHttpRetrieverConfiguration">
 		<xs:complexType>
