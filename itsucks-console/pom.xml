@@ -5,7 +5,7 @@
   <parent>
     <groupId>itsucks</groupId>
     <artifactId>itsucks-parent</artifactId>
-    <version>0.3.0-pre2</version>
+    <version>0.3.0-pre3</version>
     <relativePath>../itsucks-build</relativePath>
   </parent>
 
