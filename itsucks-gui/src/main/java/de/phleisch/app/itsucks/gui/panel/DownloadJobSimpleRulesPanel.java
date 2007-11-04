@@ -46,9 +46,9 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 				"Enter a valid number of links to follow.");
 
 		String timeLimitRegExp = "^([-]?[0-9]{1,})[ ]*(s|m|h|d|S|M|H|D|$)$";
-		validator.assertRegExp(timeLimitRegExp, this.timeLimitTextField.getText(),
-				"Enter a valid time limit.");
-		
+		validator.assertRegExp(timeLimitRegExp, this.timeLimitTextField
+				.getText(), "Enter a valid time limit.");
+
 		if (this.urlPrefixCheckBox.isSelected()) {
 			validator.assertURL(this.urlPrefixTextField.getText(),
 					"Enter a valid URL prefix.");
@@ -121,9 +121,11 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		timeLimitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		timeLimitLabel.setText("Time limit:");
 
+		timeLimitTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
 		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
 		jLabel1
-				.setText("<html>Allowed units are: s (seconds), m (minutes), h (hours) and d (days).</html>");
+				.setText("<html>Possible units are: s(econds), m(inutes), h(ours) and d(ays).</html>");
 
 		org.jdesktop.layout.GroupLayout limitsPanelLayout = new org.jdesktop.layout.GroupLayout(
 				limitsPanel);
@@ -580,8 +582,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				layout.createSequentialGroup().addContainerGap().add(
 						limitsPanel,
-						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
@@ -593,13 +594,11 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								hostnameFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addPreferredGap(
+								134, Short.MAX_VALUE).addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								saveToDiskFilterPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE).addContainerGap()));
+								135, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_hostnameFilterAddButtonActionPerformed

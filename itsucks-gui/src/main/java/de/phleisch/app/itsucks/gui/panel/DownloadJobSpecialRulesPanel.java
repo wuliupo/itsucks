@@ -105,7 +105,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		fileSizeUnitExplanationLabel
 				.setFont(new java.awt.Font("Dialog", 0, 12));
 		fileSizeUnitExplanationLabel
-				.setText("<html>To disable a limit, enter -1 as value. <br>Allowed units are: KB (1024 byte), MB (1024 KB) and GB (1024 MB). If no unit is given, the value is interpreted as bytes. </html>");
+				.setText("<html>To disable a limit, enter -1 as value. <br>Possible units are: KB (1024 byte), MB (1024 KB) and GB (1024 MB). If no unit is given, the value is interpreted as bytes. </html>");
 
 		fileSizeNotKnownLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		fileSizeNotKnownLabel
@@ -279,7 +279,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(168, Short.MAX_VALUE)));
+						.addContainerGap(123, Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_fileSizeEnableCheckBoxStateChanged
