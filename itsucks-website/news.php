@@ -7,10 +7,25 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre3 is released</h2>
+        <div class='date'>2007-11-04</div>
+        <p>
+		Third pre release of the 0.3.0 branch. It contains a new time limit filter.
+        <ul>
+        <li>Added time limit filter</li>
+        <li>Added injection of context into job filter</li>
+        </ul>
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=551850"> ChangeLog 0.3.0-pre3</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre2 is released</h2>
         <div class='date'>2007-10-24</div>
         <p>
-		Second release of the 0.3.0 branch. It contains a new file size filter.
+		Second pre release of the 0.3.0 branch. It contains a new file size filter.
         <ul>
         <li>Added new tab 'special filters' including the new file size filter.</li>
         <li>Added support to abort processing chains</li>
