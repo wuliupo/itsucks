@@ -62,7 +62,7 @@ public class JAXBJobSerialization
 		Marshaller marshaller = jc.createMarshaller();
 		
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-				   new Boolean(true));
+				   Boolean.valueOf(true));
 
 		ObjectFactory beanFactory = new ObjectFactory();
 		

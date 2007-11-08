@@ -63,7 +63,7 @@ public class DownloadJob extends AbstractJob {
 	
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
-	private Metadata mMetadata = null;
+	private transient Metadata mMetadata = null;
 
 	private long mWaitUntil = 0;
 	private long mMinTimeBetweenRetry = 5000; //5 seconds 

@@ -99,7 +99,7 @@ public class FileRetriever extends AbstractDataRetriever {
 
 		//skip bytes in front when given
 		if(mByteOffset > 0) {
-			mIn.skip(mByteOffset);
+			mByteOffset= mIn.skip(mByteOffset);
 		}
 		
 		//100k buffer

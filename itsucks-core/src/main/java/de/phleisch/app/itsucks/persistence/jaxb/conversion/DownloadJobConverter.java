@@ -213,7 +213,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		SerializedDownloadJob serializedJob = mBeanFactory.createSerializedDownloadJob();
 		
-		serializedJob.setId(new Long(pJob.getId()));
+		serializedJob.setId(Long.valueOf(pJob.getId()));
 		serializedJob.setName(pJob.getName());
 		serializedJob.setPriority(pJob.getPriority());
 		serializedJob.setState(pJob.getState());
