@@ -65,11 +65,13 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	 * @see de.phleisch.app.itsucks.IJobList#removeJob(de.phleisch.app.itsucks.Job)
 	 */
 	public boolean removeJob(Job pJob) {
+		
+		//FIXME this can't work!!!! BUG
 		if(mJobList.contains(pJob)) return false;
 		
 		synchronized (this) {
 			pJob.removePropertyChangeListener(this);
-			
+		
 			JobListEntry entry = new JobListEntry(pJob);
 			
 			boolean b = mJobList.remove(new JobListEntry(pJob));
