@@ -6,7 +6,7 @@
  * Created on 30.09.2007
  */
 
-package de.phleisch.app.itsucks.io;
+package de.phleisch.app.itsucks.io.http;
 
 public class HttpRetrieverConfiguration {
 

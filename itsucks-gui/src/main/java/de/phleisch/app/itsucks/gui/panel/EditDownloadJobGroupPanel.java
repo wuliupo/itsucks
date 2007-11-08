@@ -25,7 +25,7 @@ import de.phleisch.app.itsucks.filter.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.io.http.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 

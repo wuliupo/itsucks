@@ -23,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.Context;
 import de.phleisch.app.itsucks.io.AbstractDataRetriever;
-import de.phleisch.app.itsucks.io.HttpRetrieverConfiguration;
 
 /**
  * Implentation of an data retriever for the http protocol.
