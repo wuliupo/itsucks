@@ -94,4 +94,12 @@ public class VMVersion implements Comparable {
 		return result;
 	}
 
+	public boolean equals(Object pObj) {
+		return compareTo(pObj) == 0;
+	}
+
+	public int hashCode() {
+		throw new IllegalStateException("Not implemented");
+	}
+	
 }
