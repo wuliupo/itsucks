@@ -136,8 +136,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		} else {
 			this.downloadJobSimpleRulesPanel.linksToFollowTextField.setText("-1");
 		}
-		this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(String
-				.valueOf(downloadJobFilter.getMaxRecursionDepth()));
+
 		if(timeLimitFilter != null) {
 			this.downloadJobSimpleRulesPanel.timeLimitTextField
 				.setText(timeLimitFilter.getTimeLimitAsText());
@@ -145,8 +144,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			this.downloadJobSimpleRulesPanel.timeLimitTextField.setText("-1");
 		}
 		
-		
 		if (downloadJobFilter != null) {
+			
+			this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(String
+					.valueOf(downloadJobFilter.getMaxRecursionDepth()));
 
 			if (downloadJobFilter.getURLPrefix() != null) {
 				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox

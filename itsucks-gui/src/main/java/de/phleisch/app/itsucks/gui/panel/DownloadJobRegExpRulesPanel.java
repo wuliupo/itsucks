@@ -7,6 +7,7 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.awt.Dialog;
+import java.io.Serializable;
 
 import de.phleisch.app.itsucks.JobParameter;
 import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
@@ -78,8 +79,10 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 		}
 	}
 
-	protected class ComboBoxEntry {
+	protected static class ComboBoxEntry implements Serializable {
 
+		private static final long serialVersionUID = 7129073467970212773L;
+		
 		private String mName;
 		private Object mValue;
 
@@ -98,7 +101,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 
 		@Override
 		public String toString() {
-			return mName.toString();
+			return mName;
 		}
 	}
 
@@ -140,7 +143,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 
 			matchAction.addJobParameter(new JobParameter(
 					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-					new Boolean(
+					Boolean.valueOf(
 							editRegExpFilterMatchAssumeFinishedFileCheckBox
 									.isSelected())));
 		}
@@ -164,7 +167,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 
 			noMatchAction.addJobParameter(new JobParameter(
 					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-					new Boolean(
+					Boolean.valueOf(
 							editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 									.isSelected())));
 		}

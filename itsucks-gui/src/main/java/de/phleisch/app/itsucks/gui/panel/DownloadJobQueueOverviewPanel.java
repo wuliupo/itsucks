@@ -7,6 +7,7 @@
 package de.phleisch.app.itsucks.gui.panel;
 
 import java.beans.PropertyChangeEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import de.phleisch.app.itsucks.io.DownloadJob;
 public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 2406761069696757338L;
-	private DispatcherThread mJobDispatcher;
+	private transient DispatcherThread mJobDispatcher;
 	private EventObserver mEventObserver = new JobEventObserver();
 
 	/** Creates new form QueueDownloadJobOverview */
@@ -131,7 +132,9 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		return panels;
 	}
 
-	private class JobEventObserver implements EventObserver {
+	private class JobEventObserver implements EventObserver, Serializable {
+
+		private static final long serialVersionUID = -2976276628351550703L;
 
 		public void processEvent(Event pEvent) {
 

@@ -24,7 +24,7 @@ public class LogPanel extends JPanel {
 
 	private JScrollPane jScrollPane = null;
 
-	private LogDialogAppender mAppender = new LogDialogAppender();  //  @jve:decl-index=0:
+	private transient LogDialogAppender mAppender = null;
 
 	private JList jList = null;
 	private DefaultListModel mListModel = null;
@@ -53,6 +53,9 @@ public class LogPanel extends JPanel {
 		
 		//enable double buffering
 		super(true);
+		
+		mAppender = new LogDialogAppender();
+		
 		initialize();
 	}
 

@@ -89,11 +89,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		//configure dispatcher
 		dispatcher.addJobFilter(pJob.getFilters());
-		
-//		TimeLimitFilter limitFilter = new TimeLimitFilter();
-//		limitFilter.setTimeLimit(20 * 1000);
-//		dispatcher.addJobFilter(limitFilter);
-		
 		dispatcher.addJob(pDownloadJob);
 
 		//add all context parameter
@@ -142,7 +137,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		SerializableJobList jobList = null;
 		try {
-			jobList = serializationManager.deserialize(this.getClass()
+			jobList = serializationManager.deserialize(getClass()
 					.getResourceAsStream("/ItSucks_Default_Template.suck"));
 		} catch (Exception e1) {
 
