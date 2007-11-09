@@ -118,7 +118,9 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		
 		while(mPause) {
 			synchronized (this) {
-				this.wait(); // wait until unpause notify
+				if(mPause) { //check again
+					this.wait(); // wait until unpause notify
+				}
 			}
 		}
 		
@@ -146,9 +148,11 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 */
 	public void unpause() {
 		if(mPause) {
-			mPause = false;
 			synchronized (this) {
-				this.notifyAll();
+				if(mPause) {
+					mPause = false;
+					this.notifyAll();
+				}
 			}
 		}
 	}

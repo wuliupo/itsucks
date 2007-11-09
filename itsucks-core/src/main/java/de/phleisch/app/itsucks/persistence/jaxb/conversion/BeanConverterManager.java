@@ -109,7 +109,7 @@ public class BeanConverterManager {
 		mClassConverter.put(pClass, pConverter);
 	}
 	
-	private class ConversionNotSupportedException extends Exception {
+	private static class ConversionNotSupportedException extends Exception {
 
 		private static final long serialVersionUID = -5316702756221123193L;
 

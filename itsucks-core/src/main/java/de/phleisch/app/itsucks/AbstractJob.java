@@ -30,7 +30,7 @@ import de.phleisch.app.itsucks.event.JobEvent;
  */
 public abstract class AbstractJob implements Serializable, Job {
 
-	private int mId = -1;
+	private volatile int mId = -1;
 	
 	private String mName;
 	private Map<String, JobParameter> mParameter;
@@ -55,12 +55,12 @@ public abstract class AbstractJob implements Serializable, Job {
 	/**
 	 * The State of the job.
 	 */
-	private int mState = STATE_OPEN;
+	private volatile int mState = STATE_OPEN;
 
 	/**
 	 * The higher the number, the higher the priority, max is 999, min is 0
 	 */
-	private int mPriority = 500;
+	private volatile int mPriority = 500;
 
 	/**
 	 * When set to true, the JobFilter will not filter out this job. Handy for
@@ -135,10 +135,10 @@ public abstract class AbstractJob implements Serializable, Job {
 	public void setState(int pState) {
 		if(pState == mState) return;
 		
+		int oldState = mState;
+		mState = pState;
+		
 		synchronized (this) {
-			int oldState = mState;
-			mState = pState;
-			
 			PropertyChangeEvent firePropertyChange = 
 				firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
 			sendJobChangedEventToDispatcher(firePropertyChange);
@@ -162,10 +162,10 @@ public abstract class AbstractJob implements Serializable, Job {
 			throw new IllegalArgumentException("Invalid priority: " + pPriority);
 		}
 		
+		int oldPriority = mPriority;
+		mPriority = pPriority;
+		
 		synchronized (this) {
-			int oldPriority = mPriority;
-			mPriority = pPriority;
-			
 			PropertyChangeEvent firePropertyChange = 
 				firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
 			sendJobChangedEventToDispatcher(firePropertyChange);

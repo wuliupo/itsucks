@@ -223,10 +223,10 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		//download job specific fields
 		serializedJob.setUrl(pJob.getUrl().toExternalForm());
-		serializedJob.setParentJobId(pJob.getParent() != null ? new Long(pJob.getParent().getId()) : null);
+		serializedJob.setParentJobId(pJob.getParent() != null ? Long.valueOf(pJob.getParent().getId()) : null);
 		serializedJob.setDepth(pJob.getDepth());
 		serializedJob.setMaxRetryCount(pJob.getMaxRetryCount());
-		serializedJob.setMinTimeBetweenRetry(new Long(pJob.getMinTimeBetweenRetry()));
+		serializedJob.setMinTimeBetweenRetry(Long.valueOf(pJob.getMinTimeBetweenRetry()));
 		
 		for (JobParameter jobParameter : pJob.getParameterList()) {
 			serializedJob.getParameter().add(convertJobParameterToBean(jobParameter));

@@ -206,8 +206,10 @@ public class WorkerPoolImpl implements WorkerPool {
 		while(worker == null) {
 			
 			synchronized (this) {
-				//wait for an change in the worker pool
-				this.wait();
+				if(worker == null) {
+					//wait for an change in the worker pool
+					this.wait();
+				}
 			}
 			worker = getFreeWorker();
 		}

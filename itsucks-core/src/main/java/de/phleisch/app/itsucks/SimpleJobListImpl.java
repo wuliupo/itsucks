@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +67,7 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	 */
 	public boolean removeJob(Job pJob) {
 		
-		//FIXME this can't work!!!! BUG
-		if(mJobList.contains(pJob)) return false;
+		if(mJobBackReference.containsKey(pJob)) return false;
 		
 		synchronized (this) {
 			pJob.removePropertyChangeListener(this);
@@ -159,7 +159,7 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	}
 	
 
-	private class JobListEntry {
+	private static class JobListEntry {
 		
 		private Job mJob = null;
 		private Integer mOrderKey = null; // the cached order key
@@ -186,7 +186,10 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 		
 	}
 
-	private class JobListEntryComparator implements Comparator<JobListEntry> {
+	private static class JobListEntryComparator 
+		implements Comparator<JobListEntry>, Serializable {
+
+		private static final long serialVersionUID = 4661938276207607980L;
 
 		/**
 		 * Compares one job entry to another job entry. Used by the JobList to order
