@@ -5,22 +5,21 @@
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/commons-httpclient/commons-httpclient/3.0.1/commons-httpclient-3.0.1.jar" sourcepath="M2_REPO/commons-httpclient/commons-httpclient/3.0.1/commons-httpclient-3.0.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/1.2.8/spring-beans-1.2.8.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/2.5/spring-core-2.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9.jar" sourcepath="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/jaxb/jaxb-impl/1.0.6/jaxb-impl-1.0.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/1.2.8/spring-context-1.2.8.jar"/>
-  <classpathentry kind="var" path="M2_REPO/jaxb/jaxb-libs/1.0.6/jaxb-libs-1.0.6.jar"/>
-  <classpathentry kind="var" path="M2_REPO/jaxb/jaxb-api/1.0/jaxb-api-1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.2/commons-codec-1.2.jar">
     <attributes>
       <attribute value="jar:file://home/olli/.m2/repository/commons-codec/commons-codec/1.2/commons-codec-1.2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/1.2.8/spring-core-1.2.8.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/1.2.8/spring-aop-1.2.8.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-httpclient/commons-httpclient/3.0.1/commons-httpclient-3.0.1.jar" sourcepath="M2_REPO/commons-httpclient/commons-httpclient/3.0.1/commons-httpclient-3.0.1-sources.jar"/>
   <classpathentry kind="src" path="/itsucks-core"/>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9.jar" sourcepath="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jaxb/jaxb-libs/1.0.6/jaxb-libs-1.0.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/2.5/spring-beans-2.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/2.5/spring-context-2.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jaxb/jaxb-api/1.0/jaxb-api-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4-sources.jar"/>
 </classpath>
