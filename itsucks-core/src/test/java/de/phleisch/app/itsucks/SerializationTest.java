@@ -15,8 +15,10 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -31,9 +33,9 @@ public class SerializationTest extends TestCase {
 		filter.setMaxRecursionDepth(1);
 		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		
-		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 		
-		DownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
 		job.setSavePath(new File("/tmp/itsucks"));
 		
@@ -47,9 +49,10 @@ public class SerializationTest extends TestCase {
 		serializator.serialize(serializedObject, file);
 		
 		SerializableJobList deserializedList = serializator.deserialize(file);
-		assertTrue(((DownloadJob)deserializedList.getJobs().get(0)).getUrl().equals(job.getUrl()));
+		assertTrue(((UrlDownloadJob)deserializedList.getJobs().get(0)).getUrl().sameFile(job.getUrl()));
 		assertTrue(((DownloadJobFilter)deserializedList.getFilters().get(0)).getSaveToDisk()[0].equals(filter.getSaveToDisk()[0]));
 
-		file.delete();
+		boolean delete = file.delete();
+		assertTrue(delete);
 	}
 }

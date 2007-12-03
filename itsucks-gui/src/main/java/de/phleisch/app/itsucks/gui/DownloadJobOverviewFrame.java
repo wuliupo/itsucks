@@ -21,17 +21,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.ApplicationConstants;
-import de.phleisch.app.itsucks.DispatcherImpl;
-import de.phleisch.app.itsucks.DispatcherThread;
-import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.event.CoreEvents;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.core.impl.DispatcherImpl;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
@@ -152,7 +152,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		if (jobList != null) {
 
 			//set defaults
-			DownloadJob job = (DownloadJob) jobList.getJobs().get(0);
+			UrlDownloadJob job = (UrlDownloadJob) jobList.getJobs().get(0);
 
 			job.setSavePath(new File(System.getProperty("user.home")
 					+ File.separatorChar + "itsucks" + File.separatorChar));
@@ -350,7 +350,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		toolBar.setFloatable(false);
 		newDownloadButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		newDownloadButton.setIcon(new javax.swing.ImageIcon(getClass()
+		newDownloadButton.setIcon(new javax.swing.ImageIcon(DownloadJobOverviewFrame.class
 				.getResource("/document-new.png")));
 		newDownloadButton.setText("New download");
 		newDownloadButton.setBorderPainted(false);

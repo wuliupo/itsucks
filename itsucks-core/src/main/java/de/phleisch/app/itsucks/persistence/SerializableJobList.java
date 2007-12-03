@@ -14,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.phleisch.app.itsucks.Job;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.job.Job;
 
 /**
  * This class is a simple serializable list for jobs and job filters.

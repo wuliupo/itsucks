@@ -11,16 +11,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.phleisch.app.itsucks.DispatcherThread;
-import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.event.CoreEvents;
-import de.phleisch.app.itsucks.event.DefaultEventFilter;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.event.JobAddedEvent;
-import de.phleisch.app.itsucks.event.JobChangedEvent;
-import de.phleisch.app.itsucks.event.JobEvent;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.event.impl.CoreEvents;
+import de.phleisch.app.itsucks.event.impl.DefaultEventFilter;
+import de.phleisch.app.itsucks.event.job.JobAddedEvent;
+import de.phleisch.app.itsucks.event.job.JobChangedEvent;
+import de.phleisch.app.itsucks.event.job.JobEvent;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 /**
  *
@@ -63,7 +63,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		mJobDispatcher = null;
 	}
 
-	private void addDownloadJob(DownloadJob pJob, int pInitialState) {
+	private void addDownloadJob(UrlDownloadJob pJob, int pInitialState) {
 
 		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pInitialState);
 		for (DownloadJobStatusTablePanel panel : panels) {
@@ -71,7 +71,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		}
 	}
 
-	private void removeDownloadJob(DownloadJob pJob) {
+	private void removeDownloadJob(UrlDownloadJob pJob) {
 
 		List<DownloadJobStatusTablePanel> panels = getPanelsForState(pJob
 				.getState());
@@ -80,7 +80,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		}
 	}
 
-	private void moveDownloadJob(DownloadJob pJob, int pOldState, int pNewState) {
+	private void moveDownloadJob(UrlDownloadJob pJob, int pOldState, int pNewState) {
 
 		List<DownloadJobStatusTablePanel> oldPanels = getPanelsForState(pOldState);
 		List<DownloadJobStatusTablePanel> newPanels = getPanelsForState(pNewState);
@@ -139,7 +139,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		public void processEvent(Event pEvent) {
 
 			JobEvent jobEvent = (JobEvent) pEvent;
-			DownloadJob job = (DownloadJob) jobEvent.getJob();
+			UrlDownloadJob job = (UrlDownloadJob) jobEvent.getJob();
 
 			if (jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
 

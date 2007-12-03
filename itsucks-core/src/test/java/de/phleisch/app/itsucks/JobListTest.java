@@ -13,8 +13,12 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.core.Dispatcher;
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 
 public class JobListTest extends TestCase {
 
@@ -36,17 +40,17 @@ public class JobListTest extends TestCase {
 		DownloadJobFilter filter = new DownloadJobFilter();
 		dispatcher.addJobFilter(filter);
 		
-		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 		
-		DownloadJob job1 = jobFactory.createDownloadJob();
-		DownloadJob job2 = jobFactory.createDownloadJob();
+		UrlDownloadJob job1 = jobFactory.createDownloadJob();
+		UrlDownloadJob job2 = jobFactory.createDownloadJob();
 		
-		job1.setState(DownloadJob.STATE_OPEN);
+		job1.setState(UrlDownloadJob.STATE_OPEN);
 		job1.setPriority(8);
 		job1.setUrl(new URL("http://test.de"));
 		job1.setIgnoreFilter(true);
 		
-		job2.setState(DownloadJob.STATE_OPEN);
+		job2.setState(UrlDownloadJob.STATE_OPEN);
 		job2.setPriority(10);
 		job2.setUrl(new URL("http://test2.de"));
 		job2.setIgnoreFilter(true);
@@ -62,11 +66,11 @@ public class JobListTest extends TestCase {
 		openJob = dispatcher.getJobManager().getNextOpenJob();
 		assertTrue(openJob == job1);
 		
-		job1.setState(DownloadJob.STATE_IN_PROGRESS);
+		job1.setState(UrlDownloadJob.STATE_IN_PROGRESS);
 		openJob = dispatcher.getJobManager().getNextOpenJob();
 		assertTrue(openJob == job2);
 		
-		job2.setState(DownloadJob.STATE_IN_PROGRESS);
+		job2.setState(UrlDownloadJob.STATE_IN_PROGRESS);
 		openJob = dispatcher.getJobManager().getNextOpenJob();
 		assertTrue(openJob == null);
 		

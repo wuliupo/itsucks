@@ -5,10 +5,18 @@
 
 	<bean 
 		id="Dispatcher" 
-		class="de.phleisch.app.itsucks.DispatcherImpl" 
+		class="de.phleisch.app.itsucks.core.impl.DispatcherImpl" 
 		singleton="false">
 		
-		<property name="jobManager">
+		<property name="context">
+			<ref bean="Context"/>
+		</property>
+		
+		<property name="eventManager">
+			<ref bean="EventDispatcher"/>
+		</property>
+
+		<property name="filterJobManager">
 			<ref bean="JobManager"/>
 		</property>
 
@@ -19,40 +27,54 @@
 
 	<bean 
 		id="DispatcherThread" 
-		class="de.phleisch.app.itsucks.DispatcherThread" 
+		class="de.phleisch.app.itsucks.core.impl.DispatcherThread" 
 		singleton="false"
 		parent="Dispatcher">
 	</bean>
 
 	<bean 
-		id="EventDispatcher" 
-		class="de.phleisch.app.itsucks.event.EventDispatcher" 
+		id="Context" 
+		class="de.phleisch.app.itsucks.job.Context" 
 		singleton="false">
 	</bean>
 
 	<bean 
+		id="EventDispatcher" 
+		class="de.phleisch.app.itsucks.event.impl.EventDispatcherImpl" 
+		singleton="false">
+	</bean>
+	
+	<bean 
+		id="JobFilterChain" 
+		class="de.phleisch.app.itsucks.filter.impl.JobFilterChainImpl" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
 		id="JobManager" 
-		class="de.phleisch.app.itsucks.JobManager" 
+		class="de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl" 
 		singleton="false">
 
-		<property name="eventDispatcher">
-			<ref bean="EventDispatcher"/>
-		</property>		
 		<property name="jobList">
 			<ref bean="SimpleJobListImpl"/>
+		</property>
+		
+		<property name="jobFilterChain">
+			<ref bean="JobFilterChain"/>
 		</property>
 		
 	</bean>
 	
 	<bean 
 		id="SimpleJobListImpl" 
-		class="de.phleisch.app.itsucks.SimpleJobListImpl" 
+		class="de.phleisch.app.itsucks.job.impl.SimpleJobListImpl" 
 		singleton="false">
 	</bean>
 
 	<bean 
 		id="WorkerPool" 
-		class="de.phleisch.app.itsucks.WorkerPoolImpl" 
+		class="de.phleisch.app.itsucks.core.impl.WorkerPoolImpl" 
 		singleton="false">
 		
 		<!-- Pool size -->
@@ -64,7 +86,7 @@
 	
 	<bean 
 		id="DataProcessorManager" 
-		class="de.phleisch.app.itsucks.processing.DataProcessorManager" 
+		class="de.phleisch.app.itsucks.processing.download.impl.DataProcessorManager" 
 		singleton="true">
 		
 		<property name="processors">
@@ -83,7 +105,7 @@
 	
 	<bean 
 		id="PersistenceProcessor" 
-		class="de.phleisch.app.itsucks.processing.PersistenceProcessor" 
+		class="de.phleisch.app.itsucks.processing.download.impl.PersistenceProcessor" 
 		singleton="false">
 		
 		<property name="preserveDataOnRollback">
@@ -93,28 +115,28 @@
 	
 	<bean 
 		id="HtmlParser" 
-		class="de.phleisch.app.itsucks.processing.HtmlParser" 
+		class="de.phleisch.app.itsucks.processing.download.http.impl.HtmlParser" 
 		singleton="false">
 		
 	</bean>
 	
 	<bean 
 		id="HttpRedirectorProcessor" 
-		class="de.phleisch.app.itsucks.processing.HttpRedirectorProcessor" 
+		class="de.phleisch.app.itsucks.processing.download.http.impl.HttpRedirectorProcessor" 
 		singleton="false">
 		
 	</bean>
 	
 	<bean 
 		id="FilterSizeProcessor" 
-		class="de.phleisch.app.itsucks.processing.FilterFileSizeProcessor" 
+		class="de.phleisch.app.itsucks.processing.download.http.impl.FilterFileSizeProcessor" 
 		singleton="false">
 		
 	</bean>
 	
 	<bean 
 		id="DataRetrieverManager" 
-		class="de.phleisch.app.itsucks.io.DataRetrieverManager" 
+		class="de.phleisch.app.itsucks.io.impl.DataRetrieverManager" 
 		singleton="true">
 		
 		<property name="retriever">
@@ -135,7 +157,7 @@
 	
 	<bean 
 		id="HttpRetriever" 
-		class="de.phleisch.app.itsucks.io.http.AdvancedHttpRetriever" 
+		class="de.phleisch.app.itsucks.io.http.impl.AdvancedHttpRetriever" 
 		singleton="false">
 		
 		<property name="userAgent">
@@ -145,7 +167,7 @@
 
 	<bean 
 		id="JobFactory" 
-		class="de.phleisch.app.itsucks.JobFactory" 
+		class="de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory" 
 		singleton="true">
 	</bean>	
 
@@ -164,7 +186,7 @@
  
 	<bean 
 		id="JobSerialization" 
-		class="de.phleisch.app.itsucks.persistence.JAXBJobSerialization" 
+		class="de.phleisch.app.itsucks.persistence.impl.JAXBJobSerialization" 
 		singleton="false">
 		
 		<property name="jobFactory">

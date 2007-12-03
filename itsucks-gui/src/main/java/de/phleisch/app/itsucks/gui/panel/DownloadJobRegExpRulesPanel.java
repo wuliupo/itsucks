@@ -9,13 +9,13 @@ package de.phleisch.app.itsucks.gui.panel;
 import java.awt.Dialog;
 import java.io.Serializable;
 
-import de.phleisch.app.itsucks.JobParameter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.job.JobParameter;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 /**
  *
@@ -142,7 +142,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 			}
 
 			matchAction.addJobParameter(new JobParameter(
-					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+					UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
 					Boolean.valueOf(
 							editRegExpFilterMatchAssumeFinishedFileCheckBox
 									.isSelected())));
@@ -166,7 +166,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 			}
 
 			noMatchAction.addJobParameter(new JobParameter(
-					DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+					UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
 					Boolean.valueOf(
 							editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 									.isSelected())));
@@ -1008,7 +1008,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 						.valueOf(matchAction.getPriorityChange()));
 
 				JobParameter assumeCompleteMatchParameter = matchAction
-						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
+						.getJobParameter(UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				editRegExpFilterMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteMatchParameter != null
 								&& assumeCompleteMatchParameter.getValue()
@@ -1034,7 +1034,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 						.valueOf(noMatchAction.getPriorityChange()));
 
 				JobParameter assumeCompleteNoMatchParameter = noMatchAction
-						.getJobParameter(DownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
+						.getJobParameter(UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
 				editRegExpFilterNoMatchAssumeFinishedFileCheckBox
 						.setSelected(assumeCompleteNoMatchParameter != null
 								&& assumeCompleteNoMatchParameter.getValue()

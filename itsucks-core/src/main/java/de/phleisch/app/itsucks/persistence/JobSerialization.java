@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.phleisch.app.itsucks.JobFactory;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 
 /**
  * Interface for the job serialization.
@@ -75,8 +75,10 @@ public interface JobSerialization {
 	 * Sets the factory to reinject the dependencies back to the deserialzed
 	 * jobs.
 	 * 
+	 * FIXME JobFactory should be an generic interface
+	 * 
 	 * @param pJobFactory
 	 */
-	public abstract void setJobFactory(JobFactory pJobFactory);
+	public abstract void setJobFactory(DownloadJobFactory pJobFactory);
 
 }

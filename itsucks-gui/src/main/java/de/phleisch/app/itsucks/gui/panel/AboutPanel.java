@@ -6,7 +6,7 @@
 
 package de.phleisch.app.itsucks.gui.panel;
 
-import de.phleisch.app.itsucks.ApplicationConstants;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
 
 /**
  *

@@ -8,7 +8,7 @@
 
 package de.phleisch.app.itsucks.processing;
 
-import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.job.Job;
 
 /**
  * A data processor is a single component in a processing chain which processes

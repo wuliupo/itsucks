@@ -16,12 +16,16 @@ import junit.framework.TestSuite;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.event.CoreEvents;
-import de.phleisch.app.itsucks.event.DefaultEventFilter;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.event.impl.CoreEvents;
+import de.phleisch.app.itsucks.event.impl.DefaultEventFilter;
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 
 /**
  * Unit test for simple App.
@@ -53,13 +57,13 @@ public class AppTest extends TestCase {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 		
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
-		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setMaxRecursionDepth(1);
 		dispatcher.addJobFilter(filter);		
 		
-		DownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		job.setIgnoreFilter(true);
@@ -91,10 +95,10 @@ public class AppTest extends TestCase {
 		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		dispatcher.addJobFilter(filter);		
 		
-		JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 		assertNotNull(jobFactory);
 		
-		DownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		
@@ -111,7 +115,7 @@ public class AppTest extends TestCase {
 		
 	}
 	
-	private class EventManagerObserver implements EventObserver {
+	private static class EventManagerObserver implements EventObserver {
 
 		int mEventCountType3001 = 0; 
 		int mEventCountType3002 = 0;

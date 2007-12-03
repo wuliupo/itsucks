@@ -11,8 +11,7 @@ package de.phleisch.app.itsucks.io;
 import java.net.URL;
 import java.util.Observer;
 
-import de.phleisch.app.itsucks.Context;
-import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.job.Context;
 
 /**
  * This interface specifies an DataRetriever. DataRetriever are used to provided
@@ -53,21 +52,9 @@ public interface DataRetriever {
 	 */
 	public final static Integer RESULT_RETRIEVAL_ABORTED = 12;
 
-	/**
-	 * Sets the DataProcessorChain which processes the data provided
-	 * by the retriever.
-	 * 
-	 * @param pDataProcessorChain
-	 */
-	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain);
-
-	/**
-	 * Gets the DataProcessorChain which processes the data provided
-	 * by the retriever.
-	 * 
-	 * @return
-	 */
-	public DataProcessorChain getDataProcessorChain();
+	public void setDataConsumer(DataConsumer pDataConsumer);
+	
+	public DataConsumer getDataConsumer();
 
 	/**
 	 * Sets the context for this data retriever.

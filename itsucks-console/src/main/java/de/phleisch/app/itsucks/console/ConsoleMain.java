@@ -6,9 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.ApplicationConstants;
-import de.phleisch.app.itsucks.Dispatcher;
-import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.core.Dispatcher;
+import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 

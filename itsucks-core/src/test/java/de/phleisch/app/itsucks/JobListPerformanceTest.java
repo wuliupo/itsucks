@@ -14,6 +14,11 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobList;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+
 public class JobListPerformanceTest extends TestCase {
 
 	public JobListPerformanceTest() {
@@ -71,7 +76,7 @@ public class JobListPerformanceTest extends TestCase {
 		
 		for (int i = 0; i < JOB_AMOUNT; i++) {
 			
-			JobFactory jobFactory = (JobFactory) context.getBean("JobFactory");
+			DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 			
 			testJob = jobFactory.createDownloadJob();
 			testJob.setState(random.nextInt(999));

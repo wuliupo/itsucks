@@ -14,18 +14,18 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import de.phleisch.app.itsucks.JobFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.filter.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter;
-import de.phleisch.app.itsucks.filter.TimeLimitFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
+import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
-import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.io.http.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -44,7 +44,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	public void loadJob(SerializableJobList pJobList) {
 
-		DownloadJob pJob = (DownloadJob) pJobList.getJobs().get(0);
+		UrlDownloadJob pJob = (UrlDownloadJob) pJobList.getJobs().get(0);
 		List<JobFilter> pFilters = pJobList.getFilters();
 
 		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
@@ -206,16 +206,16 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		if (!validatePanels())
 			return null;
 
-		JobFactory jobFactory = (JobFactory) SpringContextSingelton
+		DownloadJobFactory jobFactory = (DownloadJobFactory) SpringContextSingelton
 				.getApplicationContext().getBean("JobFactory");
-		DownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob job = jobFactory.createDownloadJob();
 		List<JobFilter> jobFilterList = new ArrayList<JobFilter>();
 		SerializableDispatcherConfiguration dispatcherConfiguration = new SerializableDispatcherConfiguration();
 		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
 
 		//build download job
 		job.setIgnoreFilter(true);
-		job.setState(DownloadJob.STATE_OPEN);
+		job.setState(UrlDownloadJob.STATE_OPEN);
 
 		//basic panel
 		job.setName(this.downloadJobBasicPanel.nameTextField.getText());

@@ -9,7 +9,7 @@ package de.phleisch.app.itsucks.gui.panel;
 import javax.swing.table.TableColumnModel;
 
 import de.phleisch.app.itsucks.gui.util.DownloadJobTableModel;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 /**
  *
@@ -42,7 +42,7 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 		columnModel.getColumn(DownloadJobTableModel.COLUMN_RESULT).setPreferredWidth(40);
 	}
 	
-	public void addDownloadJob(DownloadJob job) {
+	public void addDownloadJob(UrlDownloadJob job) {
 		mDownloadStatusTableModel.addDownloadJob(job);
 	}
 
@@ -50,7 +50,7 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 		mDownloadStatusTableModel.removeAllDownloadJobs();
 	}
 
-	public void removeDownloadJob(DownloadJob job) {
+	public void removeDownloadJob(UrlDownloadJob job) {
 		mDownloadStatusTableModel.removeDownloadJob(job);
 	}
 	

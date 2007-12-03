@@ -26,9 +26,10 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.io.DownloadJob;
-import de.phleisch.app.itsucks.io.http.HttpMetadata;
+import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.DownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 public class DownloadJobTableModel extends AbstractTableModel {
 
@@ -47,12 +48,12 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 	private static Log mLog = LogFactory.getLog(DownloadJobTableModel.class);
 	
-	private List<DownloadJob> mRows;
+	private List<UrlDownloadJob> mRows;
 	
-	private JobObserver mJobObserver;
+	private transient JobObserver mJobObserver = null;
 	
 	public DownloadJobTableModel() {
-		mRows = Collections.synchronizedList(new IndexedList<DownloadJob>());
+		mRows = Collections.synchronizedList(new IndexedList<UrlDownloadJob>());
 		mJobObserver = new JobObserver();
 		
 		mJobObserver.start();
@@ -121,17 +122,17 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	 */
 	public Object getValueAt(int pRowIndex, int pColumnIndex) {
 		
-		DownloadJob job = mRows.get(pRowIndex);
+		UrlDownloadJob job = mRows.get(pRowIndex);
 		
 		return getColumnValue(job, pColumnIndex);
 	}
 	
-	public void addDownloadJob(DownloadJob pJob) {
+	public void addDownloadJob(UrlDownloadJob pJob) {
 		
 		mJobObserver.queueJobAdd(pJob);
 	}
 	
-	public void removeDownloadJob(DownloadJob pJob) {
+	public void removeDownloadJob(UrlDownloadJob pJob) {
 		
 		mJobObserver.queueJobRemove(pJob);
 	}
@@ -146,7 +147,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		mJobObserver.stop();
 	}
 	
-	private Object getColumnValue(DownloadJob pJob, int pColumnIndex) {
+	private Object getColumnValue(UrlDownloadJob pJob, int pColumnIndex) {
 		
 		Object val = null;
 		
@@ -366,9 +367,9 @@ public class DownloadJobTableModel extends AbstractTableModel {
     static private class TableModelAction {
     	
     	private Action mAction;
-    	private DownloadJob mJob;
+    	private UrlDownloadJob mJob;
     	
-		public TableModelAction(Action pAction, DownloadJob pJob) {
+		public TableModelAction(Action pAction, UrlDownloadJob pJob) {
 			mAction = pAction;
 			mJob = pJob;
 		}
@@ -382,7 +383,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			return mAction;
 		}
 
-		public DownloadJob getJob() {
+		public UrlDownloadJob getJob() {
 			return mJob;
 		};
 	}
@@ -413,17 +414,17 @@ public class DownloadJobTableModel extends AbstractTableModel {
 
 		public void propertyChange(PropertyChangeEvent pEvt) {
 			
-			DownloadJob job = (DownloadJob) pEvt.getSource();
+			UrlDownloadJob job = (UrlDownloadJob) pEvt.getSource();
 			
 			mActionDequeue.add(new TableModelAction(TableModelAction.Action.CHANGE, job));
 		}
 		
-		public void queueJobAdd(DownloadJob pJob) {
+		public void queueJobAdd(UrlDownloadJob pJob) {
 			
 			mActionDequeue.add(new TableModelAction(TableModelAction.Action.ADD, pJob));
 		}
 		
-		public void queueJobRemove(DownloadJob pJob) {
+		public void queueJobRemove(UrlDownloadJob pJob) {
 			
 			mActionDequeue.add(new TableModelAction(TableModelAction.Action.REMOVE, pJob));
 		}
@@ -464,13 +465,13 @@ public class DownloadJobTableModel extends AbstractTableModel {
 		}
 
 		private void processEvents() {
-			Set<DownloadJob> alreadyUpdatedJobs = 
-				new HashSet<DownloadJob>();
+			Set<UrlDownloadJob> alreadyUpdatedJobs = 
+				new HashSet<UrlDownloadJob>();
 			
 			TableModelAction action;
 			while ((action = mActionDequeue.pollFirst()) != null) {
 				
-				DownloadJob job = action.getJob();
+				UrlDownloadJob job = action.getJob();
 				
 				switch(action.getAction()) {
 				

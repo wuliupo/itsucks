@@ -7,8 +7,8 @@
 
 package de.phleisch.app.itsucks.gui.ifc;
 
-import de.phleisch.app.itsucks.filter.RegExpJobFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 
 public interface AddAdvancedFilterCapable {
 

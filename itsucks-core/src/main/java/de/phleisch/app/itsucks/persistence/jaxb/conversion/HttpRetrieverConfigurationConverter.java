@@ -11,7 +11,7 @@ package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 import java.util.Arrays;
 import java.util.List;
 
-import de.phleisch.app.itsucks.io.http.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpRetrieverConfiguration;
 

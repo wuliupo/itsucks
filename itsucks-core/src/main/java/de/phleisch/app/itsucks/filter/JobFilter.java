@@ -7,8 +7,8 @@
 
 package de.phleisch.app.itsucks.filter;
 
-import de.phleisch.app.itsucks.Context;
-import de.phleisch.app.itsucks.Job;
+import de.phleisch.app.itsucks.job.Context;
+import de.phleisch.app.itsucks.job.Job;
 
 /**
  * This interface is for a implementation which is used to filter a 

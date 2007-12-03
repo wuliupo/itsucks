@@ -10,6 +10,8 @@ package de.phleisch.app.itsucks;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.phleisch.app.itsucks.constants.ApplicationConstants;
+
 public class SpringContextSingelton {
 
 	private boolean mInitialized = false;

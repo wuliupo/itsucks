@@ -16,16 +16,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.phleisch.app.itsucks.JobFactory;
-import de.phleisch.app.itsucks.JobParameter;
-import de.phleisch.app.itsucks.filter.DownloadJobFilter;
-import de.phleisch.app.itsucks.filter.FileSizeFilter;
-import de.phleisch.app.itsucks.filter.MaxLinksToFollowFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter;
-import de.phleisch.app.itsucks.filter.TimeLimitFilter;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterAction;
-import de.phleisch.app.itsucks.filter.RegExpJobFilter.RegExpFilterRule;
-import de.phleisch.app.itsucks.io.DownloadJob;
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
+import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.job.JobParameter;
+import de.phleisch.app.itsucks.job.download.DownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
@@ -40,7 +41,7 @@ import de.phleisch.app.itsucks.persistence.jaxb.SerializedTimeLimitFilter;
 public class DownloadJobConverter extends AbstractBeanConverter {
 
 	private ObjectFactory mBeanFactory = new ObjectFactory();
-	private JobFactory mJobFactory;
+	private DownloadJobFactory mJobFactory;
 	
 	public Object convertBeanToClass(Object pBean) throws Exception {
 		
@@ -64,7 +65,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	private DownloadJob convertSerializedDownloadJobToClass(SerializedDownloadJob pJob) 
 			throws Exception {
 		
-		DownloadJob job = mJobFactory.createDownloadJob();
+		UrlDownloadJob job = mJobFactory.createDownloadJob();
 		
 		job.setName(pJob.getName());
 		job.setId(pJob.getId().intValue());
@@ -192,8 +193,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	
 	public Object convertClassToBean(Object pObject) {
 		
-		if(pObject instanceof DownloadJob) {
-			return convertDownloadJobToBean((DownloadJob)pObject);
+		if(pObject instanceof UrlDownloadJob) {
+			return convertDownloadJobToBean((UrlDownloadJob)pObject);
 		} if(pObject instanceof DownloadJobFilter) {
 			return convertDownloadJobFilterToBean((DownloadJobFilter) pObject);
 		} if(pObject instanceof MaxLinksToFollowFilter) {
@@ -209,7 +210,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
 	}
 
-	private SerializedDownloadJob convertDownloadJobToBean(DownloadJob pJob) {
+	private SerializedDownloadJob convertDownloadJobToBean(UrlDownloadJob pJob) {
 		
 		SerializedDownloadJob serializedJob = mBeanFactory.createSerializedDownloadJob();
 		
@@ -356,7 +357,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedTimeLimitFilter;
 	}
 	
-	public void setJobFactory(JobFactory pJobFactory) {
+	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}
 	
@@ -377,7 +378,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	public List<Class<?>> getSupportedClassConverter() {
 		
 		Class<?>[] supportedClassConvertClasses = new Class<?>[] {
-			DownloadJob.class,
+			UrlDownloadJob.class,
 			DownloadJobFilter.class,
 			MaxLinksToFollowFilter.class,
 			RegExpJobFilter.class,

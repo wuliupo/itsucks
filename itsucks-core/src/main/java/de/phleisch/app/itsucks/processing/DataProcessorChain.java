@@ -10,9 +10,9 @@ package de.phleisch.app.itsucks.processing;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.Job;
-import de.phleisch.app.itsucks.JobManager;
 import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobManager;
 
 /**
  * This class holds an chain of data processors and tunnels the data
