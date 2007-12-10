@@ -7,11 +7,13 @@
  */
 package de.phleisch.app.itsucks.gui.job.panel;
 
+import java.awt.Dialog;
 import java.io.File;
 import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 
 /**
@@ -28,66 +30,56 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	}
 
 	public List<String> validateFields() {
-		
+
 		FieldValidator validator = new FieldValidator();
-		
-		validator.assertNotEmpty(
-				this.nameTextField.getText(), 
+
+		validator.assertNotEmpty(this.nameTextField.getText(),
 				"Enter a valid name.");
-		
-		validator.assertURL(
-				this.urlTextField.getText(), 
-				"Enter a valid URL.");
-		
-		if(validator.assertNotEmpty(
-				this.savePathTextField.getText(), 
+
+		validator.assertURL(this.urlTextField.getText(), "Enter a valid URL.");
+
+		if (validator.assertNotEmpty(this.savePathTextField.getText(),
 				"Enter a valid path to save files.")) {
-			
+
 			File path = new File(this.savePathTextField.getText());
-			if(!path.exists()) {
+			if (!path.exists()) {
 				validator.addError("Path to save files does not exist.");
-			} else if(!path.canWrite()) {
+			} else if (!path.canWrite()) {
 				validator.addError("Path to save files is not writable.");
 			}
 		}
-		
-		validator.assertInteger(
-				this.workingThreadsTextField.getText(), 
+
+		validator.assertInteger(this.workingThreadsTextField.getText(),
 				"Enter a valid number of working threads.");
-		
-		validator.assertInteger(
-				this.maxConnectionsTextField.getText(), 
+
+		validator.assertInteger(this.maxConnectionsTextField.getText(),
 				"Enter a valid number of max. connections per server.");
-		
-		validator.assertInteger(
-				this.maxRetriesTextField.getText(), 
+
+		validator.assertInteger(this.maxRetriesTextField.getText(),
 				"Enter a valid number of max. retries.");
-		
-		if(this.enableProxyCheckBox.isSelected()) {
-			
-			validator.assertNotEmpty(
-					this.proxyServerTextField.getText(), 
+
+		if (this.enableProxyCheckBox.isSelected()) {
+
+			validator.assertNotEmpty(this.proxyServerTextField.getText(),
 					"Enter a valid proxy server.");
-			
-			validator.assertInteger(
-					this.proxyPortTextField.getText(), 
+
+			validator.assertInteger(this.proxyPortTextField.getText(),
 					"Enter a valid proxy port.");
 		}
-		
-		if(this.enableAuthenticationCheckBox.isSelected()) {
-			
+
+		if (this.enableAuthenticationCheckBox.isSelected()) {
+
 			validator.assertNotEmpty(
-					this.authenticationUserTextField.getText(), 
+					this.authenticationUserTextField.getText(),
 					"Enter a valid proxy user.");
-			
-			validator.assertNotEmpty(
-					this.authenticationPasswordTextField.getText(), 
-					"Enter a valid proxy password.");
+
+			validator.assertNotEmpty(this.authenticationPasswordTextField
+					.getText(), "Enter a valid proxy password.");
 		}
-		
+
 		return validator.getErrors();
 	}
-	
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -101,6 +93,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		nameTextField = new javax.swing.JTextField();
 		urlLabel = new javax.swing.JLabel();
 		urlTextField = new javax.swing.JTextField();
+		moreUrlsButton = new javax.swing.JButton();
 		savePathLabel = new javax.swing.JLabel();
 		savePathTextField = new javax.swing.JTextField();
 		savePathButton = new javax.swing.JButton();
@@ -132,6 +125,13 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		urlLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		urlLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		urlLabel.setText("Start URL:");
+
+		moreUrlsButton.setText("More");
+		moreUrlsButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				moreUrlsButtonActionPerformed(evt);
+			}
+		});
 
 		savePathLabel.setFont(new java.awt.Font("Dialog", 0, 12));
 		savePathLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -175,23 +175,6 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																urlTextField,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																355,
-																Short.MAX_VALUE)
-														.add(
-																basicParametersPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				savePathTextField,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				269,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				savePathButton))
-														.add(
 																basicParametersPanelLayout
 																		.createSequentialGroup()
 																		.add(
@@ -202,7 +185,43 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																		.add(
 																				204,
 																				204,
-																				204)))
+																				204))
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																basicParametersPanelLayout
+																		.createSequentialGroup()
+																		.add(
+																				basicParametersPanelLayout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.TRAILING)
+																						.add(
+																								org.jdesktop.layout.GroupLayout.LEADING,
+																								urlTextField,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								269,
+																								Short.MAX_VALUE)
+																						.add(
+																								savePathTextField,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								269,
+																								Short.MAX_VALUE))
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				basicParametersPanelLayout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.TRAILING,
+																								false)
+																						.add(
+																								moreUrlsButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								savePathButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE))))
 										.addContainerGap()));
 
 		basicParametersPanelLayout.linkSize(new java.awt.Component[] {
@@ -238,7 +257,8 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																urlTextField,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(moreUrlsButton))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -648,21 +668,36 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_moreUrlsButtonActionPerformed
+	private void moreUrlsButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		EditUrlListDialog urlEditDialog = new EditUrlListDialog(
+				(Dialog) getRootPane().getParent(), true);
+		
+		urlEditDialog.setVisible(true);
+		
+		if(urlEditDialog.isOk()) {
+			//TODO
+		}
+		
+	}//GEN-LAST:event_moreUrlsButtonActionPerformed
+
 	//GEN-FIRST:event_savePathButtonActionPerformed
 	private void savePathButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		//open dialog
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		fc.setSelectedFile(new File(this.savePathTextField.getText()));
-		
+
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(this);
-		if(result == JFileChooser.APPROVE_OPTION) {
-			this.savePathTextField.setText(fc.getSelectedFile().getAbsolutePath());
+		if (result == JFileChooser.APPROVE_OPTION) {
+			this.savePathTextField.setText(fc.getSelectedFile()
+					.getAbsolutePath());
 		}
-		
+
 	}//GEN-LAST:event_savePathButtonActionPerformed
 
 	//GEN-FIRST:event_enableProxyCheckBoxStateChanged
@@ -710,6 +745,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	protected javax.swing.JTextField maxConnectionsTextField;
 	protected javax.swing.JLabel maxRetriesLabel;
 	protected javax.swing.JTextField maxRetriesTextField;
+	protected javax.swing.JButton moreUrlsButton;
 	protected javax.swing.JLabel nameLabel;
 	protected javax.swing.JTextField nameTextField;
 	protected javax.swing.JLabel proxyPortLabel;

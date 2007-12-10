@@ -41,7 +41,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="de.phleisch.app.itsucks.gui.panel.AboutPanel" name="aboutPanel">
+    <Component class="de.phleisch.app.itsucks.gui.common.panel.AboutPanel" name="aboutPanel">
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
 

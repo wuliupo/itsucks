@@ -29,7 +29,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel" name="editRegularExpression2Panel1">
+    <Component class="de.phleisch.app.itsucks.gui.common.panel.EditRegularExpressionPanel" name="editRegularExpression2Panel1">
     </Component>
   </SubComponents>
 </Form>
