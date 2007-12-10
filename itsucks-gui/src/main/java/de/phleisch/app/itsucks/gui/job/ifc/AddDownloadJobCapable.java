@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui.ifc;
+package de.phleisch.app.itsucks.gui.job.ifc;
 
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 

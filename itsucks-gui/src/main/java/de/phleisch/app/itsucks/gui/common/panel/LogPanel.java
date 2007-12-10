@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.common.panel;
 
 import java.awt.BorderLayout;
 

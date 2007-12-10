@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.common;
 
 /**
  *
@@ -28,7 +28,7 @@ public class AboutDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		aboutPanel = new de.phleisch.app.itsucks.gui.panel.AboutPanel();
+		aboutPanel = new de.phleisch.app.itsucks.gui.common.panel.AboutPanel();
 		jPanel1 = new javax.swing.JPanel();
 		closeButton = new javax.swing.JButton();
 
@@ -79,7 +79,7 @@ public class AboutDialog extends javax.swing.JDialog {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui.panel.AboutPanel aboutPanel;
+	private de.phleisch.app.itsucks.gui.common.panel.AboutPanel aboutPanel;
 	private javax.swing.JButton closeButton;
 	private javax.swing.JPanel jPanel1;
 	// End of variables declaration//GEN-END:variables

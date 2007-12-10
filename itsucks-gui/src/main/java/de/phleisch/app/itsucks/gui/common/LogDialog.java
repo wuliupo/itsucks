@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.common;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -13,7 +13,7 @@ import java.awt.Frame;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import de.phleisch.app.itsucks.gui.panel.LogPanel;
+import de.phleisch.app.itsucks.gui.common.panel.LogPanel;
 
 
 public class LogDialog extends JDialog {

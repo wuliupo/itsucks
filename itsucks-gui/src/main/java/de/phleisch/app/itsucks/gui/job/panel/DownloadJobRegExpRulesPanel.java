@@ -4,14 +4,14 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Dialog;
 import java.io.Serializable;
 
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
-import de.phleisch.app.itsucks.gui.EditRegularExpressionDialog;
+import de.phleisch.app.itsucks.gui.common.EditRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.job.JobParameter;

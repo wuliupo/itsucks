@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.common.panel;
 
 import java.io.IOException;
 import java.io.InputStream;

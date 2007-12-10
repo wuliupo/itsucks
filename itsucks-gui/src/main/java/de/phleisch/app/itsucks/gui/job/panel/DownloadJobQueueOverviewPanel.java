@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui.panel;
+package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
@@ -178,10 +178,10 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		jTabbedPane1 = new javax.swing.JTabbedPane();
-		downloadJobStatusTableRunningPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTableOpenPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTableFinishedPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
-		downloadJobStatusTableAllPanel = new de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableRunningPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableOpenPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableFinishedPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel();
+		downloadJobStatusTableAllPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel();
 		infoPanel = new javax.swing.JPanel();
 
 		jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
@@ -220,10 +220,10 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel downloadJobStatusTableAllPanel;
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel downloadJobStatusTableFinishedPanel;
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel downloadJobStatusTableOpenPanel;
-	private de.phleisch.app.itsucks.gui.panel.DownloadJobStatusTablePanel downloadJobStatusTableRunningPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel downloadJobStatusTableAllPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel downloadJobStatusTableFinishedPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel downloadJobStatusTableOpenPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobStatusTablePanel downloadJobStatusTableRunningPanel;
 	private javax.swing.JPanel infoPanel;
 	private javax.swing.JTabbedPane jTabbedPane1;
 	// End of variables declaration//GEN-END:variables

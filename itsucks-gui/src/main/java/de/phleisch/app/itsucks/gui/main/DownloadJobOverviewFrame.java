@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.main;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -28,8 +28,12 @@ import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
-import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.gui.panel.DownloadJobQueueOverviewPanel;
+import de.phleisch.app.itsucks.gui.common.AboutDialog;
+import de.phleisch.app.itsucks.gui.common.LogDialog;
+import de.phleisch.app.itsucks.gui.common.TestRegularExpressionDialog;
+import de.phleisch.app.itsucks.gui.job.EditDownloadJobDialog;
+import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;

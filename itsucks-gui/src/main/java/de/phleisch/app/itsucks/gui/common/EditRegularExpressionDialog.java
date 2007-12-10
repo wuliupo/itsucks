@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.common;
 
 import java.awt.Dialog;
 
@@ -53,7 +53,7 @@ public class EditRegularExpressionDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		editRegularExpression2Panel1 = new de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel();
+		editRegularExpression2Panel1 = new de.phleisch.app.itsucks.gui.common.panel.EditRegularExpressionPanel();
 		jPanel1 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
 		jButton2 = new javax.swing.JButton();
@@ -118,7 +118,7 @@ public class EditRegularExpressionDialog extends javax.swing.JDialog {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui.panel.EditRegularExpressionPanel editRegularExpression2Panel1;
+	private de.phleisch.app.itsucks.gui.common.panel.EditRegularExpressionPanel editRegularExpression2Panel1;
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
 	private javax.swing.JPanel jPanel1;

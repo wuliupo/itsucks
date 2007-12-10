@@ -4,7 +4,7 @@
  * Created on __DATE__, __TIME__
  */
 
-package de.phleisch.app.itsucks.gui;
+package de.phleisch.app.itsucks.gui.job;
 
 import java.awt.Frame;
 import java.io.File;
@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.gui.ifc.AddDownloadJobCapable;
+import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -99,7 +99,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		editDownloadJobGroupPanel = new de.phleisch.app.itsucks.gui.panel.EditDownloadJobGroupPanel();
+		editDownloadJobGroupPanel = new de.phleisch.app.itsucks.gui.job.panel.EditDownloadJobGroupPanel();
 		buttonPanel = new javax.swing.JPanel();
 		startButton = new javax.swing.JButton();
 		saveButton = new javax.swing.JButton();
@@ -186,7 +186,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify
 	private javax.swing.JPanel buttonPanel;
 	private javax.swing.JButton cancelButton;
-	private de.phleisch.app.itsucks.gui.panel.EditDownloadJobGroupPanel editDownloadJobGroupPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.EditDownloadJobGroupPanel editDownloadJobGroupPanel;
 	private javax.swing.JButton saveButton;
 	private javax.swing.JButton startButton;
 	// End of variables declaration//GEN-END:variables
