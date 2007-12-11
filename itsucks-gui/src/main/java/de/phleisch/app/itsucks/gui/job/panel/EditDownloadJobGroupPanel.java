@@ -24,8 +24,9 @@ import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
-import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -45,6 +46,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	public void loadJob(SerializableJobList pJobList) {
 
 		UrlDownloadJob pJob = (UrlDownloadJob) pJobList.getJobs().get(0);
+		List<URL> urlList = new ArrayList<URL>();
+		for (Job job : pJobList.getJobs()) {
+			urlList.add(((UrlDownloadJob)job).getUrl());
+		}
 		List<JobFilter> pFilters = pJobList.getFilters();
 
 		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
@@ -84,8 +89,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 		//load basic panel
 		this.downloadJobBasicPanel.nameTextField.setText(pJob.getName());
-		this.downloadJobBasicPanel.urlTextField.setText(pJob.getUrl()
-				.toExternalForm());
+		this.downloadJobBasicPanel.setUrlList(urlList);
 		this.downloadJobBasicPanel.savePathTextField.setText(pJob.getSavePath()
 				.getAbsolutePath());
 		this.downloadJobBasicPanel.maxRetriesTextField.setText(String
@@ -208,29 +212,28 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 		DownloadJobFactory jobFactory = (DownloadJobFactory) SpringContextSingelton
 				.getApplicationContext().getBean("JobFactory");
-		UrlDownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob basicJob = jobFactory.createDownloadJob();
+		List<URL> urls = new ArrayList<URL>();
 		List<JobFilter> jobFilterList = new ArrayList<JobFilter>();
 		SerializableDispatcherConfiguration dispatcherConfiguration = new SerializableDispatcherConfiguration();
 		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
 
 		//build download job
-		job.setIgnoreFilter(true);
-		job.setState(UrlDownloadJob.STATE_OPEN);
+		basicJob.setIgnoreFilter(true);
+		basicJob.setState(UrlDownloadJob.STATE_OPEN);
 
 		//basic panel
-		job.setName(this.downloadJobBasicPanel.nameTextField.getText());
+		basicJob.setName(this.downloadJobBasicPanel.nameTextField.getText());
 
 		try {
-			job.setUrl(new URL(this.downloadJobBasicPanel.urlTextField
-					.getText()));
+			urls.addAll(this.downloadJobBasicPanel.getUrlList());
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Bad URL: "
-					+ this.downloadJobBasicPanel.urlTextField.getText(), e);
+			throw new RuntimeException(e);
 		}
 
-		job.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField
+		basicJob.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField
 				.getText()));
-		job.setMaxRetryCount(Integer
+		basicJob.setMaxRetryCount(Integer
 				.parseInt(this.downloadJobBasicPanel.maxRetriesTextField
 						.getText()));
 
@@ -374,7 +377,20 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 		//build result
 		SerializableJobList result = new SerializableJobList();
-		result.addJob(job);
+		
+		for (URL url : urls) {
+			UrlDownloadJob job = jobFactory.createDownloadJob();
+			
+			job.setUrl(url);
+			job.setIgnoreFilter(basicJob.isIgnoreFilter());
+			job.setState(basicJob.getState());
+			job.setName(basicJob.getName());
+			job.setSavePath(basicJob.getSavePath());
+			job.setMaxRetryCount(basicJob.getMaxRetryCount());
+			
+			result.addJob(job);
+		}
+		
 		result.setFilters(jobFilterList);
 		result.setDispatcherConfiguration(dispatcherConfiguration);
 		result

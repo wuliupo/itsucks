@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui.common;
 
+import java.net.URL;
+import java.util.List;
 
 /**
  *
@@ -14,7 +16,7 @@ package de.phleisch.app.itsucks.gui.common;
 public class EditUrlListDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 4264171302269470118L;
-	
+
 	private boolean mOk = false;
 
 	/** Creates new form EditUrlListDialog */
@@ -22,7 +24,7 @@ public class EditUrlListDialog extends javax.swing.JDialog {
 		super(parent, modal);
 		initComponents();
 	}
-	
+
 	public EditUrlListDialog(java.awt.Dialog parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
@@ -36,62 +38,92 @@ public class EditUrlListDialog extends javax.swing.JDialog {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		editUrlListPanel1 = new de.phleisch.app.itsucks.gui.common.panel.EditUrlListPanel();
-		jPanel1 = new javax.swing.JPanel();
-		jButton1 = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
+		editUrlListPanel = new de.phleisch.app.itsucks.gui.common.panel.EditUrlListPanel();
+		buttonPanel = new javax.swing.JPanel();
+		okButton = new javax.swing.JButton();
+		cancelButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Edit URL List");
 
-		jButton1.setText("Ok");
-		jPanel1.add(jButton1);
+		okButton.setText("Ok");
+		okButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				okButtonActionPerformed(evt);
+			}
+		});
 
-		jButton2.setText("Cancel");
-		jPanel1.add(jButton2);
+		buttonPanel.add(okButton);
+
+		cancelButton.setText("Cancel");
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActionPerformed(evt);
+			}
+		});
+
+		buttonPanel.add(cancelButton);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
-				org.jdesktop.layout.GroupLayout.LEADING).add(editUrlListPanel1,
+				org.jdesktop.layout.GroupLayout.LEADING).add(editUrlListPanel,
 				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 435,
-				Short.MAX_VALUE).add(jPanel1,
+				Short.MAX_VALUE).add(buttonPanel,
 				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 435,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
 				org.jdesktop.layout.GroupLayout.TRAILING,
-				layout.createSequentialGroup().add(editUrlListPanel1,
+				layout.createSequentialGroup().add(editUrlListPanel,
 						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 300,
 						Short.MAX_VALUE).addPreferredGap(
-						org.jdesktop.layout.LayoutStyle.RELATED).add(jPanel1,
+						org.jdesktop.layout.LayoutStyle.RELATED).add(
+						buttonPanel,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new EditUrlListDialog(new javax.swing.JFrame(), true)
-						.setVisible(true);
-			}
-		});
-	}
+	//GEN-FIRST:event_cancelButtonActionPerformed
+	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+		this.dispose();
+
+	}//GEN-LAST:event_cancelButtonActionPerformed
+
+	//GEN-FIRST:event_okButtonActionPerformed
+	private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {
+
+		if (!editUrlListPanel.validateFields()) {
+			return;
+		}
+
+		mOk = true;
+		this.dispose();
+
+	}//GEN-LAST:event_okButtonActionPerformed
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private de.phleisch.app.itsucks.gui.common.panel.EditUrlListPanel editUrlListPanel1;
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton2;
-	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel buttonPanel;
+	private javax.swing.JButton cancelButton;
+	private de.phleisch.app.itsucks.gui.common.panel.EditUrlListPanel editUrlListPanel;
+	private javax.swing.JButton okButton;
+
 	// End of variables declaration//GEN-END:variables
 
 	public boolean isOk() {
 		return mOk;
+	}
+
+	public List<URL> getUrlList() {
+		return editUrlListPanel.getUrlList();
+	}
+
+	public void setUrlList(List<URL> pUrlList) {
+		editUrlListPanel.setUrlList(pUrlList);
 	}
 
 }

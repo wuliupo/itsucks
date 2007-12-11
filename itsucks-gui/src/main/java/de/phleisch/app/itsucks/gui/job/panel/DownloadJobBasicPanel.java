@@ -9,9 +9,13 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Dialog;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
@@ -24,6 +28,8 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 6676129664345121404L;
 
+	private List<URL> mUrlList = null;
+	
 	/** Creates new form DownloadJobMainPanel */
 	public DownloadJobBasicPanel() {
 		initComponents();
@@ -36,7 +42,12 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		validator.assertNotEmpty(this.nameTextField.getText(),
 				"Enter a valid name.");
 
-		validator.assertURL(this.urlTextField.getText(), "Enter a valid URL.");
+		if(mUrlList != null && mUrlList.size() == 0) {
+			validator.addError("Enter a valid URL.");
+		}
+		if(mUrlList == null) {
+			validator.assertURL(this.urlTextField.getText(), "Enter a valid URL.");
+		}
 
 		if (validator.assertNotEmpty(this.savePathTextField.getText(),
 				"Enter a valid path to save files.")) {
@@ -78,6 +89,42 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		}
 
 		return validator.getErrors();
+	}
+	
+	public List<URL> getUrlList() throws MalformedURLException {
+		
+		List<URL> urlList = null; 
+		
+		if(mUrlList != null) {
+			urlList = mUrlList;
+		} else {
+			urlList = new ArrayList<URL>();
+			String url = urlTextField.getText();
+			if(url.trim().length() > 0) {
+				urlList.add(new URL(url));
+			}
+		}
+
+		return urlList;
+	}
+	
+	public void setUrlList(List<URL> pUrls) {
+		
+		List<URL> urlList = pUrls;
+		if(urlList.size() == 0) {
+			urlTextField.setEditable(true);
+			urlTextField.setText(null);
+			mUrlList = null;
+		} if(urlList.size() == 1) {
+			urlTextField.setEditable(true);
+			urlTextField.setText(urlList.get(0).toExternalForm());
+			mUrlList = null;
+		} if(urlList.size() > 1) {
+			urlTextField.setEditable(false);
+			urlTextField.setText("< " + urlList.size() + " URL's >");
+			mUrlList = urlList;
+		}
+		
 	}
 
 	/** This method is called from within the constructor to
@@ -674,10 +721,19 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		EditUrlListDialog urlEditDialog = new EditUrlListDialog(
 				(Dialog) getRootPane().getParent(), true);
 		
+		try {
+			urlEditDialog.setUrlList(getUrlList());
+		} catch (MalformedURLException e) {
+			
+			JOptionPane.showMessageDialog(this, "Malformed URL: " + urlTextField.getText(),
+					"Validation error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		urlEditDialog.setVisible(true);
 		
 		if(urlEditDialog.isOk()) {
-			//TODO
+			setUrlList(urlEditDialog.getUrlList());
 		}
 		
 	}//GEN-LAST:event_moreUrlsButtonActionPerformed

@@ -6,6 +6,14 @@
 
 package de.phleisch.app.itsucks.gui.common.panel;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author  __USER__
@@ -13,12 +21,71 @@ package de.phleisch.app.itsucks.gui.common.panel;
 public class EditUrlListPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = -6093975410692303519L;
-	
+
 	/** Creates new form EditUrlListPanel */
 	public EditUrlListPanel() {
 		initComponents();
 	}
 
+	public void setUrlList(List<URL> mUrlList) {
+		
+		StringBuilder urlList = new StringBuilder();
+		
+		for (URL url : mUrlList) {
+			urlList.append(url);
+			urlList.append("\n");
+		}
+		
+		urlListTextArea.setText(urlList.toString());
+	}
+	
+	public List<URL> getUrlList() {
+		
+		List<URL> urlList = new ArrayList<URL>();
+		
+		String text = urlListTextArea.getText();
+		StringTokenizer st = new StringTokenizer(text, "\n");
+		
+		while(st.hasMoreElements()) {
+			
+			String element = (String) st.nextElement();
+			if(element.trim().length() == 0) continue;
+			
+			try {
+				urlList.add(new URL(element));
+			} catch (MalformedURLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return urlList;
+	}
+	
+	public boolean validateFields() {
+		
+		String text = urlListTextArea.getText();
+		StringTokenizer st = new StringTokenizer(text, "\n");
+		
+		while(st.hasMoreElements()) {
+			
+			String element = (String) st.nextElement();
+			if(element.trim().length() == 0) continue;
+			
+			try {
+				new URL(element);
+			} catch (MalformedURLException e) {
+				
+				JOptionPane.showMessageDialog(this, "Malformed URL: " + element,
+						"Validation error", JOptionPane.ERROR_MESSAGE);
+				
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -27,17 +94,17 @@ public class EditUrlListPanel extends javax.swing.JPanel {
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
-		jLabel1 = new javax.swing.JLabel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jTextArea1 = new javax.swing.JTextArea();
+		urlListLabel = new javax.swing.JLabel();
+		urlListScrollPane = new javax.swing.JScrollPane();
+		urlListTextArea = new javax.swing.JTextArea();
 
 		setBorder(javax.swing.BorderFactory.createTitledBorder("Edit URL List"));
-		jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-		jLabel1.setText("<html>Enter a URL per line.</html>");
+		urlListLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		urlListLabel.setText("<html>Enter a URL per line.</html>");
 
-		jTextArea1.setColumns(20);
-		jTextArea1.setRows(5);
-		jScrollPane1.setViewportView(jTextArea1);
+		urlListTextArea.setColumns(20);
+		urlListTextArea.setRows(5);
+		urlListScrollPane.setViewportView(urlListTextArea);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -49,30 +116,30 @@ public class EditUrlListPanel extends javax.swing.JPanel {
 						layout.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.TRAILING).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jScrollPane1,
+								urlListScrollPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								366, Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
-								jLabel1,
+								urlListLabel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								366, Short.MAX_VALUE)).addContainerGap()));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				layout.createSequentialGroup().add(jLabel1,
+				layout.createSequentialGroup().add(urlListLabel,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 28,
 						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
-								jScrollPane1,
+								urlListScrollPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								229, Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTextArea jTextArea1;
+	private javax.swing.JLabel urlListLabel;
+	private javax.swing.JScrollPane urlListScrollPane;
+	private javax.swing.JTextArea urlListTextArea;
 	// End of variables declaration//GEN-END:variables
 
 }

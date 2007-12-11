@@ -59,9 +59,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	public void addDownload(SerializableJobList pJob) {
 
-		Job pDownloadJob = pJob.getJobs().get(0);
-
-		//DownloadStatusPanel pane = new DownloadStatusPanel();
 		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
 
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
@@ -71,7 +68,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			throw new RuntimeException("Can't instatiate dispatcher!");
 		}
 		pane.setDispatcher(dispatcher);
-		pane.setName(pDownloadJob.getName());
+		pane.setName(pJob.getJobs().get(0).getName());
 
 		//add pane
 		downloadsTabbedPane.add(pane.getName(), pane);
@@ -93,7 +90,9 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		//configure dispatcher
 		dispatcher.addJobFilter(pJob.getFilters());
-		dispatcher.addJob(pDownloadJob);
+		for (Job job : pJob.getJobs()) {
+			dispatcher.addJob(job);
+		}
 
 		//add all context parameter
 		dispatcher.getContext().putAllContextParameter(
