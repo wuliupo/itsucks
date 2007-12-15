@@ -40,6 +40,14 @@
             <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="batchMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Batch Processing"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="batchMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="regExpTesterMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Regular Expression Tester"/>
@@ -50,7 +58,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="logWindowMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Open log window"/>
+                <Property name="text" type="java.lang.String" value="Log window"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logWindowMenuItemActionPerformed"/>
@@ -104,8 +112,8 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="toolBar" alignment="0" pref="673" max="32767" attributes="0"/>
-          <Component id="downloadsTabbedPane" alignment="0" pref="673" max="32767" attributes="0"/>
+          <Component id="toolBar" alignment="0" pref="677" max="32767" attributes="0"/>
+          <Component id="downloadsTabbedPane" alignment="0" pref="677" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -113,7 +121,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="toolBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="downloadsTabbedPane" pref="338" max="32767" attributes="0"/>
+              <Component id="downloadsTabbedPane" pref="387" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -14,7 +14,7 @@ public class ExtendedListModel extends DefaultListModel {
 
 	private static final long serialVersionUID = 2986586217026949945L;
 
-	public void moveEntry(int pIndex, int pOffset) {
+	public int moveEntry(int pIndex, int pOffset) {
 
 		//calculate target
 		int targetIndex = pIndex + pOffset;
@@ -28,12 +28,11 @@ public class ExtendedListModel extends DefaultListModel {
 		set(pIndex, target);
 		set(targetIndex, source);
 		
+		return targetIndex;
 	}
 
 	public void fireContentsChanged(int pIndex0, int pIndex1) {
 		super.fireContentsChanged(this, pIndex0, pIndex1);
 	}
-
-	
 	
 }

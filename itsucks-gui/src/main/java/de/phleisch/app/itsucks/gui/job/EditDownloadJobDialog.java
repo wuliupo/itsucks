@@ -6,6 +6,7 @@
 
 package de.phleisch.app.itsucks.gui.job;
 
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.io.File;
 
@@ -36,9 +37,20 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	/** Creates new form EditDownloadJobFrame */
 	public EditDownloadJobDialog(Frame pOwner,
 			AddDownloadJobCapable pDownloadJobManager) {
+		
 		super(pOwner);
+		init(pDownloadJobManager);
+	}
+	
+	public EditDownloadJobDialog(Dialog pOwner,
+			AddDownloadJobCapable pDownloadJobManager) {
+		
+		super(pOwner);
+		init(pDownloadJobManager);
+	}
+	
+	private void init(AddDownloadJobCapable pDownloadJobManager) {
 		mDownloadJobManager = pDownloadJobManager;
-
 		initComponents();
 	}
 
