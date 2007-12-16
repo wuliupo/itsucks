@@ -12,6 +12,4 @@ public interface EventSource {
 
 	public EventDispatcher getEventDispatcher();
 
-	public void setEventDispatcher(EventDispatcher pEventDispatcher);
-	
 }

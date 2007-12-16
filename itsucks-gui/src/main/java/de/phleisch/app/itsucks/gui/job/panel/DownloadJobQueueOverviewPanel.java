@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.phleisch.app.itsucks.core.impl.DispatcherThread;
+import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
@@ -29,7 +29,9 @@ import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 2406761069696757338L;
-	private transient DispatcherThread mJobDispatcher;
+	private transient Dispatcher mJobDispatcher;
+	private transient int mDispatcherId;
+	
 	private EventObserver mEventObserver = new JobEventObserver();
 
 	/** Creates new form QueueDownloadJobOverview */
@@ -37,7 +39,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		initComponents();
 	}
 
-	public void setDispatcher(DispatcherThread pDispatcher) {
+	public void setDispatcher(Dispatcher pDispatcher) {
 		mJobDispatcher = pDispatcher;
 
 		DefaultEventFilter eventFilter = new DefaultEventFilter();
@@ -48,7 +50,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 				eventFilter);
 	}
 
-	public DispatcherThread getDispatcher() {
+	public Dispatcher getDispatcher() {
 		return mJobDispatcher;
 	}
 
@@ -130,6 +132,14 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		}
 
 		return panels;
+	}
+	
+	public int getDispatcherId() {
+		return mDispatcherId;
+	}
+
+	public void setDispatcherId(int pDispatcherId) {
+		mDispatcherId = pDispatcherId;
 	}
 
 	private class JobEventObserver implements EventObserver, Serializable {

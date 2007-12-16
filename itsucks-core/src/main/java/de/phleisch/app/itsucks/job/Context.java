@@ -38,5 +38,4 @@ public class Context {
 		mEventDispatcher = pEventDispatcher;
 	}
 	
-	
 }

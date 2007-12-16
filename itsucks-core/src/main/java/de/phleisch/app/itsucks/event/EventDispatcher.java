@@ -17,7 +17,7 @@ public interface EventDispatcher {
 	public abstract void init();
 
 	/**
-	 * Initializes the Event dispatcher.
+	 * Shutdown the Event dispatcher.
 	 * This method is also called when an <code>EVENT_EVENTDISPATCHER_CMD_STOP</code> was fired.
 	 */
 	public abstract void shutdown();
@@ -29,7 +29,7 @@ public interface EventDispatcher {
 	public abstract void fireEvent(final Event pEvent);
 
 	/**
-	 * Registers an new observer. All events are dispatched to this observers.
+	 * Registers an new observer. All events are dispatched to this observer.
 	 * @param pObserver
 	 */
 	public abstract void registerObserver(EventObserver pObserver);

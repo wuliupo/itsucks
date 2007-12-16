@@ -31,6 +31,10 @@ public class SimpleEvent implements Event {
 		mType = pEvent.getType();
 	}
 	
+	public SimpleEvent(int pType) {
+		this(pType, -1);
+	}
+	
 	public SimpleEvent(int pType, int pCategory) {
 		mCategory = pCategory;
 		mType = pType;

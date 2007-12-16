@@ -101,14 +101,11 @@ public class JobFilterChainImpl implements JobFilterChain, EventSource {
 
 	public void setContext(Context pContext) {
 		mContext = pContext;
+		mEventDispatcher = mContext.getEventDispatcher();
 	}
 
 	public EventDispatcher getEventDispatcher() {
 		return mEventDispatcher;
-	}
-
-	public void setEventDispatcher(EventDispatcher pEventDispatcher) {
-		mEventDispatcher = pEventDispatcher;
 	}
 	
 }

@@ -129,15 +129,6 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.job.impl.JobManager#setEventDispatcher(de.phleisch.app.itsucks.event.EventDispatcher)
-	 */
-	public void setEventDispatcher(EventDispatcher pEventManager) {
-		mEventDispatcher = pEventManager;
-		mContext.setEventDispatcher(mEventDispatcher);
-		mJobFilterChain.setEventDispatcher(mEventDispatcher);
-	}
-
-	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#getContext()
 	 */
 	public Context getContext() {
@@ -154,8 +145,9 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 
 	public void setContext(Context pContext) {
 		mContext = pContext;
+		mEventDispatcher = mContext.getEventDispatcher();
+		mJobFilterChain.setContext(mContext);
 	}
-
 	
 	public void addJobFilter(JobFilter pJobFilter) {
 		mJobFilterChain.addJobFilter(pJobFilter);

@@ -8,8 +8,13 @@ package de.phleisch.app.itsucks.gui.main.panel;
 
 import java.awt.Dialog;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import de.phleisch.app.itsucks.core.impl.DispatcherList;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
+import de.phleisch.app.itsucks.gui.main.DispatcherHelper;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
@@ -21,7 +26,9 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		AddDownloadJobCapable {
 
 	private static final long serialVersionUID = 202226684812236519L;
+	private static Log mLog = LogFactory.getLog(BatchProcessingPanel.class);
 
+	private DispatcherList mDispatcherList;
 	protected ExtendedListModel jobListModel;
 
 	/** Creates new form BatchProcessingPanel */
@@ -37,12 +44,53 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 	}
 
+	public void setDispatcherList(DispatcherList pDispatcherList) {
+		mDispatcherList = pDispatcherList;
+	}
+	
+	private void startNextJob() {
+		
+		JobListElement[] list = new JobListElement[jobListModel.size()]; 
+		jobListModel.copyInto(list);
+		
+		for (int i = 0; i < list.length; i++) {
+			if(!list[i].isFinished()) {
+				
+				DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
+				helper.startDispatcher(list[i].mJobList);
+				break;
+				
+			}
+		}
+		
+	}
+
+	//	public void processEvent(Event pEvent) {
+	//		
+	//		switch(pEvent.getType()) {
+	//		
+	//			case DispatcherList.EVENT_DISPATCHER_ADDED:
+	//				processDispatcherAdded((DispatcherListEvent)pEvent);
+	//				break;
+	//				
+	//			case DispatcherList.EVENT_DISPATCHER_REMOVED:
+	//				processDispatcherRemoved((DispatcherListEvent)pEvent);
+	//				break;
+	//				
+	//			default: 
+	//				throw new IllegalStateException("Unknown Event: " + pEvent);
+	//		
+	//		}
+	//		
+	//	}
+
 	protected class JobListElement {
 
-		private SerializableJobList mJob;
-
-		public JobListElement(SerializableJobList pJob) {
-			mJob = pJob;
+		private SerializableJobList mJobList;
+		private boolean mFinished = false;
+		
+		public JobListElement(SerializableJobList pJobList) {
+			mJobList = pJobList;
 		}
 
 		@Override
@@ -57,7 +105,11 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		 * @return
 		 */
 		public String toHtmlString() {
-			return mJob.getJobs().get(0).getName();
+			return mJobList.getJobs().get(0).getName();
+		}
+		
+		public boolean isFinished() {
+			return mFinished;
 		}
 	}
 
@@ -123,6 +175,11 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		});
 
 		startButton.setText("Start batch");
+		startButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				startButtonActionPerformed(evt);
+			}
+		});
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -228,40 +285,58 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 										.addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_startButtonActionPerformed
+	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		addJobButton.setEnabled(false);
+		loadJobButton.setEnabled(false);
+		removeJobButton.setEnabled(false);
+		moveUpButton.setEnabled(false);
+		moveDownButton.setEnabled(false);
+		jobList.clearSelection();
+		startButton.setEnabled(false);
+		startButton.setText("Batch running...");
+		
+		startNextJob();
+		
+	}//GEN-LAST:event_startButtonActionPerformed
+
 	//GEN-FIRST:event_moveDownButtonActionPerformed
 	private void moveDownButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		int[] selectedIndices = jobList.getSelectedIndices();
-		
+
 		//check if move is possible
 		for (int i = 0; i < selectedIndices.length; i++) {
-			if(selectedIndices[i] == (jobListModel.getSize() - 1)) return;
+			if (selectedIndices[i] == (jobListModel.getSize() - 1))
+				return;
 		}
-		
+
 		//move the entries
 		for (int i = (selectedIndices.length - 1); i > -1; i--) {
 			selectedIndices[i] = jobListModel.moveEntry(selectedIndices[i], 1);
 		}
 		jobList.setSelectedIndices(selectedIndices);
-		
+
 	}//GEN-LAST:event_moveDownButtonActionPerformed
 
 	//GEN-FIRST:event_moveUpButtonActionPerformed
 	private void moveUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		int[] selectedIndices = jobList.getSelectedIndices();
-		
+
 		//check if move is possible
 		for (int i = 0; i < selectedIndices.length; i++) {
-			if(selectedIndices[i] == 0) return;
+			if (selectedIndices[i] == 0)
+				return;
 		}
-		
+
 		//move the entries
 		for (int i = 0; i < selectedIndices.length; i++) {
 			selectedIndices[i] = jobListModel.moveEntry(selectedIndices[i], -1);
 		}
 		jobList.setSelectedIndices(selectedIndices);
-		
+
 	}//GEN-LAST:event_moveUpButtonActionPerformed
 
 	//GEN-FIRST:event_removeJobButtonActionPerformed

@@ -6,6 +6,8 @@
 
 package de.phleisch.app.itsucks.gui.main;
 
+import de.phleisch.app.itsucks.core.impl.DispatcherList;
+
 /**
  *
  * @author  __USER__
@@ -20,6 +22,10 @@ public class BatchProcessingDialog extends javax.swing.JDialog {
 		initComponents();
 	}
 
+	public void setDispatcherList(DispatcherList pDispatcherList) {
+		batchProcessingPanel.setDispatcherList(pDispatcherList);
+	}
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is

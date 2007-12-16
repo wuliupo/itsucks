@@ -19,6 +19,17 @@ import de.phleisch.app.itsucks.job.JobManager;
 public interface Dispatcher {
 
 	/**
+	 * Sets a name for the dispatcher.
+	 * @param pName
+	 */
+	public abstract void setName(String pName);
+	
+	/**
+	 * @return The name of the dispatcher.
+	 */
+	public abstract String getName();
+	
+	/**
 	 * Start processing the jobs in the job list and 
 	 * delegate it to free worker threads.
 	 * Returns when all jobs are done.

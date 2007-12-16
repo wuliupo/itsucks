@@ -39,6 +39,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	@SuppressWarnings("unused")
 	private ApplicationContext mSpringApplicationContext;
 	
+	private String mName;
 	private Context mContext;
 	private FilterJobManagerImpl mJobManager;
 	private WorkerPool mWorkerPool;
@@ -54,6 +55,20 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	
 	public DispatcherImpl() {
 		super();
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.core.Dispatcher#getName()
+	 */
+	public String getName() {
+		return mName;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.core.Dispatcher#setName(java.lang.String)
+	 */
+	public void setName(String pName) {
+		mName = pName;
 	}
 	
 	/* (non-Javadoc)
@@ -171,7 +186,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	}
 	
 	private void startup() {
-		mJobManager.setEventDispatcher(mEventManager);
+		mJobManager.setContext(mContext);
 		mWorkerPool.initialize();
 	}
 	
@@ -189,7 +204,6 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	public void setFilterJobManager(FilterJobManagerImpl pJobManager) {
 		mJobManager = pJobManager;
 		mJobManager.setContext(mContext);
-		mJobManager.setEventDispatcher(mEventManager);
 	}
 
 	/* (non-Javadoc)
@@ -274,7 +288,13 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	}
 
 	public void setEventManager(EventDispatcher pEventManager) {
+		
+		if(mContext == null) {
+			throw new IllegalStateException("Context is not set!");
+		}
+		
 		mEventManager = pEventManager;
+		mContext.setEventDispatcher(mEventManager);
 	}
 
 }

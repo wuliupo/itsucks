@@ -17,10 +17,11 @@ import javax.swing.SwingUtilities;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
-import de.phleisch.app.itsucks.core.impl.DispatcherImpl;
+import de.phleisch.app.itsucks.core.Dispatcher;
+import de.phleisch.app.itsucks.core.impl.DispatcherList;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
+import de.phleisch.app.itsucks.core.impl.DispatcherList.DispatcherListEvent;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
@@ -30,8 +31,6 @@ import de.phleisch.app.itsucks.gui.common.TestRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobQueueOverviewPanel;
-import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 /**
@@ -39,91 +38,28 @@ import de.phleisch.app.itsucks.persistence.SerializableJobList;
  * @author __USER__
  */
 public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
-		AddDownloadJobCapable {
+		AddDownloadJobCapable, EventObserver {
 
 	private static final long serialVersionUID = 6628042574113496207L;
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
-	private Map<DispatcherImpl, EventObserver> mEventObserver = new HashMap<DispatcherImpl, EventObserver>();
-
+	private Map<Dispatcher, EventObserver> mEventObserver = 
+		new HashMap<Dispatcher, EventObserver>();
+	
+	private DispatcherList mDispatcherList;
+	
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
+		mDispatcherList = new DispatcherList();
+		mDispatcherList.registerObserver(this);
+		
 		initComponents();
 	}
 
-	public void addDownload(SerializableJobList pJob) {
+	public void addDownload(SerializableJobList pJobList) {
 
-		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
-
-		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
-				.getApplicationContext().getBean("DispatcherThread");
-
-		if (dispatcher == null) {
-			throw new RuntimeException("Can't instatiate dispatcher!");
-		}
-		pane.setDispatcher(dispatcher);
-		pane.setName(pJob.getJobs().get(0).getName());
-
-		//add pane
-		downloadsTabbedPane.add(pane.getName(), pane);
-
-		//apply dispatcher configuration
-		SerializableDispatcherConfiguration dispatcherConfiguration = pJob
-				.getDispatcherConfiguration();
-		if (dispatcherConfiguration != null) {
-			Integer dispatchDelay = dispatcherConfiguration.getDispatchDelay();
-			if (dispatchDelay != null) {
-				dispatcher.setDispatchDelay(dispatchDelay);
-			}
-
-			Integer workerThreads = dispatcherConfiguration.getWorkerThreads();
-			if (workerThreads != null) {
-				dispatcher.getWorkerPool().setSize(workerThreads);
-			}
-		}
-
-		//configure dispatcher
-		dispatcher.addJobFilter(pJob.getFilters());
-		for (Job job : pJob.getJobs()) {
-			dispatcher.addJob(job);
-		}
-
-		//add all context parameter
-		dispatcher.getContext().putAllContextParameter(
-				pJob.getContextParameter());
-
-		EventObserver observer = new EventObserver() {
-			public void processEvent(Event pEvent) {
-				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_DISPATCHER) {
-
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							updateButtonState();
-							updateTabTitles();
-						}
-					});
-				}
-			}
-		};
-
-		mEventObserver.put(dispatcher, observer);
-		dispatcher.getEventManager().registerObserver(observer);
-
-		// start dispatcher thread
-		try {
-			dispatcher.processJobs();
-
-		} catch (Exception e) {
-			mLog.error("Error starting dispatcher thread", e);
-		}
-
-		// wait till dispatcher is starting
-		for (int i = 0; i < 10 && !dispatcher.isRunning(); i++) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-			}
-		}
+		DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
+		helper.startDispatcher(pJobList);
 
 	}
 
@@ -154,7 +90,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			return;
 
 		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
-		DispatcherThread dispatcher = panel.getDispatcher();
+		Dispatcher dispatcher = panel.getDispatcher();
 
 		if (dispatcher.isPaused()) {
 			dispatcher.unpause();
@@ -171,24 +107,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			return;
 
 		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
-		DispatcherThread dispatcher = panel.getDispatcher();
-
-		dispatcher.stop();
-		try {
-			dispatcher.join();
-		} catch (InterruptedException e) {
-			mLog.error(e, e);
-		}
-
-		EventObserver eventObserver = mEventObserver.get(dispatcher);
-		mEventObserver.remove(dispatcher);
-		dispatcher.getEventManager().unregisterObserver(eventObserver);
-
-		downloadsTabbedPane.remove(panel);
-		panel.removeDispatcher();
-
-		//inform the gc that it would be a great oppurtinity to get some memory back
-		System.gc();
+		DispatcherThread dispatcher = (DispatcherThread) panel.getDispatcher();
+		
+		DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
+		helper.stopDispatcher(dispatcher, panel.getDispatcherId());
+		
 	}
 
 	private void updateButtonState() {
@@ -201,7 +124,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 			stopDownloadButton.setEnabled(false);
 		} else {
 			DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
-			DispatcherThread dispatcher = panel.getDispatcher();
+			Dispatcher dispatcher = panel.getDispatcher();
 
 			if (dispatcher.isPaused()) {
 				pauseDownloadButton.setText("Unpause download");
@@ -225,7 +148,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		for (int i = 0; i < components.length; i++) {
 
 			DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) components[i];
-			DispatcherThread dispatcher = panel.getDispatcher();
+			Dispatcher dispatcher = panel.getDispatcher();
 
 			if (dispatcher.isPaused()) {
 				downloadsTabbedPane
@@ -243,6 +166,80 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		}
 
+	}
+	
+	public void processEvent(Event pEvent) {
+		
+		switch(pEvent.getType()) {
+		
+			case DispatcherList.EVENT_DISPATCHER_ADDED:
+				processDispatcherAdded((DispatcherListEvent)pEvent);
+				break;
+				
+			case DispatcherList.EVENT_DISPATCHER_REMOVED:
+				processDispatcherRemoved((DispatcherListEvent)pEvent);
+				break;
+				
+			default: 
+				throw new IllegalStateException("Unknown Event: " + pEvent);
+		
+		}
+		
+	}
+	
+	private void processDispatcherAdded(DispatcherListEvent pEvent) {
+		
+		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
+		pane.setDispatcher(pEvent.getDispatcher());
+		pane.setDispatcherId(pEvent.getDispatcherId());
+		pane.setName(pEvent.getDispatcher().getName());
+
+		EventObserver observer = new EventObserver() {
+			public void processEvent(Event pEvent) {
+				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_DISPATCHER) {
+
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							updateButtonState();
+							updateTabTitles();
+						}
+					});
+				}
+			}
+		};
+		
+		Dispatcher dispatcher = pEvent.getDispatcher();
+
+		mEventObserver.put(dispatcher, observer);
+		dispatcher.getEventManager().registerObserver(observer);
+		
+		//add pane
+		downloadsTabbedPane.add(pane.getName(), pane);
+	}
+	
+	private void processDispatcherRemoved(DispatcherListEvent pEvent) {
+		
+		Component[] components = downloadsTabbedPane.getComponents();
+		
+		for (int i = 0; i < components.length; i++) {
+			
+			DownloadJobQueueOverviewPanel panel = 
+				(DownloadJobQueueOverviewPanel) components[i];
+			
+			if(panel.getDispatcherId() == pEvent.getDispatcherId()) {
+
+				Dispatcher dispatcher = pEvent.getDispatcher();
+				
+				EventObserver eventObserver = mEventObserver.get(dispatcher);
+				mEventObserver.remove(dispatcher);
+				dispatcher.getEventManager().unregisterObserver(eventObserver);
+				
+				downloadsTabbedPane.remove(panel);
+				panel.removeDispatcher();
+			}
+			
+		}
+		
 	}
 
 	/**
@@ -444,6 +441,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		BatchProcessingDialog batchDialog = new BatchProcessingDialog(null,
 				false);
+		batchDialog.setDispatcherList(mDispatcherList);
 		batchDialog.setVisible(true);
 
 	}//GEN-LAST:event_batchMenuItemActionPerformed
