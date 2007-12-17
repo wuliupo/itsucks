@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.gui.main.DispatcherHelper;
+import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 

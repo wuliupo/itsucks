@@ -31,6 +31,7 @@ import de.phleisch.app.itsucks.gui.common.TestRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobQueueOverviewPanel;
+import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
 import de.phleisch.app.itsucks.persistence.SerializableJobList;
 
 /**

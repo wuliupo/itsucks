@@ -6,7 +6,7 @@
  * Created on 16.12.2007
  */
 
-package de.phleisch.app.itsucks.gui.main;
+package de.phleisch.app.itsucks.gui.main.helper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
