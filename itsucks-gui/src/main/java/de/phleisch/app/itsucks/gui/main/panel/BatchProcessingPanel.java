@@ -84,10 +84,14 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	//		
 	//	}
 
-	protected class JobListElement {
+	protected static class JobListElement {
 
+		enum State {
+			OPEN, RUNNING, FINISHED
+		}
+		
 		private SerializableJobList mJobList;
-		private boolean mFinished = false;
+		private State mState = State.OPEN;
 		
 		public JobListElement(SerializableJobList pJobList) {
 			mJobList = pJobList;
@@ -105,11 +109,15 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		 * @return
 		 */
 		public String toHtmlString() {
-			return mJobList.getJobs().get(0).getName();
+			return "<html>"  
+				+ mJobList.getJobs().get(0).getName()
+				+ "<br>"
+				+ "State: " + mState
+				+ "</html>";
 		}
 		
 		public boolean isFinished() {
-			return mFinished;
+			return mState.equals(State.FINISHED);
 		}
 	}
 
