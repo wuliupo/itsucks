@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
-import de.phleisch.app.itsucks.core.impl.DispatcherList;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
@@ -22,14 +21,16 @@ public class DispatcherHelper {
 
 	private static Log mLog = LogFactory.getLog(DispatcherHelper.class);
 	
-	private DispatcherList mDispatcherList;
-
-	public DispatcherHelper(DispatcherList pDispatcherList) {
-		mDispatcherList = pDispatcherList;
+//	private DispatcherList mDispatcherList;
+//
+//	public DispatcherHelper(DispatcherList pDispatcherList) {
+//		mDispatcherList = pDispatcherList;
+//	}
+	
+	public DispatcherHelper() {
 	}
 
-	public void startDispatcher(SerializableJobList pJobList) {
-		
+	public DispatcherThread createDispatcher(SerializableJobList pJobList) {
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 			.getApplicationContext().getBean("DispatcherThread");
 
@@ -39,9 +40,6 @@ public class DispatcherHelper {
 		
 		//set the name of the dispatcher
 		dispatcher.setName(pJobList.getJobs().get(0).getName());
-		
-		//add the dispatcher to the list, the panel will be added by the event
-		mDispatcherList.addDispatcher(dispatcher);
 		
 		//apply dispatcher configuration
 		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
@@ -67,6 +65,10 @@ public class DispatcherHelper {
 		//add all context parameter
 		dispatcher.getContext().putAllContextParameter(
 				pJobList.getContextParameter());
+		return dispatcher;
+	}
+	
+	public void startDispatcher(DispatcherThread dispatcher) {
 		
 		// start dispatcher thread
 		try {
@@ -86,7 +88,7 @@ public class DispatcherHelper {
 		
 	}
 	
-	public void stopDispatcher(DispatcherThread pDispatcher, int pDispatcherId) {
+	public void stopDispatcher(DispatcherThread pDispatcher) {
 		
 		pDispatcher.stop();
 		try {
@@ -95,11 +97,6 @@ public class DispatcherHelper {
 			mLog.error(e, e);
 		}
 
-		mDispatcherList.removeDispatcherById(pDispatcherId);
-
-		//inform the gc that it would be a great opportunity to get some memory back
-		System.gc();
-		
 	}
 	
 }

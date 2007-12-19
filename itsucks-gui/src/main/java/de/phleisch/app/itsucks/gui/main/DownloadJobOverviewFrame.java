@@ -59,8 +59,14 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	public void addDownload(SerializableJobList pJobList) {
 
-		DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
-		helper.startDispatcher(pJobList);
+		DispatcherHelper helper = new DispatcherHelper();
+		
+		DispatcherThread dispatcher = helper.createDispatcher(pJobList);
+		
+		//add the dispatcher to the list, the panel will be added by the event
+		mDispatcherList.addDispatcher(dispatcher);
+		
+		helper.startDispatcher(dispatcher);
 
 	}
 
@@ -110,8 +116,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
 		DispatcherThread dispatcher = (DispatcherThread) panel.getDispatcher();
 		
-		DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
-		helper.stopDispatcher(dispatcher, panel.getDispatcherId());
+		DispatcherHelper helper = new DispatcherHelper();
+		helper.stopDispatcher(dispatcher);
+		
+		mDispatcherList.removeDispatcherById(panel.getDispatcherId());
+		
+		//inform the gc that it would be a great opportunity to get some memory back
+		System.gc();
 		
 	}
 

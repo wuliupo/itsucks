@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
@@ -56,8 +57,13 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		for (int i = 0; i < list.length; i++) {
 			if(!list[i].isFinished()) {
 				
-				DispatcherHelper helper = new DispatcherHelper(mDispatcherList);
-				helper.startDispatcher(list[i].mJobList);
+				DispatcherHelper helper = new DispatcherHelper();
+				DispatcherThread dispatcher = helper.createDispatcher(list[i].mJobList);
+				
+				//add the dispatcher to the list, the panel will be added by the event
+				mDispatcherList.addDispatcher(dispatcher);
+				
+				helper.startDispatcher(dispatcher);
 				break;
 				
 			}
