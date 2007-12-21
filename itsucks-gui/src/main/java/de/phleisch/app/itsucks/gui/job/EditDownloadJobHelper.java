@@ -11,6 +11,8 @@ package de.phleisch.app.itsucks.gui.job;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -23,7 +25,7 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public class EditDownloadJobHelper {
 
@@ -44,7 +46,7 @@ public class EditDownloadJobHelper {
 		JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
 				.getApplicationContext().getBean("JobSerialization");
 
-		SerializableJobList jobList = null;
+		SerializableJobPackage jobList = null;
 		try {
 			jobList = serializationManager.deserialize(getClass()
 					.getResourceAsStream("/ItSucks_Default_Template.suck"));
@@ -80,14 +82,28 @@ public class EditDownloadJobHelper {
 		}
 	}
 
-	public void loadDownload(AddDownloadJobCapable pAddDownloadJobCapable) {
+	public void loadAndEditDownload(AddDownloadJobCapable pAddDownloadJobCapable) {
+		
+		List<SerializableJobPackage> jobList = loadDownload();
+		
+		for (SerializableJobPackage serializableJobPackage : jobList) {
+			editDownload(pAddDownloadJobCapable, serializableJobPackage);
+		}
+	}
+	
+	public List<SerializableJobPackage> loadDownload() {
+		
+		List<SerializableJobPackage> jobPackageList = 
+			new ArrayList<SerializableJobPackage>();
+		
 		//open dialog
 		JFileChooser fc = new JFileChooser();
-		fc
-				.setFileFilter(new FileNameExtensionFilter(
-						"ItSucks Download Templates (*.suck)",
-						new String[] { "suck" }));
+		fc.setFileFilter(new FileNameExtensionFilter(
+			"ItSucks Download Templates (*.suck)",
+			new String[] { "suck" }));
 
+		fc.setMultiSelectionEnabled(true);
+		
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(mParentFrame);
 
@@ -95,38 +111,46 @@ public class EditDownloadJobHelper {
 			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
 					.getApplicationContext().getBean("JobSerialization");
 
-			SerializableJobList jobList = null;
-			try {
-				jobList = serializationManager
-						.deserialize(fc.getSelectedFile());
-			} catch (Exception e1) {
-
-				mLog.error("Error occured while loading download template", e1);
-
-				JOptionPane.showMessageDialog(mParentFrame,
-						"Error occured while loading download template.\n"
-								+ e1.getMessage(), "Error occured",
-						JOptionPane.ERROR_MESSAGE);
-			}
-
-			if (jobList != null) {
-				//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
-
-				EditDownloadJobDialog dialog;
-				if(mParentFrame != null) {
-					dialog = new EditDownloadJobDialog(mParentFrame, pAddDownloadJobCapable);
-				} else if(mParentDialog != null) {
-					dialog = new EditDownloadJobDialog(mParentDialog, pAddDownloadJobCapable);
-				} else {
-					throw new RuntimeException("No parent defined.");
+			for (File selectedFile : fc.getSelectedFiles()) {
+			
+				try {
+					jobPackageList.add(serializationManager
+							.deserialize(selectedFile));
+				} catch (Exception e1) {
+	
+					mLog.error("Error occured while loading download template", e1);
+	
+					JOptionPane.showMessageDialog(mParentFrame,
+							"Error occured while loading download template.\n"
+									+ e1.getMessage(), "Error occured",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
-				dialog.loadJob(jobList);
-				dialog.setVisible(true);
+
 			}
-
+			
 		}
+		
+		return jobPackageList;
+	}
 
+	public void editDownload(AddDownloadJobCapable pAddDownloadJobCapable,
+		SerializableJobPackage jobList) {
+		
+		if (jobList != null) {
+			//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
+
+			EditDownloadJobDialog dialog;
+			if(mParentFrame != null) {
+				dialog = new EditDownloadJobDialog(mParentFrame, pAddDownloadJobCapable);
+			} else if(mParentDialog != null) {
+				dialog = new EditDownloadJobDialog(mParentDialog, pAddDownloadJobCapable);
+			} else {
+				throw new RuntimeException("No parent defined.");
+			}
+			
+			dialog.loadJob(jobList);
+			dialog.setVisible(true);
+		}
 	}
 	
 	

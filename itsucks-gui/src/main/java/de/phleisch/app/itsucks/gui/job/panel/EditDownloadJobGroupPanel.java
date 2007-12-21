@@ -28,7 +28,7 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
@@ -43,7 +43,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		initComponents();
 	}
 
-	public void loadJob(SerializableJobList pJobList) {
+	public void loadJob(SerializableJobPackage pJobList) {
 
 		UrlDownloadJob pJob = (UrlDownloadJob) pJobList.getJobs().get(0);
 		List<URL> urlList = new ArrayList<URL>();
@@ -205,7 +205,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	}
 
-	public SerializableJobList buildJob() {
+	public SerializableJobPackage buildJob() {
 
 		if (!validatePanels())
 			return null;
@@ -376,7 +376,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		}
 
 		//build result
-		SerializableJobList result = new SerializableJobList();
+		SerializableJobPackage result = new SerializableJobPackage();
 		
 		for (URL url : urls) {
 			UrlDownloadJob job = jobFactory.createDownloadJob();

@@ -15,7 +15,7 @@ import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public class DispatcherHelper {
 
@@ -30,7 +30,7 @@ public class DispatcherHelper {
 	public DispatcherHelper() {
 	}
 
-	public DispatcherThread createDispatcher(SerializableJobList pJobList) {
+	public DispatcherThread createDispatcher(SerializableJobPackage pJobList) {
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 			.getApplicationContext().getBean("DispatcherThread");
 

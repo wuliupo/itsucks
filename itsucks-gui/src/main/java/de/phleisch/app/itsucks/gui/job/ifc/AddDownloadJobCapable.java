@@ -7,13 +7,13 @@
 
 package de.phleisch.app.itsucks.gui.job.ifc;
 
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public interface AddDownloadJobCapable {
 
 //	public abstract void addDownload(DownloadJob pDownload,
 //			List<JobFilter> pFilterList);
 
-	public abstract void addDownload(SerializableJobList pJob);
+	public abstract void addDownload(SerializableJobPackage pJob);
 
 }

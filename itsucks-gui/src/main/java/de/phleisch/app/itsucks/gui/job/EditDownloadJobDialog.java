@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
@@ -54,12 +54,12 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		initComponents();
 	}
 
-	public void loadJob(SerializableJobList pJobList) {
+	public void loadJob(SerializableJobPackage pJobList) {
 		this.editDownloadJobGroupPanel.loadJob(pJobList);
 	}
 
 	private void saveDownloadTemplate() {
-		SerializableJobList downloadJobList = this.editDownloadJobGroupPanel
+		SerializableJobPackage downloadJobList = this.editDownloadJobGroupPanel
 				.buildJob();
 		if (downloadJobList == null)
 			return;
@@ -184,7 +184,7 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 	//GEN-FIRST:event_startButtonActionPerformed
 	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-		SerializableJobList job = this.editDownloadJobGroupPanel.buildJob();
+		SerializableJobPackage job = this.editDownloadJobGroupPanel.buildJob();
 		if (job == null)
 			return;
 
