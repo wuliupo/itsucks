@@ -26,7 +26,7 @@ import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContextParameter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDispatcherConfiguration;
@@ -58,7 +58,7 @@ public class JAXBJobSerialization
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#serialize(de.phleisch.app.itsucks.persistence.SerializableJobList, java.io.OutputStream)
 	 */
-	public void serialize(SerializableJobList pJobList, OutputStream pOutputStream) throws Exception {
+	public void serialize(SerializableJobPackage pJobList, OutputStream pOutputStream) throws Exception {
 		
 		JAXBContext jc = createJAXBContext();
 		
@@ -131,9 +131,9 @@ public class JAXBJobSerialization
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#deserialize(java.io.InputStream)
 	 */
-	public SerializableJobList deserialize(InputStream pInputStream) throws Exception, ClassNotFoundException {	
+	public SerializableJobPackage deserialize(InputStream pInputStream) throws Exception, ClassNotFoundException {	
 		
-		SerializableJobList deserializedJobList = new SerializableJobList();
+		SerializableJobPackage deserializedJobList = new SerializableJobPackage();
 		
 		JAXBContext jc = createJAXBContext();
 		

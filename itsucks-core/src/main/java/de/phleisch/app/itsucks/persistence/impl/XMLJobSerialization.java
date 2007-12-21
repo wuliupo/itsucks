@@ -25,21 +25,21 @@ import java.util.List;
 
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public class XMLJobSerialization
 		extends AbstractJobSerialization
 		implements JobSerialization {
 
-	public SerializableJobList deserialize(InputStream pInputStream)
+	public SerializableJobPackage deserialize(InputStream pInputStream)
 			throws IOException, ClassNotFoundException {
 		
 		XMLDecoder objectInput = new XMLDecoder(pInputStream);
 		
-		SerializableJobList jobList = null;
+		SerializableJobPackage jobList = null;
 		try {
 			registerSearchPath("de.phleisch.app.itsucks.persistence.beaninfo");
-			jobList = (SerializableJobList) objectInput.readObject();
+			jobList = (SerializableJobPackage) objectInput.readObject();
 		} finally {
 			deregisterSearchPath("de.phleisch.app.itsucks.persistence.beaninfo");
 		}
@@ -53,7 +53,7 @@ public class XMLJobSerialization
 
 	}
 
-	public void serialize(SerializableJobList pJobList,
+	public void serialize(SerializableJobPackage pJobList,
 			OutputStream pOutputStream) throws IOException {
 
 		XMLEncoder objectOutput = new XMLEncoder(pOutputStream);

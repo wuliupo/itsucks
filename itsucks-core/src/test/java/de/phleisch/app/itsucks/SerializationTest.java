@@ -20,7 +20,7 @@ import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public class SerializationTest extends TestCase {
 	
@@ -39,7 +39,7 @@ public class SerializationTest extends TestCase {
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
 		job.setSavePath(new File("/tmp/itsucks"));
 		
-		SerializableJobList serializedObject = new SerializableJobList();
+		SerializableJobPackage serializedObject = new SerializableJobPackage();
 		serializedObject.addFilter(filter);
 		serializedObject.addJob(job);
 		
@@ -48,7 +48,7 @@ public class SerializationTest extends TestCase {
 		JobSerialization serializator = (JobSerialization) context.getBean("JobSerialization");
 		serializator.serialize(serializedObject, file);
 		
-		SerializableJobList deserializedList = serializator.deserialize(file);
+		SerializableJobPackage deserializedList = serializator.deserialize(file);
 		assertTrue(((UrlDownloadJob)deserializedList.getJobs().get(0)).getUrl().sameFile(job.getUrl()));
 		assertTrue(((DownloadJobFilter)deserializedList.getFilters().get(0)).getSaveToDisk()[0].equals(filter.getSaveToDisk()[0]));
 

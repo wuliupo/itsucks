@@ -13,15 +13,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jobListScrollPane" pref="312" max="32767" attributes="0"/>
+              <Component id="jobListScrollPane" pref="315" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="startButton" max="32767" attributes="1"/>
-                  <Component id="loadJobButton" alignment="0" max="32767" attributes="1"/>
-                  <Component id="addJobButton" alignment="1" pref="106" max="32767" attributes="1"/>
-                  <Component id="removeJobButton" alignment="1" pref="106" max="32767" attributes="1"/>
-                  <Component id="moveDownButton" alignment="1" pref="106" max="32767" attributes="1"/>
-                  <Component id="moveUpButton" alignment="1" pref="106" max="32767" attributes="1"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="addJobButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
+                  <Component id="loadJobButton" linkSize="1" alignment="0" pref="94" max="32767" attributes="1"/>
+                  <Component id="startButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="1"/>
+                  <Component id="moveUpButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
+                  <Component id="moveDownButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
+                  <Component id="editJobButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
+                  <Component id="removeJobButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -34,17 +35,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jobListScrollPane" alignment="0" pref="276" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="addJobButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="addJobButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="loadJobButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="loadJobButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="removeJobButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                      <Component id="moveUpButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="editJobButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="moveDownButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="66" max="32767" attributes="0"/>
-                      <Component id="startButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="removeJobButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="moveUpButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="moveDownButton" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <Component id="startButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -83,6 +86,28 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addJobButtonActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JButton" name="editJobButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Edit Job"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editJobButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="loadJobButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Load Job"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadJobButtonActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JButton" name="removeJobButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -114,17 +139,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="moveDownButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="loadJobButton">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Load Job"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadJobButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="startButton">

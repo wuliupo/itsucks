@@ -10,7 +10,7 @@ import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public class ConsoleMain {
 
@@ -36,7 +36,7 @@ public class ConsoleMain {
 		JobSerialization serializationManager = (JobSerialization) context
 				.getBean("JobSerialization");
 
-		SerializableJobList jobList = null;
+		SerializableJobPackage jobList = null;
 		try {
 			jobList = serializationManager.deserialize(serializedJob);
 		} catch (Exception e1) {

@@ -34,7 +34,7 @@ public interface JobSerialization {
 	 * @throws IOException
 	 * @throws Exception 
 	 */
-	public abstract void serialize(SerializableJobList pJobList,
+	public abstract void serialize(SerializableJobPackage pJobList,
 			File pTargetFile) throws Exception;
 
 	/**
@@ -46,7 +46,7 @@ public interface JobSerialization {
 	 * @throws IOException
 	 * @throws Exception 
 	 */
-	public void serialize(SerializableJobList pJobList, OutputStream pOutputStream) 
+	public void serialize(SerializableJobPackage pJobList, OutputStream pOutputStream) 
 			throws Exception;
 	
 	/**
@@ -57,7 +57,7 @@ public interface JobSerialization {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public abstract SerializableJobList deserialize(File pTargetFile)
+	public abstract SerializableJobPackage deserialize(File pTargetFile)
 			throws Exception;
 
 	/**
@@ -68,7 +68,7 @@ public interface JobSerialization {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public abstract SerializableJobList deserialize(InputStream pInputStream)
+	public abstract SerializableJobPackage deserialize(InputStream pInputStream)
 			throws Exception;
 
 	/**

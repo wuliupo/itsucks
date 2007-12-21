@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 public abstract class AbstractJobSerialization implements JobSerialization {
 
@@ -25,7 +25,7 @@ public abstract class AbstractJobSerialization implements JobSerialization {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#serialize(de.phleisch.app.itsucks.persistence.SerializableJobList, java.io.File)
 	 */
-	public void serialize(SerializableJobList pJobList, File pTargetFile) throws Exception {
+	public void serialize(SerializableJobPackage pJobList, File pTargetFile) throws Exception {
 		
 		FileOutputStream output = new FileOutputStream(pTargetFile);
 		BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
@@ -36,12 +36,12 @@ public abstract class AbstractJobSerialization implements JobSerialization {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#deserialize(java.io.File)
 	 */
-	public SerializableJobList deserialize(File pTargetFile) throws Exception, ClassNotFoundException {
+	public SerializableJobPackage deserialize(File pTargetFile) throws Exception, ClassNotFoundException {
 
 		FileInputStream input = new FileInputStream(pTargetFile);
 		BufferedInputStream bufferedInput = new BufferedInputStream(input);
 
-		SerializableJobList list = deserialize(bufferedInput);
+		SerializableJobPackage list = deserialize(bufferedInput);
 		
 		return list;
 	}	

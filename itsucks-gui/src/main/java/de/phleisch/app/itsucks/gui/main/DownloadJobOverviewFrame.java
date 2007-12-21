@@ -32,7 +32,7 @@ import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  * 
@@ -58,7 +58,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		initComponents();
 	}
 
-	public void addDownload(SerializableJobList pJobList) {
+	public void addDownload(SerializableJobPackage pJobList) {
 
 		DispatcherHelper helper = new DispatcherHelper();
 		
@@ -81,7 +81,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private void loadDownload() {
 		
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
-		helper.loadDownload(this);
+		helper.loadAndEditDownload(this);
 
 	}
 

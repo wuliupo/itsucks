@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
-import de.phleisch.app.itsucks.persistence.SerializableJobList;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  * This class implements the JobSerialization interface using the 
@@ -41,7 +41,7 @@ public class BinaryObjectJobSerialization
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#serialize(de.phleisch.app.itsucks.persistence.SerializableJobList, java.io.OutputStream)
 	 */
-	public void serialize(SerializableJobList pJobList, OutputStream pOutputStream) throws IOException {
+	public void serialize(SerializableJobPackage pJobList, OutputStream pOutputStream) throws IOException {
 		
 		ObjectOutputStream objectOutput = new ObjectOutputStream(pOutputStream);
 		objectOutput.writeObject(pJobList);
@@ -51,10 +51,10 @@ public class BinaryObjectJobSerialization
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#deserialize(java.io.InputStream)
 	 */
-	public SerializableJobList deserialize(InputStream pInputStream) throws IOException, ClassNotFoundException {	
+	public SerializableJobPackage deserialize(InputStream pInputStream) throws IOException, ClassNotFoundException {	
 		
 		ObjectInputStream objectInput = new ObjectInputStream(pInputStream);
-		SerializableJobList jobList = (SerializableJobList) objectInput.readObject();
+		SerializableJobPackage jobList = (SerializableJobPackage) objectInput.readObject();
 		objectInput.close();
 		
 		for (Job job : jobList.getJobs()) {

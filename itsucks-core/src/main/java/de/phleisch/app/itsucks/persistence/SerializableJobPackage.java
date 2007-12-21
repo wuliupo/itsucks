@@ -23,7 +23,7 @@ import de.phleisch.app.itsucks.job.Job;
  * @author olli
  *
  */
-public class SerializableJobList implements Serializable {
+public class SerializableJobPackage implements Serializable {
 
 	private static final long serialVersionUID = -8024689120690796652L;
 
@@ -32,7 +32,7 @@ public class SerializableJobList implements Serializable {
 	private Map<String, Object> mContextParameter;
 	private SerializableDispatcherConfiguration mDispatcherConfiguration;
 	
-	public SerializableJobList() {
+	public SerializableJobPackage() {
 		mJobs = new ArrayList<Job>();
 		mFilters = new ArrayList<JobFilter>();
 		mContextParameter = new HashMap<String, Object>();
