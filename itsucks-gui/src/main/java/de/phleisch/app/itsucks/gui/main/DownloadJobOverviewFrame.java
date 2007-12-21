@@ -42,6 +42,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		AddDownloadJobCapable, EventObserver {
 
 	private static final long serialVersionUID = 6628042574113496207L;
+	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
 	private Map<Dispatcher, EventObserver> mEventObserver = 
@@ -205,7 +206,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		pane.setDispatcher(pEvent.getDispatcher());
 		pane.setDispatcherId(pEvent.getDispatcherId());
 		pane.setName(pEvent.getDispatcher().getName());
-
+		
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
 				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_DISPATCHER) {

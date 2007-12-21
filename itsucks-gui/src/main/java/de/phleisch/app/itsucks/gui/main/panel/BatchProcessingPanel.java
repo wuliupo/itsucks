@@ -8,11 +8,16 @@ package de.phleisch.app.itsucks.gui.main.panel;
 
 import java.awt.Dialog;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
@@ -27,6 +32,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		AddDownloadJobCapable {
 
 	private static final long serialVersionUID = 202226684812236519L;
+	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(BatchProcessingPanel.class);
 
 	private DispatcherList mDispatcherList;
@@ -55,40 +61,114 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		jobListModel.copyInto(list);
 		
 		for (int i = 0; i < list.length; i++) {
-			if(!list[i].isFinished()) {
+			if(JobListElement.State.OPEN.equals(list[i].mState)) {
 				
 				DispatcherHelper helper = new DispatcherHelper();
 				DispatcherThread dispatcher = helper.createDispatcher(list[i].mJobList);
 				
 				//add the dispatcher to the list, the panel will be added by the event
-				mDispatcherList.addDispatcher(dispatcher);
+				int id = mDispatcherList.addDispatcher(dispatcher);
+				list[i].mDispatcherListId = id;
+				
+				mLog.debug("New dispatcher added with id: " + id + ".");
+				
+				dispatcher.getEventManager().registerObserver(new DispatcherListener(id));
 				
 				helper.startDispatcher(dispatcher);
-				break;
 				
+				//update state and inform the model of the change
+				list[i].mState = JobListElement.State.RUNNING;
+				jobListModel.fireContentsChanged(i, i);
+				
+				//only one item per call
+				break;
 			}
 		}
 		
 	}
+	
+	private void setJobListElementState(int pId, JobListElement.State pState) {
+		
+		JobListElement[] list = new JobListElement[jobListModel.size()]; 
+		jobListModel.copyInto(list);
+		
+		for (int i = 0; i < list.length; i++) {
+			if(list[i].mDispatcherListId == pId) {
+				
+				mLog.debug("Set dispatcher with id: " + pId + " to State: " + pState);
+				
+				list[i].mState = pState;
+				jobListModel.fireContentsChanged(i, i);
+			}
+		}
+		
+	}
+	
+	protected class DispatcherListener implements EventObserver {
 
-	//	public void processEvent(Event pEvent) {
-	//		
-	//		switch(pEvent.getType()) {
-	//		
-	//			case DispatcherList.EVENT_DISPATCHER_ADDED:
-	//				processDispatcherAdded((DispatcherListEvent)pEvent);
-	//				break;
-	//				
-	//			case DispatcherList.EVENT_DISPATCHER_REMOVED:
-	//				processDispatcherRemoved((DispatcherListEvent)pEvent);
-	//				break;
-	//				
-	//			default: 
-	//				throw new IllegalStateException("Unknown Event: " + pEvent);
-	//		
-	//		}
-	//		
-	//	}
+		private int mId;
+		
+		public DispatcherListener(int pId) {
+			mId = pId;
+		}
+		
+		public void processEvent(Event pEvent) {
+			if (pEvent.equals(CoreEvents.EVENT_DISPATCHER_FINISH)) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+
+						mLog.debug("Finish dispatcher with id: " + mId + ".");
+						
+						setJobListElementState(mId, JobListElement.State.FINISHED);
+
+						//remove the dispatcher from the list
+						mDispatcherList.removeDispatcherById(mId);
+						
+						startNextJob();
+					}
+
+				});
+			}
+		}
+		
+	}
+	
+//	protected class DispatcherListListener implements EventObserver {
+//
+//		public void processEvent(final Event pEvent) {
+//			
+//			switch(pEvent.getType()) {
+//			
+//				case DispatcherList.EVENT_DISPATCHER_ADDED:
+//					
+//					SwingUtilities.invokeLater(new Runnable() {
+//						public void run() {
+//							processDispatcherAdded((DispatcherListEvent)pEvent);
+//						}
+//					});
+//					break;
+//					
+//				case DispatcherList.EVENT_DISPATCHER_REMOVED:
+//					SwingUtilities.invokeLater(new Runnable() {
+//						public void run() {
+//							processDispatcherRemoved((DispatcherListEvent)pEvent);
+//						}
+//					});							
+//					break;
+//					
+//				default: 
+//					throw new IllegalStateException("Unknown Event: " + pEvent);			
+//			}
+//		}
+//
+//		private void processDispatcherAdded(DispatcherListEvent pEvent) {
+//			
+//		}
+//		
+//		private void processDispatcherRemoved(DispatcherListEvent pEvent) {
+//		}
+//	}
 
 	protected static class JobListElement {
 
@@ -98,6 +178,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		
 		private SerializableJobList mJobList;
 		private State mState = State.OPEN;
+		private int mDispatcherListId;
 		
 		public JobListElement(SerializableJobList pJobList) {
 			mJobList = pJobList;
