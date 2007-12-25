@@ -48,7 +48,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 	public void addDownload(SerializableJobPackage pJob) {
 
-		if(pJob != null) {
+		if (pJob != null) {
 			jobListModel.add(jobListModel.getSize(), new JobListElement(pJob));
 		}
 
@@ -57,7 +57,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	public void setDispatcherList(DispatcherList pDispatcherList) {
 		mDispatcherList = pDispatcherList;
 	}
-
+	
 	private void startNextJob() {
 
 		JobListElement[] list = new JobListElement[jobListModel.size()];
@@ -97,8 +97,10 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 		setJobListElementState(pId, JobListElement.State.FINISHED);
 
-		//remove the dispatcher from the list
-		mDispatcherList.removeDispatcherById(pId);
+		if(this.closeJobAfterFinishCheckBox.isSelected()) {
+			//remove the dispatcher from the list
+			mDispatcherList.removeDispatcherById(pId);
+		}
 
 		startNextJob();
 	}
@@ -222,16 +224,22 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
+		jPanel1 = new javax.swing.JPanel();
 		jobListScrollPane = new javax.swing.JScrollPane();
 		jobList = new javax.swing.JList();
 		addJobButton = new javax.swing.JButton();
-		editJobButton = new javax.swing.JButton();
 		loadJobButton = new javax.swing.JButton();
+		editJobButton = new javax.swing.JButton();
 		removeJobButton = new javax.swing.JButton();
 		moveUpButton = new javax.swing.JButton();
 		moveDownButton = new javax.swing.JButton();
+		concurrentJobsField = new javax.swing.JTextField();
+		concurrentJobsLabel = new javax.swing.JLabel();
+		closeJobAfterFinishCheckBox = new javax.swing.JCheckBox();
 		startButton = new javax.swing.JButton();
 
+		jPanel1.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Batch Processing"));
 		jobList.setFont(new java.awt.Font("Dialog", 0, 12));
 		jobList.setModel(jobListModel);
 		jobListScrollPane.setViewportView(jobList);
@@ -244,19 +252,19 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 			}
 		});
 
-		editJobButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		editJobButton.setText("Edit Job");
-		editJobButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editJobButtonActionPerformed(evt);
-			}
-		});
-
 		loadJobButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		loadJobButton.setText("Load Job");
 		loadJobButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				loadJobButtonActionPerformed(evt);
+			}
+		});
+
+		editJobButton.setFont(new java.awt.Font("Dialog", 0, 12));
+		editJobButton.setText("Edit Job");
+		editJobButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				editJobButtonActionPerformed(evt);
 			}
 		});
 
@@ -284,6 +292,21 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 			}
 		});
 
+		concurrentJobsField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		concurrentJobsField.setText("1");
+
+		concurrentJobsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		concurrentJobsLabel.setText("Jobs at the same time");
+
+		closeJobAfterFinishCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+		closeJobAfterFinishCheckBox.setSelected(true);
+		closeJobAfterFinishCheckBox
+				.setText("Close Jobs when finished (Saves memory)");
+		closeJobAfterFinishCheckBox.setBorder(javax.swing.BorderFactory
+				.createEmptyBorder(0, 0, 0, 0));
+		closeJobAfterFinishCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
 		startButton.setText("Start batch");
 		startButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,85 +314,112 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 			}
 		});
 
-		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
-				this);
-		this.setLayout(layout);
-		layout
-				.setHorizontalGroup(layout
+		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
+				jPanel1);
+		jPanel1.setLayout(jPanel1Layout);
+		jPanel1Layout
+				.setHorizontalGroup(jPanel1Layout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								org.jdesktop.layout.GroupLayout.TRAILING,
-								layout
+								jPanel1Layout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												jobListScrollPane,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												315, Short.MAX_VALUE)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												layout
+												jPanel1Layout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																false)
+																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
-																addJobButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.add(
+																				concurrentJobsField,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				31,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				concurrentJobsLabel))
 														.add(
-																loadJobButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																94,
-																Short.MAX_VALUE)
-														.add(startButton)
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.add(
+																				jobListScrollPane,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				327,
+																				Short.MAX_VALUE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				jPanel1Layout
+																						.createParallelGroup(
+																								org.jdesktop.layout.GroupLayout.LEADING,
+																								false)
+																						.add(
+																								addJobButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								loadJobButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								94,
+																								Short.MAX_VALUE)
+																						.add(
+																								moveUpButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								moveDownButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								editJobButton,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.add(
+																								removeJobButton)))
 														.add(
-																moveUpButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.add(
-																moveDownButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.add(
-																editJobButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.add(
-																removeJobButton,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE))
+																jPanel1Layout
+																		.createSequentialGroup()
+																		.add(
+																				closeJobAfterFinishCheckBox)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED,
+																				78,
+																				Short.MAX_VALUE)
+																		.add(
+																				startButton)))
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { addJobButton, editJobButton,
-				loadJobButton, moveDownButton, moveUpButton, removeJobButton,
-				startButton }, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+		jPanel1Layout.linkSize(new java.awt.Component[] { addJobButton,
+				editJobButton, loadJobButton, moveDownButton, moveUpButton,
+				removeJobButton, startButton },
+				org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		layout
-				.setVerticalGroup(layout
+		jPanel1Layout
+				.setVerticalGroup(jPanel1Layout
 						.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.LEADING)
 						.add(
-								layout
+								jPanel1Layout
 										.createSequentialGroup()
 										.addContainerGap()
 										.add(
-												layout
+												jPanel1Layout
 														.createParallelGroup(
 																org.jdesktop.layout.GroupLayout.LEADING)
 														.add(
 																jobListScrollPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																276,
+																284,
 																Short.MAX_VALUE)
 														.add(
-																layout
+																jPanel1Layout
 																		.createSequentialGroup()
 																		.add(
 																				addJobButton)
@@ -394,19 +444,53 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
 																		.add(
-																				moveDownButton)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED,
-																				51,
-																				Short.MAX_VALUE)
-																		.add(
-																				startButton)))
+																				moveDownButton)))
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(
+												jPanel1Layout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(
+																concurrentJobsField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																concurrentJobsLabel))
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(
+												jPanel1Layout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(
+																closeJobAfterFinishCheckBox)
+														.add(startButton))
 										.addContainerGap()));
 
-		layout.linkSize(new java.awt.Component[] { addJobButton, editJobButton,
-				loadJobButton, moveDownButton, moveUpButton, removeJobButton,
-				startButton }, org.jdesktop.layout.GroupLayout.VERTICAL);
+		jPanel1Layout.linkSize(new java.awt.Component[] { addJobButton,
+				editJobButton, loadJobButton, moveDownButton, moveUpButton,
+				removeJobButton, startButton },
+				org.jdesktop.layout.GroupLayout.VERTICAL);
 
+		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
+				this);
+		this.setLayout(layout);
+		layout.setHorizontalGroup(layout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(
+				org.jdesktop.layout.GroupLayout.TRAILING,
+				layout.createSequentialGroup().addContainerGap().add(jPanel1,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE).addContainerGap()));
+		layout.setVerticalGroup(layout.createParallelGroup(
+				org.jdesktop.layout.GroupLayout.LEADING).add(
+				org.jdesktop.layout.GroupLayout.TRAILING,
+				layout.createSequentialGroup().addContainerGap().add(jPanel1,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						Short.MAX_VALUE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_startButtonActionPerformed
@@ -476,24 +560,33 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 	//GEN-FIRST:event_editJobButtonActionPerformed
 	private void editJobButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(
 				(Dialog) getRootPane().getParent());
-		
+
 		int[] selectedIndices = jobList.getSelectedIndices();
 		for (int i = (selectedIndices.length - 1); i > -1; i--) {
-			JobListElement element = (JobListElement) jobListModel.get(selectedIndices[i]);
-			helper.editDownload(this, element.mJobList);
+			final JobListElement element = (JobListElement) jobListModel
+					.get(selectedIndices[i]);
+
+			helper.editDownload(new AddDownloadJobCapable() {
+				public void addDownload(SerializableJobPackage pJob) {
+					element.mJobList = pJob;
+
+					int index = jobListModel.indexOf(element);
+					jobListModel.fireContentsChanged(index, index);
+				}
+			}, element.mJobList);
 		}
-		
+
 	}//GEN-LAST:event_editJobButtonActionPerformed
-	
+
 	//GEN-FIRST:event_loadJobButtonActionPerformed
 	private void loadJobButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(
 				(Dialog) getRootPane().getParent());
-		
+
 		List<SerializableJobPackage> loadDownload = helper.loadDownload();
 		for (SerializableJobPackage serializableJobPackage : loadDownload) {
 			this.addDownload(serializableJobPackage);
@@ -513,7 +606,11 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton addJobButton;
+	private javax.swing.JCheckBox closeJobAfterFinishCheckBox;
+	private javax.swing.JTextField concurrentJobsField;
+	private javax.swing.JLabel concurrentJobsLabel;
 	private javax.swing.JButton editJobButton;
+	private javax.swing.JPanel jPanel1;
 	private javax.swing.JList jobList;
 	private javax.swing.JScrollPane jobListScrollPane;
 	private javax.swing.JButton loadJobButton;

@@ -32,6 +32,12 @@ public class ExtendedListModel extends DefaultListModel {
 	}
 
 	public void fireContentsChanged(int pIndex0, int pIndex1) {
+		
+		/*
+		 * TODO Das ist nicht besonders gut, besser waere es wenn das Model sich auf
+		 * Aenderungen vom element registriert und dann das model aktualisiert.
+		 */
+		
 		super.fireContentsChanged(this, pIndex0, pIndex1);
 	}
 	
