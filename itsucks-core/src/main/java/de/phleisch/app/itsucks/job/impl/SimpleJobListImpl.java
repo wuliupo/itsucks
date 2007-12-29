@@ -110,9 +110,14 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	public Job getNextOpenJob() {
 
 		synchronized (this) {
-			Job job = mJobList.first().mJob;
-			if(job.getState() == Job.STATE_OPEN) { 
-				return job;
+			
+			if(!mJobList.isEmpty()) {
+			
+				Job job = mJobList.first().mJob;
+				if(job.getState() == Job.STATE_OPEN) { 
+					return job;
+				}
+				
 			}
 			
 		}

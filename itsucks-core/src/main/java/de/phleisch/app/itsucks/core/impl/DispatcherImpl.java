@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContextAware;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.core.WorkerPool;
 import de.phleisch.app.itsucks.event.EventDispatcher;
+import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.job.Context;
@@ -86,7 +87,8 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		
 		mLog.info("Start processing jobs");
 		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_START);
-		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_START);
+		mEventManager.fireEvent(
+				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_START, this));
 		
 		startup();
 		
@@ -129,13 +131,15 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		setRunning(false);
 		
 		mLog.info("Finished processing jobs");
-		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_FINISH);
+		mEventManager.fireEvent(
+				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_FINISH, this));
 		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_STOP);
 	}
 
 	private void doPauseLoop() throws InterruptedException {
 		
-		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_PAUSE);
+		mEventManager.fireEvent(
+				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_PAUSE, this));
 		
 		while(mPause) {
 			synchronized (this) {
@@ -145,7 +149,8 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 			}
 		}
 		
-		mEventManager.fireEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE);
+		mEventManager.fireEvent(
+				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE, this));
 	}
 
 	/* (non-Javadoc)

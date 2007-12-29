@@ -61,5 +61,12 @@ public class SimpleEvent implements Event {
 		return "Event: " + this.getClass().getName() 
 			+ " / Type: " + getType() + " / Category: " + getCategory(); 
 	}
-	
+
+	@Override
+	public boolean equals(Object pObj) {
+		
+		Event event = (Event) pObj;
+		return this.getCategory() == event.getCategory() &&
+			this.getType() == event.getType();
+	}
 }

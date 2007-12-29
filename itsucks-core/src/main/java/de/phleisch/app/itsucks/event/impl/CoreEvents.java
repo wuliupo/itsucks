@@ -8,7 +8,6 @@
 
 package de.phleisch.app.itsucks.event.impl;
 
-import de.phleisch.app.itsucks.event.Event;
 
 /**
  * This class provides a list of available core events.
@@ -18,24 +17,11 @@ import de.phleisch.app.itsucks.event.Event;
  */
 public class CoreEvents {
 
-	public static class ConstEvent implements Event {
+	public static class ConstEvent extends SimpleEvent {
 
-		private final int mType;
-		private final int mFamily;
-		
-		private ConstEvent(int pType, int pFamily) {
-			mType = pType;
-			mFamily = pFamily;
+		private ConstEvent(int pType, int pCategory) {
+			super(pType, pCategory);
 		}
-		
-		public int getCategory() {
-			return mFamily;
-		}
-
-		public int getType() {
-			return mType;
-		}
-		
 	}
 	
 	/**
@@ -83,7 +69,7 @@ public class CoreEvents {
 
 	/**
 	 * This event is fired when the job dispatcher paused
-	 */	
+	 */
 	public final static ConstEvent 
 		EVENT_DISPATCHER_PAUSE = new ConstEvent(2002, EVENT_CATEGORY_DISPATCHER);
 
@@ -107,7 +93,7 @@ public class CoreEvents {
 	
 	/**
 	 * This event is fired when a new job was filtered by the JobManager
-	 */	
+	 */
 	public final static ConstEvent 
 		EVENT_JOBMANAGER_JOB_FILTERED = new ConstEvent(3002, EVENT_CATEGORY_JOBMANAGER);
 
