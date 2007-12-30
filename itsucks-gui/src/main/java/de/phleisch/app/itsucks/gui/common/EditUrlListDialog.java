@@ -45,6 +45,7 @@ public class EditUrlListDialog extends javax.swing.JDialog {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Edit URL List");
+		setLocationByPlatform(true);
 
 		okButton.setText("Ok");
 		okButton.addActionListener(new java.awt.event.ActionListener() {
