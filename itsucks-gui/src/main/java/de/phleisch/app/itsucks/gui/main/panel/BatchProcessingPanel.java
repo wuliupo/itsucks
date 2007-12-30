@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -175,6 +176,16 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		jobListModel.copyInto(list);
 		
 		return Arrays.asList(list);
+	}
+	
+	public List<String> validateFields() {
+		
+		FieldValidator validator = new FieldValidator();
+
+		validator.assertInteger(this.concurrentJobsField.getText(),
+				"Enter a valid number for the concurrent jobs.");
+		
+		return validator.getErrors();
 	}
 	
 	public int getMaxConcurrentJobs() {

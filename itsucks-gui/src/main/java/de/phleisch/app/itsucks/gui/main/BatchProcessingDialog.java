@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.gui.main;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import de.phleisch.app.itsucks.core.impl.DispatcherBatch;
@@ -87,6 +88,22 @@ public class BatchProcessingDialog extends javax.swing.JDialog {
 	}
 	
 	private void startBatch() {
+		
+		List<String> validateFields = batchProcessingPanel.validateFields();
+		
+		if(validateFields.size() > 0) {
+			
+			StringBuffer buffer = new StringBuffer();
+			for (String string : validateFields) {
+				buffer.append(string + '\n');
+			}
+
+			JOptionPane.showMessageDialog(this, buffer.toString(),
+					"Validation errors", JOptionPane.ERROR_MESSAGE);
+			
+			return;
+		}
+		
 		batchProcessingPanel.setElementsEnabled(false);
 		startButton.setEnabled(false);
 		closeButton.setEnabled(false);
