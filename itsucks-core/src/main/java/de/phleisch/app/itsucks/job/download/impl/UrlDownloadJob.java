@@ -37,7 +37,7 @@ import de.phleisch.app.itsucks.processing.download.impl.DataProcessorManager;
  * @author olli
  *
  */
-public class UrlDownloadJob extends AbstractJob implements DownloadJob {
+public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneable {
 
 	private static final long serialVersionUID = 1714294563019859104L;
 
@@ -454,4 +454,13 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob {
 		return "DownloadJob (State: " + getState() + ", Prio: " + getPriority() + ", URL: '" + getUrl() + "')";
 	}
 
+	@Override
+	public UrlDownloadJob clone() {
+		try {
+			return (UrlDownloadJob) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 }

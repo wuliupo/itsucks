@@ -1,5 +1,13 @@
-#Sat Mar 31 19:48:39 CEST 2007
-org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
+#Sun Dec 30 17:37:10 GMT 2007
 eclipse.preferences.version=1
-org.eclipse.jdt.core.compiler.source=1.5
+org.eclipse.jdt.core.codeComplete.argumentPrefixes=p
+org.eclipse.jdt.core.codeComplete.argumentSuffixes=
+org.eclipse.jdt.core.codeComplete.fieldPrefixes=m
+org.eclipse.jdt.core.codeComplete.fieldSuffixes=
+org.eclipse.jdt.core.codeComplete.localPrefixes=
+org.eclipse.jdt.core.codeComplete.localSuffixes=
+org.eclipse.jdt.core.codeComplete.staticFieldPrefixes=
+org.eclipse.jdt.core.codeComplete.staticFieldSuffixes=
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
 org.eclipse.jdt.core.compiler.compliance=1.5
+org.eclipse.jdt.core.compiler.source=1.5

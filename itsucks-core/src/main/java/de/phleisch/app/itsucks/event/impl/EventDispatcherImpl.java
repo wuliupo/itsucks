@@ -170,7 +170,7 @@ public class EventDispatcherImpl implements EventDispatcher {
 			try {
 				processEvents();
 			} catch(RuntimeException ex) {
-				mLog.fatal("Event manager thread died unexpected.", ex);
+				mLog.error("Event manager thread died unexpected.", ex);
 				
 				throw ex;
 			}
@@ -181,6 +181,8 @@ public class EventDispatcherImpl implements EventDispatcher {
 		private void processEvents() {
 			
 			Event event;
+			
+			dispatchEvent(CoreEvents.EVENT_EVENTDISPATCHER_START);
 			
 			while(!mStop) {
 				
@@ -195,6 +197,8 @@ public class EventDispatcherImpl implements EventDispatcher {
 				}
 				
 			}
+			
+			dispatchEvent(CoreEvents.EVENT_EVENTDISPATCHER_FINISH);
 			
 		}
 
@@ -225,7 +229,14 @@ public class EventDispatcherImpl implements EventDispatcher {
 			
 			//dispatch the event to the found observer
 			for (EventObserverConfig config : mLocalObserverCopy) {
-				config.getObserver().processEvent(pEvent);
+				
+				try {
+					config.getObserver().processEvent(pEvent);
+				} catch(RuntimeException ex) {
+					mLog.error("Error dispatching event: " + pEvent 
+							+ " to observer: " 
+							+ config.getObserver(), ex);
+				}
 			}
 		}
 		

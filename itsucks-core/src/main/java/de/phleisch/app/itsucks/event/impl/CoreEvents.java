@@ -32,6 +32,8 @@ public class CoreEvents {
 	 */
 	public final static int EVENT_CATEGORY_SYSTEM_CMD	= 100;
 	
+	public final static int EVENT_CATEGORY_EVENTDISPATCHER	= 150;
+	
 	/**
 	 * Core events
 	 */
@@ -47,6 +49,11 @@ public class CoreEvents {
 	 */
 	public final static int EVENT_CATEGORY_JOB 			= 400;
 	
+	/**
+	 * Events send by batch.
+	 */
+	public final static int EVENT_CATEGORY_BATCH		= 500;
+	
 	
 	/**
 	 * System command to start the event dispatcher. 
@@ -60,6 +67,11 @@ public class CoreEvents {
 	public final static ConstEvent 
 		EVENT_EVENTDISPATCHER_CMD_STOP = new ConstEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
 	
+	public final static ConstEvent 
+		EVENT_EVENTDISPATCHER_START = new ConstEvent(1501, EVENT_CATEGORY_EVENTDISPATCHER);
+	
+	public final static ConstEvent 
+		EVENT_EVENTDISPATCHER_FINISH = new ConstEvent(1502, EVENT_CATEGORY_EVENTDISPATCHER);
 	
 	/**
 	 * This event is fired when the job dispatcher started
@@ -108,5 +120,13 @@ public class CoreEvents {
 	 */
 	public final static ConstEvent 
 		EVENT_JOB_CHANGED = new ConstEvent(4002, EVENT_CATEGORY_JOB);
+	
+	
+	public final static ConstEvent 
+		EVENT_BATCH_START = new ConstEvent(5001, EVENT_CATEGORY_BATCH);
+
+	public final static ConstEvent 
+		EVENT_BATCH_FINISH = new ConstEvent(5002, EVENT_CATEGORY_BATCH);
+
 	
 }

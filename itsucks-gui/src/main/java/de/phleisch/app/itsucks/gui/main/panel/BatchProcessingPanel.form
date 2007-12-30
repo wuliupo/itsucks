@@ -11,20 +11,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -50,7 +42,7 @@
                           <Component id="concurrentJobsLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jobListScrollPane" pref="327" max="32767" attributes="0"/>
+                          <Component id="jobListScrollPane" pref="351" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="addJobButton" linkSize="1" alignment="0" max="32767" attributes="1"/>
@@ -61,11 +53,7 @@
                               <Component id="removeJobButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="1"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="closeJobAfterFinishCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="78" max="32767" attributes="0"/>
-                          <Component id="startButton" linkSize="1" min="-2" max="-2" attributes="1"/>
-                      </Group>
+                      <Component id="closeJobAfterFinishCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -76,7 +64,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jobListScrollPane" alignment="0" pref="284" max="32767" attributes="0"/>
+                      <Component id="jobListScrollPane" alignment="0" pref="318" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="addJobButton" linkSize="2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -97,10 +85,7 @@
                       <Component id="concurrentJobsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="closeJobAfterFinishCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="startButton" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="closeJobAfterFinishCheckBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -222,14 +207,6 @@
               <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="startButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Start batch"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

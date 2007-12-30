@@ -21,12 +21,6 @@ public class DispatcherHelper {
 
 	private static Log mLog = LogFactory.getLog(DispatcherHelper.class);
 	
-//	private DispatcherList mDispatcherList;
-//
-//	public DispatcherHelper(DispatcherList pDispatcherList) {
-//		mDispatcherList = pDispatcherList;
-//	}
-	
 	public DispatcherHelper() {
 	}
 

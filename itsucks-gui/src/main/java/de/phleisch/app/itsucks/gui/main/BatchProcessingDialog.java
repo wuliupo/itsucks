@@ -1,12 +1,25 @@
-/*
- * BatchProcessingDialog.java
+/* Copyright (C) 2006-2007 Oliver Mihatsch (banishedknight@users.sf.net)
+ * This is free software distributed under the terms of the
+ * GNU Public License.  See the file COPYING for details. 
  *
- * Created on __DATE__, __TIME__
+ * $Id$
+ * Created on 16.12.2007
  */
 
 package de.phleisch.app.itsucks.gui.main;
 
+import java.util.List;
+
+import javax.swing.SwingUtilities;
+
+import de.phleisch.app.itsucks.core.impl.DispatcherBatch;
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.EventObserver;
+import de.phleisch.app.itsucks.event.impl.CoreEvents;
+import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
+import de.phleisch.app.itsucks.gui.main.panel.BatchProcessingPanel.JobListElement;
 
 /**
  *
@@ -16,6 +29,9 @@ public class BatchProcessingDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = -6810884498356920871L;
 
+	private DispatcherList mDispatcherList;
+	private DispatcherBatch mBatch;
+
 	/** Creates new form BatchProcessingDialog */
 	public BatchProcessingDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -23,9 +39,104 @@ public class BatchProcessingDialog extends javax.swing.JDialog {
 	}
 
 	public void setDispatcherList(DispatcherList pDispatcherList) {
-		batchProcessingPanel.setDispatcherList(pDispatcherList);
+		mDispatcherList = pDispatcherList;
 	}
 	
+	protected class DispatcherListener implements EventObserver {
+
+		private JobListElement mJobListElement;
+		private DispatcherThread mDispatcher;
+		
+		public DispatcherListener(JobListElement pJobListElement, DispatcherThread pDispatcher) {
+			mJobListElement = pJobListElement;
+			mDispatcher = pDispatcher;
+		}
+
+		public void processEvent(final Event pEvent) {
+			
+			if (pEvent.equals(CoreEvents.EVENT_EVENTDISPATCHER_START)) {
+
+				//this is not nice but neccessary to be sure the gui gets all addJob events
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						public void run() {
+							int id = mDispatcherList.addDispatcher(mDispatcher);
+							mJobListElement.setDispatcherListId(id);
+							
+							mJobListElement.setState(JobListElement.State.RUNNING);
+						}
+					});
+				} catch (Exception e) {
+					throw new RuntimeException("Error adding dispatcher to gui", e);
+				}
+			}
+			
+			if (pEvent.equals(CoreEvents.EVENT_EVENTDISPATCHER_FINISH)) {
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						if(batchProcessingPanel.isCloseJobAfterFinish()) {
+							mDispatcherList.removeDispatcherById(
+									mJobListElement.getDispatcherListId());
+						}
+						mJobListElement.setState(JobListElement.State.FINISHED);
+					}
+				});
+			}
+		}
+	}
+	
+	private void startBatch() {
+		batchProcessingPanel.setElementsEnabled(false);
+		startButton.setEnabled(false);
+		closeButton.setEnabled(false);
+		
+		List<JobListElement> jobListElements = 
+			batchProcessingPanel.getJobListElements();
+		
+		mBatch = new DispatcherBatch();
+		mBatch.setMaxConcurrentDispatcher(batchProcessingPanel.getMaxConcurrentJobs());
+		
+		for (JobListElement jobListElement : jobListElements) {
+			
+			jobListElement.setState(JobListElement.State.OPEN);
+
+			DispatcherHelper helper = new DispatcherHelper();
+			DispatcherThread dispatcher = helper
+					.createDispatcher(jobListElement.getJobList());
+
+			dispatcher.getEventManager().registerObserver(
+					new DispatcherListener(jobListElement, dispatcher));
+			
+			mBatch.addDispatcher(dispatcher);
+		}
+		
+		mBatch.registerObserver(new EventObserver() {
+
+			public void processEvent(Event pEvent) {
+				if(pEvent.equals(CoreEvents.EVENT_BATCH_FINISH)) {
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							finishBatch();
+							
+						}
+					});
+				}
+			}
+			
+		});
+		
+		mBatch.start();
+	}
+	
+	private void finishBatch() {
+		
+//		batchProcessingPanel.setElementsEnabled(true);
+//		startButton.setEnabled(true);
+		closeButton.setEnabled(true);
+		
+	}
+
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -35,30 +146,77 @@ public class BatchProcessingDialog extends javax.swing.JDialog {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	private void initComponents() {
 		batchProcessingPanel = new de.phleisch.app.itsucks.gui.main.panel.BatchProcessingPanel();
+		controlPanel = new javax.swing.JPanel();
+		startButton = new javax.swing.JButton();
+		closeButton = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Batch Processing");
 		setLocationByPlatform(true);
+
+		startButton.setText("Start");
+		startButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				startButtonActionPerformed(evt);
+			}
+		});
+
+		controlPanel.add(startButton);
+
+		closeButton.setText("Close");
+		closeButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				closeButtonActionPerformed(evt);
+			}
+		});
+
+		controlPanel.add(closeButton);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				batchProcessingPanel,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+				layout.createSequentialGroup().addContainerGap().add(
+						controlPanel,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 470,
+						Short.MAX_VALUE).addContainerGap()).add(
+				org.jdesktop.layout.GroupLayout.TRAILING, batchProcessingPanel,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 494,
+				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				batchProcessingPanel,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+				org.jdesktop.layout.GroupLayout.TRAILING,
+				layout.createSequentialGroup().add(batchProcessingPanel,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 425,
+						Short.MAX_VALUE).addPreferredGap(
+						org.jdesktop.layout.LayoutStyle.RELATED).add(
+						controlPanel,
+						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+						org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	//GEN-FIRST:event_closeButtonActionPerformed
+	private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		this.dispose();
+		
+	}//GEN-LAST:event_closeButtonActionPerformed
+
+	//GEN-FIRST:event_startButtonActionPerformed
+	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		
+		startBatch();
+		
+	}//GEN-LAST:event_startButtonActionPerformed
+	
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private de.phleisch.app.itsucks.gui.main.panel.BatchProcessingPanel batchProcessingPanel;
+	private javax.swing.JButton closeButton;
+	private javax.swing.JPanel controlPanel;
+	private javax.swing.JButton startButton;
 	// End of variables declaration//GEN-END:variables
-
 }

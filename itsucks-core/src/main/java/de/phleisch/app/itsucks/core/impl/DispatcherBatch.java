@@ -18,8 +18,9 @@ import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
+import de.phleisch.app.itsucks.event.impl.SimpleDirectEventSource;
 
-public class DispatcherBatch {
+public class DispatcherBatch extends SimpleDirectEventSource {
 
 	private static Log mLog = LogFactory.getLog(DispatcherBatch.class);
 	private static int mBatchThreadCount = 0;
@@ -84,12 +85,15 @@ public class DispatcherBatch {
 			mBatchRunning = true;
 			mDispatcherRunning = 0;
 			
+			fireEvent(CoreEvents.EVENT_BATCH_START);
+			
 			try {
 				watchJobs();
 			} catch(Exception e) {
 				mLog.error("Error running batch", e);
 			} finally {
 				mBatchRunning = false;
+				fireEvent(CoreEvents.EVENT_BATCH_FINISH);
 			}
 		}
 
@@ -265,7 +269,6 @@ public class DispatcherBatch {
 			mInternalThread = new BatchThread();
 			mInternalThread.setName("BatchThread-" + ++mBatchThreadCount);
 		}
-		
 	}
 
 	public int getMaxConcurrentDispatcher() {

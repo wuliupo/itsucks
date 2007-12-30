@@ -1,27 +1,25 @@
-/*
- * BatchProcessingPanel.java
+/* Copyright (C) 2006-2007 Oliver Mihatsch (banishedknight@users.sf.net)
+ * This is free software distributed under the terms of the
+ * GNU Public License.  See the file COPYING for details. 
  *
- * Created on __DATE__, __TIME__
+ * $Id$
+ * Created on 16.12.2007
  */
 
 package de.phleisch.app.itsucks.gui.main.panel;
 
 import java.awt.Dialog;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.core.impl.DispatcherList;
-import de.phleisch.app.itsucks.core.impl.DispatcherThread;
-import de.phleisch.app.itsucks.event.Event;
-import de.phleisch.app.itsucks.event.EventObserver;
-import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
@@ -36,12 +34,11 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(BatchProcessingPanel.class);
 
-	private DispatcherList mDispatcherList;
-	protected ExtendedListModel jobListModel;
+	protected BatchListModel jobListModel;
 
 	/** Creates new form BatchProcessingPanel */
 	public BatchProcessingPanel() {
-		jobListModel = new ExtendedListModel();
+		jobListModel = new BatchListModel();
 
 		initComponents();
 	}
@@ -49,155 +46,78 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	public void addDownload(SerializableJobPackage pJob) {
 
 		if (pJob != null) {
-			jobListModel.add(jobListModel.getSize(), new JobListElement(pJob));
+			
+			final JobListElement jobListElement = new JobListElement(pJob);
+			
+			jobListModel.add(jobListModel.getSize(), jobListElement);
+
+			jobListElement.addPropertyChangeListener("state", new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent pEvt) {
+					int index = jobListModel.indexOf(jobListElement);
+					if(index > -1) {
+						jobListModel.fireContentsChanged(index, index);
+					}
+				}
+			});
+			
 		}
 
 	}
 
-	public void setDispatcherList(DispatcherList pDispatcherList) {
-		mDispatcherList = pDispatcherList;
+	public static class BatchListModel extends ExtendedListModel {
+		
+		private static final long serialVersionUID = 2321310044625450683L;
+
+		public BatchListModel() {
+		}
 	}
 	
-	private void startNextJob() {
+	public static class JobListElement {
 
-		JobListElement[] list = new JobListElement[jobListModel.size()];
-		jobListModel.copyInto(list);
-
-		for (int i = 0; i < list.length; i++) {
-			if (JobListElement.State.OPEN.equals(list[i].mState)) {
-
-				DispatcherHelper helper = new DispatcherHelper();
-				DispatcherThread dispatcher = helper
-						.createDispatcher(list[i].mJobList);
-
-				//add the dispatcher to the list, the panel will be added by the event
-				int id = mDispatcherList.addDispatcher(dispatcher);
-				list[i].mDispatcherListId = id;
-
-				mLog.debug("New dispatcher added with id: " + id + ".");
-
-				dispatcher.getEventManager().registerObserver(
-						new DispatcherListener(id));
-
-				helper.startDispatcher(dispatcher);
-
-				//update state and inform the model of the change
-				list[i].mState = JobListElement.State.RUNNING;
-				jobListModel.fireContentsChanged(i, i);
-
-				//only one item per call
-				break;
-			}
-		}
-
-	}
-
-	private void finishJob(int pId) {
-		mLog.debug("Finish dispatcher with id: " + pId + ".");
-
-		setJobListElementState(pId, JobListElement.State.FINISHED);
-
-		if(this.closeJobAfterFinishCheckBox.isSelected()) {
-			//remove the dispatcher from the list
-			mDispatcherList.removeDispatcherById(pId);
-		}
-
-		startNextJob();
-	}
-
-	private void setJobListElementState(int pId, JobListElement.State pState) {
-
-		JobListElement[] list = new JobListElement[jobListModel.size()];
-		jobListModel.copyInto(list);
-
-		for (int i = 0; i < list.length; i++) {
-			if (list[i].mDispatcherListId == pId) {
-
-				mLog.debug("Set dispatcher with id: " + pId + " to State: "
-						+ pState);
-
-				list[i].mState = pState;
-				jobListModel.fireContentsChanged(i, i);
-			}
-		}
-
-	}
-
-	protected class DispatcherListener implements EventObserver {
-
-		private int mId;
-
-		public DispatcherListener(int pId) {
-			mId = pId;
-		}
-
-		public void processEvent(Event pEvent) {
-			if (pEvent.equals(CoreEvents.EVENT_DISPATCHER_FINISH)) {
-
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						finishJob(mId);
-					}
-
-				});
-			}
-		}
-
-	}
-
-	//	protected class DispatcherListListener implements EventObserver {
-	//
-	//		public void processEvent(final Event pEvent) {
-	//			
-	//			switch(pEvent.getType()) {
-	//			
-	//				case DispatcherList.EVENT_DISPATCHER_ADDED:
-	//					
-	//					SwingUtilities.invokeLater(new Runnable() {
-	//						public void run() {
-	//							processDispatcherAdded((DispatcherListEvent)pEvent);
-	//						}
-	//					});
-	//					break;
-	//					
-	//				case DispatcherList.EVENT_DISPATCHER_REMOVED:
-	//					SwingUtilities.invokeLater(new Runnable() {
-	//						public void run() {
-	//							processDispatcherRemoved((DispatcherListEvent)pEvent);
-	//						}
-	//					});							
-	//					break;
-	//					
-	//				default: 
-	//					throw new IllegalStateException("Unknown Event: " + pEvent);			
-	//			}
-	//		}
-	//
-	//		private void processDispatcherAdded(DispatcherListEvent pEvent) {
-	//			
-	//		}
-	//		
-	//		private void processDispatcherRemoved(DispatcherListEvent pEvent) {
-	//		}
-	//	}
-
-	protected static class JobListElement {
-
-		enum State {
+		public enum State {
 			OPEN, RUNNING, FINISHED
 		}
 
+		private PropertyChangeSupport mChangeSupport;
+		
 		private SerializableJobPackage mJobList;
 		private State mState = State.OPEN;
 		private int mDispatcherListId = -1;
 
 		public JobListElement(SerializableJobPackage pJobList) {
+			mChangeSupport = new PropertyChangeSupport(this);
 			mJobList = pJobList;
 		}
 
 		@Override
 		public String toString() {
 			return toHtmlString();
+		}
+
+		public SerializableJobPackage getJobList() {
+			return mJobList;
+		}
+
+		public State getState() {
+			return mState;
+		}
+
+		public void setState(State pState) {
+			State oldState = mState;
+			mState = pState;
+			
+			mChangeSupport.firePropertyChange("state", oldState, mState);
+		}
+
+		public int getDispatcherListId() {
+			return mDispatcherListId;
+		}
+
+		public void setDispatcherListId(int pDispatcherListId) {
+			int oldId = mDispatcherListId;
+			mDispatcherListId = pDispatcherListId;
+			
+			mChangeSupport.firePropertyChange("dispatcherListId", oldId, mDispatcherListId);
 		}
 
 		/**
@@ -214,8 +134,57 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		public boolean isFinished() {
 			return mState.equals(State.FINISHED);
 		}
+
+		public void addPropertyChangeListener(PropertyChangeListener pListener) {
+			mChangeSupport.addPropertyChangeListener(pListener);
+		}
+
+		public void addPropertyChangeListener(String pPropertyName,
+				PropertyChangeListener pListener) {
+			mChangeSupport.addPropertyChangeListener(pPropertyName, pListener);
+		}
+
+		public void removePropertyChangeListener(
+				PropertyChangeListener pListener) {
+			mChangeSupport.removePropertyChangeListener(pListener);
+		}
+
+		public void removePropertyChangeListener(String pPropertyName,
+				PropertyChangeListener pListener) {
+			mChangeSupport.removePropertyChangeListener(pPropertyName,
+					pListener);
+		}
 	}
 
+	public void setElementsEnabled(boolean pValue) {
+
+		addJobButton.setEnabled(pValue);
+		loadJobButton.setEnabled(pValue);
+		editJobButton.setEnabled(pValue);
+		removeJobButton.setEnabled(pValue);
+		moveUpButton.setEnabled(pValue);
+		moveDownButton.setEnabled(pValue);
+		concurrentJobsField.setEnabled(pValue);
+		jobList.clearSelection();
+
+	}
+
+	public List<JobListElement> getJobListElements() {
+		
+		JobListElement[] list = new JobListElement[jobListModel.size()];
+		jobListModel.copyInto(list);
+		
+		return Arrays.asList(list);
+	}
+	
+	public int getMaxConcurrentJobs() {
+		return Integer.parseInt(this.concurrentJobsField.getText());
+	}
+
+	public boolean isCloseJobAfterFinish() {
+		return this.closeJobAfterFinishCheckBox.isSelected();
+	}
+	
 	/** This method is called from within the constructor to
 	 * initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is
@@ -236,7 +205,6 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		concurrentJobsField = new javax.swing.JTextField();
 		concurrentJobsLabel = new javax.swing.JLabel();
 		closeJobAfterFinishCheckBox = new javax.swing.JCheckBox();
-		startButton = new javax.swing.JButton();
 
 		jPanel1.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Batch Processing"));
@@ -307,13 +275,6 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 				.createEmptyBorder(0, 0, 0, 0));
 		closeJobAfterFinishCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-		startButton.setText("Start batch");
-		startButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				startButtonActionPerformed(evt);
-			}
-		});
-
 		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(
 				jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
@@ -347,7 +308,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 																		.add(
 																				jobListScrollPane,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				327,
+																				351,
 																				Short.MAX_VALUE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -384,22 +345,12 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 																						.add(
 																								removeJobButton)))
 														.add(
-																jPanel1Layout
-																		.createSequentialGroup()
-																		.add(
-																				closeJobAfterFinishCheckBox)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED,
-																				78,
-																				Short.MAX_VALUE)
-																		.add(
-																				startButton)))
+																closeJobAfterFinishCheckBox))
 										.addContainerGap()));
 
 		jPanel1Layout.linkSize(new java.awt.Component[] { addJobButton,
 				editJobButton, loadJobButton, moveDownButton, moveUpButton,
-				removeJobButton, startButton },
-				org.jdesktop.layout.GroupLayout.HORIZONTAL);
+				removeJobButton }, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
 		jPanel1Layout
 				.setVerticalGroup(jPanel1Layout
@@ -416,7 +367,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 														.add(
 																jobListScrollPane,
 																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																284,
+																318,
 																Short.MAX_VALUE)
 														.add(
 																jPanel1Layout
@@ -460,55 +411,27 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 																concurrentJobsLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												jPanel1Layout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(
-																closeJobAfterFinishCheckBox)
-														.add(startButton))
+										.add(closeJobAfterFinishCheckBox)
 										.addContainerGap()));
 
 		jPanel1Layout.linkSize(new java.awt.Component[] { addJobButton,
 				editJobButton, loadJobButton, moveDownButton, moveUpButton,
-				removeJobButton, startButton },
-				org.jdesktop.layout.GroupLayout.VERTICAL);
+				removeJobButton }, org.jdesktop.layout.GroupLayout.VERTICAL);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				org.jdesktop.layout.GroupLayout.TRAILING,
-				layout.createSequentialGroup().addContainerGap().add(jPanel1,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE).addContainerGap()));
+				org.jdesktop.layout.GroupLayout.TRAILING, jPanel1,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
-				org.jdesktop.layout.GroupLayout.TRAILING,
-				layout.createSequentialGroup().addContainerGap().add(jPanel1,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-						Short.MAX_VALUE).addContainerGap()));
+				org.jdesktop.layout.GroupLayout.TRAILING, jPanel1,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 	}// </editor-fold>//GEN-END:initComponents
-
-	//GEN-FIRST:event_startButtonActionPerformed
-	private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
-		addJobButton.setEnabled(false);
-		loadJobButton.setEnabled(false);
-		editJobButton.setEnabled(false);
-		removeJobButton.setEnabled(false);
-		moveUpButton.setEnabled(false);
-		moveDownButton.setEnabled(false);
-		jobList.clearSelection();
-		startButton.setEnabled(false);
-		startButton.setText("Batch running...");
-
-		startNextJob();
-
-	}//GEN-LAST:event_startButtonActionPerformed
 
 	//GEN-FIRST:event_moveDownButtonActionPerformed
 	private void moveDownButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -617,7 +540,6 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	private javax.swing.JButton moveDownButton;
 	private javax.swing.JButton moveUpButton;
 	private javax.swing.JButton removeJobButton;
-	private javax.swing.JButton startButton;
 	// End of variables declaration//GEN-END:variables
 
 }
