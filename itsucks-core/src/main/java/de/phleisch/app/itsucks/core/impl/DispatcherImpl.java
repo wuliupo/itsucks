@@ -86,7 +86,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		}
 		
 		mLog.info("Start processing jobs");
-		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_START);
+		mEventManager.init();
 		mEventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_START, this));
 		
@@ -133,7 +133,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		mLog.info("Finished processing jobs");
 		mEventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_FINISH, this));
-		mEventManager.fireEvent(CoreEvents.EVENT_EVENTDISPATCHER_CMD_STOP);
+		mEventManager.shutdown();
 	}
 
 	private void doPauseLoop() throws InterruptedException {

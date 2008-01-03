@@ -20,7 +20,7 @@ public class SimpleDirectEventSource implements DirectEventSource {
 	private List<EventObserver> mRegisteredObservers = 
 		new ArrayList<EventObserver>(); 
 	
-	public void fireEvent(Event pEvent) {
+	protected void fireEvent(Event pEvent) {
 
 		//create a copy from the event observer list
 		EventObserver[] observer;

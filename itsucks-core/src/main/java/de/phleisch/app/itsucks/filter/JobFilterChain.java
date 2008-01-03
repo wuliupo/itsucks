@@ -10,11 +10,10 @@ package de.phleisch.app.itsucks.filter;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.event.EventSource;
 import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 
-public interface JobFilterChain extends EventSource {
+public interface JobFilterChain {
 
 	public abstract void addJobFilter(JobFilter pJobFilter);
 

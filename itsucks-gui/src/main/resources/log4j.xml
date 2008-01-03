@@ -29,12 +29,9 @@
 		<!-- <appender-ref ref="STDOUT"/>  -->
 	</category>
 	
-	<!-- 
 	<category name="de.phleisch">
-		<priority value="error"/>
-		<appender-ref ref="STDOUT"/>
+		<priority value="debug"/>
 	</category>
-	 -->
 	
 	<root>
 		<priority value="error"/>

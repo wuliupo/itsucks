@@ -51,9 +51,19 @@
 		
 	</bean>
 	
+	<!-- 
+	<bean 
+		id="CleanupJobManager" 
+		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" 
+		singleton="false">
+
+		<constructor-arg><ref bean="JobManager"/></constructor-arg>
+	</bean>
+	 -->
+	
 	<bean 
 		id="JobManager" 
-		class="de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl" 
+		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" 
 		singleton="false">
 
 		<property name="jobList">

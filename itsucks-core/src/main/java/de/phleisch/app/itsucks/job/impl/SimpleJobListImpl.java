@@ -14,13 +14,15 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.impl.SimpleDirectEventSource;
+import de.phleisch.app.itsucks.event.job.JobChangedEvent;
+import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobList;
-import de.phleisch.app.itsucks.job.JobListNotification;
 
 
 /**
@@ -30,11 +32,13 @@ import de.phleisch.app.itsucks.job.JobListNotification;
  * @author olli
  *
  */
-public class SimpleJobListImpl extends Observable implements PropertyChangeListener, JobList {
+public class SimpleJobListImpl extends SimpleDirectEventSource implements JobList {
 
 	private SortedSet<JobListEntry> mJobList;
 	private Map<Job, JobListEntry> mJobBackReference;
 	private int mJobIdSequence = 0;
+	
+	private JobPropertyChangeListener mJobListener;
 	
 	public SimpleJobListImpl() {
 		super();
@@ -42,6 +46,7 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 		JobListEntryComparator comparator = new JobListEntryComparator();
 		mJobList = new TreeSet<JobListEntry>(comparator);
 		mJobBackReference = new HashMap<Job, JobListEntry>();
+		mJobListener = new JobPropertyChangeListener();
 	}
 
 	/* (non-Javadoc)
@@ -50,7 +55,7 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	public void addJob(Job pJob) {
 		synchronized (this) {
 			pJob.setId(mJobIdSequence ++);
-			pJob.addPropertyChangeListener(this);
+			pJob.addPropertyChangeListener(mJobListener);
 			
 			JobListEntry entry = new JobListEntry(pJob);
 			
@@ -59,12 +64,10 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 				throw new IllegalStateException("Job could not be added!");
 			}
 			mJobBackReference.put(entry.mJob, entry);
-			
-			setChanged();
 		}
 		
-		this.notifyObservers(
-				new JobListNotification(NOTIFICATION_JOB_ADDED, pJob));
+		Event event = new JobEvent(EVENT_JOB_ADDED, pJob);
+		this.fireEvent(event);
 	}
 	
 	/* (non-Javadoc)
@@ -72,10 +75,10 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 	 */
 	public boolean removeJob(Job pJob) {
 		
-		if(mJobBackReference.containsKey(pJob)) return false;
+		if(!mJobBackReference.containsKey(pJob)) return false;
 		
 		synchronized (this) {
-			pJob.removePropertyChangeListener(this);
+			pJob.removePropertyChangeListener(mJobListener);
 		
 			JobListEntry entry = new JobListEntry(pJob);
 			
@@ -84,12 +87,10 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 				throw new IllegalStateException("Job to be removed not found!");
 			}
 			mJobBackReference.remove(entry.mJob);
-			
-			setChanged();
 		}
 		
-		this.notifyObservers(
-				new JobListNotification(NOTIFICATION_JOB_REMOVED, pJob));
+		Event event = new JobEvent(EVENT_JOB_REMOVED, pJob);
+		this.fireEvent(event);
 		
 		return true;
 	}
@@ -124,48 +125,54 @@ public class SimpleJobListImpl extends Observable implements PropertyChangeListe
 		
 		return null;
 	}
-
-	/**
-	 * Is called when a job in the list has changed.
-	 */
-	public void propertyChange(PropertyChangeEvent pEvt) {
+	
+	private class JobPropertyChangeListener implements PropertyChangeListener {
 		
 		/**
-		 * When a job has changed, the ordering of the list must be refreshed
+		 * Is called when a job in the list has changed.
 		 */
-		
-		if(Job.JOB_STATE_PROPERTY.equals(pEvt.getPropertyName()) 
-				|| Job.JOB_PRIORITY_PROPERTY.equals(pEvt.getPropertyName())) {
-			Job changedJob = (Job)pEvt.getSource();
-			boolean b;
+		public void propertyChange(PropertyChangeEvent pEvt) {
 			
-			synchronized (this) {
+			/**
+			 * When a job has changed, the ordering of the list must be refreshed
+			 */
+			if(Job.JOB_STATE_PROPERTY.equals(pEvt.getPropertyName()) 
+					|| Job.JOB_PRIORITY_PROPERTY.equals(pEvt.getPropertyName())) {
 				
-				//search the job in the back reference map to get it's entry object
-				JobListEntry entry = mJobBackReference.get(changedJob);
-				if(entry == null) throw new IllegalStateException("Job not found!");
-				
-				//remove the job entry, because the position in the list is now wrong
-				b = mJobList.remove(entry);
-				if(!b) throw new IllegalStateException("Changed Job could not be removed!");
-				
-				//reset the order key to reflect the changes of the job
-				entry.resetOrderKey();
-				
-				//readd the job entry to order it correctly in
-				b = mJobList.add(entry);
-				if(!b) throw new IllegalStateException("Changed Job could not be added!");
+				Job changedJob = (Job)pEvt.getSource();
+				handleJobChanged(changedJob, pEvt);
 			}
-			
-			this.notifyObservers(
-					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));
-			
-		} else if(Job.JOB_STATE_PROPERTY.equals(pEvt.getPropertyName())) {
-			Job changedJob = (Job)pEvt.getSource();
-			
-			this.notifyObservers(
-					new JobListNotification(NOTIFICATION_JOB_CHANGED, changedJob));
 		}
+	}
+		
+	/**
+	 * When a job has changed, the ordering of the list must be refreshed
+	 * @param pEvt 
+	 */
+	protected void handleJobChanged(Job pJob, PropertyChangeEvent pEvt) {
+		boolean b;
+		
+		synchronized (this) {
+			
+			//search the job in the back reference map to get it's entry object
+			JobListEntry entry = mJobBackReference.get(pJob);
+			if(entry == null) throw new IllegalStateException("Job not found!");
+			
+			//remove the job entry, because the position in the list is now wrong
+			b = mJobList.remove(entry);
+			if(!b) throw new IllegalStateException("Changed Job could not be removed!");
+			
+			//reset the order key to reflect the changes of the job
+			entry.resetOrderKey();
+			
+			//read the job entry to order it correctly in
+			b = mJobList.add(entry);
+			if(!b) throw new IllegalStateException("Changed Job could not be added!");
+		}
+		
+		JobChangedEvent event = new JobChangedEvent(EVENT_JOB_CHANGED, pJob);
+		event.setPropertyChangeEvent(pEvt);
+		this.fireEvent(event);
 	}
 	
 

@@ -111,7 +111,8 @@ public class AppTest extends TestCase {
 		
 		assertTrue(observer.mEventCountType3001 == 3);
 		assertTrue(observer.mEventCountType3002 == 3);
-		assertTrue(observer.mEventCountType3003 == 0);
+		assertTrue(observer.mEventCountType3003 == 2);
+		assertTrue(observer.mEventCountType3004 == 9);
 		
 	}
 	
@@ -120,6 +121,7 @@ public class AppTest extends TestCase {
 		int mEventCountType3001 = 0; 
 		int mEventCountType3002 = 0;
 		int mEventCountType3003 = 0;
+		int mEventCountType3004 = 0;
 		
 		public void processEvent(Event pEvent) {
 			
@@ -136,9 +138,13 @@ public class AppTest extends TestCase {
 				case 3003: 
 					mEventCountType3003 ++;
 					break;
+					
+				case 3004: 
+					mEventCountType3004 ++;
+					break;					
 				
 				default: 
-					AppTest.fail();
+					AppTest.fail("Received unknown event");
 			}
 		}
 	}

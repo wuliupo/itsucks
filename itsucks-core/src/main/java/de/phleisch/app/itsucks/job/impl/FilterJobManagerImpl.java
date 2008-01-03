@@ -13,10 +13,13 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventDispatcher;
+import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.EventSource;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.event.job.JobAddedEvent;
+import de.phleisch.app.itsucks.event.job.JobChangedEvent;
 import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.JobFilterChain;
@@ -43,8 +46,12 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	private EventDispatcher mEventDispatcher;
 	private JobFilterChain mJobFilterChain;
 	
+	private JobListEventObserver mJobListEventObserver;
+	
 	public FilterJobManagerImpl() {
 		super();
+		
+		mJobListEventObserver = new JobListEventObserver();
 	}
 	
 	private void addJobUnfiltered(Job pJob) {
@@ -75,6 +82,10 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		//apply the configured filter to this job
 		job = mJobFilterChain.filterJob(job);
 		
+		//notify listeners
+		mEventDispatcher.fireEvent(
+				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
+		
 		//check if the job isn't already processed.
 		if(job.getState() != Job.STATE_ALREADY_PROCESSED) {
 			addJobUnfiltered(job);
@@ -90,15 +101,17 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	 */
 	public boolean removeJob(Job pJob) {
 		boolean result = mJobList.removeJob(pJob);
+//		boolean result = true;
 		
 		if(result) {
 			mEventDispatcher.fireEvent(
 				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_REMOVED, pJob));
+		} else {
+			throw new IllegalArgumentException("Job not known.");
 		}
 		
 		return result;
 	}
-	
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#getNextOpenJob()
@@ -118,7 +131,18 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#setJobList(de.phleisch.app.itsucks.job.JobList)
 	 */
 	public void setJobList(JobList pJobList) {
+		
+		if(mJobList != null) {
+			//deregister from old job list
+			mJobList.unregisterObserver(mJobListEventObserver);
+		}
+		
 		mJobList = pJobList;
+		
+		if(mJobList != null) {
+			//register to new job list
+			pJobList.registerObserver(mJobListEventObserver);
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -161,4 +185,29 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		return mJobFilterChain.removeJobFilter(pJobFilter);
 	}
 
+	private class JobListEventObserver implements EventObserver {
+	
+		public void processEvent(Event pEvent) {
+
+			// If the job list sends an job changed event, convert it into
+			// an job manager event and send it to the event dispatcher
+			if (pEvent.equals(JobList.EVENT_JOB_CHANGED)) {
+
+				processJobChangedEvent(pEvent);
+			} 
+		}
+
+	}
+	
+	protected void processJobChangedEvent(Event pEvent) {
+		JobChangedEvent changeEvent = (JobChangedEvent) pEvent;
+
+		JobChangedEvent newEvent = new JobChangedEvent(
+				CoreEvents.EVENT_JOBMANAGER_JOB_CHANGED, 
+				changeEvent.getJob());
+		newEvent.setPropertyChangeEvent(changeEvent.getPropertyChangeEvent());
+		
+		mEventDispatcher.fireEvent(newEvent);
+	}
+	
 }

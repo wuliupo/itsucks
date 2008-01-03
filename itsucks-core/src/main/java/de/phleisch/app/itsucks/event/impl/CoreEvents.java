@@ -24,14 +24,6 @@ public class CoreEvents {
 		}
 	}
 	
-	/**
-	 * This category is used for special internal commands, 
-	 * like start/stop/pause/resume the event manager.
-	 * 
-	 * These events will not be dispatched to the event observer.
-	 */
-	public final static int EVENT_CATEGORY_SYSTEM_CMD	= 100;
-	
 	public final static int EVENT_CATEGORY_EVENTDISPATCHER	= 150;
 	
 	/**
@@ -47,25 +39,13 @@ public class CoreEvents {
 	/**
 	 * Events send by a job.
 	 */
-	public final static int EVENT_CATEGORY_JOB 			= 400;
+//	public final static int EVENT_CATEGORY_JOB 			= 400;
 	
 	/**
 	 * Events send by batch.
 	 */
 	public final static int EVENT_CATEGORY_BATCH		= 500;
 	
-	
-	/**
-	 * System command to start the event dispatcher. 
-	 */
-	public final static ConstEvent 
-		EVENT_EVENTDISPATCHER_CMD_START = new ConstEvent(1001, EVENT_CATEGORY_SYSTEM_CMD);
-	
-	/**
-	 * System command to stop the event dispatcher. 
-	 */
-	public final static ConstEvent 
-		EVENT_EVENTDISPATCHER_CMD_STOP = new ConstEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
 	
 	public final static ConstEvent 
 		EVENT_EVENTDISPATCHER_START = new ConstEvent(1501, EVENT_CATEGORY_EVENTDISPATCHER);
@@ -119,7 +99,7 @@ public class CoreEvents {
 	 * This event is fired when a job has changed (status, priority etc.)
 	 */
 	public final static ConstEvent 
-		EVENT_JOB_CHANGED = new ConstEvent(4002, EVENT_CATEGORY_JOB);
+		EVENT_JOBMANAGER_JOB_CHANGED = new ConstEvent(3004, EVENT_CATEGORY_JOBMANAGER);
 	
 	
 	public final static ConstEvent 

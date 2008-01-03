@@ -14,22 +14,17 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.event.EventDispatcher;
-import de.phleisch.app.itsucks.event.EventSource;
-import de.phleisch.app.itsucks.event.impl.CoreEvents;
-import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.JobFilterChain;
 import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 
-public class JobFilterChainImpl implements JobFilterChain, EventSource {
+public class JobFilterChainImpl implements JobFilterChain {
 
 	private static Log mLog = LogFactory.getLog(JobFilterChainImpl.class);
 	
 	private List<JobFilter> mJobFilter;
 	private Context mContext;
-	private EventDispatcher mEventDispatcher;
 	
 	public JobFilterChainImpl() {
 		
@@ -70,9 +65,6 @@ public class JobFilterChainImpl implements JobFilterChain, EventSource {
 			job.setState(Job.STATE_OPEN);
 		}
 		
-		mEventDispatcher.fireEvent(
-				new JobEvent(CoreEvents.EVENT_JOBMANAGER_JOB_FILTERED, pJob));
-		
 		return job;
 	}
 
@@ -101,11 +93,7 @@ public class JobFilterChainImpl implements JobFilterChain, EventSource {
 
 	public void setContext(Context pContext) {
 		mContext = pContext;
-		mEventDispatcher = mContext.getEventDispatcher();
 	}
 
-	public EventDispatcher getEventDispatcher() {
-		return mEventDispatcher;
-	}
 	
 }

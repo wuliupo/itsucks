@@ -14,7 +14,7 @@ public interface DirectEventSource {
 	 * Fires an event and dispatches it to all registered observers.
 	 * @param pEvent
 	 */
-	public abstract void fireEvent(final Event pEvent);
+//	public abstract void fireEvent(final Event pEvent);
 
 	/**
 	 * Registers an new observer. 

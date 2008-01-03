@@ -17,9 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.phleisch.app.itsucks.event.impl.CoreEvents;
-import de.phleisch.app.itsucks.event.job.JobChangedEvent;
-import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
@@ -143,9 +140,9 @@ public abstract class AbstractJob implements Serializable, Job {
 		mState = pState;
 		
 		synchronized (this) {
-			PropertyChangeEvent firePropertyChange = 
+//			PropertyChangeEvent firePropertyChange = 
 				firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
-			sendJobChangedEventToDispatcher(firePropertyChange);
+//			sendJobChangedEventToDispatcher(firePropertyChange);
 		}
 	}
 	
@@ -170,25 +167,25 @@ public abstract class AbstractJob implements Serializable, Job {
 		mPriority = pPriority;
 		
 		synchronized (this) {
-			PropertyChangeEvent firePropertyChange = 
+//			PropertyChangeEvent firePropertyChange = 
 				firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
-			sendJobChangedEventToDispatcher(firePropertyChange);
+//			sendJobChangedEventToDispatcher(firePropertyChange);
 		}
 	}
 	
-	protected void sendJobChangedEventToDispatcher(PropertyChangeEvent pPropertyChange) {
-		
-		JobChangedEvent event = new JobChangedEvent(CoreEvents.EVENT_JOB_CHANGED, this);
-		event.setPropertyChangeEvent(pPropertyChange);
-		
-		sendEvent(event);
-	}
+//	protected void sendJobChangedEventToDispatcher(PropertyChangeEvent pPropertyChange) {
+//		
+//		JobChangedEvent event = new JobChangedEvent(CoreEvents.EVENT_JOB_CHANGED, this);
+//		event.setPropertyChangeEvent(pPropertyChange);
+//		
+//		sendEvent(event);
+//	}
 
-	private void sendEvent(JobEvent pEvent) {
-		if(mJobManager == null) return;
-		
-		mJobManager.getEventDispatcher().fireEvent(pEvent);
-	}
+//	private void sendEvent(JobEvent pEvent) {
+//		if(mJobManager == null) return;
+//		
+//		mJobManager.getEventDispatcher().fireEvent(pEvent);
+//	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#getId()

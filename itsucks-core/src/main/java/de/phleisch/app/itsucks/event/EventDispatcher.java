@@ -12,13 +12,11 @@ public interface EventDispatcher {
 
 	/**
 	 * Initializes the Event dispatcher and starts the dispatch thread
-	 * This method is also called when an <code>EVENT_EVENTDISPATCHER_CMD_START</code> was fired.
 	 */
 	public abstract void init();
 
 	/**
 	 * Shutdown the Event dispatcher.
-	 * This method is also called when an <code>EVENT_EVENTDISPATCHER_CMD_STOP</code> was fired.
 	 */
 	public abstract void shutdown();
 

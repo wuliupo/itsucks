@@ -9,8 +9,13 @@
 		</layout>
 	</appender>
 	
-	<root>
+	<category name="de.phleisch.app.itsucks">
 		<priority value="debug"/>
+		<!-- <appender-ref ref="STDOUT"/>  -->
+	</category>
+	
+	<root>
+		<priority value="error"/>
 		<appender-ref ref="STDOUT" />
 	</root>
 	

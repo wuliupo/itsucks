@@ -28,9 +28,7 @@ import de.phleisch.app.itsucks.event.EventObserver;
  * Check the <code>CoreEvents</code> class for a list of possible events fired
  * by the framework.
  * 
- * The EventDispatcher is started and stopped by command events.
- * These events are not dispatched to the observers and can be found in the <code>CoreEvents</code> 
- * class. 
+ * The EventDispatcher is started and stopped by the methods init/shutdown.
  * 
  * @author olli
  *
@@ -38,6 +36,28 @@ import de.phleisch.app.itsucks.event.EventObserver;
 public class EventDispatcherImpl implements EventDispatcher {
 
 	private static Log mLog = LogFactory.getLog(EventDispatcherImpl.class);
+	
+	/**
+	 * This category is used for special internal commands, 
+	 * like start/stop/pause/resume the event manager.
+	 * 
+	 * These events will not be dispatched to the event observer.
+	 */
+	public final static int EVENT_CATEGORY_SYSTEM_CMD	= 100;
+	
+	/**
+	 * System command to start the event dispatcher. 
+	 */
+//	private final static Event 
+//		EVENT_EVENTDISPATCHER_CMD_START = new SimpleEvent(1001, EVENT_CATEGORY_SYSTEM_CMD);
+	
+	/**
+	 * System command to stop the event dispatcher. 
+	 */
+	private final static Event 
+		EVENT_EVENTDISPATCHER_CMD_STOP = new SimpleEvent(1002, EVENT_CATEGORY_SYSTEM_CMD);
+	
+	
 	
 	private boolean initialized = false;
 	
@@ -70,11 +90,25 @@ public class EventDispatcherImpl implements EventDispatcher {
 	public synchronized void shutdown() {
 		if(!initialized) return;
 		
-		mEventThread.stopThread();
-		mEventThread.interrupt(); //try to stop thread fast
+		mLog.debug("Send shutdown event to event thread.");
+		
+		//send shutdown to the event thread
+		mEventDequeue.add(EVENT_EVENTDISPATCHER_CMD_STOP);
+		
+//		mEventThread.stopThread();
+//		mEventThread.interrupt(); //try to stop thread fast
+		
+		try {
+			mEventThread.join();
+		} catch (InterruptedException e) {
+			mLog.error("Interuppted while waiting for the event thread", e);
+			throw new RuntimeException("Interuppted while waiting for the event thread", e);
+		}
+		
 		mEventThread = null;
 		initialized = false;
 	}
+	
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.event.EventDispatcher#fireEvent(de.phleisch.app.itsucks.event.Event)
@@ -82,22 +116,12 @@ public class EventDispatcherImpl implements EventDispatcher {
 	public void fireEvent(final Event pEvent) {
 		mLog.debug("Got event: " + pEvent);
 		
-		//do not dispatch this event if this is an system cmd
-		if(pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_SYSTEM_CMD) {
-			handleSystemCmd(pEvent);
-			return;
+		if(pEvent.getCategory() == EVENT_CATEGORY_SYSTEM_CMD) { 
+			throw new IllegalArgumentException("Firing command events not allowed!");
 		}
-
+		
 		//add the event at the tail of the deque
 		mEventDequeue.add(pEvent);
-	}
-
-	private void handleSystemCmd(final Event pEvent) {
-		if(pEvent.getType() == CoreEvents.EVENT_EVENTDISPATCHER_CMD_START.getType()) {
-			init();
-		} else if(pEvent.getType() == CoreEvents.EVENT_EVENTDISPATCHER_CMD_STOP.getType()) {
-			shutdown();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -148,6 +172,12 @@ public class EventDispatcherImpl implements EventDispatcher {
 		@Override
 		public int hashCode() {
 			return mObserver.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object pObj) {
+			EventObserverConfig config = (EventObserverConfig) pObj;
+			return config.getObserver().equals(config.getObserver());
 		}
 	}
 	
@@ -204,6 +234,12 @@ public class EventDispatcherImpl implements EventDispatcher {
 
 		private void dispatchEvent(final Event pEvent) {
 			
+			//do not dispatch this event if this is an system cmd
+			if(pEvent.getCategory() == EVENT_CATEGORY_SYSTEM_CMD) {
+				handleSystemCmd(pEvent);
+				return;
+			}
+			
 			//create a local copy to hold synchronized part as small as possible
 			mLocalObserverCopy.clear();
 			
@@ -240,7 +276,18 @@ public class EventDispatcherImpl implements EventDispatcher {
 			}
 		}
 		
-		public synchronized void stopThread() {
+		private void handleSystemCmd(final Event pEvent) {
+			
+//			if(pEvent.getType() == CoreEvents.EVENT_EVENTDISPATCHER_CMD_START.getType()) {
+//				init();
+//			} else 
+				
+			if(pEvent.getType() == EVENT_EVENTDISPATCHER_CMD_STOP.getType()) {
+				stopThread();
+			}
+		}
+		
+		private synchronized void stopThread() {
 			//synchronized to be sure that the value is set for all threads
 			mStop = true;
 		}

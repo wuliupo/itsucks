@@ -43,7 +43,6 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		mJobDispatcher = pDispatcher;
 
 		DefaultEventFilter eventFilter = new DefaultEventFilter();
-		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOB);
 		eventFilter.addAllowedCategory(CoreEvents.EVENT_CATEGORY_JOBMANAGER);
 
 		mJobDispatcher.getEventManager().registerObserver(mEventObserver,
@@ -151,7 +150,7 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 			JobEvent jobEvent = (JobEvent) pEvent;
 			UrlDownloadJob job = (UrlDownloadJob) jobEvent.getJob();
 
-			if (jobEvent.getType() == CoreEvents.EVENT_JOB_CHANGED.getType()) {
+			if (jobEvent.getType() == CoreEvents.EVENT_JOBMANAGER_JOB_CHANGED.getType()) {
 
 				PropertyChangeEvent propertyChangeEvent = ((JobChangedEvent) jobEvent)
 						.getPropertyChangeEvent();

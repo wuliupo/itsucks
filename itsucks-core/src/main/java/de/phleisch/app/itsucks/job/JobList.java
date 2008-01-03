@@ -8,7 +8,9 @@
 
 package de.phleisch.app.itsucks.job;
 
-import java.util.Observer;
+import de.phleisch.app.itsucks.event.DirectEventSource;
+import de.phleisch.app.itsucks.event.Event;
+import de.phleisch.app.itsucks.event.impl.SimpleEvent;
 
 
 /**
@@ -21,11 +23,22 @@ import java.util.Observer;
  * @author olli
  *
  */
-public interface JobList {
+public interface JobList extends DirectEventSource {
 
 	public static final int NOTIFICATION_JOB_ADDED  = 1000;
 	public static final int NOTIFICATION_JOB_REMOVED = 2000;
 	public static final int NOTIFICATION_JOB_CHANGED = 3000;
+	
+	public final static Event EVENT_JOB_ADDED = 
+		new SimpleEvent(NOTIFICATION_JOB_ADDED);
+	
+	public final static Event EVENT_JOB_REMOVED = 
+		new SimpleEvent(NOTIFICATION_JOB_REMOVED);
+
+	public final static Event EVENT_JOB_CHANGED = 
+		new SimpleEvent(NOTIFICATION_JOB_CHANGED);
+	
+	
 	
 	public abstract void addJob(Job pJob);
 
@@ -36,7 +49,7 @@ public interface JobList {
 	public abstract Job getNextOpenJob();
 	
 	
-	public void addObserver(Observer o);
-	public void deleteObserver(Observer o);
+//	public void addObserver(Observer o);
+//	public void deleteObserver(Observer o);
 
 }
