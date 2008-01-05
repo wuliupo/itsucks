@@ -174,6 +174,29 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	}
 	
 	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#abort()
+	 */
+	@Override
+	public void abort() {
+		super.abort();
+		
+		if(mBufferedOut != null) {
+			try {
+				mBufferedOut.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Error closing file", e);
+			}
+		}
+		mBufferedOut = null;
+		
+		boolean deleteSucessful = mFile.delete();
+		if(!deleteSucessful) {
+			mLog.error("Could not delete partial file: " + mFile.getAbsolutePath());
+		}
+		
+	}
+	
+	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#rollback()
 	 */
 	@Override

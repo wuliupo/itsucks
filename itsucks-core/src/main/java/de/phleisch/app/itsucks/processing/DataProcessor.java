@@ -39,6 +39,12 @@ public interface DataProcessor {
 	public abstract void finish() throws Exception;
 
 	/**
+	 * Will be called when the chain is aborted.
+	 * After calling abort, <code>finish</code> is also called.
+	 */
+	public abstract void abort();
+	
+	/**
 	 * Will be called when the chain is unexpectly aborted.
 	 * After calling rollback, <code>finish</code> is also called.
 	 */
