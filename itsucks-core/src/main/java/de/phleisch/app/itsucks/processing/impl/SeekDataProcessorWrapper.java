@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.processing.impl;
 
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
@@ -72,34 +73,34 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws Exception {
 		
 		if(mChain.getProcessedBytes() >= mSeekPosition) {
 			
-			return mDataProcessor.process(pBuffer, pBytes);
+			return mDataProcessor.process(pDataChunk);
 			
-		} else if(mChain.getProcessedBytes() + pBytes > mSeekPosition) {
+		} else if(mChain.getProcessedBytes() + pDataChunk.getSize() > mSeekPosition) {
 			
 			//ok, create a buffer containg the slice we need
 			int offset = (int)(mSeekPosition - mChain.getProcessedBytes());
 			
-			byte[] slice = new byte[pBytes - offset];
-			System.arraycopy(pBuffer, offset, slice, 0, slice.length);
+			byte[] slice = new byte[pDataChunk.getSize() - offset];
+			System.arraycopy(pDataChunk.getData(), offset, slice, 0, slice.length);
 			
-			byte[] result = mDataProcessor.process(slice, slice.length);
+			DataChunk result = mDataProcessor.process(new DataChunk(slice, slice.length, false));
 			
 			//copy the result back
-			byte mergedResult[] = new byte[offset + slice.length];
+			byte mergedResult[] = new byte[offset + result.getSize()];
 			
-			System.arraycopy(pBuffer, 0, mergedResult, 0, offset);
-			System.arraycopy(result, 0, mergedResult, offset, result.length);
+			System.arraycopy(pDataChunk.getData(), 0, mergedResult, 0, offset);
+			System.arraycopy(result.getData(), 0, mergedResult, offset, result.getSize());
 			
-			return mergedResult;
+			return new DataChunk(mergedResult, mergedResult.length, pDataChunk.isComplete());
 			
 		} else {
 			
 			// do nothing
-			return pBuffer;
+			return pDataChunk;
 		}
 	}
 

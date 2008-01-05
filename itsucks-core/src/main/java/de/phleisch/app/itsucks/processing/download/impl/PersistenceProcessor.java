@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
@@ -137,7 +138,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 */
 	@Override
 	public boolean canResume() {
-		return true;
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -151,14 +152,14 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws Exception {
 		
 		if(mBufferedOut == null) {
 			prepareOutputStream();
 		}
 		
-		mBufferedOut.write(pBuffer, 0, pBytes);
-		return pBuffer;
+		mBufferedOut.write(pDataChunk.getData(), 0, pDataChunk.getSize());
+		return pDataChunk;
 	}
 
 	/* (non-Javadoc)

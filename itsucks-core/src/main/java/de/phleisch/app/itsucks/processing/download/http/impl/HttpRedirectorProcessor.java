@@ -26,6 +26,7 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
@@ -107,8 +108,8 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
-		return pBuffer;
+	public DataChunk process(DataChunk pDataChunk) throws Exception {
+		return pDataChunk;
 	}
 
 	private void addNewJobs(URI[] uris) {

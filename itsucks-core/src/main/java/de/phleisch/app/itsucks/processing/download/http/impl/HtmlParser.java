@@ -32,6 +32,7 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
@@ -126,13 +127,13 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		}
 	}
 	
-	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws Exception {
 		
 		String convertedChunk;
 		if(mEncoding != null) {
-			convertedChunk = new String(pBuffer, 0, pBytes, mEncoding);
+			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize(), mEncoding);
 		} else {
-			convertedChunk = new String(pBuffer, 0, pBytes);
+			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize());
 		}
 		
 		//remove all line breaks
@@ -144,7 +145,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		//add the jobs to the job manager
 		addNewJobs(uris);
 		
-		return pBuffer;
+		return pDataChunk;
 	}
 
 	protected Pattern[] loadPatterns(String propertyName) {

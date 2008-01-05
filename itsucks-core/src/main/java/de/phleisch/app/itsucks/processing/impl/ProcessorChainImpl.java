@@ -16,6 +16,7 @@ import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 
@@ -129,7 +130,8 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		if(!mInitialized) return;
 		
 		if(!mStreamingEnabled && mBufferedData != null) {
-			dispatchChunk(mBufferedData, mBufferedData.length);
+			DataChunk chunk = new DataChunk(mBufferedData, mBufferedData.length, true);
+			dispatchChunk(chunk);
 			mProcessedBytes += mBufferedData.length;
 			mBufferedData = null;
 		}
@@ -166,7 +168,8 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		}
 		
 		if(mStreamingEnabled) {
-			dispatchChunk(pBuffer, pBytes);
+			DataChunk chunk = new DataChunk(pBuffer, pBytes, false);
+			dispatchChunk(chunk);
 			
 			mProcessedBytes += pBytes;
 			
@@ -176,14 +179,14 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		
 	}
 
-	private void dispatchChunk(byte[] pBuffer, int pBytes) throws Exception {
+	private void dispatchChunk(DataChunk pDataChunk) throws Exception {
 		
-		byte[] data = pBuffer;
+		DataChunk data = pDataChunk;
 		
 		//run through the data processor list
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 			DataProcessor processor = it.next();
-			data = processor.process(data, pBytes);
+			data = processor.process(data);
 		}
 		
 	}

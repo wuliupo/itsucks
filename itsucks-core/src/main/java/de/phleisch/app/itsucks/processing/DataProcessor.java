@@ -71,7 +71,8 @@ public interface DataProcessor {
 	 * @return The pBuffer pointer or a new pointer to changed data.
 	 * @throws Exception
 	 */
-	public abstract byte[] process(byte[] pBuffer, int pBytes) throws Exception;
+//	public abstract byte[] process(byte[] pBuffer, int pBytes) throws Exception;
+	public abstract DataChunk process(DataChunk pDataChunk) throws Exception;
 	
 	/**
 	 * Asks the processor if it needs the data from the data retriever

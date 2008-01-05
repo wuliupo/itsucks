@@ -14,6 +14,7 @@ import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
 public class FilterFileSizeProcessor extends AbstractDataProcessor {
@@ -85,8 +86,8 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public byte[] process(byte[] pBuffer, int pBytes) throws Exception {
-		return pBuffer;
+	public DataChunk process(DataChunk pDataChunk) throws Exception {
+		return pDataChunk;
 	}
 
 }
