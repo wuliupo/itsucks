@@ -138,7 +138,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 */
 	@Override
 	public boolean canResume() {
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
