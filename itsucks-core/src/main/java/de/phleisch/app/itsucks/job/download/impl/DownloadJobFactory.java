@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import de.phleisch.app.itsucks.io.impl.DataRetrieverManager;
 import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.processing.download.impl.DataProcessorManager;
+import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
 
 
 /**

@@ -96,7 +96,7 @@
 	
 	<bean 
 		id="DataProcessorManager" 
-		class="de.phleisch.app.itsucks.processing.download.impl.DataProcessorManager" 
+		class="de.phleisch.app.itsucks.processing.impl.DataProcessorManager" 
 		singleton="true">
 		
 		<property name="processors">

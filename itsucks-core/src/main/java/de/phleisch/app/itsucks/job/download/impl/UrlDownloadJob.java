@@ -27,7 +27,7 @@ import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.impl.AbstractJob;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
-import de.phleisch.app.itsucks.processing.download.impl.DataProcessorManager;
+import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
 
 
 /**

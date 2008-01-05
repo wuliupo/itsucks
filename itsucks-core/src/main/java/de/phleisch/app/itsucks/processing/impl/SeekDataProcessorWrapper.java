@@ -57,6 +57,13 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	}
 
 	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#abort()
+	 */
+	public void abort() {
+		mDataProcessor.abort();
+	}	
+	
+	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#rollback()
 	 */
 	public void rollback() {
