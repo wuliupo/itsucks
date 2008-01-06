@@ -257,5 +257,19 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
+	 */
+	public boolean canResume() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
+	 */
+	public void resumeAt(long pByteOffset) {
+		throw new IllegalArgumentException("Resume not supported.");
+	}
+
 
 }

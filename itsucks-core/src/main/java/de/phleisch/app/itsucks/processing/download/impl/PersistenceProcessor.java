@@ -137,7 +137,6 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#canResume()
 	 */
-	@Override
 	public boolean canResume() {
 		return true;
 	}
@@ -145,7 +144,6 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#resumeAt(long)
 	 */
-	@Override
 	public void resumeAt(long pByteOffset) {
 		mResumeAt = pByteOffset;
 	}

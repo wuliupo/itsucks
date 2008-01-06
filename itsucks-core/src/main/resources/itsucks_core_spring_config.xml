@@ -103,9 +103,9 @@
 			<list>
 				<!-- filter processors -->
 				<idref bean="FilterSizeProcessor"/>
-				<idref bean="PatternMatchProcessor"/>
 				
 				<!-- real data processors -->
+				<idref bean="ContentParser"/>
 				<idref bean="HttpRedirectorProcessor"/>
 				<idref bean="HtmlParser"/>
 				<idref bean="PersistenceProcessor"/>
@@ -146,8 +146,8 @@
 	</bean>
 	
 	<bean 
-		id="PatternMatchProcessor" 
-		class="de.phleisch.app.itsucks.processing.download.http.impl.PatternMatchProcessor" 
+		id="ContentParser" 
+		class="de.phleisch.app.itsucks.processing.download.http.impl.ContentParser" 
 		singleton="false">
 		
 	</bean>

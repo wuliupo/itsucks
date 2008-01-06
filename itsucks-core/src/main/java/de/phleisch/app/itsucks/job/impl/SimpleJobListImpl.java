@@ -175,6 +175,12 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 		this.fireEvent(event);
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.job.JobList#size()
+	 */
+	public int size() {
+		return mJobList.size();
+	}
 
 	private static class JobListEntry {
 		

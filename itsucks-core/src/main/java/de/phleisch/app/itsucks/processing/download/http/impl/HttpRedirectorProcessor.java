@@ -159,7 +159,6 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#canResume()
 	 */
-	@Override
 	public boolean canResume() {
 		return true;
 	}
@@ -167,7 +166,6 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#resumeAt(long)
 	 */
-	@Override
 	public void resumeAt(long pByteOffset) {
 	}
 	

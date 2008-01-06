@@ -48,6 +48,7 @@ public interface JobList extends DirectEventSource {
 
 	public abstract Job getNextOpenJob();
 	
+	public abstract int size();
 	
 //	public void addObserver(Observer o);
 //	public void deleteObserver(Observer o);

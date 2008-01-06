@@ -7,22 +7,22 @@
 
 package de.phleisch.app.itsucks.processing.download.http.impl;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig.Action;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.processing.AbortProcessingException;
@@ -32,21 +32,23 @@ import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
 
-public class PatternMatchProcessor extends AbstractDataParser implements ApplicationContextAware, DataProcessor {
+public class ContentParser extends AbstractDataParser implements DataProcessor {
 	
-	private static Log mLog = LogFactory.getLog(PatternMatchProcessor.class);
-	private static Pattern[] mPatterns = null;
+	private static Log mLog = LogFactory.getLog(ContentParser.class);
 	
-	private ApplicationContext mContext;
+	private List<ContentFilterConfig> mConfigList;
 	private String mEncoding;
 	
-	public PatternMatchProcessor() {
+	public ContentParser() {
 		super();
 	}
 	
 	@Override
 	public boolean supports(Job pJob) {
-		if(pJob instanceof UrlDownloadJob) {
+		
+		if(pJob.getParameter(ContentFilter.CONTENT_FILTER_CONFIG_LIST_PARAMETER) != null
+				&& pJob instanceof UrlDownloadJob) {
+			
 			DownloadJob downloadJob = (DownloadJob) pJob;
 			
 			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
@@ -60,16 +62,17 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init() throws ProcessingException {
 		super.init();
-		
-//		if(true) throw new AbortProcessingException("Test abort!");
-		
-//		initPatterns();
-		
+
+		//load content filter list
+		Job job = this.getProcessorChain().getJob();
+		JobParameter parameter = job.getParameter(ContentFilter.CONTENT_FILTER_CONFIG_LIST_PARAMETER);
+		mConfigList = (List<ContentFilterConfig>) parameter.getValue();
+
 		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
-		
 		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
 		//check if the encoding used in the html page is supported, if not, use the system encoding
@@ -87,14 +90,24 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#finish()
+	 */
 	@Override
 	public void finish() {
 		super.finish();
 
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(de.phleisch.app.itsucks.processing.DataChunk)
+	 */
 	public DataChunk process(DataChunk pDataChunk) throws ProcessingException {
+		
+		//abort immediately if no pattern is set
+		if(mConfigList.size() == 0) {
+			return pDataChunk;
+		}
 		
 		String convertedChunk;
 		if(mEncoding != null) {
@@ -107,65 +120,28 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize());
 		}
 		
-//		if(true) throw new AbortProcessingException("Test abort!");
-		
 		//remove all line breaks
-//		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); 
+		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); 
 		
-//		//extract the url's
-//		URI[] uris = extractURLs(convertedChunk);
-//		
-//		//add the jobs to the job manager
-//		addNewJobs(uris);
+		for (ContentFilterConfig config : mConfigList) {
+			Matcher matcher = config.getPattern().matcher(convertedChunk);
+			
+			if(matcher.matches()) {
+				executeAction(config.getMatchAction());
+			} else {
+				executeAction(config.getNoMatchAction());
+			}
+		}
 		
 		return pDataChunk;
 	}
 
-//	protected Pattern[] loadPatterns(String propertyName) {
-//		
-//		mLog.debug("Reading Patterns from file: " + propertyName);
-//		
-//		URL resource = this.getClass().getClassLoader().getResource(propertyName);
-//		if(resource == null) {
-//			mLog.error("Cannot load patterns from file: " + propertyName);
-//			return new Pattern[0];
-//		}
-//		
-//		Properties patternFile = new Properties();
-//		
-//		try {
-//			patternFile.load(resource.openStream());
-//		} catch (IOException e) {
-//			mLog.error("Cannot load patterns from file: " + propertyName, e);
-//		}
-//		
-//		ArrayList<Pattern> regExpList = new ArrayList<Pattern>();
-//		
-//		int offset = 1;
-//		while(true) {
-//			
-//			String regexp = (String) patternFile.get(REGEXP_PREFIX + offset);
-//			if(regexp != null) {
-//				
-//				Pattern pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE);
-//				regExpList.add(pattern);
-//			} else {
-//				break;
-//			}
-//			
-//			offset++;
-//		}
-//		
-//		return regExpList.toArray(new Pattern[regExpList.size()]);
-//	}
-
-	protected boolean matchPattern(CharSequence pData, Pattern pPattern) throws IOException {
-			Matcher matcher = pPattern.matcher(pData);
-			return matcher.matches();
-	}
-
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mContext = pContext;
+	private void executeAction(Action pAction) throws AbortProcessingException {
+		
+		if(pAction.equals(Action.REJECT)) {
+			throw new AbortProcessingException("Processing stopped");
+		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -182,5 +158,18 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
+	 */
+	public boolean canResume() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
+	 */
+	public void resumeAt(long pByteOffset) {
+		throw new IllegalArgumentException("Resume not supported.");
+	}
 
 }

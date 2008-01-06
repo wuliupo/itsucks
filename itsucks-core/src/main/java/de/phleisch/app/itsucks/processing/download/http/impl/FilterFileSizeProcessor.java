@@ -90,4 +90,11 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 		return pDataChunk;
 	}
 
+	public boolean canResume() {
+		return true;
+	}
+
+	public void resumeAt(long pByteOffset) {
+	}
+
 }

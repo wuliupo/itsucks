@@ -22,6 +22,7 @@ import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.event.impl.DefaultEventFilter;
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
@@ -52,6 +53,36 @@ public class AppTest extends TestCase {
 		return new TestSuite(AppTest.class);
 	}
 
+	public void testContentFilter() throws Exception {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
+		
+		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
+		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+
+		DownloadJobFilter filter = new DownloadJobFilter();
+		filter.setMaxRecursionDepth(1);
+		dispatcher.addJobFilter(filter);
+		
+		ContentFilter contentFilter = new ContentFilter();
+		contentFilter.addContentFilterConfig(
+				new ContentFilter.ContentFilterConfig(".*test.*", 
+						ContentFilter.ContentFilterConfig.Action.REJECT, 
+						ContentFilter.ContentFilterConfig.Action.NO_ACTION));
+		dispatcher.addJobFilter(contentFilter);
+		
+		UrlDownloadJob job = jobFactory.createDownloadJob();
+		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
+		job.setSavePath(new File("/tmp/crawl"));
+		job.setIgnoreFilter(true);
+		dispatcher.addJob(job);
+		
+		dispatcher.processJobs();
+
+		assertTrue(job.getState() == Job.STATE_FINISHED);
+		assertTrue(dispatcher.getJobManager().getJobList().size() == 1);
+	}
+	
 	public void testSimpleApp() throws Exception {
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
@@ -148,4 +179,7 @@ public class AppTest extends TestCase {
 			}
 		}
 	}
+	
+
+	
 }
