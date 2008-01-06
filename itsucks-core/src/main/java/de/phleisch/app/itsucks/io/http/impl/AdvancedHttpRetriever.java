@@ -32,6 +32,8 @@ import de.phleisch.app.itsucks.job.Context;
  */
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
+	private static final int BUFFER_SIZE = 102400; //100k buffer
+
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
 	
 	private static int HTTP_STATUS_REQUEST_TIMEOUT = 408;
@@ -65,7 +67,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	 */
 	public void connect() throws IOException {
 		
-		if(mAbort) return;
+		if(mAbort) {
+			throw new IllegalStateException("Retriever is aborted.");
+		}
 
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
@@ -84,7 +88,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		HttpClient client = getHttpClientFromContext();
 		
 		client.executeMethod(mGet);
-		mLog.debug("Connected to: " + mUrl + " / " + mGet.getStatusCode());
+		mLog.debug("Connected to: " + mUrl + " Status: " + mGet.getStatusCode());
 		
 		//build metadata
 		mMetadata = new HttpMetadata();
@@ -176,7 +180,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */
-	public boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws IOException {
 		if(mGet == null) {
 			throw new IllegalStateException("Not connected!");
 		}
@@ -187,11 +191,11 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
 	 */
-	public void retrieve() throws Exception {
+	public void retrieve() throws IOException {
 	
 		try {
 			download();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			if(mAbort) {
 				mLog.info("Exception occured while aborting retrival. URL: " + mUrl, e);
 			} else {
@@ -212,10 +216,12 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			mGet.abort();
 			mGet.releaseConnection();
 			mGet = null;
+			
+			mLog.debug("Disconnected from: " + mUrl);
 		}
 	}
 	
-	private void download() throws Exception {
+	private void download() throws IOException {
 		
 		InputStream input = mGet.getResponseBodyAsStream(); 
 
@@ -223,8 +229,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			return;
 		}
 		
-		//100k buffer
-		byte buffer[] = new byte[102400];
+		byte buffer[] = new byte[BUFFER_SIZE];
 		
 		mBytesDownloaded = 0; //reset bytes downloaded
 		int bytesRead;

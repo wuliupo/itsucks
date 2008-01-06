@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks.io;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observer;
 
@@ -88,7 +89,7 @@ public interface DataRetriever {
 	 * 
 	 * @throws Exception
 	 */
-	public void connect() throws Exception;
+	public void connect() throws IOException;
 	
 	/**
 	 * Returns true if the data source contains any data to be read.
@@ -96,21 +97,21 @@ public interface DataRetriever {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean isDataAvailable() throws Exception;
+	public boolean isDataAvailable() throws IOException;
 	
 	/**
 	 * Retrieves all available data and send it through the processor chain.
 	 * 
 	 * @throws Exception
 	 */
-	public void retrieve() throws Exception;
+	public void retrieve() throws IOException;
 	
 	/**
 	 * Disconnect from the data source.
 	 * 
 	 * @throws Exception
 	 */
-	public void disconnect() throws Exception;
+	public void disconnect() throws IOException;
 	
 	/**
 	 * Aborts the current retrieving.

@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.job.download.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Observable;
@@ -26,7 +27,9 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.impl.AbstractJob;
+import de.phleisch.app.itsucks.processing.AbortProcessingException;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
 
 
@@ -56,6 +59,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	private static Log mLog = LogFactory.getLog(UrlDownloadJob.class);
 	
 	private boolean mSaveToDisk = true;
+	private boolean mAbort = false; //indicates if the download has been aborted
 	private File mSavePath = null;
 	
 	private URL mUrl;
@@ -74,7 +78,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 
 	private long mWaitUntil = 0;
 	private long mMinTimeBetweenRetry = 5000; //5 seconds 
-	
+
 	public UrlDownloadJob() {
 		super();
 	}
@@ -118,7 +122,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		
 	}
 	
-	protected void download() throws Exception {
+	protected void download() throws IOException {
 		URL url = mUrl;
 		String protocol = url.getProtocol();
 		
@@ -174,51 +178,34 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mDataRetriever = null;
 	}
 
-	protected void executeDownload() throws InterruptedException, Exception {
+	protected void executeDownload() throws IOException {
 		
 		//register an listener to get the progress events
 		mDataRetriever.addObserver(new ProgressObserver());
 		
 		//check if we must wait, important when retrying downloads
 		if(mWaitUntil > System.currentTimeMillis()) {
-			Thread.sleep(mWaitUntil - System.currentTimeMillis());
-		}
-		
-		//connect the retriever
-		mDataRetriever.connect();
-		
-		//build the data processor chain
-		DataProcessorChain dataProcessorChain =
-			mDataProcessorManager.getProcessorChainForJob(this);
-		
-		//if resuming from file, set the processor chain to the resumer
-		//because it's changing the processing chain
-		if(mFileResumeRetriever != null) {
-			mFileResumeRetriever.setDataProcessorChain(dataProcessorChain);
-		}
-		
-		//set up processor chain		
-		dataProcessorChain.setDataRetriever(mDataRetriever);
-		dataProcessorChain.setJobManager(mJobManager);
-		
-		dataProcessorChain.init();
-		
-		if(dataProcessorChain.containsConsumer() && mDataRetriever.isDataAvailable()) {
 			try {
-				mDataRetriever.retrieve();
-			} catch(Exception ex) {
-				
-				mLog.error("Error retrieving/processing data.", ex);
-				dataProcessorChain.rollback();
-				dataProcessorChain.finish();
-				
-				throw ex;
+				Thread.sleep(mWaitUntil - System.currentTimeMillis());
+			} catch (InterruptedException e) {
+				mLog.info("Aborted while waiting.");
 			}
 		}
 		
-		dataProcessorChain.finish();
+		//if the job has been aborted in the meantime, stop here
+		if(mAbort) {
+			setState(Job.STATE_IGNORED);
+			return;
+		}
 		
-		mDataRetriever.disconnect();
+		try {
+			//connect the retriever
+			mDataRetriever.connect();
+			
+			executeProcessorChain();
+		} finally {
+			mDataRetriever.disconnect();
+		}
 		
 		//save the metadata
 		mMetadata = mDataRetriever.getMetadata();
@@ -240,10 +227,43 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 				setState(Job.STATE_ERROR);
 			}
 			
-		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED 
-				|| resultCode == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
-			
+		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED) {
 			setState(Job.STATE_ERROR);
+		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
+			setState(Job.STATE_IGNORED);
+		} else {
+			setState(Job.STATE_ERROR);
+		}
+	}
+
+	private void executeProcessorChain() throws IOException {
+		
+		//build the data processor chain
+		DataProcessorChain dataProcessorChain =
+			mDataProcessorManager.getProcessorChainForJob(this);
+		
+		//if resuming from file, set the processor chain to the resumer
+		//because it's changing the processing chain
+		if(mFileResumeRetriever != null) {
+			mFileResumeRetriever.setDataProcessorChain(dataProcessorChain);
+		}
+		
+		//set up processor chain		
+		dataProcessorChain.setDataRetriever(mDataRetriever);
+		dataProcessorChain.setJobManager(mJobManager);
+		
+		try {
+			dataProcessorChain.init();
+			dataProcessorChain.run();
+			
+		} catch(IOException ioex) {
+			throw ioex;
+		} catch(AbortProcessingException ex) {
+			mLog.info("Chain was aborted.");
+		} catch(ProcessingException ex) {
+			throw new RuntimeException("Error retrieving/processing data.", ex);
+		} finally {
+			dataProcessorChain.finish();
 		}
 	}
 	
@@ -268,9 +288,13 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	@Override
 	public void abort() {
+		mAbort  = true;
+		
 		if(mDataRetriever != null) {
 			mDataRetriever.abort();
 		}
+		
+		mLog.info("Job aborted: " + this);
 	}
 	
 	/**

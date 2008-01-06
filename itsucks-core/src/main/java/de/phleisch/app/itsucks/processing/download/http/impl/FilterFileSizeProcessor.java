@@ -86,7 +86,7 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) {
 		return pDataChunk;
 	}
 

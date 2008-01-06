@@ -8,17 +8,23 @@
 
 package de.phleisch.app.itsucks.processing.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
+import de.phleisch.app.itsucks.processing.AbortProcessingException;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 
 /**
  * This is an implementation of an processor chain.
@@ -26,8 +32,10 @@ import de.phleisch.app.itsucks.processing.DataProcessorChain;
  * @author olli
  *
  */
-public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
+public class DataProcessorChainImpl implements DataProcessorChain {
 
+	private static Log mLog = LogFactory.getLog(DataProcessorChainImpl.class);
+	
 	protected List<DataProcessor> mDataProcessors = new ArrayList<DataProcessor>();
 	
 	protected DataRetriever mDataRetriever;
@@ -41,11 +49,11 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 	
 	private long mProcessedBytes;
 	
-	public ProcessorChainImpl() {
+	public DataProcessorChainImpl() {
 		
 	}
 	
-	public ProcessorChainImpl(List<DataProcessor> pProcessorsForJob) {
+	public DataProcessorChainImpl(List<DataProcessor> pProcessorsForJob) {
 		addDataProcessor(pProcessorsForJob);
 	}
 
@@ -91,14 +99,34 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#init()
 	 */
-	public void init() throws Exception {
+	public void init() throws ProcessingException, AbortProcessingException {
+		
+		try {
+			internalInit();
+		} catch(AbortProcessingException ex) {
+			mLog.info("Chain aborted in init.", ex);
+			abort();
+			throw ex;
+		} catch(ProcessingException ex) {
+			mLog.error("Error in init. Rollback processors.", ex);
+			rollback();
+			throw ex;
+		} catch(RuntimeException ex) {
+			mLog.error("Error in init. Rollback processors.", ex);
+			rollback();
+			throw ex;
+		}
+	}
+
+	private void internalInit() throws ProcessingException {
 		
 		if(mInitialized) return;
 
 		if(getDataRetriever() == null) {
 			throw new IllegalStateException("No Data Retriever set!");
 		}
-		getDataRetriever().setDataConsumer(this);
+		
+		getDataRetriever().setDataConsumer(new DataConsumerImpl());
 		
 		mProcessedBytes = 0;
 		
@@ -121,20 +149,60 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		
 		mInitialized = true;
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#finish()
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#run()
 	 */
-	public void finish() throws Exception {
+	public void run() throws IOException, ProcessingException, AbortProcessingException {
+		try {
+			internalRun();
+		} catch(AbortProcessingException ex) {
+			mLog.info("Chain aborted in process.", ex);
+			abort();
+			throw ex;
+		} catch(IOException ex) {
+			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+			rollback();
+			throw ex;
+		} catch(ProcessingException ex) {
+			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+			rollback();
+			throw ex;
+		} catch(RuntimeException ex) {
+			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+			rollback();
+			throw ex;
+		}
+	}
+
+	protected void internalRun() throws IOException, ProcessingException {
+		if(containsConsumer() && mDataRetriever.isDataAvailable()) {
+			
+			try {
+				mDataRetriever.retrieve();
+			} catch(ContainerRuntimeException ce) {
+				//this exception was tunneled through the container 
+				// as RuntimeException and is now thrown
+				//TODO maybe change the retriever concept to something like an iterator to improve this
+				throw (ProcessingException)ce.getCause();
+			}
+		}
 		
-		if(!mInitialized) return;
-		
+		//dispatch merged data now when the consumer needs it as whole chunk
 		if(!mStreamingEnabled && mBufferedData != null) {
 			DataChunk chunk = new DataChunk(mBufferedData, mBufferedData.length, true);
 			dispatchChunk(chunk);
 			mProcessedBytes += mBufferedData.length;
 			mBufferedData = null;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#finish()
+	 */
+	public void finish() {
+		
+		if(!mInitialized) return;
 		
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 			DataProcessor processor = it.next();
@@ -145,10 +213,7 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		mInitialized = false;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#rollback()
-	 */
-	public void rollback() {
+	protected void rollback() {
 		
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
 			DataProcessor processor = it.next();
@@ -158,28 +223,17 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
-	 */
-	public void process(byte[] pBuffer, int pBytes) throws Exception {
+	protected void abort() {
 		
-		if(!mInitialized) {
-			throw new IllegalStateException("Chain not initialized.");
-		}
-		
-		if(mStreamingEnabled) {
-			DataChunk chunk = new DataChunk(pBuffer, pBytes, false);
-			dispatchChunk(chunk);
+		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
+			DataProcessor processor = it.next();
 			
-			mProcessedBytes += pBytes;
-			
-		} else {
-			appendChunk(pBuffer, pBytes);
+			processor.abort();
 		}
 		
 	}
-
-	private void dispatchChunk(DataChunk pDataChunk) throws Exception {
+	
+	protected void dispatchChunk(DataChunk pDataChunk) throws ProcessingException {
 		
 		DataChunk data = pDataChunk;
 		
@@ -307,6 +361,52 @@ public class ProcessorChainImpl implements DataProcessorChain, DataConsumer {
 		}
 		
 		return hasConsumer;
+	}
+
+	
+	protected class DataConsumerImpl implements DataConsumer {
+		
+		/* (non-Javadoc)
+		 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
+		 */
+		public void process(byte[] pBuffer, int pBytes) {
+			
+			if(!mInitialized) {
+				throw new IllegalStateException("Chain not initialized.");
+			}
+			
+			if(mStreamingEnabled) {
+				DataChunk chunk = new DataChunk(pBuffer, pBytes, false);
+				
+				try {
+					dispatchChunk(chunk);
+				} catch (ProcessingException e) {
+					mLog.error("Error processing chain.", e);
+					throw new ContainerRuntimeException(e);
+				}
+				
+				mProcessedBytes += pBytes;
+				
+			} else {
+				appendChunk(pBuffer, pBytes);
+			}
+			
+		}
+
+		public boolean canResume() {
+			return DataProcessorChainImpl.this.canResume();
+		}
+		
+	}
+	
+	protected class ContainerRuntimeException extends RuntimeException {
+
+		private static final long serialVersionUID = 5293762833038952401L;
+
+		public ContainerRuntimeException(ProcessingException pCause) {
+			super(pCause);
+		}
+		
 	}
 	
 }

@@ -8,8 +8,10 @@
 package de.phleisch.app.itsucks.processing.download.http.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -30,11 +32,12 @@ import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
-import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
 
@@ -72,14 +75,18 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 	}
 	
 	@Override
-	public void init() throws Exception {
+	public void init() throws ProcessingException {
 		super.init();
 		
 		initPatterns();
 		
 		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
 		
-		mBaseURI = dataRetriever.getUrl().toURI();
+		try {
+			mBaseURI = dataRetriever.getUrl().toURI();
+		} catch (URISyntaxException e) {
+			throw new ProcessingException("Error converting URL to URI: " + dataRetriever.getUrl(), e);
+		}
 		
 		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
@@ -99,7 +106,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 	}
 	
 	@Override
-	public void finish() throws Exception {
+	public void finish() {
 		super.finish();
 
 	}
@@ -127,11 +134,15 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		}
 	}
 	
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) {
 		
 		String convertedChunk;
 		if(mEncoding != null) {
-			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize(), mEncoding);
+			try {
+				convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize(), mEncoding);
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("Enconding not supported: " + mEncoding, e);
+			}
 		} else {
 			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize());
 		}
@@ -193,7 +204,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		}
 	}
 
-	public URI[] extractURLs(CharSequence pData) throws IOException {
+	public URI[] extractURLs(CharSequence pData) {
 		
 		HashSet<URI> urlList = new HashSet<URI>();
 		mLog.debug("Extracting URL's from " + mBaseURI);

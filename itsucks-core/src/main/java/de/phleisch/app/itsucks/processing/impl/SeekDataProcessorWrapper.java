@@ -12,6 +12,7 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 
 /**
  * This is data processor wrapper which encapsulates another data processor
@@ -45,14 +46,14 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#finish()
 	 */
-	public void finish() throws Exception {
+	public void finish() {
 		mDataProcessor.finish();
 	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#init()
 	 */
-	public void init() throws Exception {
+	public void init() throws ProcessingException {
 		mDataProcessor.init();
 	}
 
@@ -80,7 +81,7 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws ProcessingException {
 		
 		if(mChain.getProcessedBytes() >= mSeekPosition) {
 			

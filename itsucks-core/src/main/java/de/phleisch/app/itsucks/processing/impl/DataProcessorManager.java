@@ -65,7 +65,7 @@ public class DataProcessorManager implements ApplicationContextAware {
 	public DataProcessorChain getProcessorChainForJob(Job pJob) {
 		List<DataProcessor> processorsForJob = getProcessorsForJob(pJob);
 		
-		DataProcessorChain chain = new ProcessorChainImpl(processorsForJob);
+		DataProcessorChain chain = new DataProcessorChainImpl(processorsForJob);
 		chain.setJob(pJob);
 		
 		return chain;

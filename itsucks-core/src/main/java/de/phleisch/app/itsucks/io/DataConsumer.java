@@ -17,7 +17,7 @@ public interface DataConsumer {
 	 * @param pBytes
 	 * @throws Exception
 	 */
-	public abstract void process(byte[] pBuffer, int pBytes) throws Exception;
+	public abstract void process(byte[] pBuffer, int pBytes);
 
 	/**
 	 * Returns if the consumer supports

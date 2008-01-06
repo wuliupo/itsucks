@@ -30,13 +30,13 @@ public interface DataProcessor {
 	 * Initializes the data processor. (Create buffers, open file handles etc.)
 	 * @throws Exception
 	 */
-	public abstract void init() throws Exception;
+	public abstract void init() throws ProcessingException;
 	
 	/**
 	 * Shutdown the data processor. (Release buffers, file handles etc.)
 	 * @throws Exception
 	 */
-	public abstract void finish() throws Exception;
+	public abstract void finish();
 
 	/**
 	 * Will be called when the chain is aborted.
@@ -78,7 +78,7 @@ public interface DataProcessor {
 	 * @throws Exception
 	 */
 //	public abstract byte[] process(byte[] pBuffer, int pBytes) throws Exception;
-	public abstract DataChunk process(DataChunk pDataChunk) throws Exception;
+	public abstract DataChunk process(DataChunk pDataChunk) throws ProcessingException;
 	
 	/**
 	 * Asks the processor if it needs the data from the data retriever

@@ -24,6 +24,7 @@ import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
 /**
@@ -66,7 +67,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#init()
 	 */
 	@Override
-	public void init() throws Exception {
+	public void init() throws ProcessingException {
 	
 		DataProcessorChain processorChain = getProcessorChain();
 		
@@ -152,13 +153,19 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws ProcessingException {
 		
-		if(mBufferedOut == null) {
-			prepareOutputStream();
+		try {
+			if(mBufferedOut == null) {
+				prepareOutputStream();
+			}
+		
+			mBufferedOut.write(pDataChunk.getData(), 0, pDataChunk.getSize());
+			
+		} catch (IOException e) {
+			throw new ProcessingException(e);
 		}
 		
-		mBufferedOut.write(pDataChunk.getData(), 0, pDataChunk.getSize());
 		return pDataChunk;
 	}
 
@@ -166,10 +173,14 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#finish()
 	 */
 	@Override
-	public void finish() throws Exception {
+	public void finish() {
 		super.finish();
 		if(mBufferedOut != null) {
-			mBufferedOut.close();
+			try {
+				mBufferedOut.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Error closing file", e);
+			}
 		}
 	}
 	
@@ -180,22 +191,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	public void abort() {
 		super.abort();
 		
-		if(mBufferedOut != null) {
-			try {
-				mBufferedOut.close();
-			} catch (IOException e) {
-				throw new RuntimeException("Error closing file", e);
-			}
-		}
-		mBufferedOut = null;
-		
-		boolean deleteSucessful = mFile.delete();
-		if(!deleteSucessful) {
-			mLog.error("Could not delete partial file: " + mFile.getAbsolutePath());
-		}
-		
+		closeFile(true);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#rollback()
 	 */
@@ -203,6 +201,10 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	public void rollback() {
 		super.rollback();
 		
+		closeFile(!mPreserveDataOnRollback);
+	}
+	
+	protected void closeFile(boolean pDeleteFile) {
 		if(mBufferedOut != null) {
 			try {
 				mBufferedOut.close();
@@ -212,14 +214,12 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		}
 		mBufferedOut = null;
 		
-		//delete the file when configurated
-		if(!mPreserveDataOnRollback) {
+		if(mFile != null && pDeleteFile) {
 			boolean deleteSucessful = mFile.delete();
 			if(!deleteSucessful) {
 				mLog.error("Could not delete partial file: " + mFile.getAbsolutePath());
 			}
 		}
-		
 	}
 
 	/* (non-Javadoc)

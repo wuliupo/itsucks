@@ -63,7 +63,7 @@
 	
 	<bean 
 		id="JobManager" 
-		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" 
+		class="de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl" 
 		singleton="false">
 
 		<property name="jobList">
@@ -102,10 +102,11 @@
 		<property name="processors">
 			<list>
 				<!-- filter processors -->
-				<idref bean="HttpRedirectorProcessor"/>
 				<idref bean="FilterSizeProcessor"/>
+				<idref bean="PatternMatchProcessor"/>
 				
 				<!-- real data processors -->
+				<idref bean="HttpRedirectorProcessor"/>
 				<idref bean="HtmlParser"/>
 				<idref bean="PersistenceProcessor"/>
 			</list>
@@ -140,6 +141,13 @@
 	<bean 
 		id="FilterSizeProcessor" 
 		class="de.phleisch.app.itsucks.processing.download.http.impl.FilterFileSizeProcessor" 
+		singleton="false">
+		
+	</bean>
+	
+	<bean 
+		id="PatternMatchProcessor" 
+		class="de.phleisch.app.itsucks.processing.download.http.impl.PatternMatchProcessor" 
 		singleton="false">
 		
 	</bean>

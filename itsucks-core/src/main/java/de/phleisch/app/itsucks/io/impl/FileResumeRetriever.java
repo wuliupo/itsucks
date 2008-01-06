@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.io.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Observer;
@@ -77,7 +78,7 @@ public class FileResumeRetriever implements DataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
 	 */
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		
 		//first check if the file exists
 		if(mLocalFile.exists() && mLocalFile.length() > 0) {
@@ -164,7 +165,7 @@ public class FileResumeRetriever implements DataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
 	 */
-	public void retrieve() throws Exception {
+	public void retrieve() throws IOException {
 		
 		if(mDataRetriever.getBytesSkipped() > 0) {
 
@@ -196,7 +197,7 @@ public class FileResumeRetriever implements DataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
-	public void disconnect() throws Exception {
+	public void disconnect() throws IOException {
 		if(mReadFromFile) {
 			mFileRetriever.disconnect();
 		}
@@ -250,7 +251,7 @@ public class FileResumeRetriever implements DataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */
-	public boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws IOException {
 		
 		prepareResume();
 		

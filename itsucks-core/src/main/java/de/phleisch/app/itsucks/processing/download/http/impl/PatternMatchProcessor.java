@@ -8,6 +8,7 @@
 package de.phleisch.app.itsucks.processing.download.http.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,8 +25,10 @@ import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.processing.AbortProcessingException;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
 
@@ -58,8 +61,10 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 	}
 	
 	@Override
-	public void init() throws Exception {
+	public void init() throws ProcessingException {
 		super.init();
+		
+//		if(true) throw new AbortProcessingException("Test abort!");
 		
 //		initPatterns();
 		
@@ -83,20 +88,26 @@ public class PatternMatchProcessor extends AbstractDataParser implements Applica
 	}
 	
 	@Override
-	public void finish() throws Exception {
+	public void finish() {
 		super.finish();
 
 	}
 
 	
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) throws ProcessingException {
 		
 		String convertedChunk;
 		if(mEncoding != null) {
-			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize(), mEncoding);
+			try {
+				convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize(), mEncoding);
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("Enconding not supported: " + mEncoding, e);
+			}
 		} else {
 			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize());
 		}
+		
+//		if(true) throw new AbortProcessingException("Test abort!");
 		
 		//remove all line breaks
 //		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); 

@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks.processing;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.phleisch.app.itsucks.io.DataRetriever;
@@ -58,30 +59,32 @@ public interface DataProcessorChain {
 	 * 
 	 * @throws Exception
 	 */
-	public abstract void init() throws Exception;
+	public abstract void init() throws ProcessingException;
 
-	/**
-	 * Finalizes all the chain and all processors in it.
-	 * 
-	 * @throws Exception
-	 */
-	public abstract void finish() throws Exception;
-
-	/**
-	 * Rollback the chain in case of an error.
-	 * 
-	 * @throws Exception
-	 */
-	public abstract void rollback();
+	public abstract void run() throws IOException, ProcessingException;
 	
 	/**
-	 * Processes the given data chunk and dispatches it to the processors.
+	 * Finalizes the chain and all processors in it.
 	 * 
-	 * @param pBuffer
-	 * @param pBytes
 	 * @throws Exception
 	 */
-	public abstract void process(byte[] pBuffer, int pBytes) throws Exception;
+	public abstract void finish();
+
+//	/**
+//	 * Rollback the chain in case of an error.
+//	 * 
+//	 * @throws Exception
+//	 */
+//	public abstract void rollback();
+	
+//	/**
+//	 * Processes the given data chunk and dispatches it to the processors.
+//	 * 
+//	 * @param pBuffer
+//	 * @param pBytes
+//	 * @throws Exception
+//	 */
+//	public abstract void process(byte[] pBuffer, int pBytes) throws ProcessingException;
 
 	/**
 	 * Checks if all processors in the chain are supporting

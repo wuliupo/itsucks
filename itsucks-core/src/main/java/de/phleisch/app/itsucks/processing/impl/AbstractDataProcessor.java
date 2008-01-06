@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.processing.impl;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 
 /**
  * Basic implementation of an data processor.
@@ -29,12 +30,12 @@ public abstract class AbstractDataProcessor implements DataProcessor {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#init()
 	 */
-	public void init() throws Exception {}
+	public void init() throws ProcessingException {}
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#finish()
 	 */
-	public void finish() throws Exception {}
+	public void finish() {}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#abort()

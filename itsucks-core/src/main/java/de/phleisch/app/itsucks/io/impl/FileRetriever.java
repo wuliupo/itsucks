@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,7 +54,7 @@ public class FileRetriever extends AbstractDataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
 	 */
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		mIn = new FileInputStream(mFile);
 		
 		mFileSize = mFile.length();
@@ -62,7 +63,7 @@ public class FileRetriever extends AbstractDataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
-	public void disconnect() throws Exception {
+	public void disconnect() throws IOException {
 		mIn.close();
 	}
 
@@ -90,14 +91,14 @@ public class FileRetriever extends AbstractDataRetriever {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */
-	public boolean isDataAvailable() throws Exception {
+	public boolean isDataAvailable() throws IOException {
 		return mIn.available() > 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
 	 */
-	public void retrieve() throws Exception {
+	public void retrieve() throws IOException {
 
 		//skip bytes in front when given
 		if(mByteOffset > 0) {

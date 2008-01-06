@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.processing.download.http.impl;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 
@@ -24,10 +25,11 @@ import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
-import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
 /**
@@ -73,13 +75,18 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#init()
 	 */
 	@Override
-	public void init() throws Exception {
+	public void init() throws ProcessingException {
 		super.init();
 		
 		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
 		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
-		URI baseURI = dataRetriever.getUrl().toURI();
+		URI baseURI;
+		try {
+			baseURI = dataRetriever.getUrl().toURI();
+		} catch (URISyntaxException e) {
+			throw new ProcessingException("Error converting URL to URI: " + dataRetriever.getUrl(), e);
+		}
 		
 		//get URL's from header
 		String[] location = metadata.getResponseHeaderField("Location");
@@ -108,7 +115,7 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
 	 */
-	public DataChunk process(DataChunk pDataChunk) throws Exception {
+	public DataChunk process(DataChunk pDataChunk) {
 		return pDataChunk;
 	}
 
