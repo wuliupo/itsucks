@@ -28,7 +28,7 @@ public interface DataProcessor {
 	
 	/**
 	 * Initializes the data processor. (Create buffers, open file handles etc.)
-	 * @throws Exception
+	 * @throws ProcessingException
 	 */
 	public abstract void init() throws ProcessingException;
 	
@@ -72,12 +72,10 @@ public interface DataProcessor {
 	
 	/**
 	 * Processes the given data chunk.
-	 * @param pBuffer
-	 * @param pBytes
-	 * @return The pBuffer pointer or a new pointer to changed data.
-	 * @throws Exception
+	 * @param pDataChunk
+	 * @return The pDataChunk pointer or a new pointer to changed data.
+	 * @throws ProcessingException
 	 */
-//	public abstract byte[] process(byte[] pBuffer, int pBytes) throws Exception;
 	public abstract DataChunk process(DataChunk pDataChunk) throws ProcessingException;
 	
 	/**

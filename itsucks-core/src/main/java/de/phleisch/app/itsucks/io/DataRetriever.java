@@ -64,7 +64,7 @@ public interface DataRetriever {
 	public void setContext(Context pContext);
 	
 	/**
-	 * Gets the context from this data retriver.
+	 * Gets the context from this data retriever.
 	 * @return
 	 */
 	public Context getContext();
@@ -87,7 +87,7 @@ public interface DataRetriever {
 	/**
 	 * Advise the Retriever to connect to the data source.
 	 * 
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public void connect() throws IOException;
 	
@@ -95,21 +95,21 @@ public interface DataRetriever {
 	 * Returns true if the data source contains any data to be read.
 	 * 
 	 * @return
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public boolean isDataAvailable() throws IOException;
 	
 	/**
 	 * Retrieves all available data and send it through the processor chain.
 	 * 
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public void retrieve() throws IOException;
 	
 	/**
 	 * Disconnect from the data source.
 	 * 
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public void disconnect() throws IOException;
 	

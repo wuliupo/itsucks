@@ -94,7 +94,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		mMetadata = new HttpMetadata();
 		
 		Header contentType = mGet.getResponseHeader("Content-Type");
-		if(contentType != null) {
+		if(contentType != null && mGet.getStatusCode() < 400) {
 			mMetadata.setContentType(contentType.getValue());	
 		} else {
 			mMetadata.setContentType("undefined");

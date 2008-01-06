@@ -57,34 +57,22 @@ public interface DataProcessorChain {
 	/**
 	 * Initializes all the chain and all processors in it.
 	 * 
-	 * @throws Exception
+	 * @throws ProcessingException
 	 */
 	public abstract void init() throws ProcessingException;
 
+	/**
+	 * Starts the data retriever and processes the data in the processor chain. 
+	 * 
+	 * @throws IOException
+	 * @throws ProcessingException
+	 */
 	public abstract void run() throws IOException, ProcessingException;
 	
 	/**
 	 * Finalizes the chain and all processors in it.
-	 * 
-	 * @throws Exception
 	 */
 	public abstract void finish();
-
-//	/**
-//	 * Rollback the chain in case of an error.
-//	 * 
-//	 * @throws Exception
-//	 */
-//	public abstract void rollback();
-	
-//	/**
-//	 * Processes the given data chunk and dispatches it to the processors.
-//	 * 
-//	 * @param pBuffer
-//	 * @param pBytes
-//	 * @throws Exception
-//	 */
-//	public abstract void process(byte[] pBuffer, int pBytes) throws ProcessingException;
 
 	/**
 	 * Checks if all processors in the chain are supporting

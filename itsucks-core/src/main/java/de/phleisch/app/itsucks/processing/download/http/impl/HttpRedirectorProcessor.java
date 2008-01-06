@@ -155,5 +155,20 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	public boolean isConsumer() {
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#canResume()
+	 */
+	@Override
+	public boolean canResume() {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor#resumeAt(long)
+	 */
+	@Override
+	public void resumeAt(long pByteOffset) {
+	}
 	
 }
