@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
@@ -25,9 +26,11 @@ import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilter
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
-import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
+import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilterConfig;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedFileSizeFilter;
@@ -45,6 +48,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 	
 	public Object convertBeanToClass(Object pBean) throws Exception {
 		
+		//TODO replace this with an map
+		
 		if(pBean instanceof SerializedDownloadJob) {
 			return convertSerializedDownloadJobToClass((SerializedDownloadJob)pBean);
 		} if(pBean instanceof SerializedDownloadJobFilter) {
@@ -57,7 +62,10 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedFileSizeFilterToClass((SerializedFileSizeFilter) pBean);
 		} if(pBean instanceof SerializedTimeLimitFilter) {
 			return convertSerializedTimeLimitFilterToClass((SerializedTimeLimitFilter) pBean);
+		} if(pBean instanceof SerializedContentFilter) {
+			return convertSerializedContentFilterToClass((SerializedContentFilter) pBean);
 		}
+		
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
 	}
@@ -191,6 +199,23 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return timeLimitFilter;
 	}
 	
+	private Object convertSerializedContentFilterToClass(
+			SerializedContentFilter pBean) {
+		
+		ContentFilter contentFilter = new ContentFilter();
+		
+		for(SerializedContentFilterConfig serializedConfig : pBean.getSerializedContentFilterConfig()) {
+			
+			ContentFilter.ContentFilterConfig config = 
+				new ContentFilter.ContentFilterConfig(serializedConfig.getPattern(), 
+						ContentFilter.ContentFilterConfig.Action.valueOf(serializedConfig.getMatchAction()),
+						ContentFilter.ContentFilterConfig.Action.valueOf(serializedConfig.getNoMatchAction()));
+			contentFilter.addContentFilterConfig(config);
+		}
+		
+		return contentFilter;
+	}
+	
 	public Object convertClassToBean(Object pObject) {
 		
 		if(pObject instanceof UrlDownloadJob) {
@@ -205,6 +230,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertFileSizeFilterToBean((FileSizeFilter) pObject);
 		} if(pObject instanceof TimeLimitFilter) {
 			return convertTimeLimitFilterToBean((TimeLimitFilter) pObject);
+		} if(pObject instanceof ContentFilter) {
+			return convertContentFilterToBean((ContentFilter) pObject);
 		}
 			
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
@@ -356,6 +383,28 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		return serializedTimeLimitFilter;
 	}
+
+	private Object convertContentFilterToBean(ContentFilter pContentFilter) {
+		
+		SerializedContentFilter serializedContentFilter = 
+			mBeanFactory.createSerializedContentFilter();
+		
+		for(ContentFilter.ContentFilterConfig config : pContentFilter.getContentFilterConfigList()) {
+			
+			SerializedContentFilterConfig serializedConfig = 
+				mBeanFactory.createSerializedContentFilterConfig();
+			
+			serializedConfig.setName(config.getName());
+			serializedConfig.setDescription(config.getDescription());
+			serializedConfig.setPattern(config.getPattern().pattern());	
+			serializedConfig.setMatchAction(config.getMatchAction().name());
+			serializedConfig.setNoMatchAction(config.getNoMatchAction().name());
+			
+			serializedContentFilter.getSerializedContentFilterConfig().add(serializedConfig);
+		}
+		
+		return serializedContentFilter;
+	}
 	
 	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
@@ -370,6 +419,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedRegExpJobFilter.class,
 			SerializedFileSizeFilter.class,
 			SerializedTimeLimitFilter.class,
+			SerializedContentFilter.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);
@@ -384,6 +434,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			RegExpJobFilter.class,
 			FileSizeFilter.class,
 			TimeLimitFilter.class,
+			ContentFilter.class,
 		};
 		
 		return Arrays.asList(supportedClassConvertClasses);

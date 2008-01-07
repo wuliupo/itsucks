@@ -10,6 +10,7 @@ package de.phleisch.app.itsucks.filter.download.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,7 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 		private static final long serialVersionUID = 5415048157348669335L;
 
 		public enum Action {
-			NO_ACTION,
+			ACCEPT,
 			REJECT,
 		}
 		
@@ -65,6 +66,16 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 		public Action getNoMatchAction() {
 			return mNoMatchAction;
 		}
+
+		public String getName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 	
 	public ContentFilter() {
@@ -75,6 +86,10 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 		mConfigList.add(pConfig);
 	}
 	
+	public List<ContentFilterConfig> getContentFilterConfigList() {
+		return Collections.unmodifiableList(mConfigList);
+	}
+
 	public Job filter(Job pJob) throws Exception {
 		
 		pJob.addParameter(new JobParameter(CONTENT_FILTER_CONFIG_LIST_PARAMETER, mConfigList));

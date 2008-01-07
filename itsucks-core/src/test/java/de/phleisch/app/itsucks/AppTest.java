@@ -68,7 +68,7 @@ public class AppTest extends TestCase {
 		contentFilter.addContentFilterConfig(
 				new ContentFilter.ContentFilterConfig(".*test.*", 
 						ContentFilter.ContentFilterConfig.Action.REJECT, 
-						ContentFilter.ContentFilterConfig.Action.NO_ACTION));
+						ContentFilter.ContentFilterConfig.Action.ACCEPT));
 		dispatcher.addJobFilter(contentFilter);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();

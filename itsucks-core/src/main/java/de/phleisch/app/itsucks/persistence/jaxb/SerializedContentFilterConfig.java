@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="pattern" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="matchAction" type="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedRegExpJobFilterAction"/>
- *         &lt;element name="noMatchAction" type="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedRegExpJobFilterAction"/>
+ *         &lt;element name="matchAction" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="noMatchAction" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -46,8 +46,8 @@ import javax.xml.bind.annotation.XmlType;
     "matchAction",
     "noMatchAction"
 })
-@XmlRootElement(name = "serializedRegExpJobFilterRule")
-public class SerializedRegExpJobFilterRule
+@XmlRootElement(name = "serializedContentFilterConfig")
+public class SerializedContentFilterConfig
     extends SerializedJobFilter
 {
 
@@ -58,9 +58,9 @@ public class SerializedRegExpJobFilterRule
     @XmlElement(required = true)
     protected String pattern;
     @XmlElement(required = true)
-    protected SerializedRegExpJobFilterAction matchAction;
+    protected String matchAction;
     @XmlElement(required = true)
-    protected SerializedRegExpJobFilterAction noMatchAction;
+    protected String noMatchAction;
 
     /**
      * Gets the value of the name property.
@@ -139,10 +139,10 @@ public class SerializedRegExpJobFilterRule
      * 
      * @return
      *     possible object is
-     *     {@link SerializedRegExpJobFilterAction }
+     *     {@link String }
      *     
      */
-    public SerializedRegExpJobFilterAction getMatchAction() {
+    public String getMatchAction() {
         return matchAction;
     }
 
@@ -151,10 +151,10 @@ public class SerializedRegExpJobFilterRule
      * 
      * @param value
      *     allowed object is
-     *     {@link SerializedRegExpJobFilterAction }
+     *     {@link String }
      *     
      */
-    public void setMatchAction(SerializedRegExpJobFilterAction value) {
+    public void setMatchAction(String value) {
         this.matchAction = value;
     }
 
@@ -163,10 +163,10 @@ public class SerializedRegExpJobFilterRule
      * 
      * @return
      *     possible object is
-     *     {@link SerializedRegExpJobFilterAction }
+     *     {@link String }
      *     
      */
-    public SerializedRegExpJobFilterAction getNoMatchAction() {
+    public String getNoMatchAction() {
         return noMatchAction;
     }
 
@@ -175,10 +175,10 @@ public class SerializedRegExpJobFilterRule
      * 
      * @param value
      *     allowed object is
-     *     {@link SerializedRegExpJobFilterAction }
+     *     {@link String }
      *     
      */
-    public void setNoMatchAction(SerializedRegExpJobFilterAction value) {
+    public void setNoMatchAction(String value) {
         this.noMatchAction = value;
     }
 

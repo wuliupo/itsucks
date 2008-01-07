@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -27,12 +24,11 @@ import org.w3c.dom.Element;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
  *       &lt;sequence>
- *         &lt;element name="version" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;any/>
+ *         &lt;element ref="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedContentFilterConfig" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -41,69 +37,42 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "version",
-    "any"
+    "serializedContentFilterConfig"
 })
-@XmlRootElement(name = "serializedJobs")
-public class SerializedJobs {
+@XmlRootElement(name = "serializedContentFilter")
+public class SerializedContentFilter
+    extends SerializedJobFilter
+{
 
-    @XmlElement(required = true)
-    protected String version;
-    @XmlAnyElement(lax = true)
-    protected List<Object> any;
-
-    /**
-     * Gets the value of the version property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVersion() {
-        return version;
-    }
+    protected List<SerializedContentFilterConfig> serializedContentFilterConfig;
 
     /**
-     * Sets the value of the version property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVersion(String value) {
-        this.version = value;
-    }
-
-    /**
-     * Gets the value of the any property.
+     * Gets the value of the serializedContentFilterConfig property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the any property.
+     * This is why there is not a <CODE>set</CODE> method for the serializedContentFilterConfig property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getAny().add(newItem);
+     *    getSerializedContentFilterConfig().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Element }
-     * {@link Object }
+     * {@link SerializedContentFilterConfig }
      * 
      * 
      */
-    public List<Object> getAny() {
-        if (any == null) {
-            any = new ArrayList<Object>();
+    public List<SerializedContentFilterConfig> getSerializedContentFilterConfig() {
+        if (serializedContentFilterConfig == null) {
+            serializedContentFilterConfig = new ArrayList<SerializedContentFilterConfig>();
         }
-        return this.any;
+        return this.serializedContentFilterConfig;
     }
 
 }

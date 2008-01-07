@@ -153,7 +153,45 @@
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
-	</xs:element>	
+	</xs:element>
+	
+	<!-- ContentFilterConfig -->
+	<xs:element name="serializedContentFilterConfig">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element name="name" type="xs:string"
+							nillable="true" />
+						<xs:element name="description" type="xs:string"
+							nillable="true" />
+						<xs:element name="pattern" type="xs:string" />
+
+						<xs:element name="matchAction"
+							type="xs:string" />
+						<xs:element name="noMatchAction"
+							type="xs:string" />
+
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- ContentFilter -->
+	<xs:element name="serializedContentFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element
+							ref="itsucks:serializedContentFilterConfig" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="serializedHttpRetrieverConfiguration">
 		<xs:complexType>
