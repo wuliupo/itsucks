@@ -8,18 +8,8 @@ package de.phleisch.app.itsucks.gui.job;
 
 import java.awt.Dialog;
 import java.awt.Frame;
-import java.io.File;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
-import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -29,8 +19,6 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 public class EditDownloadJobDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 3587076557680397119L;
-
-	private static Log mLog = LogFactory.getLog(EditDownloadJobDialog.class);
 
 	private AddDownloadJobCapable mDownloadJobManager = null;
 
@@ -64,43 +52,8 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		if (downloadJobList == null)
 			return;
 
-		//open dialog
-		JFileChooser fc = new JFileChooser();
-		fc
-				.setFileFilter(new FileNameExtensionFilter(
-						"ItSucks Download Templates (*.suck)",
-						new String[] { "suck" }));
-
-		fc.setSelectedFile(new File("ItSucks_"
-				+ downloadJobList.getJobs().get(0).getName().replace(' ', '_')
-				+ "_Template.suck"));
-
-		// Show save dialog; this method does not return until the dialog is closed
-		int result = fc.showSaveDialog(this);
-		if (result == JFileChooser.APPROVE_OPTION) {
-
-			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
-					.getApplicationContext().getBean("JobSerialization");
-
-			try {
-				serializationManager.serialize(downloadJobList, fc
-						.getSelectedFile());
-			} catch (Exception e1) {
-
-				mLog.error("Error occured while saving download template", e1);
-
-				String message = e1.getMessage();
-				if (message == null) {
-					message = e1.toString();
-				}
-
-				JOptionPane.showMessageDialog(this,
-						"Error occured while saving download template.\n"
-								+ message, "Error occured",
-						JOptionPane.ERROR_MESSAGE);
-			}
-
-		}
+		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
+		helper.saveDownloadTemplate(downloadJobList);
 	}
 
 	/** This method is called from within the constructor to

@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks.gui.job;
 
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.io.File;
@@ -32,13 +33,16 @@ public class EditDownloadJobHelper {
 	private static Log mLog = LogFactory.getLog(EditDownloadJobHelper.class);
 	private Frame mParentFrame;
 	private Dialog mParentDialog;
+	private Component mParentComponent;
 	
 	public EditDownloadJobHelper(Frame pParentFrame) {
 		mParentFrame = pParentFrame;
+		mParentComponent = pParentFrame;
 	}
 	
 	public EditDownloadJobHelper(Dialog pParentDialog) {
 		mParentDialog = pParentDialog;
+		mParentComponent = pParentDialog;
 	}
 	
 	public void openAddDownloadDialog(AddDownloadJobCapable pAddDownloadJobCapable) {
@@ -54,7 +58,7 @@ public class EditDownloadJobHelper {
 
 			mLog.error("Error occured while loading download template", e1);
 
-			JOptionPane.showMessageDialog(mParentFrame,
+			JOptionPane.showMessageDialog(mParentComponent,
 					"Error occured while loading download template.\n"
 							+ e1.getMessage(), "Error occured",
 					JOptionPane.ERROR_MESSAGE);
@@ -105,7 +109,7 @@ public class EditDownloadJobHelper {
 		fc.setMultiSelectionEnabled(true);
 		
 		//Show load dialog; this method does not return until the dialog is closed
-		int result = fc.showOpenDialog(mParentFrame);
+		int result = fc.showOpenDialog(mParentComponent);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
 			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
@@ -120,7 +124,7 @@ public class EditDownloadJobHelper {
 	
 					mLog.error("Error occured while loading download template", e1);
 	
-					JOptionPane.showMessageDialog(mParentFrame,
+					JOptionPane.showMessageDialog(mParentComponent,
 							"Error occured while loading download template.\n"
 									+ e1.getMessage(), "Error occured",
 							JOptionPane.ERROR_MESSAGE);
@@ -153,5 +157,46 @@ public class EditDownloadJobHelper {
 		}
 	}
 	
+	public void saveDownloadTemplate(SerializableJobPackage pDownloadJobList) {
+		
+		//open dialog
+		JFileChooser fc = new JFileChooser();
+		fc
+				.setFileFilter(new FileNameExtensionFilter(
+						"ItSucks Download Templates (*.suck)",
+						new String[] { "suck" }));
+
+		fc.setSelectedFile(new File("ItSucks_"
+				+ pDownloadJobList.getJobs().get(0).getName().replace(' ', '_')
+				+ "_Template.suck"));
+
+		// Show save dialog; this method does not return until the dialog is closed
+		int result = fc.showSaveDialog(mParentComponent);
+		if (result == JFileChooser.APPROVE_OPTION) {
+
+			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
+					.getApplicationContext().getBean("JobSerialization");
+
+			try {
+				serializationManager.serialize(pDownloadJobList, fc
+						.getSelectedFile());
+			} catch (Exception e1) {
+
+				mLog.error("Error occured while saving download template", e1);
+
+				String message = e1.getMessage();
+				if (message == null) {
+					message = e1.toString();
+				}
+
+				JOptionPane.showMessageDialog(mParentComponent,
+						"Error occured while saving download template.\n"
+								+ message, "Error occured",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
+		
+	}
 	
 }
