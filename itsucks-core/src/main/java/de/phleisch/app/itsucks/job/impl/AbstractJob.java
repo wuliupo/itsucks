@@ -140,9 +140,7 @@ public abstract class AbstractJob implements Serializable, Job {
 		mState = pState;
 		
 		synchronized (this) {
-//			PropertyChangeEvent firePropertyChange = 
-				firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
-//			sendJobChangedEventToDispatcher(firePropertyChange);
+			firePropertyChange(JOB_STATE_PROPERTY, oldState, mState);
 		}
 	}
 	
@@ -167,25 +165,9 @@ public abstract class AbstractJob implements Serializable, Job {
 		mPriority = pPriority;
 		
 		synchronized (this) {
-//			PropertyChangeEvent firePropertyChange = 
-				firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
-//			sendJobChangedEventToDispatcher(firePropertyChange);
+			firePropertyChange(JOB_PRIORITY_PROPERTY, oldPriority, mPriority);
 		}
 	}
-	
-//	protected void sendJobChangedEventToDispatcher(PropertyChangeEvent pPropertyChange) {
-//		
-//		JobChangedEvent event = new JobChangedEvent(CoreEvents.EVENT_JOB_CHANGED, this);
-//		event.setPropertyChangeEvent(pPropertyChange);
-//		
-//		sendEvent(event);
-//	}
-
-//	private void sendEvent(JobEvent pEvent) {
-//		if(mJobManager == null) return;
-//		
-//		mJobManager.getEventDispatcher().fireEvent(pEvent);
-//	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#getId()

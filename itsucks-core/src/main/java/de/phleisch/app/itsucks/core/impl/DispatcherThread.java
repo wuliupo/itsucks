@@ -43,7 +43,7 @@ public class DispatcherThread extends DispatcherImpl {
 	 * @see de.phleisch.app.itsucks.Dispatcher#processJobs()
 	 */
 	@Override
-	public synchronized void processJobs() throws Exception {
+	public synchronized void processJobs() {
 		if(mOwnThread != null && mOwnThread.isAlive()) {
 			throw new IllegalArgumentException("Dispatcher Thread already running!");
 		}

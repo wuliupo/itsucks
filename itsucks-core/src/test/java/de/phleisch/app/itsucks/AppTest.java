@@ -142,7 +142,8 @@ public class AppTest extends TestCase {
 		
 		assertTrue(observer.mEventCountType3001 == 3);
 		assertTrue(observer.mEventCountType3002 == 3);
-		assertTrue(observer.mEventCountType3003 == 2);
+//		assertTrue(observer.mEventCountType3003 == 2);
+		assertTrue(observer.mEventCountType3003 == 0);
 		assertTrue(observer.mEventCountType3004 == 9);
 		
 	}

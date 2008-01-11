@@ -221,6 +221,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 				
 				URI uri = null;
 				try {
+					match = match.trim(); //remove trailing spaces
 					match = match.replaceAll(" ", "%20"); //try to fix broken url's
 					uri = mBaseURI.resolve(new URI(match));
 				} catch(Exception ex) {

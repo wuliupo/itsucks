@@ -35,7 +35,7 @@ public interface Dispatcher {
 	 * Returns when all jobs are done.
 	 * @throws Exception
 	 */
-	public abstract void processJobs() throws Exception;
+	public abstract void processJobs();
 
 	/**
 	 * @return true when the dispatcher is running.

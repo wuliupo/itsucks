@@ -33,8 +33,9 @@ public interface WorkerPool {
 
 	public abstract WorkerThread waitForFreeWorker()
 			throws InterruptedException;
-
-	public abstract void dispatchJob(Job job) throws InterruptedException;
+	
+	public abstract void dispatchJob(Job job) 
+			throws InterruptedException;
 
 	public abstract int getBusyWorkerCount();
 

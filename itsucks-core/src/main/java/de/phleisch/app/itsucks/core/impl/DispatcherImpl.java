@@ -75,7 +75,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#processJobs()
 	 */
-	public void processJobs() throws Exception{
+	public void processJobs() {
 
 		synchronized(this) {
 			if(isRunning()) {
@@ -98,29 +98,44 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 			if(mPause) {
 				doPauseLoop();
 			}
-			
-			
-			if(mStop) { //check for stop event
-				job = null;
-			} else {
-				job = mJobManager.getNextOpenJob();
-			}
+
+			//get next open job from the job list
+			job = getNextOpenJob();
 			
 			if(job == null) {
-				
+
 				if(mWorkerPool.getBusyWorkerCount() > 0) {
 					//stop dispatcher only when all working threads finished working
-					Thread.sleep(100);
+					//maybe the last working threads are adding new jobs, so wait
+					//a little and check again for open jobs
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						mLog.warn("Interrupted while waiting for worker pool change");
+					}
+					
 				} else {
-					//shutdown dispatcher
-					break;
+					
+					//do a second check to be thread safe
+					if(getNextOpenJob() == null) {
+						//shutdown dispatcher
+						break;
+					}
 				}
 				
 			} else {
-				mWorkerPool.dispatchJob(job);
+				try {
+					mWorkerPool.dispatchJob(job);
+				} catch (InterruptedException e) {
+					mLog.warn("Aborted while waiting for free worker to dispatch job");
+				}
 				
-				if(mDispatchDelay > 0) {
-					Thread.sleep(mDispatchDelay);
+				if(mDispatchDelay > 0 && !mStop) {
+					try {
+						Thread.sleep(mDispatchDelay);
+					} catch (InterruptedException e) {
+						mLog.warn("Interrupted in dispatch delay");
+					}
 				}
 				
 			}
@@ -136,21 +151,42 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		mEventManager.shutdown();
 	}
 
-	private void doPauseLoop() throws InterruptedException {
+	/**
+	 * Get next open job from the job list
+	 * 
+	 * @return
+	 */
+	protected Job getNextOpenJob() {
+		Job job;
+		if(mStop) { //check for stop event
+			job = null;
+		} else {
+			job = mJobManager.getNextOpenJob();
+		}
+		return job;
+	}
+
+	protected void doPauseLoop() {
 		
 		mEventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_PAUSE, this));
 		
-		while(mPause) {
-			synchronized (this) {
-				if(mPause) { //check again
-					this.wait(); // wait until unpause notify
+		try {
+		
+			while(mPause) {
+				synchronized (this) {
+					if(mPause) { //check again
+						this.wait(); // wait until unpause notify
+					}
 				}
 			}
-		}
 		
-		mEventManager.fireEvent(
-				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE, this));
+		} catch (InterruptedException e) {
+			mLog.warn("Interrupted in pause loop");
+		} finally {
+			mEventManager.fireEvent(
+					new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE, this));
+		}
 	}
 
 	/* (non-Javadoc)

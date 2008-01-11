@@ -13,6 +13,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
@@ -82,7 +84,12 @@ public class DownloadJobFilter
 		if(mAllowedHostNames != null) {
 			boolean allowed = false;
 			for (String serverName : mAllowedHostNames) {
-				if(url.getHost().matches(serverName)) {
+				
+				Pattern pattern = Pattern.compile(serverName, 
+						Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(url.getHost());
+				
+				if(matcher.matches()) {
 					allowed = true;
 					break;
 				}
@@ -95,7 +102,12 @@ public class DownloadJobFilter
 		if(mSaveToDisk != null) {
 			boolean save = false;
 			for (String saveFilter : mSaveToDisk) {
-				if(url.getPath().matches(saveFilter)) {
+				
+				Pattern pattern = Pattern.compile(saveFilter, 
+						Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(url.getPath());
+				
+				if(matcher.matches()) {
 					save = true;
 					break;
 				}

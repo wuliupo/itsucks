@@ -8,6 +8,8 @@
 
 package de.phleisch.app.itsucks.job;
 
+import java.util.Collection;
+
 import de.phleisch.app.itsucks.event.DirectEventSource;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.impl.SimpleEvent;
@@ -50,7 +52,6 @@ public interface JobList extends DirectEventSource {
 	
 	public abstract int size();
 	
-//	public void addObserver(Observer o);
-//	public void deleteObserver(Observer o);
+	public abstract Collection<Job> getContent();
 
 }

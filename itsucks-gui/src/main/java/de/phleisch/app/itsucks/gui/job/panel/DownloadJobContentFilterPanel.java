@@ -8,9 +8,6 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Dialog;
 import java.io.Serializable;
-import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
@@ -171,15 +168,15 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
 				selectionIndex);
 	}
 
-	private void displayErrors(List<String> errorsBasicPanel) {
-		StringBuffer buffer = new StringBuffer();
-		for (String string : errorsBasicPanel) {
-			buffer.append(string + '\n');
-		}
-
-		JOptionPane.showMessageDialog(this, buffer.toString(),
-				"Validation errors", JOptionPane.ERROR_MESSAGE);
-	}
+//	private void displayErrors(List<String> errorsBasicPanel) {
+//		StringBuffer buffer = new StringBuffer();
+//		for (String string : errorsBasicPanel) {
+//			buffer.append(string + '\n');
+//		}
+//
+//		JOptionPane.showMessageDialog(this, buffer.toString(),
+//				"Validation errors", JOptionPane.ERROR_MESSAGE);
+//	}
 
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">

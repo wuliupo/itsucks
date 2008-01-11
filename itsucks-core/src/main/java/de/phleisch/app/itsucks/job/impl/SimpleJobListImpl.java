@@ -11,8 +11,11 @@ package de.phleisch.app.itsucks.job.impl;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -63,7 +66,7 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 			if(!b) {
 				throw new IllegalStateException("Job could not be added!");
 			}
-			mJobBackReference.put(entry.mJob, entry);
+			mJobBackReference.put(entry.getJob(), entry);
 		}
 		
 		Event event = new JobEvent(EVENT_JOB_ADDED, pJob);
@@ -86,7 +89,7 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 			if(!b) {
 				throw new IllegalStateException("Job to be removed not found!");
 			}
-			mJobBackReference.remove(entry.mJob);
+			mJobBackReference.remove(entry.getJob());
 		}
 		
 		Event event = new JobEvent(EVENT_JOB_REMOVED, pJob);
@@ -114,7 +117,7 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 			
 			if(!mJobList.isEmpty()) {
 			
-				Job job = mJobList.first().mJob;
+				Job job = mJobList.first().getJob();
 				if(job.getState() == Job.STATE_OPEN) { 
 					return job;
 				}
@@ -124,6 +127,24 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 		}
 		
 		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.job.JobList#getContent()
+	 */
+	public Collection<Job> getContent() {
+		
+		List<Job> list;
+		synchronized (this) {
+			list = new ArrayList<Job>(mJobList.size());
+			
+			for (JobListEntry entry : mJobList) {
+				list.add(entry.getJob());
+			}
+			
+		}
+		
+		return list;
 	}
 	
 	private class JobPropertyChangeListener implements PropertyChangeListener {
@@ -207,6 +228,10 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 			return mOrderKey;
 		}
 		
+		protected Job getJob() {
+			return mJob;
+		}
+		
 	}
 
 	private static class JobListEntryComparator 
@@ -235,5 +260,5 @@ public class SimpleJobListImpl extends SimpleDirectEventSource implements JobLis
 		}
 
 	}
-	
+
 }

@@ -220,7 +220,7 @@ public class WorkerPoolImpl implements WorkerPool {
 		
 		return worker;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.IWorkerPool#dispatchJob(de.phleisch.app.itsucks.Job)
 	 */
