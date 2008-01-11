@@ -22,17 +22,16 @@
 		<priority value="trace"/>
 		<appender-ref ref="LogFile"/>
 	</category>
-	 -->
+	 
 	 
 	<category name="de.phleisch.app.itsucks.gui">
 		<priority value="trace"/>
-		<!-- <appender-ref ref="STDOUT"/>  -->
 	</category>
 	
 	<category name="de.phleisch">
 		<priority value="debug"/>
 	</category>
-	
+	-->
 	<root>
 		<priority value="error"/>
 		<appender-ref ref="STDOUT" />
