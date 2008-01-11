@@ -36,6 +36,9 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 			REJECT,
 		}
 		
+		private String mName;
+		private String mDescription;
+		
 		private Pattern mPattern;
 		private Action mMatchAction;
 		private Action mNoMatchAction;
@@ -43,8 +46,7 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 		public ContentFilterConfig(String pPattern, Action pMatchAction,
 				Action pNoMatchAction) {
 			
-			this(Pattern.compile(pPattern, 
-					Pattern.CASE_INSENSITIVE), pMatchAction, pNoMatchAction);
+			this(compilePattern(pPattern), pMatchAction, pNoMatchAction);
 		}
 		
 		public ContentFilterConfig(Pattern pPattern, Action pMatchAction,
@@ -68,13 +70,37 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 		}
 
 		public String getName() {
-			// TODO Auto-generated method stub
-			return null;
+			return mName;
+		}
+
+		public void setName(String pName) {
+			mName = pName;
 		}
 
 		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
+			return mDescription;
+		}
+
+		public void setDescription(String pDescription) {
+			mDescription = pDescription;
+		}
+
+		public void setPattern(String pPattern) {
+			mPattern = compilePattern(pPattern);
+		}
+
+		public void setMatchAction(Action pMatchAction) {
+			mMatchAction = pMatchAction;
+		}
+
+		public void setNoMatchAction(Action pNoMatchAction) {
+			mNoMatchAction = pNoMatchAction;
+		}
+		
+		
+		private static Pattern compilePattern(String pPattern) {
+			return Pattern.compile(pPattern, 
+					Pattern.CASE_INSENSITIVE);
 		}
 	}
 	

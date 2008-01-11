@@ -42,8 +42,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 		}
 
 		//disable advanced edit filter panel
-		SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel,
-				false);
+		SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel, false);
 	}
 
 	protected class RegExpFilterRuleListElement {
@@ -82,7 +81,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 	protected static class ComboBoxEntry implements Serializable {
 
 		private static final long serialVersionUID = 7129073467970212773L;
-		
+
 		private String mName;
 		private Object mValue;
 
@@ -141,11 +140,12 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 						.valueOf(matchAction.getPriorityChange()));
 			}
 
-			matchAction.addJobParameter(new JobParameter(
-					UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-					Boolean.valueOf(
-							editRegExpFilterMatchAssumeFinishedFileCheckBox
-									.isSelected())));
+			matchAction
+					.addJobParameter(new JobParameter(
+							UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+							Boolean
+									.valueOf(editRegExpFilterMatchAssumeFinishedFileCheckBox
+											.isSelected())));
 		}
 
 		//no match Action
@@ -165,11 +165,12 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 						.valueOf(noMatchAction.getPriorityChange()));
 			}
 
-			noMatchAction.addJobParameter(new JobParameter(
-					UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-					Boolean.valueOf(
-							editRegExpFilterNoMatchAssumeFinishedFileCheckBox
-									.isSelected())));
+			noMatchAction
+					.addJobParameter(new JobParameter(
+							UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
+							Boolean
+									.valueOf(editRegExpFilterNoMatchAssumeFinishedFileCheckBox
+											.isSelected())));
 		}
 
 		//notify list
@@ -984,10 +985,8 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 					.getRule();
 
 			editRegExpFilterNameField.setText(rule.getName());
-			editRegExpFilterDescriptionTextArea
-					.setText(rule.getDescription());
-			editRegExpFilterRegExpTextArea.setText(rule.getPattern()
-					.pattern());
+			editRegExpFilterDescriptionTextArea.setText(rule.getDescription());
+			editRegExpFilterRegExpTextArea.setText(rule.getPattern().pattern());
 
 			//match action
 			{
@@ -1055,8 +1054,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 
 			editRegExpFilterMatchStatusChangeComboBox.setSelectedIndex(0);
 			editRegExpFilterMatchPrioChangeTextField.setText(null);
-			editRegExpFilterMatchAssumeFinishedFileCheckBox
-					.setSelected(false);
+			editRegExpFilterMatchAssumeFinishedFileCheckBox.setSelected(false);
 
 			editRegExpFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
 			editRegExpFilterNoMatchPrioChangeTextField.setText(null);

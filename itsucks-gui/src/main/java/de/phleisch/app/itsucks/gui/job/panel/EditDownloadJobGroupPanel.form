@@ -16,7 +16,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tabbedPane" pref="587" max="32767" attributes="0"/>
+          <Component id="tabbedPane" pref="598" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -57,6 +57,15 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Advanced RegExp Rules">
                 <Property name="tabTitle" type="java.lang.String" value="Advanced RegExp Rules"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel" name="downloadJobContentFilterPanel">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Content Filter">
+                <Property name="tabTitle" type="java.lang.String" value="Content Filter"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

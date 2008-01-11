@@ -80,7 +80,7 @@ public class FieldValidator {
 		return result;
 	}
 	
-	public boolean assertRegExp(String pRegExp, String pValue, String pMessage) {
+	public boolean assertRegExpResult(String pRegExp, String pValue, String pMessage) {
 		
 		Pattern pattern = null;
 		try {
@@ -91,6 +91,20 @@ public class FieldValidator {
 		
 		Matcher m = pattern.matcher(pValue);
 		boolean result = m.matches();
+		
+		if(!result) addError(pMessage);
+		return result;
+	}
+	
+	public boolean assertValidRegExp(String pRegExp, String pMessage) {
+		
+		boolean result = true;
+		
+		try {
+			Pattern.compile(pRegExp);
+		} catch (PatternSyntaxException ex) {
+			result = false;
+		}
 		
 		if(!result) addError(pMessage);
 		return result;

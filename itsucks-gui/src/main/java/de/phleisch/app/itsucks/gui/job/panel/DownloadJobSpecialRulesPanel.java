@@ -31,10 +31,10 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 			String regExp = "^([-]?[0-9]{1,})[ ]*(KB|kb|MB|mb|GB|gb|$)$";
 
-			validator.assertRegExp(regExp, this.fileSizeMinField.getText()
+			validator.assertRegExpResult(regExp, this.fileSizeMinField.getText()
 					.trim(), "Enter a valid value for the minimum file size.");
 
-			validator.assertRegExp(regExp, this.fileSizeMaxField.getText()
+			validator.assertRegExpResult(regExp, this.fileSizeMaxField.getText()
 					.trim(), "Enter a valid value for the maximum file size.");
 		}
 

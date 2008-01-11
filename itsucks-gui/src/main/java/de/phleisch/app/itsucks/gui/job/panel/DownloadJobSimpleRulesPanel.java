@@ -46,7 +46,7 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 				"Enter a valid number of links to follow.");
 
 		String timeLimitRegExp = "^([-]?[0-9]{1,})[ ]*(s|m|h|d|S|M|H|D|$)$";
-		validator.assertRegExp(timeLimitRegExp, this.timeLimitTextField
+		validator.assertRegExpResult(timeLimitRegExp, this.timeLimitTextField
 				.getText(), "Enter a valid time limit.");
 
 		if (this.urlPrefixCheckBox.isSelected()) {

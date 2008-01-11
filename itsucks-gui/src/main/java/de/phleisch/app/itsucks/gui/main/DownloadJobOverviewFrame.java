@@ -45,28 +45,27 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
-	private Map<Dispatcher, EventObserver> mEventObserver = 
-		new HashMap<Dispatcher, EventObserver>();
-	
+	private Map<Dispatcher, EventObserver> mEventObserver = new HashMap<Dispatcher, EventObserver>();
+
 	private DispatcherList mDispatcherList;
-	
+
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
 		mDispatcherList = new DispatcherList();
 		mDispatcherList.registerObserver(this);
-		
+
 		initComponents();
 	}
 
 	public void addDownload(SerializableJobPackage pJobList) {
 
 		DispatcherHelper helper = new DispatcherHelper();
-		
+
 		DispatcherThread dispatcher = helper.createDispatcher(pJobList);
-		
+
 		//add the dispatcher to the list, the panel will be added by the event
 		mDispatcherList.addDispatcher(dispatcher);
-		
+
 		helper.startDispatcher(dispatcher);
 
 	}
@@ -75,11 +74,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
 		helper.openAddDownloadDialog(this);
-		
+
 	}
 
 	private void loadDownload() {
-		
+
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
 		helper.loadAndEditDownload(this);
 
@@ -116,15 +115,15 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) selectedComponent;
 		DispatcherThread dispatcher = (DispatcherThread) panel.getDispatcher();
-		
+
 		DispatcherHelper helper = new DispatcherHelper();
 		helper.stopDispatcher(dispatcher);
-		
+
 		mDispatcherList.removeDispatcherById(panel.getDispatcherId());
-		
+
 		//inform the gc that it would be a great opportunity to get some memory back
 		System.gc();
-		
+
 	}
 
 	private void updateButtonState() {
@@ -180,33 +179,33 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		}
 
 	}
-	
+
 	public void processEvent(Event pEvent) {
-		
-		switch(pEvent.getType()) {
-		
-			case DispatcherList.EVENT_DISPATCHER_ADDED:
-				processDispatcherAdded((DispatcherListEvent)pEvent);
-				break;
-				
-			case DispatcherList.EVENT_DISPATCHER_REMOVED:
-				processDispatcherRemoved((DispatcherListEvent)pEvent);
-				break;
-				
-			default: 
-				throw new IllegalStateException("Unknown Event: " + pEvent);
-		
+
+		switch (pEvent.getType()) {
+
+		case DispatcherList.EVENT_DISPATCHER_ADDED:
+			processDispatcherAdded((DispatcherListEvent) pEvent);
+			break;
+
+		case DispatcherList.EVENT_DISPATCHER_REMOVED:
+			processDispatcherRemoved((DispatcherListEvent) pEvent);
+			break;
+
+		default:
+			throw new IllegalStateException("Unknown Event: " + pEvent);
+
 		}
-		
+
 	}
-	
+
 	private void processDispatcherAdded(DispatcherListEvent pEvent) {
-		
+
 		DownloadJobQueueOverviewPanel pane = new DownloadJobQueueOverviewPanel();
 		pane.setDispatcher(pEvent.getDispatcher());
 		pane.setDispatcherId(pEvent.getDispatcherId());
 		pane.setName(pEvent.getDispatcher().getName());
-		
+
 		EventObserver observer = new EventObserver() {
 			public void processEvent(Event pEvent) {
 				if (pEvent.getCategory() == CoreEvents.EVENT_CATEGORY_DISPATCHER) {
@@ -220,39 +219,38 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 				}
 			}
 		};
-		
+
 		Dispatcher dispatcher = pEvent.getDispatcher();
 
 		mEventObserver.put(dispatcher, observer);
 		dispatcher.getEventManager().registerObserver(observer);
-		
+
 		//add pane
 		downloadsTabbedPane.add(pane.getName(), pane);
 	}
-	
+
 	private void processDispatcherRemoved(DispatcherListEvent pEvent) {
-		
+
 		Component[] components = downloadsTabbedPane.getComponents();
-		
+
 		for (int i = 0; i < components.length; i++) {
-			
-			DownloadJobQueueOverviewPanel panel = 
-				(DownloadJobQueueOverviewPanel) components[i];
-			
-			if(panel.getDispatcherId() == pEvent.getDispatcherId()) {
+
+			DownloadJobQueueOverviewPanel panel = (DownloadJobQueueOverviewPanel) components[i];
+
+			if (panel.getDispatcherId() == pEvent.getDispatcherId()) {
 
 				Dispatcher dispatcher = pEvent.getDispatcher();
-				
+
 				EventObserver eventObserver = mEventObserver.get(dispatcher);
 				mEventObserver.remove(dispatcher);
 				dispatcher.getEventManager().unregisterObserver(eventObserver);
-				
+
 				downloadsTabbedPane.remove(panel);
 				panel.removeDispatcher();
 			}
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -262,8 +260,9 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	 */
 
 	//GEN-BEGIN:initComponents
-	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
+
 		downloadsTabbedPane = new javax.swing.JTabbedPane();
 		toolBar = new javax.swing.JToolBar();
 		newDownloadButton = new javax.swing.JButton();
@@ -284,8 +283,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle(ApplicationConstants.APPLICATION_TITLE);
+		setIconImage(new javax.swing.ImageIcon(getClass().getResource(
+				"/whirl_icon.png")).getImage());
 		setLocationByPlatform(true);
 		setName("mainFrame");
+
 		downloadsTabbedPane
 				.addChangeListener(new javax.swing.event.ChangeListener() {
 					public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -293,13 +295,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 					}
 				});
 
-		downloadsTabbedPane.getAccessibleContext().setAccessibleName(
-				"Download 1");
-
 		toolBar.setFloatable(false);
+
 		newDownloadButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		newDownloadButton.setIcon(new javax.swing.ImageIcon(getClass()
-				.getResource("/document-new.png")));
+				.getResource("/document-new.png"))); // NOI18N
 		newDownloadButton.setText("New download");
 		newDownloadButton.setBorderPainted(false);
 		newDownloadButton.setOpaque(false);
@@ -309,12 +309,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						newDownloadButtonActionPerformed(evt);
 					}
 				});
-
 		toolBar.add(newDownloadButton);
 
 		pauseDownloadButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		pauseDownloadButton.setIcon(new javax.swing.ImageIcon(getClass()
-				.getResource("/pause.png")));
+				.getResource("/pause.png"))); // NOI18N
 		pauseDownloadButton.setText("Pause download");
 		pauseDownloadButton.setBorderPainted(false);
 		pauseDownloadButton.setEnabled(false);
@@ -325,12 +324,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						pauseDownloadButtonActionPerformed(evt);
 					}
 				});
-
 		toolBar.add(pauseDownloadButton);
 
 		stopDownloadButton.setFont(new java.awt.Font("Dialog", 0, 12));
 		stopDownloadButton.setIcon(new javax.swing.ImageIcon(getClass()
-				.getResource("/edit-delete.png")));
+				.getResource("/edit-delete.png"))); // NOI18N
 		stopDownloadButton.setText("Stop download");
 		stopDownloadButton.setBorderPainted(false);
 		stopDownloadButton.setEnabled(false);
@@ -341,10 +339,10 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						stopDownloadButtonActionPerformed(evt);
 					}
 				});
-
 		toolBar.add(stopDownloadButton);
 
 		fileMenu.setText("File");
+
 		createNewJobMenuItem.setText("Create new download");
 		createNewJobMenuItem
 				.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +350,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						createNewJobMenuItemActionPerformed(evt);
 					}
 				});
-
 		fileMenu.add(createNewJobMenuItem);
 
 		openDownloadTemplateMenuItem.setText("Open download template");
@@ -362,7 +359,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						openDownloadTemplateMenuItemActionPerformed(evt);
 					}
 				});
-
 		fileMenu.add(openDownloadTemplateMenuItem);
 
 		exitMenuItem.setText("Exit");
@@ -371,19 +367,18 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 				exitMenuItemActionPerformed(evt);
 			}
 		});
-
 		fileMenu.add(exitMenuItem);
 
 		menuBar.add(fileMenu);
 
 		toolsMenu.setText("Tools");
+
 		batchMenuItem.setText("Batch Processing");
 		batchMenuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				batchMenuItemActionPerformed(evt);
 			}
 		});
-
 		toolsMenu.add(batchMenuItem);
 
 		regExpTesterMenuItem.setText("Regular Expression Tester");
@@ -393,7 +388,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						regExpTesterMenuItemActionPerformed(evt);
 					}
 				});
-
 		toolsMenu.add(regExpTesterMenuItem);
 
 		logWindowMenuItem.setText("Log window");
@@ -403,12 +397,12 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 						logWindowMenuItemActionPerformed(evt);
 					}
 				});
-
 		toolsMenu.add(logWindowMenuItem);
 
 		menuBar.add(toolsMenu);
 
 		helpMenu.setText("Help");
+
 		contentsMenuItem.setText("Contents");
 		contentsMenuItem.setEnabled(false);
 		helpMenu.add(contentsMenuItem);
@@ -419,7 +413,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 				aboutMenuItemActionPerformed(evt);
 			}
 		});
-
 		helpMenu.add(aboutMenuItem);
 
 		menuBar.add(helpMenu);
@@ -445,9 +438,14 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								421, Short.MAX_VALUE)));
+								353, Short.MAX_VALUE)));
+
+		downloadsTabbedPane.getAccessibleContext().setAccessibleName(
+				"Download 1");
+
 		pack();
-	}// </editor-fold>//GEN-END:initComponents
+	}// </editor-fold>
+	//GEN-END:initComponents
 
 	//GEN-FIRST:event_batchMenuItemActionPerformed
 	private void batchMenuItemActionPerformed(java.awt.event.ActionEvent evt) {

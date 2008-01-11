@@ -210,6 +210,10 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 				new ContentFilter.ContentFilterConfig(serializedConfig.getPattern(), 
 						ContentFilter.ContentFilterConfig.Action.valueOf(serializedConfig.getMatchAction()),
 						ContentFilter.ContentFilterConfig.Action.valueOf(serializedConfig.getNoMatchAction()));
+			
+			config.setName(serializedConfig.getName());
+			config.setDescription(serializedConfig.getDescription());
+			
 			contentFilter.addContentFilterConfig(config);
 		}
 		

@@ -16,11 +16,13 @@ import javax.swing.JOptionPane;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
+import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
@@ -48,7 +50,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		UrlDownloadJob pJob = (UrlDownloadJob) pJobList.getJobs().get(0);
 		List<URL> urlList = new ArrayList<URL>();
 		for (Job job : pJobList.getJobs()) {
-			urlList.add(((UrlDownloadJob)job).getUrl());
+			urlList.add(((UrlDownloadJob) job).getUrl());
 		}
 		List<JobFilter> pFilters = pJobList.getFilters();
 
@@ -63,6 +65,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		RegExpJobFilter regExpJobFilter = null;
 		FileSizeFilter fileSizeFilter = null;
 		TimeLimitFilter timeLimitFilter = null;
+		ContentFilter contentFilter = null;
 
 		for (JobFilter jobFilter : pFilters) {
 			if (jobFilter instanceof DownloadJobFilter) {
@@ -84,6 +87,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			if (jobFilter instanceof TimeLimitFilter) {
 				timeLimitFilter = (TimeLimitFilter) jobFilter;
 				continue;
+			}
+			if (jobFilter instanceof ContentFilter) {
+				contentFilter = (ContentFilter) jobFilter;
 			}
 		}
 
@@ -138,20 +144,22 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 					.setText(String.valueOf(maxLinksToFollowFilter
 							.getMaxLinksToFollow()));
 		} else {
-			this.downloadJobSimpleRulesPanel.linksToFollowTextField.setText("-1");
+			this.downloadJobSimpleRulesPanel.linksToFollowTextField
+					.setText("-1");
 		}
 
-		if(timeLimitFilter != null) {
+		if (timeLimitFilter != null) {
 			this.downloadJobSimpleRulesPanel.timeLimitTextField
-				.setText(timeLimitFilter.getTimeLimitAsText());
+					.setText(timeLimitFilter.getTimeLimitAsText());
 		} else {
 			this.downloadJobSimpleRulesPanel.timeLimitTextField.setText("-1");
 		}
-		
+
 		if (downloadJobFilter != null) {
-			
-			this.downloadJobSimpleRulesPanel.recursionDepthTextField.setText(String
-					.valueOf(downloadJobFilter.getMaxRecursionDepth()));
+
+			this.downloadJobSimpleRulesPanel.recursionDepthTextField
+					.setText(String.valueOf(downloadJobFilter
+							.getMaxRecursionDepth()));
 
 			if (downloadJobFilter.getURLPrefix() != null) {
 				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox
@@ -184,23 +192,39 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 		//load special rules
 		if (fileSizeFilter != null) {
-			
-			this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox.setSelected(true);
-			
-			this.downloadJobSpecialRulesPanel.fileSizeMinField.setText(
-					fileSizeFilter.getMinSizeAsText());
-			this.downloadJobSpecialRulesPanel.fileSizeMaxField.setText(
-					fileSizeFilter.getMaxSizeAsText());
-			this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox.setSelectedIndex(
-					fileSizeFilter.isAcceptWhenLengthNotSet() ? 0 : 1);
+
+			this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox
+					.setSelected(true);
+
+			this.downloadJobSpecialRulesPanel.fileSizeMinField
+					.setText(fileSizeFilter.getMinSizeAsText());
+			this.downloadJobSpecialRulesPanel.fileSizeMaxField
+					.setText(fileSizeFilter.getMaxSizeAsText());
+			this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
+					.setSelectedIndex(fileSizeFilter.isAcceptWhenLengthNotSet() ? 0
+							: 1);
+		}
+
+		//load advanced rules
+		if (regExpJobFilter != null) {
+			ExtendedListModel model = this.downloadJobRegExpRulesPanel.regExpFilterListModel;
+//			this.downloadJobRegExpRulesPanel.regExpFilterList.setModel(model);
+			for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
+				model
+						.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
+								jobFilterRule));
+			}
 		}
 		
-		//load advanced rules
-		ExtendedListModel model = this.downloadJobRegExpRulesPanel.regExpFilterListModel;
-		this.downloadJobRegExpRulesPanel.regExpFilterList.setModel(model);
-		for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
-			model.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
-							jobFilterRule));
+		//load content filter
+		if (contentFilter != null) {
+			ExtendedListModel model = this.downloadJobContentFilterPanel.contentFilterListModel;
+			
+			for (ContentFilterConfig jobFilterRule : contentFilter.getContentFilterConfigList()) {
+				model.addElement(this.downloadJobContentFilterPanel.new ContentFilterRuleListElement(
+								jobFilterRule));
+			}
+			
 		}
 
 	}
@@ -231,8 +255,8 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			throw new RuntimeException(e);
 		}
 
-		basicJob.setSavePath(new File(this.downloadJobBasicPanel.savePathTextField
-				.getText()));
+		basicJob.setSavePath(new File(
+				this.downloadJobBasicPanel.savePathTextField.getText()));
 		basicJob.setMaxRetryCount(Integer
 				.parseInt(this.downloadJobBasicPanel.maxRetriesTextField
 						.getText()));
@@ -292,21 +316,22 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			MaxLinksToFollowFilter maxLinksToFollowFilter = new MaxLinksToFollowFilter();
 			maxLinksToFollowFilter.setMaxLinksToFollow(Integer
 					.parseInt(maxLinksToFollow));
-			
-			if(maxLinksToFollowFilter.getMaxLinksToFollow() > -1) {
+
+			if (maxLinksToFollowFilter.getMaxLinksToFollow() > -1) {
 				jobFilterList.add(maxLinksToFollowFilter);
 			}
 		}
 
-		String timeLimit = this.downloadJobSimpleRulesPanel.timeLimitTextField.getText();
+		String timeLimit = this.downloadJobSimpleRulesPanel.timeLimitTextField
+				.getText();
 		if (timeLimit != null && timeLimit.length() > 0) {
 			TimeLimitFilter timeLimitFilter = new TimeLimitFilter();
 			timeLimitFilter.setTimeLimitAsText(timeLimit);
-			if(timeLimitFilter.getTimeLimit() > -1) { 
+			if (timeLimitFilter.getTimeLimit() > -1) {
 				jobFilterList.add(timeLimitFilter);
 			}
 		}
-		
+
 		if (this.downloadJobSimpleRulesPanel.urlPrefixCheckBox.isSelected()) {
 			try {
 				downloadJobFilter.setURLPrefix(new URL(
@@ -343,6 +368,26 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		downloadJobFilter.setSaveToDisk(saveToDiskFilters
 				.toArray(new String[saveToDiskFilters.size()]));
 
+		//file size filter
+		if (this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox
+				.isSelected()) {
+
+			FileSizeFilter fileSizeFilter = new FileSizeFilter();
+
+			fileSizeFilter
+					.setMinSizeAsText(this.downloadJobSpecialRulesPanel.fileSizeMinField
+							.getText().trim());
+			fileSizeFilter
+					.setMaxSizeAsText(this.downloadJobSpecialRulesPanel.fileSizeMaxField
+							.getText().trim());
+
+			fileSizeFilter
+					.setAcceptWhenLengthNotSet(this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
+							.getSelectedIndex() > 0 ? false : true);
+
+			jobFilterList.add(fileSizeFilter);
+		}
+		
 		//advanced rules
 		int advancedFilterCount = this.downloadJobRegExpRulesPanel.regExpFilterListModel
 				.getSize();
@@ -358,39 +403,37 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			jobFilterList.add(regExpFilter);
 		}
 
-		//file size filter
-		if (this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox.isSelected()) {
+		//content filter
+		int contentFilterCount = this.downloadJobContentFilterPanel.contentFilterListModel
+				.getSize();
+		if (contentFilterCount > 0) {
+			ContentFilter contentFilter = new ContentFilter();
 
-			FileSizeFilter fileSizeFilter = new FileSizeFilter();
-			
-			fileSizeFilter.setMinSizeAsText(
-					this.downloadJobSpecialRulesPanel.fileSizeMinField.getText().trim());
-			fileSizeFilter.setMaxSizeAsText(
-					this.downloadJobSpecialRulesPanel.fileSizeMaxField.getText().trim());
+			for (int i = 0; i < contentFilterCount; i++) {
+				ContentFilterConfig rule = ((DownloadJobContentFilterPanel.ContentFilterRuleListElement) this.downloadJobContentFilterPanel.contentFilterListModel
+						.get(i)).getRule();
+				contentFilter.addContentFilterConfig(rule);
+			}
 
-			fileSizeFilter.setAcceptWhenLengthNotSet(
-					this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
-						.getSelectedIndex() > 0 ? false : true);
-			
-			jobFilterList.add(fileSizeFilter);
+			jobFilterList.add(contentFilter);
 		}
 
 		//build result
 		SerializableJobPackage result = new SerializableJobPackage();
-		
+
 		for (URL url : urls) {
 			UrlDownloadJob job = jobFactory.createDownloadJob();
-			
+
 			job.setUrl(url);
 			job.setIgnoreFilter(basicJob.isIgnoreFilter());
 			job.setState(basicJob.getState());
 			job.setName(basicJob.getName());
 			job.setSavePath(basicJob.getSavePath());
 			job.setMaxRetryCount(basicJob.getMaxRetryCount());
-			
+
 			result.addJob(job);
 		}
-		
+
 		result.setFilters(jobFilterList);
 		result.setDispatcherConfiguration(dispatcherConfiguration);
 		result
@@ -451,6 +494,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel();
 		downloadJobSpecialRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel();
 		downloadJobRegExpRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel();
+		downloadJobContentFilterPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel();
 
 		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
 
@@ -459,6 +503,8 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		tabbedPane.addTab("Special Rules", downloadJobSpecialRulesPanel);
 
 		tabbedPane.addTab("Advanced RegExp Rules", downloadJobRegExpRulesPanel);
+
+		tabbedPane.addTab("Content Filter", downloadJobContentFilterPanel);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
@@ -469,13 +515,14 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(tabbedPane,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 587,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 598,
 				Short.MAX_VALUE));
 	}// </editor-fold>//GEN-END:initComponents
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel downloadJobBasicPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel downloadJobContentFilterPanel;
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel downloadJobRegExpRulesPanel;
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel downloadJobSpecialRulesPanel;
