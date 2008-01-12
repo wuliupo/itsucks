@@ -25,4 +25,6 @@ public final class ApplicationConstants {
 	
 	public static final String HTTP_PARSER_CONFIG_FILE = "itsucks_http_parser.properties";
 	
+	public static final String FILE_VERSION = "1.0";
+	
 }

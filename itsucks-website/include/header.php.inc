@@ -55,6 +55,7 @@
       </div>
       <ul>
       	<li><a class="<? selectMenuEntry('api'); ?>" href="apidocs/">Core API</a></li>
+      	<li><a class="<? selectMenuEntry('examples'); ?>" href="examples.php">Examples</a></li>
       </ul>
 
       <div>

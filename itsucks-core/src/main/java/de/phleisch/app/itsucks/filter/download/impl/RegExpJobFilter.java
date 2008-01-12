@@ -61,8 +61,7 @@ public class RegExpJobFilter
 	public Job filter(Job pJob) throws Exception {
 		
 		//check state of job, only process open jobs
-		if(pJob.getState() != Job.STATE_OPEN && 
-				pJob.getState() != Job.STATE_IGNORED) return pJob;
+		if(pJob.getState() != Job.STATE_OPEN) return pJob;
 		
 		Boolean accept = null;
 		final URL url = ((UrlDownloadJob)pJob).getUrl();

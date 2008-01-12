@@ -9,7 +9,7 @@
   
     <a style="float: right;" href="http://sourceforge.net"><img src=
     "http://sflogo.sourceforge.net/sflogo.php?group_id=186141&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
-    <span>Last edited October 03th, 2007<br />by Oliver Mihatsch</span>
+    <span>Last edited January 12th, 2008<br />by Oliver Mihatsch</span>
     -->     
   </div>
 </body>

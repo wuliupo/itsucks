@@ -71,21 +71,20 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			throw new IllegalStateException("Retriever is aborted.");
 		}
 
+		HttpClient client = getHttpClientFromContext();
+		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
 		
+		HttpMethodParams params = mGet.getParams();
+		params.setSoTimeout(90 * 1000); //90 seconds
+		
 		if(getUserAgent() != null) {
-			HttpMethodParams params = mGet.getParams();
-			
-			params.setSoTimeout(90 * 1000); //90 seconds
 			params.setParameter(HttpMethodParams.USER_AGENT, getUserAgent());
-			//mGet.addRequestHeader("User-Agent", getUserAgent());
 		}
 		if(mBytesToSkip > 0) { //try to resume
 			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
 		}
-		
-		HttpClient client = getHttpClientFromContext();
 		
 		client.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " Status: " + mGet.getStatusCode());
@@ -171,6 +170,9 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
      					new UsernamePasswordCredentials(
      							pConfiguration.getProxyUser(), 
      							pConfiguration.getProxyPassword()));
+     		}
+     		if(pConfiguration.getUserAgent() != null) {
+     			setUserAgent(pConfiguration.getUserAgent());
      		}
      	}
      	

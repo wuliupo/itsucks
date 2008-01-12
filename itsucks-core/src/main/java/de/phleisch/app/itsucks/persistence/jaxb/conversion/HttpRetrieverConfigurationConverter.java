@@ -44,6 +44,8 @@ public class HttpRetrieverConfigurationConverter extends AbstractBeanConverter {
 		configuration.setProxyUser(pBean.getProxyUser());
 		configuration.setProxyPassword(pBean.getProxyPassword());
 		
+		configuration.setUserAgent(pBean.getUserAgent());
+		
 		return configuration;
 	}
 
@@ -74,6 +76,8 @@ public class HttpRetrieverConfigurationConverter extends AbstractBeanConverter {
 		serializedConfiguration.setProxyAuthenticationEnabled(pClass.isProxyAuthenticationEnabled());
 		serializedConfiguration.setProxyUser(pClass.getProxyUser());
 		serializedConfiguration.setProxyPassword(pClass.getProxyPassword());
+		
+		serializedConfiguration.setUserAgent(pClass.getUserAgent());
 		
 		return serializedConfiguration;
 	}

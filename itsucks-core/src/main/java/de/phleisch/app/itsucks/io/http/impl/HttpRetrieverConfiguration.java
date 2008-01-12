@@ -24,6 +24,7 @@ public class HttpRetrieverConfiguration {
 	private String mProxyPassword;
 	private String mProxyRealm;
 	
+	private String mUserAgent;
 	
 	public Integer getMaxConnectionsPerServer() {
 		return mMaxConnectionsPerServer;
@@ -72,6 +73,12 @@ public class HttpRetrieverConfiguration {
 	}
 	public void setProxyRealm(String pProxyRealm) {
 		mProxyRealm = pProxyRealm;
+	}
+	public String getUserAgent() {
+		return mUserAgent;
+	}
+	public void setUserAgent(String pUserAgent) {
+		mUserAgent = pUserAgent;
 	}
 	
 }

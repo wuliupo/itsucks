@@ -70,7 +70,7 @@ public class JAXBJobSerialization
 		ObjectFactory beanFactory = new ObjectFactory();
 		
 		SerializedJobs jobs = beanFactory.createSerializedJobs();
-		jobs.setVersion(ApplicationConstants.APPLICATION_VERSION);
+		jobs.setVersion(ApplicationConstants.FILE_VERSION);
 		
 		//convert jobs included in the pJobList
 		for (Job job : pJobList.getJobs()) {

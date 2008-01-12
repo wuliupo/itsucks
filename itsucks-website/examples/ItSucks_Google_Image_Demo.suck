@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<serializedJobs xmlns="http://itsucks.sourceforge.net/ItSucksJobSchema">
+    <version>1.0</version>
+    <serializedDownloadJob id="-1">
+        <name>Google Image Demo</name>
+        <state>1</state>
+        <priority>500</priority>
+        <ignoreFilter>true</ignoreFilter>
+        <url>http://images.google.com/images?q=roboter&amp;gbv=2&amp;ndsp=20&amp;svnum=10&amp;hl=de&amp;safe=off&amp;start=0&amp;sa=N</url>
+        <parentJobId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        <depth>0</depth>
+        <maxRetryCount>3</maxRetryCount>
+        <minTimeBetweenRetry>5000</minTimeBetweenRetry>
+        <saveToDisk>true</saveToDisk>
+        <savePath>/tmp/crawl</savePath>
+    </serializedDownloadJob>
+    <serializedDownloadJobFilter>
+        <maxRecursionDepth>-1</maxRecursionDepth>
+        <urlPrefix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        <allowedHostName>.*</allowedHostName>
+        <saveToDisk>.*(jpg|png|gif)</saveToDisk>
+    </serializedDownloadJobFilter>
+    <serializedMaxLinksToFollowFilter>
+        <maxLinksToFollow>200</maxLinksToFollow>
+    </serializedMaxLinksToFollowFilter>
+    <serializedRegExpJobFilter>
+        <letUnfilteredJobsPass>true</letUnfilteredJobsPass>
+        <serializedRegExpJobFilterRule>
+            <name>Allow images and google</name>
+            <description>Accept images from any server and urls containing &quot;google.com&quot;.</description>
+            <pattern>google\.com|png|gif|jpg</pattern>
+            <matchAction>
+                <priorityChange>0</priorityChange>
+                <accept>true</accept>
+                <parameter>
+                    <key>job.download.skip_when_existing</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </parameter>
+            </matchAction>
+            <noMatchAction>
+                <priorityChange>0</priorityChange>
+                <accept>false</accept>
+                <parameter>
+                    <key>job.download.skip_when_existing</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </parameter>
+            </noMatchAction>
+        </serializedRegExpJobFilterRule>
+        <serializedRegExpJobFilterRule>
+            <name>Reject images from google.com</name>
+            <description>Reject images from google.com.</description>
+            <pattern>google\.com.*(png|gif|jpg)$</pattern>
+            <matchAction>
+                <priorityChange>0</priorityChange>
+                <accept>false</accept>
+                <parameter>
+                    <key>job.download.skip_when_existing</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </parameter>
+            </matchAction>
+            <noMatchAction>
+                <priorityChange>0</priorityChange>
+                <accept xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <parameter>
+                    <key>job.download.skip_when_existing</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</value>
+                </parameter>
+            </noMatchAction>
+        </serializedRegExpJobFilterRule>
+    </serializedRegExpJobFilter>
+    <serializedContextParameter>
+        <name>HttpRetrieverConfiguration</name>
+        <serializedHttpRetrieverConfiguration>
+            <maxConnectionsPerServer>2</maxConnectionsPerServer>
+            <proxyEnabled>false</proxyEnabled>
+            <proxyServer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <proxyPort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <proxyAuthenticationEnabled>false</proxyAuthenticationEnabled>
+            <proxyUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <proxyPassword xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <proxyRealm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+        </serializedHttpRetrieverConfiguration>
+    </serializedContextParameter>
+    <serializedDispatcherConfiguration>
+        <workerThreads>5</workerThreads>
+        <dispatchDelay xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    </serializedDispatcherConfiguration>
+</serializedJobs>

@@ -7,6 +7,40 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre5 is released</h2>
+        <div class='date'>2008-01-12</div>
+        <p>
+		Fifth pre release of the 0.3.0 branch. It contains a new content filter.
+		<!-- 
+        <ul>
+        <li>Added batch processing</li>
+        <li>Added multiple url's per job</li>
+        <li>Improved memory settings for JVM</li>
+        </ul>
+         -->
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href=""> ChangeLog 0.3.0-pre5</a>
+		</p>
+      </p>
+
+      <p class="text">
+        <h2>Version 0.3.0-pre4 is released</h2>
+        <div class='date'>2007-12-30</div>
+        <p>
+		Forth pre release of the 0.3.0 branch. It contains batch processing and multiple url's per job.
+        <ul>
+        <li>Added batch processing</li>
+        <li>Added multiple url's per job</li>
+        <li>Improved memory settings for JVM</li>
+        </ul>
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=564962"> ChangeLog 0.3.0-pre4</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre3 is released</h2>
         <div class='date'>2007-11-04</div>
         <p>
@@ -17,7 +51,7 @@ include_once('include/header.php.inc');
         </ul>
 		</p>
 		<p>
-		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=551850"> ChangeLog 0.3.0-pre3</a>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=551850"> ChangeLog 0.3.0-pre3</a>
 		</p>
       </p>
 

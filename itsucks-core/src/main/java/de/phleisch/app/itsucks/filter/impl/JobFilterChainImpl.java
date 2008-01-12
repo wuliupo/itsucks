@@ -31,7 +31,7 @@ public class JobFilterChainImpl implements JobFilterChain {
 		mJobFilter = new ArrayList<JobFilter>();
 	}
 
-	public Job filterJob(Job pJob) {
+	public synchronized Job filterJob(Job pJob) {
 		
 		Job job = pJob;
 		

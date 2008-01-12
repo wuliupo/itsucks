@@ -136,6 +136,13 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 									.getProxyPassword());
 				}
 			}
+			
+			if(httpRetrieverConfiguration.getUserAgent() != null) {
+				this.downloadJobBasicPanel.userAgentCheckBox
+					.setSelected(true);
+				this.downloadJobBasicPanel.userAgentTextField
+					.setText(httpRetrieverConfiguration.getUserAgent());
+			}
 		}
 
 		//load simple rules
@@ -297,6 +304,13 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 							.getText());
 		} else {
 			retrieverConfiguration.setProxyAuthenticationEnabled(false);
+		}
+		
+		//user agent
+		if (this.downloadJobBasicPanel.userAgentCheckBox.isSelected()) {
+			retrieverConfiguration
+					.setUserAgent(this.downloadJobBasicPanel.userAgentTextField
+							.getText());
 		}
 
 		//simple rules panel

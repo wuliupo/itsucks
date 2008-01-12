@@ -101,7 +101,6 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	 */
 	public boolean removeJob(Job pJob) {
 		boolean result = mJobList.removeJob(pJob);
-//		boolean result = true;
 		
 		if(result) {
 			mEventDispatcher.fireEvent(

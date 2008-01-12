@@ -207,6 +207,7 @@
 				<xs:element name="proxyUser" type="xs:string" nillable="true"></xs:element>
 				<xs:element name="proxyPassword" type="xs:string" nillable="true"></xs:element>
 				<xs:element name="proxyRealm" type="xs:string" nillable="true"></xs:element>
+				<xs:element name="userAgent" type="xs:string" nillable="true"></xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

@@ -78,7 +78,7 @@ include_once('include/header.php.inc');
         </ul>
         
       </p>    
-    
+    </div>
 <?
 include_once('include/footer.php.inc');
 ?>
