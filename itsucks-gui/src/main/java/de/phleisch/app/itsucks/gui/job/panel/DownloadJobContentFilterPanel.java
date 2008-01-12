@@ -70,8 +70,8 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
 		 */
 		public String toHtmlString() {
 			return "<html>"
-					+ (mRule.getName() != null ? "Name: '" + mRule.getName()
-							+ "'<br>\n" : "") + "Pattern: '"
+					+ (mRule.getName() != null ? "<b>Name: '" + mRule.getName()
+							+ "'</b><br>\n" : "") + "Pattern: '"
 					+ mRule.getPattern() + "' <br>\n" + "Match: "
 					+ translateAction(mRule.getMatchAction()) 
 					+ "<br>\nNo Match: "
