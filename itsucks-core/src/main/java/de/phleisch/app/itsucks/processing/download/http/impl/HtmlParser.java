@@ -119,7 +119,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 			try {
 				url = referenceURI.toURL();
 			} catch (MalformedURLException ex) {
-				mLog.warn("Parsed bad link: " + referenceURI);
+				mLog.warn("Parsed bad link: " + referenceURI + " BaseURI: " + mBaseURI);
 				continue;
 			}
 			

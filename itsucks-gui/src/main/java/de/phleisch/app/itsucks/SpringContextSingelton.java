@@ -7,6 +7,8 @@
 
 package de.phleisch.app.itsucks;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -14,6 +16,8 @@ import de.phleisch.app.itsucks.constants.ApplicationConstants;
 
 public class SpringContextSingelton {
 
+	private static Log mLog = LogFactory.getLog(SpringContextSingelton.class);
+	
 	private boolean mInitialized = false;
 	private ApplicationContext mApplicationContext;
 	private static SpringContextSingelton mMyself = null;
@@ -29,8 +33,11 @@ public class SpringContextSingelton {
 		
 		if(isInitialized()) return;
 		
-		mApplicationContext = new ClassPathXmlApplicationContext(
-				ApplicationConstants.CORE_SPRING_CONFIG_FILE);
+		String configFile = ApplicationConstants.CORE_SPRING_CONFIG_FILE;
+		
+		mLog.info("Load spring context from classpath: " + configFile);
+		
+		mApplicationContext = new ClassPathXmlApplicationContext(configFile);
 		
 		if(mApplicationContext == null) {
 			throw new RuntimeException("Can't initialize spring framework!");
