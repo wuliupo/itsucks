@@ -11,16 +11,15 @@ include_once('include/header.php.inc');
         <div class='date'>2008-01-12</div>
         <p>
 		Fifth pre release of the 0.3.0 branch. It contains a new content filter.
-		<!-- 
         <ul>
-        <li>Added batch processing</li>
-        <li>Added multiple url's per job</li>
-        <li>Improved memory settings for JVM</li>
+        <li>Added content filter to match text files with repexp patterns while downloading them.</li>
+        <li>Added text field to change user agent.</li>
+        <li>Added cool application icon :-)</li>
+        <li>Bugfixes solving problems with lockups (threading issues). </li>
         </ul>
-         -->
 		</p>
 		<p>
-		Detailed changelog can be found here: <a href=""> ChangeLog 0.3.0-pre5</a>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=568134"> ChangeLog 0.3.0-pre5</a>
 		</p>
       </p>
 
