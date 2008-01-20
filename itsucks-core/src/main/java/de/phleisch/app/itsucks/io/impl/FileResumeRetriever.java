@@ -63,6 +63,7 @@ public class FileResumeRetriever implements DataRetriever {
 		mReadFromFile = false;
 		mResumePrepared = false;
 		mDataProcessorChain = null;
+		mResumeOffset = 0;
 	}
 
 	/* (non-Javadoc)
@@ -91,16 +92,20 @@ public class FileResumeRetriever implements DataRetriever {
 			if(mDataRetriever.getBytesSkipped() > 0) {
 				mLog.info("Resume of URL successful: " 
 						+ mDataRetriever.getUrl());
+				
 			} else {
+				//resume not possible, read everything from the live stream
+				mResumeOffset = 0;
+				
 				mLog.info("Resume of URL not possible: " 
 						+ mDataRetriever.getUrl() + ", seeking not allowed.");
 			}
 			
 		} else {
-			//resume not really possible, read everything from the live stream
-			mReadFromFile = false;
+			//resume not possible, read everything from the live stream
 			mResumeOffset = 0;
 			
+			//connect without skipping any bytes
 			mDataRetriever.connect();
 			
 			mLog.info("Resume of url not possible: " 
@@ -121,42 +126,52 @@ public class FileResumeRetriever implements DataRetriever {
 			throw new IllegalArgumentException("Processor Chain not set!");
 		}
 		
-		if(dataProcessorChain.canResume()) {
-			//ok, resume is possible, advise every processor to resume at the given position.
+		if(mResumeOffset > 0) {
+		
+			//retriever successfully seeked to the position
+			//reorganize the data processors
 			
-			dataProcessorChain.resumeAt(mResumeOffset);
-			
-			mReadFromFile = false;
+			if(dataProcessorChain.canResume()) {
+				//ok, resume is possible, advise every processor to resume at the given position.
+				
+				dataProcessorChain.resumeAt(mResumeOffset);
+				
+				mReadFromFile = false;
+				
+			} else {
+				//resume is not possible, read the data from the disc and pipe it through the processors
+				
+				mFileRetriever = new FileRetriever(mLocalFile);
+				
+				List<DataProcessor> dataProcessors = dataProcessorChain.getDataProcessors();
+				
+				for (DataProcessor processor : dataProcessors) {
+					
+					//skip the persistence processor
+					if(processor instanceof PersistenceProcessor) {
+						
+						processor.resumeAt(mResumeOffset);
+						dataProcessorChain.replaceDataProcessor(processor, 
+								new SeekDataProcessorWrapper(processor, mResumeOffset));
+						
+						continue;
+					}
+				}
+				
+				mFileRetriever.setDataConsumer(mDataRetriever.getDataConsumer());
+				
+				try {
+					mFileRetriever.connect();
+				} catch (Exception e) {
+					throw new RuntimeException("Error creating file retriever", e);
+				}
+				
+				mReadFromFile = true;
+			}
 			
 		} else {
-			//resume is not possible, read the data from the disc and pipe it through the processors
-			
-			mFileRetriever = new FileRetriever(mLocalFile);
-			
-			List<DataProcessor> dataProcessors = dataProcessorChain.getDataProcessors();
-			
-			for (DataProcessor processor : dataProcessors) {
-				
-				//skip the persistence processor
-				if(processor instanceof PersistenceProcessor) {
-					
-					processor.resumeAt(mResumeOffset);
-					dataProcessorChain.replaceDataProcessor(processor, 
-							new SeekDataProcessorWrapper(processor, mResumeOffset));
-					
-					continue;
-				}
-			}
-			
-			mFileRetriever.setDataConsumer(mDataRetriever.getDataConsumer());
-			
-			try {
-				mFileRetriever.connect();
-			} catch (Exception e) {
-				throw new RuntimeException("Error creating file retriever", e);
-			}
-			
-			mReadFromFile = true;
+			//only pipe through
+			mReadFromFile = false;
 		}
 		
 		mResumePrepared = true;
@@ -167,18 +182,7 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public void retrieve() throws IOException {
 		
-		if(mDataRetriever.getBytesSkipped() > 0) {
-
-			//retriever successfully seeked to the position
-			//reorganize the data processors
-			prepareResume();
-			
-		} else {
-			
-			//abort resuming
-			mReadFromFile = false;
-			mResumeOffset = 0;
-		}
+		prepareResume();
 		
 		if(mReadFromFile) {
 			//open the old file for the data processor chain

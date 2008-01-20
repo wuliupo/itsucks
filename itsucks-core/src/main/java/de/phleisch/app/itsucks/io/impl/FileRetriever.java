@@ -55,6 +55,11 @@ public class FileRetriever extends AbstractDataRetriever {
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
 	 */
 	public void connect() throws IOException {
+		if(mIn != null) {
+			throw new IllegalStateException("Already connected!");
+		}
+		
+		mLog.debug("Open file for retrieval: " + mFile);
 		mIn = new FileInputStream(mFile);
 		
 		mFileSize = mFile.length();
@@ -64,7 +69,12 @@ public class FileRetriever extends AbstractDataRetriever {
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
 	public void disconnect() throws IOException {
-		mIn.close();
+		if(mIn != null) {
+			mLog.debug("Close file");
+			mIn.close();
+		}
+		
+		mIn = null;
 	}
 
 	/* (non-Javadoc)
