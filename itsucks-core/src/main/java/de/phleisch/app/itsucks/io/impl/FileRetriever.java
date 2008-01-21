@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.io.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,10 +33,7 @@ public class FileRetriever extends AbstractDataRetriever {
 	private File mFile;
 	private FileInputStream mIn;
 	
-	private float mProgress = -1;
 	private long mFileSize;
-	private long mBytesRead;
-	
 	private boolean mAbort = false;
 
 	private long mByteOffset;
@@ -49,6 +47,14 @@ public class FileRetriever extends AbstractDataRetriever {
 	 */
 	public void abort() {
 		mAbort = true;
+
+		if(mIn != null) {
+			try {
+				mIn.close();
+			} catch (IOException e) {
+				mLog.warn("Error closing file to abort transfer", e);
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -58,11 +64,21 @@ public class FileRetriever extends AbstractDataRetriever {
 		if(mIn != null) {
 			throw new IllegalStateException("Already connected!");
 		}
+		if(mAbort) {
+			throw new IllegalStateException("Retriever aborted");
+		}
 		
 		mLog.debug("Open file for retrieval: " + mFile);
 		mIn = new FileInputStream(mFile);
 		
 		mFileSize = mFile.length();
+		
+		//skip bytes in front when given
+		if(mByteOffset > 0) {
+			mLog.debug("Seek to position: " + mByteOffset);
+			mByteOffset= mIn.skip(mByteOffset);
+		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -78,24 +94,10 @@ public class FileRetriever extends AbstractDataRetriever {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
-	 */
-	public long getBytesRetrieved() {
-		return mBytesRead;
-	}
-
-	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getMetadata()
 	 */
 	public Metadata getMetadata() {
 		throw new IllegalStateException("Not implemented yet!");
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
-	 */
-	public float getProgress() {
-		return mProgress;
 	}
 
 	/* (non-Javadoc)
@@ -104,48 +106,14 @@ public class FileRetriever extends AbstractDataRetriever {
 	public boolean isDataAvailable() throws IOException {
 		return mIn.available() > 0;
 	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
-	 */
-	public void retrieve() throws IOException {
-
-		//skip bytes in front when given
-		if(mByteOffset > 0) {
-			mByteOffset= mIn.skip(mByteOffset);
+	
+	public InputStream getDataAsInputStream() {
+		
+		if(mIn == null) {
+			throw new IllegalStateException("Not connected");
 		}
 		
-		//100k buffer
-		byte buffer[] = new byte[102400];
-		
-		mBytesRead = 0; //reset bytes read
-		int bytesRead;
-		
-		while((bytesRead = mIn.read(buffer)) > 0) {
-			
-			if(mAbort ) {
-				mLog.warn("File retriever aborted: " + this);
-				break;
-			}
-			
-			getDataConsumer().process(buffer, bytesRead);
-
-			//update the progress
-			mBytesRead += bytesRead;
-			updateProgress(((float)mBytesRead / (float)mFileSize));
-		}
-		
-	}
-
-	private void updateProgress(float pProgress) {
-		mLog.trace("Update Progress: " + pProgress);
-		
-		if(mProgress != pProgress) {
-			mProgress = pProgress;
-			this.setChanged();
-		}
-		
-		this.notifyObservers(NOTIFICATION_PROGRESS);
+		return mIn;
 	}
 
 	/* (non-Javadoc)
@@ -168,5 +136,12 @@ public class FileRetriever extends AbstractDataRetriever {
 	public int getResultCode() {
 		return RESULT_RETRIEVAL_OK;
 	}
-	
+
+	public long getContentLenght() {
+		if(mIn == null) {
+			throw new IllegalStateException("Not connected");
+		}
+		
+		return mFileSize;
+	}
 }

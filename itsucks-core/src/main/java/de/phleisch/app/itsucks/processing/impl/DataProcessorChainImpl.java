@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.processing.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.DataConsumer;
-import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
 import de.phleisch.app.itsucks.processing.AbortProcessingException;
@@ -38,7 +38,8 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 	
 	protected List<DataProcessor> mDataProcessors = new ArrayList<DataProcessor>();
 	
-	protected DataRetriever mDataRetriever;
+	protected InputStream mInputStream;
+	
 	protected Job mJob;
 	protected JobManager mJobManager;
 	
@@ -122,11 +123,9 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		
 		if(mInitialized) return;
 
-		if(getDataRetriever() == null) {
-			throw new IllegalStateException("No Data Retriever set!");
+		if(mInputStream == null) {
+			throw new IllegalStateException("Input stream not set.");
 		}
-		
-		getDataRetriever().setDataConsumer(new DataConsumerImpl());
 		
 		mProcessedBytes = 0;
 		
@@ -154,6 +153,11 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#run()
 	 */
 	public void run() throws IOException, ProcessingException, AbortProcessingException {
+		
+		if(!mInitialized) {
+			throw new IllegalStateException("Chain not initialized.");
+		}
+		
 		try {
 			internalRun();
 		} catch(AbortProcessingException ex) {
@@ -176,16 +180,9 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 	}
 
 	protected void internalRun() throws IOException, ProcessingException {
-		if(containsConsumer() && mDataRetriever.isDataAvailable()) {
-			
-			try {
-				mDataRetriever.retrieve();
-			} catch(ContainerRuntimeException ce) {
-				//this exception was tunneled through the container 
-				// as RuntimeException and is now thrown
-				//TODO maybe change the retriever concept to something like an iterator to improve this
-				throw (ProcessingException)ce.getCause();
-			}
+		
+		if(containsConsumer()) {
+			pumpData();
 		}
 		
 		//dispatch merged data now when the consumer needs it as whole chunk
@@ -197,6 +194,34 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		}
 	}
 
+	protected void pumpData() throws IOException, ProcessingException {
+		//TODO move this to another class?
+		
+		final int BUFFER_SIZE = 102400; //100k buffer
+		
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int bytesRead;
+		
+		while((bytesRead = mInputStream.read(buffer)) > 0) {
+			process(buffer, bytesRead);
+		}
+	}
+
+	protected void process(byte[] pBuffer, int pBytes) throws IOException, ProcessingException {
+		
+		if(mStreamingEnabled) {
+			DataChunk chunk = new DataChunk(pBuffer, pBytes, false);
+			
+				dispatchChunk(chunk);
+			
+			mProcessedBytes += pBytes;
+			
+		} else {
+			appendChunk(pBuffer, pBytes);
+		}
+		
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#finish()
 	 */
@@ -245,6 +270,18 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		
 	}
 	
+	protected void dispatchFinalChunk() throws ProcessingException {
+		
+		//dispatch merged data now when the consumer needs it as whole chunk
+		if(!mStreamingEnabled && mBufferedData != null) {
+			DataChunk chunk = new DataChunk(mBufferedData, mBufferedData.length, true);
+			dispatchChunk(chunk);
+			mProcessedBytes += mBufferedData.length;
+			mBufferedData = null;
+		}
+		
+	}
+	
 	private void appendChunk(byte[] pBuffer, int pBytes) {
 		
 		if(mBufferedData == null) {
@@ -289,19 +326,19 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 			processor.resumeAt(pResumeOffset);
 		}
 	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#setDataRetriever(de.phleisch.app.itsucks.io.DataRetriever)
-	 */
-	public void setDataRetriever(DataRetriever pDataRetriever) {
-		mDataRetriever = pDataRetriever;
-	}
 	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#getDataRetriever()
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#getInputStream()
 	 */
-	public DataRetriever getDataRetriever() {
-		return mDataRetriever;
+	public InputStream getInputStream() {
+		return mInputStream;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#setInputStream(java.io.InputStream)
+	 */
+	public void setInputStream(InputStream pInputStream) {
+		mInputStream = pInputStream;
 	}
 	
 	/* (non-Javadoc)
@@ -362,9 +399,8 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		
 		return hasConsumer;
 	}
-
 	
-	protected class DataConsumerImpl implements DataConsumer {
+	protected class DataConsumerImpl implements DataConsumer  {
 		
 		/* (non-Javadoc)
 		 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
@@ -396,7 +432,6 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		public boolean canResume() {
 			return DataProcessorChainImpl.this.canResume();
 		}
-		
 	}
 	
 	protected class ContainerRuntimeException extends RuntimeException {
@@ -408,5 +443,6 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		}
 		
 	}
+
 	
 }

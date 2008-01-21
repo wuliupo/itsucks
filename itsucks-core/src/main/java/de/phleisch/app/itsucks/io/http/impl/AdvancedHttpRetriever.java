@@ -32,8 +32,6 @@ import de.phleisch.app.itsucks.job.Context;
  */
 public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
-	private static final int BUFFER_SIZE = 102400; //100k buffer
-
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
 	
 	private static int HTTP_STATUS_REQUEST_TIMEOUT = 408;
@@ -51,9 +49,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	private HttpMetadata mMetadata;
 	private String mUserAgent;
 	
-	private float mProgress = -1;
-	private long mBytesDownloaded = -1;
-
 	private boolean mAbort = false;
 
 	private long mBytesToSkip;
@@ -190,23 +185,13 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		return mGet.getStatusCode() < 300;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
-	 */
-	public void retrieve() throws IOException {
-	
-		try {
-			download();
-		} catch (IOException e) {
-			if(mAbort) {
-				mLog.info("Exception occured while aborting retrival. URL: " + mUrl, e);
-			} else {
-				mLog.error("Error downloading url: " + mUrl, e);
-			}
-			throw e;
-		} finally {
-			disconnect();
+	public InputStream getDataAsInputStream() throws IOException {
+		
+		if(mGet == null) {
+			throw new IllegalStateException("Not connected");
 		}
+		
+		return mGet.getResponseBodyAsStream();
 	}
 	
 	/* (non-Javadoc)
@@ -221,60 +206,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			
 			mLog.debug("Disconnected from: " + mUrl);
 		}
-	}
-	
-	private void download() throws IOException {
-		
-		InputStream input = mGet.getResponseBodyAsStream(); 
-
-		if(input == null) {
-			return;
-		}
-		
-		byte buffer[] = new byte[BUFFER_SIZE];
-		
-		mBytesDownloaded = 0; //reset bytes downloaded
-		int bytesRead;
-		long completeContentLenght = mMetadata.getContentLength();
-		
-		while((bytesRead = input.read(buffer)) > 0) {
-			
-			if(mAbort ) {
-				mLog.warn("DownloadJob aborted: " + this);
-				break;
-			}
-			
-			//mLog.error("Bytes read: " + allBytesRead + " from " + mMetadata.getContentLength() + " Progress: " + ((float)allBytesRead / (float)mMetadata.getContentLength()));
-
-			getDataConsumer().process(buffer, bytesRead);
-
-
-			//update the progress
-			mBytesDownloaded += bytesRead;
-			if(completeContentLenght > 0) {
-				updateProgress(((float)mBytesDownloaded / (float)completeContentLenght));
-			}
-		}
-		
-		//set progress to 100 % if content length was not available
-		if(completeContentLenght <= 0) {
-			updateProgress(1);
-		}
-		
-	}
-
-	/**
-	 * @param pProgress
-	 */
-	private void updateProgress(float pProgress) {
-		mLog.trace("Update Progress: " + pProgress);
-		
-		if(mProgress != pProgress) {
-			mProgress = pProgress;
-			this.setChanged();
-		}
-		
-		this.notifyObservers(NOTIFICATION_PROGRESS);
 	}
 
 	/* (non-Javadoc)
@@ -300,20 +231,6 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	 */
 	public void setUserAgent(String userAgent) {
 		mUserAgent = userAgent;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
-	 */
-	public long getBytesRetrieved() {
-		return mBytesDownloaded;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
-	 */
-	public float getProgress() {
-		return mProgress;
 	}
 
 	/* (non-Javadoc)
@@ -392,6 +309,14 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		}
 		
 		return result;
+	}
+
+	public long getContentLenght() {
+		if(mMetadata == null) {
+			throw new IllegalStateException("Not connected");
+		}
+		
+		return mMetadata.getContentLength();
 	}
 
 }

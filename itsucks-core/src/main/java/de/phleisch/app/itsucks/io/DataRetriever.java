@@ -9,8 +9,8 @@
 package de.phleisch.app.itsucks.io;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.Observer;
 
 import de.phleisch.app.itsucks.job.Context;
 
@@ -100,11 +100,11 @@ public interface DataRetriever {
 	public boolean isDataAvailable() throws IOException;
 	
 	/**
-	 * Retrieves all available data and send it through the processor chain.
-	 * 
-	 * @throws IOException
+	 * Returns an input stream for the retrieved data. 
+	 * @return
+	 * @throws IOException 
 	 */
-	public void retrieve() throws IOException;
+	public InputStream getDataAsInputStream() throws IOException;
 	
 	/**
 	 * Disconnect from the data source.
@@ -117,21 +117,6 @@ public interface DataRetriever {
 	 * Aborts the current retrieving.
 	 */
 	public void abort();
-	
-	//get status of retriever
-	/**
-	 * Returns the count of bytes read from the data source.
-	 * 
-	 * @return
-	 */
-	public long getBytesRetrieved();
-	
-	/**
-	 * Returns the progress in processing the data in percent.
-	 * 
-	 * @return
-	 */
-	public float getProgress();
 	
 	/**
 	 * Returns the internal state and result code.
@@ -147,6 +132,13 @@ public interface DataRetriever {
 	 * @return
 	 */
 	public Metadata getMetadata();
+	
+	/**
+	 * Returns the content length in bytes.
+	 * 
+	 * @return
+	 */
+	public long getContentLenght() throws IOException;
 
 	//resume interface
 	/**
@@ -162,20 +154,5 @@ public interface DataRetriever {
 	 * @return
 	 */
 	public long getBytesSkipped();
-
-	//Observable interface
-	/**
-	 * Adds an observer to the retriever, usable to retrieve progress change events.
-	 * <code>NOTIFICATION_PROGRESS</code> will be sent when the progress is updated.
-	 * 
-	 * @param o
-	 */
-	public void addObserver(Observer o);
 	
-	/**
-	 * Deletes an registered observer.
-	 * @param o
-	 */
-	public void deleteObserver(Observer o);
-
 }

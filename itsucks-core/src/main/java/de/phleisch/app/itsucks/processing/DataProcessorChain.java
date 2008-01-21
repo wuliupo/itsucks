@@ -9,9 +9,9 @@
 package de.phleisch.app.itsucks.processing;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
 
@@ -88,21 +88,10 @@ public interface DataProcessorChain {
 	 * @param pResumeOffset
 	 */
 	public abstract void resumeAt(long pResumeOffset);
-
-	/**
-	 * Sets the data retriever.
-	 * 
-	 * @param pDataRetriever
-	 */
-	public abstract void setDataRetriever(DataRetriever pDataRetriever);
-
-	/**
-	 * Gets the data retriever.
-	 * 
-	 * @return
-	 */
-	public abstract DataRetriever getDataRetriever();
-
+	
+	public abstract void setInputStream(InputStream pInputStream);
+	public abstract InputStream getInputStream();
+	
 	/**
 	 * Sets the job manager.
 	 * 

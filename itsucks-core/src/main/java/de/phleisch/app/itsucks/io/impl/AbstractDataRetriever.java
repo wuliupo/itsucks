@@ -8,7 +8,6 @@
 package de.phleisch.app.itsucks.io.impl;
 
 import java.net.URL;
-import java.util.Observable;
 
 import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.io.DataRetriever;
@@ -21,7 +20,7 @@ import de.phleisch.app.itsucks.job.Context;
  * @author olli
  *
  */
-public abstract class AbstractDataRetriever extends Observable implements DataRetriever {
+public abstract class AbstractDataRetriever implements DataRetriever {
 
 	protected URL mUrl;
 	public DataConsumer mDataConsumer;
@@ -60,5 +59,5 @@ public abstract class AbstractDataRetriever extends Observable implements DataRe
 	public void setDataConsumer(DataConsumer pDataConsumer) {
 		mDataConsumer = pDataConsumer;
 	}
-
+	
 }

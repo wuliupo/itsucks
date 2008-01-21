@@ -10,9 +10,10 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,8 +50,9 @@ public class FileResumeRetriever implements DataRetriever {
 	private long mResumeOffset;
 	
 	private boolean mReadFromFile;
-	private boolean mFileFinished;
 	private boolean mResumePrepared;
+
+	private InputStream mIn;
 	
 	
 	public FileResumeRetriever(DataRetriever pDataRetriever, 
@@ -59,7 +61,6 @@ public class FileResumeRetriever implements DataRetriever {
 		mFileRetriever = null;
 		mDataRetriever = pDataRetriever;
 		mLocalFile = pFile;
-		mFileFinished = false;
 		mReadFromFile = false;
 		mResumePrepared = false;
 		mDataProcessorChain = null;
@@ -115,7 +116,7 @@ public class FileResumeRetriever implements DataRetriever {
 
 	}
 
-	private void prepareResume() {
+	private void prepareResume() throws IOException {
 
 		if(mResumePrepared) return;
 		
@@ -159,12 +160,7 @@ public class FileResumeRetriever implements DataRetriever {
 				}
 				
 				mFileRetriever.setDataConsumer(mDataRetriever.getDataConsumer());
-				
-				try {
-					mFileRetriever.connect();
-				} catch (Exception e) {
-					throw new RuntimeException("Error creating file retriever", e);
-				}
+				mFileRetriever.connect();
 				
 				mReadFromFile = true;
 			}
@@ -174,28 +170,25 @@ public class FileResumeRetriever implements DataRetriever {
 			mReadFromFile = false;
 		}
 		
+		if(mReadFromFile) {
+			mIn = new SequenceInputStream(
+					mFileRetriever.getDataAsInputStream(), 
+					mDataRetriever.getDataAsInputStream());
+		} else {
+			mIn = mDataRetriever.getDataAsInputStream();
+		}
+		
 		mResumePrepared = true;
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#retrieve()
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataAsInputStream()
 	 */
-	public void retrieve() throws IOException {
+	public InputStream getDataAsInputStream() throws IOException {
 		
 		prepareResume();
-		
-		if(mReadFromFile) {
-			//open the old file for the data processor chain
-			mFileRetriever.connect();
-		
-			//load the old file through the data processor chain
-			mFileRetriever.retrieve();
-			mFileFinished = true;
-		}
-		
-		if(mDataRetriever.isDataAvailable()) {
-			mDataRetriever.retrieve();
-		}
+
+		return mIn;
 	}
 	
 	/* (non-Javadoc)
@@ -206,22 +199,9 @@ public class FileResumeRetriever implements DataRetriever {
 			mFileRetriever.disconnect();
 		}
 		mDataRetriever.disconnect();
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesRetrieved()
-	 */
-	public long getBytesRetrieved() {
-		
-		long bytes = 0;
-		if(mReadFromFile) {
-			bytes += mFileRetriever.getBytesRetrieved();
-		} else {
-			bytes += mResumeOffset;
-		}
-		bytes += mDataRetriever.getBytesRetrieved();
-		
-		return bytes;
+	
+		mResumePrepared = false;
+		mIn = null;
 	}
 
 	/* (non-Javadoc)
@@ -229,13 +209,6 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public Metadata getMetadata() {
 		return mDataRetriever.getMetadata();
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getProgress()
-	 */
-	public float getProgress() {
-		return mDataRetriever.getProgress();
 	}
 	
 	/* (non-Javadoc)
@@ -259,11 +232,18 @@ public class FileResumeRetriever implements DataRetriever {
 		
 		prepareResume();
 		
-		if(mReadFromFile && !mFileFinished) { 
-			return mFileRetriever.isDataAvailable();
+		boolean result;
+		
+		if(mReadFromFile) { 
+			result = mFileRetriever.isDataAvailable();
+			if(!result) {
+				result = mDataRetriever.isDataAvailable();
+			}
 		} else {
-			return mDataRetriever.isDataAvailable();
+			result = mDataRetriever.isDataAvailable();
 		}
+		
+		return result;
 	}
 	
 	/* (non-Javadoc)
@@ -286,26 +266,6 @@ public class FileResumeRetriever implements DataRetriever {
 		mDataRetriever.setDataConsumer(pDataConsumer);
 		if(mFileRetriever != null) {
 			mFileRetriever.setDataConsumer(pDataConsumer);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#addObserver(java.util.Observer)
-	 */
-	public void addObserver(Observer pO) {
-		mDataRetriever.addObserver(pO);
-		if(mFileRetriever != null) {
-			mFileRetriever.addObserver(pO);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#deleteObserver(java.util.Observer)
-	 */
-	public void deleteObserver(Observer pO) {
-		mDataRetriever.deleteObserver(pO);
-		if(mFileRetriever != null) {
-			mFileRetriever.deleteObserver(pO);
 		}
 	}
 
@@ -350,6 +310,24 @@ public class FileResumeRetriever implements DataRetriever {
 
 	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
 		mDataProcessorChain = pDataProcessorChain;
+	}
+
+	public long getContentLenght() throws IOException {
+		
+		prepareResume();
+		
+		long length;
+		
+		if(mReadFromFile) { 
+			length = mFileRetriever.getContentLenght();
+			if(length > -1) {
+				length += mDataRetriever.getContentLenght();
+			}
+		} else {
+			length = mDataRetriever.getContentLenght();
+		}
+		
+		return length;
 	}
 
 

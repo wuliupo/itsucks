@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -180,9 +178,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 
 	protected void executeDownload() throws IOException {
 		
-		//register an listener to get the progress events
-		mDataRetriever.addObserver(new ProgressObserver());
-		
 		//check if we must wait, important when retrying downloads
 		if(mWaitUntil > System.currentTimeMillis()) {
 			try {
@@ -248,8 +243,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			mFileResumeRetriever.setDataProcessorChain(dataProcessorChain);
 		}
 		
-		//set up processor chain		
-		dataProcessorChain.setDataRetriever(mDataRetriever);
+		//set up processor chain
+		dataProcessorChain.setInputStream(mDataRetriever.getDataAsInputStream());
 		dataProcessorChain.setJobManager(mJobManager);
 		
 		try {
@@ -267,18 +262,18 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 	}
 	
-	private class ProgressObserver implements Observer {
-
-		public void update(Observable pO, Object pArg) {
-			if(DataRetriever.NOTIFICATION_PROGRESS.equals(pArg)) {
-				float oldProgress = mProgress;
-				mProgress = mDataRetriever.getProgress();
-				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
-				
-				firePropertyChange(JOB_PROGRESS_PROPERTY, oldProgress, mProgress);
-			}
-		}
-	}
+//	private class ProgressObserver implements Observer {
+//
+//		public void update(Observable pO, Object pArg) {
+//			if(DataRetriever.NOTIFICATION_PROGRESS.equals(pArg)) {
+//				float oldProgress = mProgress;
+//				mProgress = mDataRetriever.getProgress();
+//				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
+//				
+//				firePropertyChange(JOB_PROGRESS_PROPERTY, oldProgress, mProgress);
+//			}
+//		}
+//	}
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.AbstractJob#abort()

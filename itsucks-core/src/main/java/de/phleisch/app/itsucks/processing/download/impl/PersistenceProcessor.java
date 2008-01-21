@@ -74,10 +74,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		DownloadJob downloadJob = (DownloadJob) processorChain.getJob();
 		File target_path = downloadJob.getSavePath();
 		
-		
 		FileManager fileManager = new FileManager(target_path);
 		
-		URL url = processorChain.getDataRetriever().getUrl();
+		URL url = downloadJob.getDataRetriever().getUrl();
 		mFile = fileManager.buildSavePath(url);
 	}
 

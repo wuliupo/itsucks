@@ -68,11 +68,11 @@ public class ContentParser extends AbstractDataParser implements DataProcessor {
 		super.init();
 
 		//load content filter list
-		Job job = this.getProcessorChain().getJob();
+		DownloadJob job = (DownloadJob) this.getProcessorChain().getJob();
 		JobParameter parameter = job.getParameter(ContentFilter.CONTENT_FILTER_CONFIG_LIST_PARAMETER);
 		mConfigList = (List<ContentFilterConfig>) parameter.getValue();
 
-		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
+		DataRetriever dataRetriever = job.getDataRetriever();
 		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
 		//check if the encoding used in the html page is supported, if not, use the system encoding

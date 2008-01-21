@@ -78,7 +78,8 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 	public void init() throws ProcessingException {
 		super.init();
 		
-		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
+		UrlDownloadJob job = (UrlDownloadJob) getProcessorChain().getJob();
+		DataRetriever dataRetriever = job.getDataRetriever();
 		HttpMetadata metadata = (HttpMetadata)dataRetriever.getMetadata();
 		
 		URI baseURI;

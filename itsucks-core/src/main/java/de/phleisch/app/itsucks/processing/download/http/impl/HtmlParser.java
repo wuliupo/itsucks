@@ -80,7 +80,8 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		
 		initPatterns();
 		
-		DataRetriever dataRetriever = getProcessorChain().getDataRetriever();
+		UrlDownloadJob job = (UrlDownloadJob) getProcessorChain().getJob();
+		DataRetriever dataRetriever = job.getDataRetriever();
 		
 		try {
 			mBaseURI = dataRetriever.getUrl().toURI();
