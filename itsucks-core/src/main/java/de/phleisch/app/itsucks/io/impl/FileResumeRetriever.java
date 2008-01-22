@@ -28,36 +28,34 @@ import de.phleisch.app.itsucks.processing.download.impl.PersistenceProcessor;
 import de.phleisch.app.itsucks.processing.impl.SeekDataProcessorWrapper;
 
 /**
- * This retriever is used to resume partial downloaded files.
- * It creates an additional retriever, the file retriever, and combine 
- * it with the original data retriever.
- * So it can send the complete data through the processing chain without receiving it
- * completly from the data retriever.
+ * This retriever is used to resume partial downloaded files. It creates an
+ * additional retriever, the file retriever, and combine it with the original
+ * data retriever. So it can send the complete data through the processing chain
+ * without receiving it completly from the data retriever.
  * 
  * @author olli
  */
 public class FileResumeRetriever implements DataRetriever {
 
 	private static Log mLog = LogFactory.getLog(FileResumeRetriever.class);
-	
+
 	private FileRetriever mFileRetriever;
 	private DataRetriever mDataRetriever;
-	
+
 	protected DataProcessorChain mDataProcessorChain;
-	
+
 	private File mLocalFile;
-	
+
 	private long mResumeOffset;
-	
+	private long mOverlap = 512;
+
 	private boolean mReadFromFile;
 	private boolean mResumePrepared;
 
 	private InputStream mIn;
-	
-	
-	public FileResumeRetriever(DataRetriever pDataRetriever, 
-			File pFile) {
-		
+
+	public FileResumeRetriever(DataRetriever pDataRetriever, File pFile) {
+
 		mFileRetriever = null;
 		mDataRetriever = pDataRetriever;
 		mLocalFile = pFile;
@@ -67,237 +65,292 @@ public class FileResumeRetriever implements DataRetriever {
 		mResumeOffset = 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#abort()
 	 */
 	public void abort() {
-		if(mReadFromFile) {
+		if (mReadFromFile) {
 			mFileRetriever.abort();
 		}
 		mDataRetriever.abort();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
 	 */
 	public void connect() throws IOException {
-		
-		//first check if the file exists
-		if(mLocalFile.exists() && mLocalFile.length() > 0) {
+
+		if (mResumePrepared) {
+			throw new IllegalStateException("Resume already prepared!");
+		}
+
+		// first check if the file exists
+		if (mLocalFile.exists() && mLocalFile.length() > 0) {
 			mResumeOffset = mLocalFile.length();
-		
-			//try to resume the data stream
-			mDataRetriever.setBytesToSkip(mResumeOffset);
-			mDataRetriever.connect();
-			
-			if(mDataRetriever.getBytesSkipped() > 0) {
-				mLog.info("Resume of URL successful: " 
-						+ mDataRetriever.getUrl());
-				
-			} else {
-				//resume not possible, read everything from the live stream
+
+			// when overlap is larger than resume offset, do not resume
+			if (mOverlap > mResumeOffset) {
 				mResumeOffset = 0;
-				
-				mLog.info("Resume of URL not possible: " 
+				mOverlap = 0;
+			}
+
+			// try to resume the data stream
+			mDataRetriever.setBytesToSkip(mResumeOffset - mOverlap);
+			mDataRetriever.connect();
+
+			if (mDataRetriever.getBytesSkipped() > 0) {
+				mLog.info("Resume of URL successful: "
+						+ mDataRetriever.getUrl());
+
+				// skip overlap bytes if defined
+				if (mOverlap > 0) {
+					mDataRetriever.getDataAsInputStream().skip(mOverlap);
+				}
+
+			} else {
+				// resume not possible, read everything from the live stream
+				mResumeOffset = 0;
+
+				mLog.info("Resume of URL not possible: "
 						+ mDataRetriever.getUrl() + ", seeking not allowed.");
 			}
-			
+
 		} else {
-			//resume not possible, read everything from the live stream
+			// resume not possible, read everything from the live stream
 			mResumeOffset = 0;
-			
-			//connect without skipping any bytes
+
+			// connect without skipping any bytes
 			mDataRetriever.connect();
-			
-			mLog.info("Resume of url not possible: " 
-					+ mDataRetriever.getUrl() + ", no local data available.");
-			
+
+			mLog.info("Resume of url not possible: " + mDataRetriever.getUrl()
+					+ ", no local data available.");
+
 		}
 
 	}
 
 	private void prepareResume() throws IOException {
 
-		if(mResumePrepared) return;
-		
-		//check the processor chain
+		if (mResumePrepared)
+			return;
+
+		// check the processor chain
 		DataProcessorChain dataProcessorChain = mDataProcessorChain;
-		
-		if(dataProcessorChain == null) {
+
+		if (dataProcessorChain == null) {
 			throw new IllegalArgumentException("Processor Chain not set!");
 		}
-		
-		if(mResumeOffset > 0) {
-		
-			//retriever successfully seeked to the position
-			//reorganize the data processors
-			
-			if(dataProcessorChain.canResume()) {
-				//ok, resume is possible, advise every processor to resume at the given position.
-				
+
+		if (mResumeOffset > 0) {
+
+			// retriever successfully seeked to the position
+			// reorganize the data processors
+
+			if (dataProcessorChain.canResume()) {
+				// ok, resume is possible, advise every processor to resume at
+				// the given position.
+
 				dataProcessorChain.resumeAt(mResumeOffset);
-				
+
 				mReadFromFile = false;
-				
+
 			} else {
-				//resume is not possible, read the data from the disc and pipe it through the processors
-				
+				// resume is not possible, read the data from the disc and pipe
+				// it through the processors
+
 				mFileRetriever = new FileRetriever(mLocalFile);
-				
-				List<DataProcessor> dataProcessors = dataProcessorChain.getDataProcessors();
-				
+
+				List<DataProcessor> dataProcessors = dataProcessorChain
+						.getDataProcessors();
+
 				for (DataProcessor processor : dataProcessors) {
-					
-					//skip the persistence processor
-					if(processor instanceof PersistenceProcessor) {
-						
+
+					// skip the persistence processor
+					if (processor instanceof PersistenceProcessor) {
+
 						processor.resumeAt(mResumeOffset);
-						dataProcessorChain.replaceDataProcessor(processor, 
-								new SeekDataProcessorWrapper(processor, mResumeOffset));
-						
+						dataProcessorChain.replaceDataProcessor(processor,
+								new SeekDataProcessorWrapper(processor,
+										mResumeOffset));
+
 						continue;
 					}
 				}
-				
-				mFileRetriever.setDataConsumer(mDataRetriever.getDataConsumer());
+
+				mFileRetriever
+						.setDataConsumer(mDataRetriever.getDataConsumer());
 				mFileRetriever.connect();
-				
+
 				mReadFromFile = true;
 			}
-			
+
 		} else {
-			//only pipe through
+			// only pipe through
 			mReadFromFile = false;
 		}
-		
-		if(mReadFromFile) {
+
+		if (mReadFromFile) {
 			mIn = new SequenceInputStream(
-					mFileRetriever.getDataAsInputStream(), 
-					mDataRetriever.getDataAsInputStream());
+					mFileRetriever.getDataAsInputStream(), mDataRetriever
+							.getDataAsInputStream());
 		} else {
 			mIn = mDataRetriever.getDataAsInputStream();
 		}
-		
+
 		mResumePrepared = true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataAsInputStream()
 	 */
 	public InputStream getDataAsInputStream() throws IOException {
-		
+
 		prepareResume();
 
 		return mIn;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
 	public void disconnect() throws IOException {
-		if(mReadFromFile) {
+		if (mReadFromFile) {
 			mFileRetriever.disconnect();
 		}
 		mDataRetriever.disconnect();
-	
+
 		mResumePrepared = false;
 		mIn = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getMetadata()
 	 */
 	public Metadata getMetadata() {
 		return mDataRetriever.getMetadata();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#setUrl(java.net.URL)
 	 */
 	public void setUrl(URL pUrl) {
 		throw new IllegalArgumentException("Not possible!");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getUrl()
 	 */
 	public URL getUrl() {
 		return mDataRetriever.getUrl();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */
 	public boolean isDataAvailable() throws IOException {
-		
+
 		prepareResume();
-		
+
 		boolean result;
-		
-		if(mReadFromFile) { 
+
+		if (mReadFromFile) {
 			result = mFileRetriever.isDataAvailable();
-			if(!result) {
+			if (!result) {
 				result = mDataRetriever.isDataAvailable();
 			}
 		} else {
 			result = mDataRetriever.isDataAvailable();
 		}
-		
+
 		return result;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataConsumer()
 	 */
 	public DataConsumer getDataConsumer() {
 		return mDataRetriever.getDataConsumer();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#setDataConsumer(de.phleisch.app.itsucks.io.DataConsumer)
 	 */
 	public void setDataConsumer(DataConsumer pDataConsumer) {
 
-		if(mResumePrepared) {
-			throw new RuntimeException("Resuming already prepared, " +
-					"changing the data consumer not allowed at this point.");
+		if (mResumePrepared) {
+			throw new RuntimeException("Resuming already prepared, "
+					+ "changing the data consumer not allowed at this point.");
 		}
-		
+
 		mDataRetriever.setDataConsumer(pDataConsumer);
-		if(mFileRetriever != null) {
+		if (mFileRetriever != null) {
 			mFileRetriever.setDataConsumer(pDataConsumer);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#setBytesToSkip(long)
 	 */
 	public void setBytesToSkip(long pBytesToSkip) {
 		throw new IllegalStateException("Not supported.");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesSkipped()
 	 */
 	public long getBytesSkipped() {
-		return mResumeOffset;
+		if(mReadFromFile) {
+			return 0; // we have to read all data from disk, so we did'nt skip any bytes
+		} else {
+			return mResumeOffset;
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
 	 */
 	public int getResultCode() {
 		return mDataRetriever.getResultCode();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getContext()
 	 */
 	public Context getContext() {
 		return mDataRetriever.getContext();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#setContext(de.phleisch.app.itsucks.Context)
 	 */
 	public void setContext(Context pContext) {
@@ -313,22 +366,21 @@ public class FileResumeRetriever implements DataRetriever {
 	}
 
 	public long getContentLenght() throws IOException {
-		
+
 		prepareResume();
-		
+
 		long length;
-		
-		if(mReadFromFile) { 
+
+		if (mReadFromFile) {
 			length = mFileRetriever.getContentLenght();
-			if(length > -1) {
-				length += mDataRetriever.getContentLenght();
+			if (length > -1) {
+				length += mDataRetriever.getContentLenght() - mOverlap;
 			}
 		} else {
-			length = mDataRetriever.getContentLenght() + mResumeOffset;
+			length = mDataRetriever.getContentLenght() - mOverlap + mResumeOffset;
 		}
-		
+
 		return length;
 	}
-
 
 }
