@@ -134,6 +134,13 @@ public class ProgressInputStream extends InputStream {
 		return mIn;
 	}
 
+	public void setDataRead(long pDataRead) {
+		mDataRead = 0;
+		mDataReadSum = pDataRead;
+		
+		updateProgress();
+	}
+	
 	public long getDataRead() {
 		return mDataRead + mDataReadSum;
 	}

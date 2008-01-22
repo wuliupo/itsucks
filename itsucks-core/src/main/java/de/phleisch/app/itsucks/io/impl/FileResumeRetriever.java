@@ -280,7 +280,7 @@ public class FileResumeRetriever implements DataRetriever {
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#getBytesSkipped()
 	 */
 	public long getBytesSkipped() {
-		return 0;
+		return mResumeOffset;
 	}
 
 	/* (non-Javadoc)
@@ -324,7 +324,7 @@ public class FileResumeRetriever implements DataRetriever {
 				length += mDataRetriever.getContentLenght();
 			}
 		} else {
-			length = mDataRetriever.getContentLenght();
+			length = mDataRetriever.getContentLenght() + mResumeOffset;
 		}
 		
 		return length;

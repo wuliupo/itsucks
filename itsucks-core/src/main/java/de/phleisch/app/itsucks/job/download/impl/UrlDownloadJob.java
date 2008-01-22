@@ -258,6 +258,12 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			mProgressInputStream = 
 				new ProgressInputStream(mDataRetriever.getDataAsInputStream(), contentLength);
 			mProgressInputStream.addPropertyChangeListener(new ProgressListener());
+			
+			//set skipped bytes when resuming
+			if(mFileResumeRetriever != null) {
+				mProgressInputStream.setDataRead(mFileResumeRetriever.getBytesSkipped());
+			}
+			
 			stream = mProgressInputStream;
 		} else {
 			stream = mDataRetriever.getDataAsInputStream();
