@@ -8,8 +8,11 @@
 
 package de.phleisch.app.itsucks.job.download.impl;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -21,6 +24,7 @@ import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.impl.DataRetrieverManager;
 import de.phleisch.app.itsucks.io.impl.FileResumeRetriever;
+import de.phleisch.app.itsucks.io.impl.ProgressInputStream;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
@@ -67,8 +71,10 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	private int mTryCount = 0;
 	private transient DataProcessorManager mDataProcessorManager;
 	private transient DataRetrieverManager mDataRetrieverManager;
+	
 	private transient DataRetriever mDataRetriever;
 	private transient FileResumeRetriever mFileResumeRetriever;
+	private transient ProgressInputStream mProgressInputStream;
 	
 	private float mProgress = -1;
 	private long mBytesDownloaded = -1;
@@ -231,7 +237,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 	}
 
-	private void executeProcessorChain() throws IOException {
+	protected void executeProcessorChain() throws IOException {
 		
 		//build the data processor chain
 		DataProcessorChain dataProcessorChain =
@@ -244,7 +250,20 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 		
 		//set up processor chain
-		dataProcessorChain.setInputStream(mDataRetriever.getDataAsInputStream());
+		long contentLength = mDataRetriever.getContentLenght();
+		InputStream stream;
+		
+		//use progress input stream to track progress when content length is known
+		if(contentLength > 0) {
+			mProgressInputStream = 
+				new ProgressInputStream(mDataRetriever.getDataAsInputStream(), contentLength);
+			mProgressInputStream.addPropertyChangeListener(new ProgressListener());
+			stream = mProgressInputStream;
+		} else {
+			stream = mDataRetriever.getDataAsInputStream();
+		}
+		
+		dataProcessorChain.setInputStream(stream);
 		dataProcessorChain.setJobManager(mJobManager);
 		
 		try {
@@ -262,22 +281,21 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 	}
 	
-//	private class ProgressObserver implements Observer {
-//
-//		public void update(Observable pO, Object pArg) {
-//			if(DataRetriever.NOTIFICATION_PROGRESS.equals(pArg)) {
-//				float oldProgress = mProgress;
-//				mProgress = mDataRetriever.getProgress();
-//				mBytesDownloaded = mDataRetriever.getBytesRetrieved();
-//				
-//				firePropertyChange(JOB_PROGRESS_PROPERTY, oldProgress, mProgress);
-//			}
-//		}
-//	}
+	private class ProgressListener implements PropertyChangeListener {
+
+		public void propertyChange(PropertyChangeEvent pEvt) {
+			if ("progress".equals(pEvt.getPropertyName())) {
+				float oldProgress = mProgress;
+				mProgress = mProgressInputStream.getProgress();
+				mBytesDownloaded = mProgressInputStream.getDataRead();
+
+				firePropertyChange(JOB_PROGRESS_PROPERTY, oldProgress,
+						mProgress);
+			}
+
+		}
+	}
 	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.AbstractJob#abort()
-	 */
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.download.impl.DownloadJob#abort()
 	 */

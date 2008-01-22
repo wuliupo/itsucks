@@ -46,11 +46,11 @@ public abstract class AbstractJob implements Serializable, Job {
      * @see #removePropertyChangeListener
      * @see #firePropertyChangeListener
      */
-    private PropertyChangeSupport accessibleChangeSupport = null;
+    private PropertyChangeSupport mAccessibleChangeSupport = null;
 	
 	public AbstractJob() {
 		mParameter = new HashMap<String, JobParameter>();
-		accessibleChangeSupport = new PropertyChangeSupport(this);
+		mAccessibleChangeSupport = new PropertyChangeSupport(this);
 	}
 	
 	/**
@@ -233,18 +233,18 @@ public abstract class AbstractJob implements Serializable, Job {
      * @see de.phleisch.app.itsucks.Job#addPropertyChangeListener(java.beans.PropertyChangeListener)
      */
     public void addPropertyChangeListener(PropertyChangeListener pListener) {
-        if (accessibleChangeSupport == null) {
-            accessibleChangeSupport = new PropertyChangeSupport(this);
+        if (mAccessibleChangeSupport == null) {
+            mAccessibleChangeSupport = new PropertyChangeSupport(this);
         }
-        accessibleChangeSupport.addPropertyChangeListener(pListener);
+        mAccessibleChangeSupport.addPropertyChangeListener(pListener);
     }
 
     /* (non-Javadoc)
      * @see de.phleisch.app.itsucks.Job#removePropertyChangeListener(java.beans.PropertyChangeListener)
      */
     public void removePropertyChangeListener(PropertyChangeListener pListener) {
-        if (accessibleChangeSupport != null) {
-            accessibleChangeSupport.removePropertyChangeListener(pListener);
+        if (mAccessibleChangeSupport != null) {
+            mAccessibleChangeSupport.removePropertyChangeListener(pListener);
         }
     }
 	
@@ -257,8 +257,8 @@ public abstract class AbstractJob implements Serializable, Job {
     	PropertyChangeEvent propertyChangeEvent = 
     		new PropertyChangeEvent(this, propertyName, oldValue, newValue);
     	
-		if (accessibleChangeSupport != null) {
-			accessibleChangeSupport.firePropertyChange(propertyChangeEvent);
+		if (mAccessibleChangeSupport != null) {
+			mAccessibleChangeSupport.firePropertyChange(propertyChangeEvent);
 		}
 
 		return propertyChangeEvent;
