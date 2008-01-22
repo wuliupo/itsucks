@@ -66,10 +66,15 @@ public class ProgressInputStream extends InputStream {
 	public int read(final byte[] pB, final int pOff, final int pLen) throws IOException {
 		int bytes = mIn.read(pB, pOff, pLen);
 		
-		mDataRead += bytes;
-		if(mDataRead > mUpdateThreshold) {
+		if(bytes > -1) {
+			mDataRead += bytes;
+			if(mDataRead > mUpdateThreshold) {
+				updateProgress();
+			} 
+		} else {
 			updateProgress();
 		}
+		
 		return bytes;
 	}
 
@@ -77,8 +82,12 @@ public class ProgressInputStream extends InputStream {
 	public int read(final byte[] pB) throws IOException {
 		int bytes = mIn.read(pB);
 		
-		mDataRead += bytes;
-		if(mDataRead > mUpdateThreshold) {
+		if(bytes > -1) {
+			mDataRead += bytes;
+			if(mDataRead > mUpdateThreshold) {
+				updateProgress();
+			} 
+		} else {
 			updateProgress();
 		}
 		
@@ -94,8 +103,12 @@ public class ProgressInputStream extends InputStream {
 	public long skip(final long pN) throws IOException {
 		long bytes = mIn.skip(pN);
 		
-		mDataRead += bytes;
-		if(mDataRead > mUpdateThreshold) {
+		if(bytes > -1) {
+			mDataRead += bytes;
+			if(mDataRead > mUpdateThreshold) {
+				updateProgress();
+			} 
+		} else {
 			updateProgress();
 		}
 		
@@ -118,7 +131,11 @@ public class ProgressInputStream extends InputStream {
 		mDataRead = 0;
 		
 		if(mDataLength > 0) {
-			setProgress((float)mDataReadSum / mDataLength);
+			if(mDataReadSum == mDataLength) {
+				setProgress(1);
+			} else {
+				setProgress((float)mDataReadSum / mDataLength);
+			}
 		}
 	}
 
