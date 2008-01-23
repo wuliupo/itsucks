@@ -94,7 +94,7 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 
 				if (Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent
 						.getPropertyName()) 
-					&& new Integer(Job.STATE_FINISHED).equals(
+					&& Integer.valueOf(Job.STATE_FINISHED).equals(
 							propertyChangeEvent.getNewValue())) {
 					
 					mLog.debug("Remove finished job: " + jobChangedEvent.getJob());

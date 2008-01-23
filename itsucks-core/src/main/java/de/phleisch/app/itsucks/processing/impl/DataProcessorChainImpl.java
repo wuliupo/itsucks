@@ -434,7 +434,7 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		}
 	}
 	
-	protected class ContainerRuntimeException extends RuntimeException {
+	protected static class ContainerRuntimeException extends RuntimeException {
 
 		private static final long serialVersionUID = 5293762833038952401L;
 

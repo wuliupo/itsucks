@@ -176,6 +176,13 @@ public class EventDispatcherImpl implements EventDispatcher {
 
 		@Override
 		public boolean equals(Object pObj) {
+			if(pObj == null) {
+				return false;
+			}
+			if (getClass() != pObj.getClass()) {
+				return false;
+			}
+			
 			EventObserverConfig config = (EventObserverConfig) pObj;
 			return config.getObserver().equals(config.getObserver());
 		}

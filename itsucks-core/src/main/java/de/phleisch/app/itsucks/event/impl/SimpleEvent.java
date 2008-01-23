@@ -63,10 +63,28 @@ public class SimpleEvent implements Event {
 	}
 
 	@Override
-	public boolean equals(Object pObj) {
-		
-		Event event = (Event) pObj;
-		return this.getCategory() == event.getCategory() &&
-			this.getType() == event.getType();
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + mCategory;
+		result = prime * result + mType;
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final SimpleEvent other = (SimpleEvent) obj;
+		if (mCategory != other.mCategory)
+			return false;
+		if (mType != other.mType)
+			return false;
+		return true;
+	}
+	
 }
