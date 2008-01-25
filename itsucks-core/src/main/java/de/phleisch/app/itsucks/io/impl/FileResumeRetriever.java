@@ -49,8 +49,9 @@ public class FileResumeRetriever implements DataRetriever {
 	private long mResumeOffset;
 	private long mOverlap = 512;
 
-	private boolean mReadFromFile;
+	private boolean mConnected;
 	private boolean mResumePrepared;
+	private boolean mReadFromFile;
 
 	private InputStream mIn;
 
@@ -61,6 +62,7 @@ public class FileResumeRetriever implements DataRetriever {
 		mLocalFile = pFile;
 		mReadFromFile = false;
 		mResumePrepared = false;
+		mConnected = false;
 		mDataProcessorChain = null;
 		mResumeOffset = 0;
 	}
@@ -84,6 +86,10 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public void connect() throws IOException {
 
+		if(mConnected) {
+			throw new IllegalStateException("Already connected!");
+		}
+		
 		if (mResumePrepared) {
 			throw new IllegalStateException("Resume already prepared!");
 		}
@@ -131,10 +137,15 @@ public class FileResumeRetriever implements DataRetriever {
 
 		}
 
+		mConnected = true;
 	}
 
 	private void prepareResume() throws IOException {
 
+		if(!mConnected) {
+			throw new IllegalStateException("Not connected!");
+		}
+		
 		if (mResumePrepared)
 			return;
 
@@ -151,7 +162,7 @@ public class FileResumeRetriever implements DataRetriever {
 			// reorganize the data processors
 
 			if (dataProcessorChain.canResume()) {
-				// ok, resume is possible, advise every processor to resume at
+				// ok, resume of chain is possible, advise every processor to resume at
 				// the given position.
 
 				dataProcessorChain.resumeAt(mResumeOffset);
@@ -159,7 +170,7 @@ public class FileResumeRetriever implements DataRetriever {
 				mReadFromFile = false;
 
 			} else {
-				// resume is not possible, read the data from the disc and pipe
+				// resume is not possible, read the data from the file and pipe
 				// it through the processors
 
 				mFileRetriever = new FileRetriever(mLocalFile);
@@ -193,6 +204,7 @@ public class FileResumeRetriever implements DataRetriever {
 			mReadFromFile = false;
 		}
 
+		//prepare input stream
 		if (mReadFromFile) {
 			mIn = new SequenceInputStream(
 					mFileRetriever.getDataAsInputStream(), mDataRetriever
@@ -222,13 +234,19 @@ public class FileResumeRetriever implements DataRetriever {
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
 	 */
 	public void disconnect() throws IOException {
-		if (mReadFromFile) {
-			mFileRetriever.disconnect();
-		}
-		mDataRetriever.disconnect();
 
-		mResumePrepared = false;
-		mIn = null;
+		if(mConnected) {
+		
+			if (mReadFromFile) {
+				mFileRetriever.disconnect();
+			}
+			mDataRetriever.disconnect();
+
+			mConnected = false;
+			mResumePrepared = false;
+			mIn = null;
+			
+		}
 	}
 
 	/*
