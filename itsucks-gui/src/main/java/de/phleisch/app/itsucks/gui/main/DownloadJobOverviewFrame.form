@@ -119,8 +119,8 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="toolBar" alignment="0" pref="677" max="32767" attributes="0"/>
-          <Component id="downloadsTabbedPane" alignment="0" pref="677" max="32767" attributes="0"/>
+          <Component id="toolBar" alignment="0" pref="770" max="32767" attributes="0"/>
+          <Component id="downloadsTabbedPane" alignment="0" pref="770" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -128,7 +128,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="toolBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="downloadsTabbedPane" pref="353" max="32767" attributes="0"/>
+              <Component id="downloadsTabbedPane" pref="514" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

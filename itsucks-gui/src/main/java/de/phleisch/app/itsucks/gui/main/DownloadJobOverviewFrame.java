@@ -40,7 +40,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  */
 public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		AddDownloadJobCapable, EventObserver {
-	
+
 	private static final long serialVersionUID = 6628042574113496207L;
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
@@ -424,9 +424,9 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(toolBar,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 677,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 770,
 				Short.MAX_VALUE).add(downloadsTabbedPane,
-				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 677,
+				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 770,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				org.jdesktop.layout.GroupLayout.LEADING).add(
@@ -438,7 +438,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 								org.jdesktop.layout.LayoutStyle.RELATED).add(
 								downloadsTabbedPane,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-								353, Short.MAX_VALUE)));
+								514, Short.MAX_VALUE)));
 
 		downloadsTabbedPane.getAccessibleContext().setAccessibleName(
 				"Download 1");
