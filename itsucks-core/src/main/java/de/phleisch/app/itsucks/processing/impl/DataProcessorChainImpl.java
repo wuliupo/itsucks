@@ -165,15 +165,15 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 			abort();
 			throw ex;
 		} catch(IOException ex) {
-			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+//			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
 			rollback();
 			throw ex;
 		} catch(ProcessingException ex) {
-			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+//			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
 			rollback();
 			throw ex;
 		} catch(RuntimeException ex) {
-			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
+//			mLog.error("Error retrieving/processing data. Rollback processors.", ex);
 			rollback();
 			throw ex;
 		}

@@ -15,7 +15,7 @@ import java.io.InputStream;
 
 public class ProgressInputStream extends InputStream {
 
-	protected long mUpdateThreshold = 102400; //100kb
+	protected long mUpdateThreshold = 10240; //10kb
 	
 	protected InputStream mIn;
 	protected long mDataLength;

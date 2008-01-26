@@ -43,6 +43,35 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
 		//disable advanced edit filter panel
 		SwingUtils
 				.setContainerAndChildrenEnabled(editContentFilterPanel, false);
+		
+//		final KeyboardFocusManager focusManager =
+//            KeyboardFocusManager.getCurrentKeyboardFocusManager();
+//        focusManager.addVetoableChangeListener("focusOwner", new VetoableChangeListener() {
+//
+//			public void vetoableChange(PropertyChangeEvent pEvt)
+//					throws PropertyVetoException {
+//				
+////				Component focusOwner = focusManager.getFocusOwner();
+//				
+//				Component lastFocusOwner = (Component) pEvt.getOldValue();
+//				Component nextFocusOwner = (Component) pEvt.getNewValue();
+//				
+//				if(nextFocusOwner != null) {
+//					System.out.println("Next: " + nextFocusOwner);
+//				}
+//				
+//				if(lastFocusOwner != nextFocusOwner 
+//					&& nextFocusOwner == null
+//					&& lastFocusOwner == editContentFilterRegExpTextArea) {
+//				
+////				if(nextFocusOwner == editContentFilterRegExpTextArea) {
+//					
+//					throw new PropertyVetoException("Not a valid input.", pEvt);
+//				}
+//				
+//			}
+//        	
+//        });
 	}
 
 	protected class ContentFilterRuleListElement {
@@ -117,7 +146,7 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
 			return mName;
 		}
 	}
-
+	
 	protected ComboBoxEntry mActionList[] = new ComboBoxEntry[] {
 			new ComboBoxEntry("No Action", Boolean.FALSE),
 			new ComboBoxEntry("Abort download", Boolean.TRUE), };
