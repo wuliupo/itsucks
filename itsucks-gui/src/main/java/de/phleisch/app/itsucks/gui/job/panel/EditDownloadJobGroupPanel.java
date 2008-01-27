@@ -312,6 +312,16 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 					.setUserAgent(this.downloadJobBasicPanel.userAgentTextField
 							.getText());
 		}
+		
+		//bandwidth limit
+		if (this.downloadJobBasicPanel.enableBandwidthLimitCheckBox.isSelected()) {
+			int bandwidthLimit = Integer.parseInt(this.downloadJobBasicPanel.bandwidthLimitTextField
+					.getText());
+			int multiplier = (int) Math.pow(1024, this.downloadJobBasicPanel.bandwidthLimitComboBox.getSelectedIndex());
+			bandwidthLimit *= multiplier;
+			
+			retrieverConfiguration.setBandwidthLimit(bandwidthLimit);
+		}
 
 		//simple rules panel
 		DownloadJobFilter downloadJobFilter = new DownloadJobFilter();

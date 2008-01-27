@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.impl.AbstractDataRetriever;
+import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 import de.phleisch.app.itsucks.job.Context;
 
 /**
@@ -70,7 +71,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
-		
+
 		HttpMethodParams params = mGet.getParams();
 		params.setSoTimeout(90 * 1000); //90 seconds
 		
@@ -117,10 +118,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 					(HttpClient) jobContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
 				
 				if(httpClient == null) {
-					HttpRetrieverConfiguration configuration = 
-			     		(HttpRetrieverConfiguration) jobContext.getContextParameter(
-			     				HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
-			     	
+					HttpRetrieverConfiguration configuration = getHttpRetrieverConfiguration(jobContext);
 		     		httpClient = createHttpClient(configuration);
 		     		jobContext.setContextParameter("AdvancedHttpRetriever_HttpClient", httpClient);
 				}
@@ -130,7 +128,16 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 		return httpClient;
 	}
 
-	private HttpClient createHttpClient(HttpRetrieverConfiguration pConfiguration) {
+	protected HttpRetrieverConfiguration getHttpRetrieverConfiguration(
+			Context jobContext) {
+		
+		HttpRetrieverConfiguration configuration = 
+			(HttpRetrieverConfiguration) jobContext.getContextParameter(
+					HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
+		return configuration;
+	}
+
+	protected HttpClient createHttpClient(HttpRetrieverConfiguration pConfiguration) {
 		
      	MultiThreadedHttpConnectionManager connectionManager = 
       		new MultiThreadedHttpConnectionManager();
@@ -191,7 +198,21 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 			throw new IllegalStateException("Not connected");
 		}
 		
-		return mGet.getResponseBodyAsStream();
+		InputStream in = mGet.getResponseBodyAsStream();
+		
+		HttpRetrieverConfiguration httpRetrieverConfiguration = 
+			getHttpRetrieverConfiguration(getContext());
+		
+		if(httpRetrieverConfiguration != null) {
+			Integer bandwidthLimit = httpRetrieverConfiguration.getBandwidthLimit();
+			
+			if(bandwidthLimit != null && bandwidthLimit > 0) {
+				//build throttled stream
+				in = new ThrottledInputStream(in, bandwidthLimit);
+			}
+		}
+		
+		return in;
 	}
 	
 	/* (non-Javadoc)

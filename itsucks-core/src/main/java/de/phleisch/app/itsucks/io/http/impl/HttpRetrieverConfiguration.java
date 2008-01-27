@@ -14,6 +14,7 @@ public class HttpRetrieverConfiguration {
 		"HttpRetrieverConfiguration";
 	
 	private Integer mMaxConnectionsPerServer = null;
+	private Integer mBandwidthLimit = null;
 	
 	private boolean mProxyEnabled = false;
 	private String mProxyServer;
@@ -79,6 +80,12 @@ public class HttpRetrieverConfiguration {
 	}
 	public void setUserAgent(String pUserAgent) {
 		mUserAgent = pUserAgent;
+	}
+	public Integer getBandwidthLimit() {
+		return mBandwidthLimit;
+	}
+	public void setBandwidthLimit(Integer pBandwidthLimit) {
+		mBandwidthLimit = pBandwidthLimit;
 	}
 	
 }

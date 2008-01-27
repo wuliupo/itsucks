@@ -165,6 +165,11 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		userAgentCheckBox = new javax.swing.JCheckBox();
 		userAgentLabel = new javax.swing.JLabel();
 		userAgentTextField = new javax.swing.JTextField();
+		bandwidthLimitPanel = new javax.swing.JPanel();
+		bandwidthLimitLabel = new javax.swing.JLabel();
+		bandwidthLimitTextField = new javax.swing.JTextField();
+		bandwidthLimitComboBox = new javax.swing.JComboBox();
+		enableBandwidthLimitCheckBox = new javax.swing.JCheckBox();
 
 		basicParametersPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Basic Parameters"));
@@ -231,7 +236,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																		.add(
 																				nameTextField,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				151,
+																				174,
 																				Short.MAX_VALUE)
 																		.add(
 																				204,
@@ -249,12 +254,12 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																								org.jdesktop.layout.GroupLayout.LEADING,
 																								urlTextField,
 																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																								269,
+																								292,
 																								Short.MAX_VALUE)
 																						.add(
 																								savePathTextField,
 																								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																								269,
+																								292,
 																								Short.MAX_VALUE))
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED)
@@ -605,7 +610,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																				122,
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-										.add(44, 44, 44)));
+										.add(67, 67, 67)));
 
 		proxySettingsPanelLayout.linkSize(new java.awt.Component[] {
 				authenticationPasswordTextField, authenticationUserTextField,
@@ -679,7 +684,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 				.createTitledBorder("User Agent"));
 
 		userAgentCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-		userAgentCheckBox.setText("Override user agent");
+		userAgentCheckBox.setText("Override User Agent");
 		userAgentCheckBox
 				.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -720,7 +725,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 																		.add(
 																				userAgentTextField,
 																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				348,
+																				371,
 																				Short.MAX_VALUE)))
 										.addContainerGap()));
 		userAgentPanelLayout
@@ -747,6 +752,102 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 
+		bandwidthLimitPanel.setBorder(javax.swing.BorderFactory
+				.createTitledBorder("Bandwidth Limit"));
+
+		bandwidthLimitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+		bandwidthLimitLabel
+				.setText("<html>Set a bandwidth limitiation per download thread.</html>");
+
+		bandwidthLimitTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		bandwidthLimitTextField.setEnabled(false);
+
+		bandwidthLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+		bandwidthLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				new String[] { "byte/s", "kbyte/s", "mbyte/s" }));
+		bandwidthLimitComboBox.setSelectedIndex(1);
+		bandwidthLimitComboBox.setEnabled(false);
+
+		enableBandwidthLimitCheckBox
+				.setFont(new java.awt.Font("Dialog", 0, 12));
+		enableBandwidthLimitCheckBox.setText("Enable Bandwidth Limitation");
+		enableBandwidthLimitCheckBox
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						enableBandwidthLimitCheckBoxActionPerformed(evt);
+					}
+				});
+
+		org.jdesktop.layout.GroupLayout bandwidthLimitPanelLayout = new org.jdesktop.layout.GroupLayout(
+				bandwidthLimitPanel);
+		bandwidthLimitPanel.setLayout(bandwidthLimitPanelLayout);
+		bandwidthLimitPanelLayout
+				.setHorizontalGroup(bandwidthLimitPanelLayout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								bandwidthLimitPanelLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.add(
+												bandwidthLimitPanelLayout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.LEADING)
+														.add(
+																bandwidthLimitLabel,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																450,
+																Short.MAX_VALUE)
+														.add(
+																enableBandwidthLimitCheckBox)
+														.add(
+																bandwidthLimitPanelLayout
+																		.createSequentialGroup()
+																		.add(
+																				bandwidthLimitTextField,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				84,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				org.jdesktop.layout.LayoutStyle.RELATED)
+																		.add(
+																				bandwidthLimitComboBox,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap()));
+		bandwidthLimitPanelLayout
+				.setVerticalGroup(bandwidthLimitPanelLayout
+						.createParallelGroup(
+								org.jdesktop.layout.GroupLayout.LEADING)
+						.add(
+								bandwidthLimitPanelLayout
+										.createSequentialGroup()
+										.add(bandwidthLimitLabel)
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.UNRELATED)
+										.add(enableBandwidthLimitCheckBox)
+										.addPreferredGap(
+												org.jdesktop.layout.LayoutStyle.RELATED)
+										.add(
+												bandwidthLimitPanelLayout
+														.createParallelGroup(
+																org.jdesktop.layout.GroupLayout.BASELINE)
+														.add(
+																bandwidthLimitTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																20,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																bandwidthLimitComboBox,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																22,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+										.addContainerGap(
+												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
+
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				this);
 		this.setLayout(layout);
@@ -756,6 +857,11 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 				layout.createSequentialGroup().addContainerGap().add(
 						layout.createParallelGroup(
 								org.jdesktop.layout.GroupLayout.TRAILING).add(
+								org.jdesktop.layout.GroupLayout.LEADING,
+								bandwidthLimitPanel,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE).add(
 								org.jdesktop.layout.GroupLayout.LEADING,
 								userAgentPanel,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
@@ -799,11 +905,26 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(
+								org.jdesktop.layout.LayoutStyle.RELATED).add(
+								bandwidthLimitPanel,
+								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+								org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(
 								org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
 								Short.MAX_VALUE)));
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void enableBandwidthLimitCheckBoxActionPerformed(
+			java.awt.event.ActionEvent evt) {
+
+		boolean enabled = enableBandwidthLimitCheckBox.isSelected();
+
+		bandwidthLimitTextField.setEnabled(enabled);
+		bandwidthLimitComboBox.setEnabled(enabled);
+	}
 
 	private void userAgentCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -892,9 +1013,14 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	protected javax.swing.JTextField authenticationPasswordTextField;
 	protected javax.swing.JLabel authenticationUserLabel;
 	protected javax.swing.JTextField authenticationUserTextField;
+	protected javax.swing.JComboBox bandwidthLimitComboBox;
+	protected javax.swing.JLabel bandwidthLimitLabel;
+	protected javax.swing.JPanel bandwidthLimitPanel;
+	protected javax.swing.JTextField bandwidthLimitTextField;
 	protected javax.swing.JPanel basicParametersPanel;
 	protected javax.swing.JPanel connectionSettingsPanel;
 	protected javax.swing.JCheckBox enableAuthenticationCheckBox;
+	protected javax.swing.JCheckBox enableBandwidthLimitCheckBox;
 	protected javax.swing.JCheckBox enableProxyCheckBox;
 	protected javax.swing.JLabel maxConnectionsLabel;
 	protected javax.swing.JTextField maxConnectionsTextField;

@@ -10,14 +10,14 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ProgressInputStream extends InputStream {
+public class ProgressInputStream extends FilterInputStream {
 
 	protected long mUpdateThreshold = 10240; //10kb
 	
-	protected InputStream mIn;
 	protected long mDataLength;
 	protected long mDataRead;
 	protected long mDataReadSum;
@@ -34,74 +34,36 @@ public class ProgressInputStream extends InputStream {
     protected PropertyChangeSupport mAccessibleChangeSupport;
 	
 	public ProgressInputStream(final InputStream pStream, final long pContentLength) {
-		mIn = pStream;
+		super(pStream);
+		
 		mDataLength = pContentLength;
 		mDataRead = 0;
 		mDataReadSum = 0;
 		
 		mAccessibleChangeSupport = new PropertyChangeSupport(this);
 	}
-	
-	@Override
-	public int available() throws IOException {
-		return mIn.available();
-	}
-
-	@Override
-	public void close() throws IOException {
-		mIn.close();
-	}
-
-	@Override
-	public synchronized void mark(final int pReadlimit) {
-		mIn.mark(pReadlimit);
-	}
-
-	@Override
-	public boolean markSupported() {
-		return mIn.markSupported();
-	}
 
 	@Override
 	public int read(final byte[] pB, final int pOff, final int pLen) throws IOException {
-		int bytes = mIn.read(pB, pOff, pLen);
+		int bytesRead = in.read(pB, pOff, pLen);
 		
-		if(bytes > -1) {
-			mDataRead += bytes;
+		if(bytesRead > -1) {
+			mDataRead += bytesRead;
+			
+			//if data read goes over the threshold update the progress.
 			if(mDataRead > mUpdateThreshold) {
 				updateProgress();
-			} 
+			}
 		} else {
 			updateProgress();
 		}
 		
-		return bytes;
-	}
-
-	@Override
-	public int read(final byte[] pB) throws IOException {
-		int bytes = mIn.read(pB);
-		
-		if(bytes > -1) {
-			mDataRead += bytes;
-			if(mDataRead > mUpdateThreshold) {
-				updateProgress();
-			} 
-		} else {
-			updateProgress();
-		}
-		
-		return bytes;
-	}
-
-	@Override
-	public synchronized void reset() throws IOException {
-		mIn.reset();
+		return bytesRead;
 	}
 
 	@Override
 	public long skip(final long pN) throws IOException {
-		long bytes = mIn.skip(pN);
+		long bytes = in.skip(pN);
 		
 		if(bytes > -1) {
 			mDataRead += bytes;
@@ -122,7 +84,7 @@ public class ProgressInputStream extends InputStream {
 			updateProgress();
 		}
 		
-		return mIn.read();
+		return in.read();
 	}
 	
 	protected void updateProgress() {
@@ -148,7 +110,7 @@ public class ProgressInputStream extends InputStream {
 	}
 
 	public InputStream getWrappedInputStream() {
-		return mIn;
+		return in;
 	}
 
 	public void setDataRead(long pDataRead) {
