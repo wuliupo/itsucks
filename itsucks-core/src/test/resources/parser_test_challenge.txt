@@ -1,0 +1,15 @@
+<pre>
+A href links:
+<a href="img/img2/img3/img.jpg">Img</a>
+<a href="mailto:test">Mail</a>
+</pre>
+
+<pre>
+A link http://blabla.test.de/uiuiu///%20/test.html in the text
+</pre>
+
+<pre>
+JS commands
+<a href="javascript:alert(document.links[0].x)">JS</a>
+</pre>
+

@@ -1,0 +1,4 @@
+http://blabla.test.de/uiuiu///%20/test.html
+mailto:test
+http://test.de/img/img2/img3/img.jpg
+http://blabla.test.de/uiuiu///%20/test.html

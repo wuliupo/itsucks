@@ -7,18 +7,12 @@
 
 package de.phleisch.app.itsucks.processing.download.http.impl;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +20,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
@@ -43,16 +36,15 @@ import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
 public class HtmlParser extends AbstractDataParser implements ApplicationContextAware, DataProcessor {
 	
-	private static final String REGEXP_PREFIX = "exp_"; 
-	
 	private static Log mLog = LogFactory.getLog(HtmlParser.class);
-	private static Pattern[] mPatterns = null;
 	
 	private ApplicationContext mContext;
 	private URI mBaseURI;
 	//private StringBuilder mData;
 
 	private String mEncoding;
+
+	private UrlExtractor mUrlExtractor;
 	
 	public HtmlParser() {
 		super();
@@ -78,8 +70,6 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 	public void init() throws ProcessingException {
 		super.init();
 		
-		initPatterns();
-		
 		UrlDownloadJob job = (UrlDownloadJob) getProcessorChain().getJob();
 		DataRetriever dataRetriever = job.getDataRetriever();
 		
@@ -104,6 +94,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 			mEncoding = null;
 		}
 		
+		mUrlExtractor = new UrlExtractor(mBaseURI);
 	}
 	
 	@Override
@@ -148,97 +139,13 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 			convertedChunk = new String(pDataChunk.getData(), 0, pDataChunk.getSize());
 		}
 		
-		//remove all line breaks
-		convertedChunk = convertedChunk.replaceAll("[\r\n]", " "); 
-		
 		//extract the url's
-		URI[] uris = extractURLs(convertedChunk);
+		URI[] uris = mUrlExtractor.extractURLs(convertedChunk);
 		
 		//add the jobs to the job manager
 		addNewJobs(uris);
 		
 		return pDataChunk;
-	}
-
-	protected Pattern[] loadPatterns(String propertyName) {
-		
-		mLog.debug("Reading Patterns from file: " + propertyName);
-		
-		URL resource = this.getClass().getClassLoader().getResource(propertyName);
-		if(resource == null) {
-			mLog.error("Cannot load patterns from file: " + propertyName);
-			return new Pattern[0];
-		}
-		
-		Properties patternFile = new Properties();
-		
-		try {
-			patternFile.load(resource.openStream());
-		} catch (IOException e) {
-			mLog.error("Cannot load patterns from file: " + propertyName, e);
-		}
-		
-		ArrayList<Pattern> regExpList = new ArrayList<Pattern>();
-		
-		int offset = 1;
-		while(true) {
-			
-			String regexp = (String) patternFile.get(REGEXP_PREFIX + offset);
-			if(regexp != null) {
-				
-				Pattern pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE);
-				regExpList.add(pattern);
-			} else {
-				break;
-			}
-			
-			offset++;
-		}
-		
-		return regExpList.toArray(new Pattern[regExpList.size()]);
-	}
-	
-
-	private synchronized void initPatterns() {
-		if(mPatterns == null) {
-			mPatterns = loadPatterns(ApplicationConstants.HTTP_PARSER_CONFIG_FILE);
-		}
-	}
-
-	public URI[] extractURLs(CharSequence pData) {
-		
-		HashSet<URI> urlList = new HashSet<URI>();
-		mLog.debug("Extracting URL's from " + mBaseURI);
-		//mLog.debug("Site data: " + pData);
-		
-		for (int i = 0; i < mPatterns.length; i++) {
-			Pattern pattern = mPatterns[i];
-			Matcher matcher = pattern.matcher(pData);
-			while(matcher.find()) {
-				String match = matcher.group(1);
-				
-				//mLog.debug("Got hit '" + pattern.pattern() + "' on '" + line + "' -> " + match);
-				//mLog.debug("Got hit: '" + pattern.pattern() + "' : " + match);
-				
-				URI uri = null;
-				try {
-					match = match.trim(); //remove trailing spaces
-					match = match.replaceAll(" ", "%20"); //try to fix broken url's
-					uri = mBaseURI.resolve(new URI(match));
-				} catch(Exception ex) {
-					mLog.warn("Resolving of base url failed: " +
-							"Match: " + match + " BaseURI: " + mBaseURI, ex);
-				}
-				if(uri != null) {
-					//mLog.debug("Add uri: " + uri);
-					urlList.add(uri);
-				}
-			}
-		}
-		
-		mLog.debug("Finished Extracting URL's from " + mBaseURI);
-			
-		return urlList.toArray(new URI[urlList.size()]);
 	}
 
 	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
