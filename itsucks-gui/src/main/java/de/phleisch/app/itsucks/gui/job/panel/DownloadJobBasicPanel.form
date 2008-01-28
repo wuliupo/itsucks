@@ -488,7 +488,7 @@
             <Property name="text" type="java.lang.String" value="Override User Agent"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userAgentCheckBoxActionPerformed"/>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="userAgentCheckBoxStateChanged"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="userAgentLabel">
@@ -590,7 +590,7 @@
             <Property name="text" type="java.lang.String" value="Enable Bandwidth Limitation"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableBandwidthLimitCheckBoxActionPerformed"/>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="enableBandwidthLimitCheckBoxStateChanged"/>
           </Events>
         </Component>
       </SubComponents>

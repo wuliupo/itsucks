@@ -686,9 +686,9 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		userAgentCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
 		userAgentCheckBox.setText("Override User Agent");
 		userAgentCheckBox
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						userAgentCheckBoxActionPerformed(evt);
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						userAgentCheckBoxStateChanged(evt);
 					}
 				});
 
@@ -773,9 +773,9 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 				.setFont(new java.awt.Font("Dialog", 0, 12));
 		enableBandwidthLimitCheckBox.setText("Enable Bandwidth Limitation");
 		enableBandwidthLimitCheckBox
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						enableBandwidthLimitCheckBoxActionPerformed(evt);
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						enableBandwidthLimitCheckBoxStateChanged(evt);
 					}
 				});
 
@@ -917,8 +917,8 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
-	private void enableBandwidthLimitCheckBoxActionPerformed(
-			java.awt.event.ActionEvent evt) {
+	private void enableBandwidthLimitCheckBoxStateChanged(
+			javax.swing.event.ChangeEvent evt) {
 
 		boolean enabled = enableBandwidthLimitCheckBox.isSelected();
 
@@ -926,7 +926,7 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 		bandwidthLimitComboBox.setEnabled(enabled);
 	}
 
-	private void userAgentCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
+	private void userAgentCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {
 
 		boolean enabled = userAgentCheckBox.isSelected();
 

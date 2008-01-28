@@ -116,6 +116,27 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 						.setText(String.valueOf(httpRetrieverConfiguration
 								.getMaxConnectionsPerServer()));
 			}
+			
+			if (httpRetrieverConfiguration.getBandwidthLimit() != null) {
+				
+				final int kbytes = 1024;
+				final int mbytes = 1024 * 1024;
+				
+				int limit = httpRetrieverConfiguration.getBandwidthLimit();
+				int index = 0;
+				
+				if((limit % mbytes) == 0) {
+					limit /= mbytes;
+					index = 2;
+				} else if((limit % kbytes) == 0) {
+					limit /= kbytes;
+					index = 1;
+				} 
+				
+				this.downloadJobBasicPanel.enableBandwidthLimitCheckBox.setSelected(true);
+				this.downloadJobBasicPanel.bandwidthLimitComboBox.setSelectedIndex(index);
+				this.downloadJobBasicPanel.bandwidthLimitTextField.setText(String.valueOf(limit));
+			}
 
 			if (httpRetrieverConfiguration.isProxyEnabled()) {
 				this.downloadJobBasicPanel.enableProxyCheckBox
