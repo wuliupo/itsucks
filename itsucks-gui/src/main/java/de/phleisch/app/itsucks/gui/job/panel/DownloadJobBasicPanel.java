@@ -88,6 +88,12 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 			validator.assertNotEmpty(this.authenticationPasswordTextField
 					.getText(), "Enter a valid proxy password.");
 		}
+		
+		if(this.enableBandwidthLimitCheckBox.isSelected()) {
+			
+			validator.assertInteger(this.bandwidthLimitTextField.getText(),
+				"Enter a valid number for the bandwidth limit.");
+		}
 
 		return validator.getErrors();
 	}
