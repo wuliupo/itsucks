@@ -49,7 +49,7 @@ include_once('include/header.php.inc');
   
         <h2>Features of ItSucks Swing GUI</h2>
         <ul>
-          <li>Keep track of multiple downloads and one time.</li>
+          <li>Keep track of multiple download jobs.</li>
           <li>Add and remove download jobs.</li>
           <li>A integrated regular expression tester to test/debug your regular expression directly.</li>
           <li>Load and save downloads as templates.</li>
