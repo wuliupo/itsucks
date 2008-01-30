@@ -47,20 +47,6 @@ public abstract class AbstractDataProcessor implements DataProcessor {
 	 */
 	public void rollback() {}
 	
-//	/* (non-Javadoc)
-//	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
-//	 */
-//	public boolean canResume() {
-//		return false;
-//	}
-//	
-//	/* (non-Javadoc)
-//	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
-//	 */
-//	public void resumeAt(long pByteOffset) {
-//		throw new IllegalArgumentException();
-//	}
-	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#setProcessorChain(de.phleisch.app.itsucks.processing.DataProcessorChain)
 	 */

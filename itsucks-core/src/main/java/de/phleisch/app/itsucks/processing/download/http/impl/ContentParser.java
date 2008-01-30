@@ -28,6 +28,7 @@ import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.processing.AbortProcessingException;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
+import de.phleisch.app.itsucks.processing.DataProcessorInfo;
 import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
@@ -145,31 +146,22 @@ public class ContentParser extends AbstractDataParser implements DataProcessor {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
-	 */
-	public boolean needsDataAsWholeChunk() {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
-	 */
-	public boolean isConsumer() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
-	 */
-	public boolean canResume() {
-		return false;
-	}
-
-	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
 	 */
 	public void resumeAt(long pByteOffset) {
 		throw new IllegalArgumentException("Resume not supported.");
+	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#getInfo()
+	 */
+	public DataProcessorInfo getInfo() {
+		
+		return new DataProcessorInfo(
+				DataProcessorInfo.ResumeSupport.NO_RESUME_SUPPORTED,
+				DataProcessorInfo.ProcessorType.FILTER,
+				DataProcessorInfo.StreamingSupport.NEED_DATA_AS_WHOLE_CHUNK
+		);
 	}
 
 }

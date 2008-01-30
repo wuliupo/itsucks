@@ -24,6 +24,7 @@ import de.phleisch.app.itsucks.processing.AbortProcessingException;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.DataProcessorInfo;
 import de.phleisch.app.itsucks.processing.ProcessingException;
 
 /**
@@ -135,16 +136,7 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		}
 
 		//check if any processor needs the data as whole chunk
-		mStreamingEnabled = true;
-		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			DataProcessor processor = it.next();
-			
-			//when this processor needs the data as whole chung, disable streaming
-			if(processor.needsDataAsWholeChunk()) {
-				mStreamingEnabled = false;
-				break;
-			}
-		}
+		mStreamingEnabled = canResume();
 		
 		mInitialized = true;
 	}
@@ -308,7 +300,9 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		for (DataProcessor processor : mDataProcessors) {
 			
 			//this processor can't resume, abort
-			if(!processor.canResume()) {
+			if(!processor.getInfo().getStreamingSupport().equals(
+					DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING)) {
+				
 				resumePossible = false;
 				break;
 			}
@@ -391,7 +385,9 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		boolean hasConsumer = false;
 		
 		for (Iterator<DataProcessor> it = mDataProcessors.iterator(); it.hasNext();) {
-			if(it.next().isConsumer()) {
+			if(it.next().getInfo().getProcessorType().equals(
+					DataProcessorInfo.ProcessorType.CONSUMER)) {
+				
 				hasConsumer = true;
 				break;
 			}

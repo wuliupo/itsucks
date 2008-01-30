@@ -15,6 +15,7 @@ import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
+import de.phleisch.app.itsucks.processing.DataProcessorInfo;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
 public class FilterFileSizeProcessor extends AbstractDataProcessor {
@@ -68,20 +69,6 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 		
 		return accept;
 	}
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
-	 */
-	public boolean isConsumer() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
-	 */
-	public boolean needsDataAsWholeChunk() {
-		return false;
-	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#process(byte[], int)
@@ -89,12 +76,20 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 	public DataChunk process(DataChunk pDataChunk) {
 		return pDataChunk;
 	}
-
-	public boolean canResume() {
-		return true;
-	}
-
+	
 	public void resumeAt(long pByteOffset) {
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#getInfo()
+	 */
+	public DataProcessorInfo getInfo() {
+		
+		return new DataProcessorInfo(
+				DataProcessorInfo.ResumeSupport.RESUME_SUPPORTED,
+				DataProcessorInfo.ProcessorType.FILTER,
+				DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING
+		);
+	}
+	
 }

@@ -51,20 +51,6 @@ public interface DataProcessor {
 	public abstract void rollback();
 	
 	/**
-	 * Supports this data processor resuming?
-	 * @return true == yes
-	 */
-	public abstract boolean canResume();
-	
-	/**
-	 * 'Consumes' (saves, parses etc.) this processor to the data or is it
-	 * only an filter?
-	 * If an chain contains no consumer, the data is not processed.
-	 * @return true == yes
-	 */
-	public abstract boolean isConsumer();
-	
-	/**
 	 * Resumes the processing at the given position.
 	 * @param pByteOffset The offset position in bytes.
 	 */
@@ -77,15 +63,12 @@ public interface DataProcessor {
 	 * @throws ProcessingException
 	 */
 	public abstract DataChunk process(DataChunk pDataChunk) throws ProcessingException;
-	
-	/**
-	 * Asks the processor if it needs the data from the data retriever
-	 * in one chunk and not in multiple pieces.
-	 * 
-	 * @return
-	 */
-	public abstract boolean needsDataAsWholeChunk();
 
+	/**
+	 * Returns informations about the processor and its features.
+	 */
+	public abstract DataProcessorInfo getInfo();
+	
 	/**
 	 * Sets the processor chain the processor is a part of.
 	 * 

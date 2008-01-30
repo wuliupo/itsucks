@@ -24,6 +24,7 @@ import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.DataProcessorInfo;
 import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
 
@@ -134,13 +135,6 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#canResume()
-	 */
-	public boolean canResume() {
-		return true;
-	}
-
-	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#resumeAt(long)
 	 */
 	public void resumeAt(long pByteOffset) {
@@ -219,20 +213,6 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
-	 */
-	public boolean needsDataAsWholeChunk() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
-	 */
-	public boolean isConsumer() {
-		return true;
-	}
-
 	/**
 	 * Gets if the persistence processor should preserve the file in case of an chain error.
 	 */
@@ -249,5 +229,16 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		mPreserveDataOnRollback = pPreserveDataOnRollback;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#getInfo()
+	 */
+	public DataProcessorInfo getInfo() {
+		
+		return new DataProcessorInfo(
+				DataProcessorInfo.ResumeSupport.RESUME_SUPPORTED,
+				DataProcessorInfo.ProcessorType.CONSUMER,
+				DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING
+		);
+	}
 
 }

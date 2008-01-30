@@ -12,6 +12,7 @@ import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.DataChunk;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
+import de.phleisch.app.itsucks.processing.DataProcessorInfo;
 import de.phleisch.app.itsucks.processing.ProcessingException;
 
 /**
@@ -34,13 +35,6 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	public SeekDataProcessorWrapper(DataProcessor pDataProcessor, long pSeekPosition) {
 		mDataProcessor = pDataProcessor;
 		mSeekPosition = pSeekPosition;
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#canResume()
-	 */
-	public boolean canResume() {
-		return mDataProcessor.canResume();
 	}
 
 	/* (non-Javadoc)
@@ -69,13 +63,6 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	 */
 	public void rollback() {
 		mDataProcessor.rollback();
-	}	
-	
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#needsDataAsWholeChunk()
-	 */
-	public boolean needsDataAsWholeChunk() {
-		return mDataProcessor.needsDataAsWholeChunk();
 	}
 
 	/* (non-Javadoc)
@@ -135,10 +122,10 @@ public class SeekDataProcessorWrapper implements DataProcessor {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.processing.DataProcessor#isConsumer()
+	 * @see de.phleisch.app.itsucks.processing.DataProcessor#getInfo()
 	 */
-	public boolean isConsumer() {
-		return mDataProcessor.isConsumer();
+	public DataProcessorInfo getInfo() {
+		return mDataProcessor.getInfo();
 	}
-
+	
 }
