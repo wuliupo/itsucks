@@ -166,9 +166,9 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 	public DataProcessorInfo getInfo() {
 		
 		return new DataProcessorInfo(
-				DataProcessorInfo.ResumeSupport.NO_RESUME_SUPPORTED,
+				DataProcessorInfo.ResumeSupport.RESUME_NOT_SUPPORTED,
 				DataProcessorInfo.ProcessorType.CONSUMER,
-				DataProcessorInfo.StreamingSupport.NEED_DATA_AS_WHOLE_CHUNK
+				DataProcessorInfo.StreamingSupport.DATA_AS_WHOLE_CHUNK_NEEDED
 		);
 	}
 

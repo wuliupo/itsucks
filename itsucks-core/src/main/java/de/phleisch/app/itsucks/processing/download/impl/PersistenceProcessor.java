@@ -237,7 +237,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		return new DataProcessorInfo(
 				DataProcessorInfo.ResumeSupport.RESUME_SUPPORTED,
 				DataProcessorInfo.ProcessorType.CONSUMER,
-				DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING
+				DataProcessorInfo.StreamingSupport.STREAMING_SUPPORTED
 		);
 	}
 

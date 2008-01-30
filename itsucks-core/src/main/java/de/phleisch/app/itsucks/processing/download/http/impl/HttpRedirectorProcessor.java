@@ -158,7 +158,7 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 		return new DataProcessorInfo(
 				DataProcessorInfo.ResumeSupport.RESUME_SUPPORTED,
 				DataProcessorInfo.ProcessorType.FILTER,
-				DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING
+				DataProcessorInfo.StreamingSupport.STREAMING_SUPPORTED
 		);
 	}
 	

@@ -11,7 +11,7 @@ package de.phleisch.app.itsucks.processing;
 public class DataProcessorInfo {
 
 	public static enum ResumeSupport {
-		NO_RESUME_SUPPORTED,
+		RESUME_NOT_SUPPORTED,
 		RESUME_SUPPORTED,
 	}
 	
@@ -21,8 +21,8 @@ public class DataProcessorInfo {
 	}
 	
 	public static enum StreamingSupport {
-		SUPPORT_STREAMING,
-		NEED_DATA_AS_WHOLE_CHUNK,
+		STREAMING_SUPPORTED,
+		DATA_AS_WHOLE_CHUNK_NEEDED,
 	}
 	
 	protected ResumeSupport mResumeSupport;

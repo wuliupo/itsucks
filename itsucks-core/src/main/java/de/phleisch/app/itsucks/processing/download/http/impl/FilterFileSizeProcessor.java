@@ -88,7 +88,7 @@ public class FilterFileSizeProcessor extends AbstractDataProcessor {
 		return new DataProcessorInfo(
 				DataProcessorInfo.ResumeSupport.RESUME_SUPPORTED,
 				DataProcessorInfo.ProcessorType.FILTER,
-				DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING
+				DataProcessorInfo.StreamingSupport.STREAMING_SUPPORTED
 		);
 	}
 	

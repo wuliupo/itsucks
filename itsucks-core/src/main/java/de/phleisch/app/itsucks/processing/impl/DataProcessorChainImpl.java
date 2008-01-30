@@ -301,7 +301,7 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 			
 			//this processor can't resume, abort
 			if(!processor.getInfo().getStreamingSupport().equals(
-					DataProcessorInfo.StreamingSupport.SUPPORT_STREAMING)) {
+					DataProcessorInfo.StreamingSupport.STREAMING_SUPPORTED)) {
 				
 				resumePossible = false;
 				break;

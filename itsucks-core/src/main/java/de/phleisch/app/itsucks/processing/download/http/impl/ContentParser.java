@@ -158,9 +158,9 @@ public class ContentParser extends AbstractDataParser implements DataProcessor {
 	public DataProcessorInfo getInfo() {
 		
 		return new DataProcessorInfo(
-				DataProcessorInfo.ResumeSupport.NO_RESUME_SUPPORTED,
+				DataProcessorInfo.ResumeSupport.RESUME_NOT_SUPPORTED,
 				DataProcessorInfo.ProcessorType.FILTER,
-				DataProcessorInfo.StreamingSupport.NEED_DATA_AS_WHOLE_CHUNK
+				DataProcessorInfo.StreamingSupport.DATA_AS_WHOLE_CHUNK_NEEDED
 		);
 	}
 
