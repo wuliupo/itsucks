@@ -18,7 +18,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.job.Context;
@@ -192,8 +191,6 @@ public class FileResumeRetriever implements DataRetriever {
 					}
 				}
 
-				mFileRetriever
-						.setDataConsumer(mDataRetriever.getDataConsumer());
 				mFileRetriever.connect();
 
 				mReadFromFile = true;
@@ -297,33 +294,6 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 
 		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getDataConsumer()
-	 */
-	public DataConsumer getDataConsumer() {
-		return mDataRetriever.getDataConsumer();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#setDataConsumer(de.phleisch.app.itsucks.io.DataConsumer)
-	 */
-	public void setDataConsumer(DataConsumer pDataConsumer) {
-
-		if (mResumePrepared) {
-			throw new RuntimeException("Resuming already prepared, "
-					+ "changing the data consumer not allowed at this point.");
-		}
-
-		mDataRetriever.setDataConsumer(pDataConsumer);
-		if (mFileRetriever != null) {
-			mFileRetriever.setDataConsumer(pDataConsumer);
-		}
 	}
 
 	/*

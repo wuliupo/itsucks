@@ -53,10 +53,6 @@ public interface DataRetriever {
 	 */
 	public final static Integer RESULT_RETRIEVAL_ABORTED = 12;
 
-	public void setDataConsumer(DataConsumer pDataConsumer);
-	
-	public DataConsumer getDataConsumer();
-
 	/**
 	 * Sets the context for this data retriever.
 	 * @param pContext

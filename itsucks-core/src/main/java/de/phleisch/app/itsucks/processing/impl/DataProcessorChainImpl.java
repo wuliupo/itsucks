@@ -17,7 +17,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
 import de.phleisch.app.itsucks.processing.AbortProcessingException;
@@ -394,40 +393,6 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 		}
 		
 		return hasConsumer;
-	}
-	
-	protected class DataConsumerImpl implements DataConsumer  {
-		
-		/* (non-Javadoc)
-		 * @see de.phleisch.app.itsucks.processing.DataProcessorChain#process(byte[], int)
-		 */
-		public void process(byte[] pBuffer, int pBytes) {
-			
-			if(!mInitialized) {
-				throw new IllegalStateException("Chain not initialized.");
-			}
-			
-			if(mStreamingEnabled) {
-				DataChunk chunk = new DataChunk(pBuffer, pBytes, false);
-				
-				try {
-					dispatchChunk(chunk);
-				} catch (ProcessingException e) {
-					mLog.error("Error processing chain.", e);
-					throw new ContainerRuntimeException(e);
-				}
-				
-				mProcessedBytes += pBytes;
-				
-			} else {
-				appendChunk(pBuffer, pBytes);
-			}
-			
-		}
-
-		public boolean canResume() {
-			return DataProcessorChainImpl.this.canResume();
-		}
 	}
 	
 	protected static class ContainerRuntimeException extends RuntimeException {

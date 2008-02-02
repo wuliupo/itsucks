@@ -9,7 +9,6 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.net.URL;
 
-import de.phleisch.app.itsucks.io.DataConsumer;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.job.Context;
 
@@ -23,7 +22,6 @@ import de.phleisch.app.itsucks.job.Context;
 public abstract class AbstractDataRetriever implements DataRetriever {
 
 	protected URL mUrl;
-	public DataConsumer mDataConsumer;
 	protected Context mContext;
 	
 	public AbstractDataRetriever() {
@@ -50,14 +48,6 @@ public abstract class AbstractDataRetriever implements DataRetriever {
 
 	public void setContext(Context pContext) {
 		mContext = pContext;
-	}
-
-	public DataConsumer getDataConsumer() {
-		return mDataConsumer;
-	}
-
-	public void setDataConsumer(DataConsumer pDataConsumer) {
-		mDataConsumer = pDataConsumer;
 	}
 	
 }
