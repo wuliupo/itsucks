@@ -14,9 +14,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.JobFilterChain;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 
 public class JobFilterChainImpl implements JobFilterChain {
@@ -24,7 +24,7 @@ public class JobFilterChainImpl implements JobFilterChain {
 	private static Log mLog = LogFactory.getLog(JobFilterChainImpl.class);
 	
 	private List<JobFilter> mJobFilter;
-	private Context mContext;
+	private EventContext mContext;
 	
 	public JobFilterChainImpl() {
 		
@@ -87,11 +87,11 @@ public class JobFilterChainImpl implements JobFilterChain {
 		return mJobFilter;
 	}
 
-	public Context getContext() {
+	public EventContext getContext() {
 		return mContext;
 	}
 
-	public void setContext(Context pContext) {
+	public void setContext(EventContext pContext) {
 		mContext = pContext;
 	}
 

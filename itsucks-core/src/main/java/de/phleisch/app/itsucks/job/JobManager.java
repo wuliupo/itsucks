@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks.job;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.EventSource;
 
 
@@ -23,7 +24,7 @@ public interface JobManager extends EventSource {
 
 	public abstract void setJobList(JobList pJobList);
 
-	public abstract Context getContext();
+	public abstract EventContext getContext();
 
-	public abstract void setContext(Context pContext);
+	public abstract void setContext(EventContext pContext);
 }

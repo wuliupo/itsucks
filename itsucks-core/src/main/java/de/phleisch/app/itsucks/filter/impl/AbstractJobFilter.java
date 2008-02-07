@@ -8,18 +8,18 @@
 
 package de.phleisch.app.itsucks.filter.impl;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.job.Context;
 
 public abstract class AbstractJobFilter implements JobFilter {
 
-	protected Context mContext = null;
+	protected EventContext mContext = null;
 
-	public Context getContext() {
+	public EventContext getContext() {
 		return mContext;
 	}
 
-	public void setContext(Context pContext) {
+	public void setContext(EventContext pContext) {
 		mContext = pContext;
 	}
 	

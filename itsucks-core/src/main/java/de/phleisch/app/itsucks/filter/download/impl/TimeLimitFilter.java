@@ -13,13 +13,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.event.impl.DefaultEventFilter;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
@@ -69,7 +69,7 @@ public class TimeLimitFilter
 	}
 
 	@Override
-	public void setContext(Context pContext) {
+	public void setContext(EventContext pContext) {
 		super.setContext(pContext);
 		
 		//register observer

@@ -141,7 +141,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			return;
 		}
 		
-		mDataRetriever.setContext(getContext());
+		mDataRetriever.setContext(getGroupContext());
 		mDataRetriever.setUrl(url);
 		
 		boolean skip = false;

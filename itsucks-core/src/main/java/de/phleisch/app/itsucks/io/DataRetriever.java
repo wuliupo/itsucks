@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.phleisch.app.itsucks.job.Context;
+import de.phleisch.app.itsucks.context.Context;
 
 /**
  * This interface specifies an DataRetriever. DataRetriever are used to provided

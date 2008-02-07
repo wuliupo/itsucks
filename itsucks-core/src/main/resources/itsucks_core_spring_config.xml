@@ -34,7 +34,7 @@
 
 	<bean 
 		id="Context" 
-		class="de.phleisch.app.itsucks.job.Context" 
+		class="de.phleisch.app.itsucks.context.EventContext" 
 		singleton="false">
 	</bean>
 
@@ -161,12 +161,12 @@
 			<map>
 				<entry>
 					<key><value>http</value></key>
-					<idref bean="HttpRetriever"/>
+					<idref bean="HttpRetrieverFactory"/>
 				</entry>
 				
 				<entry>
 					<key><value>https</value></key>
-					<idref bean="HttpRetriever"/>
+					<idref bean="HttpRetrieverFactory"/>
 				</entry>
 			</map>
 		</property>
@@ -174,8 +174,14 @@
 	</bean>
 	
 	<bean 
+		id="HttpRetrieverFactory" 
+		class="de.phleisch.app.itsucks.io.http.impl.HttpRetrieverFactory" 
+		singleton="true">
+	</bean>
+	
+	<bean 
 		id="HttpRetriever" 
-		class="de.phleisch.app.itsucks.io.http.impl.AdvancedHttpRetriever" 
+		class="de.phleisch.app.itsucks.io.http.impl.HttpRetriever" 
 		singleton="false">
 		
 		<property name="userAgent">

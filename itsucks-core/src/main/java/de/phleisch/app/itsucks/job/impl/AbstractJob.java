@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.phleisch.app.itsucks.job.Context;
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
 import de.phleisch.app.itsucks.job.JobParameter;
@@ -36,7 +36,7 @@ public abstract class AbstractJob implements Serializable, Job {
 	private String mName;
 	private Map<String, JobParameter> mParameter;
 	
-	protected transient Context mContext;
+	protected transient Context mGroupContext;
 	protected transient JobManager mJobManager;
 	
     /**
@@ -98,15 +98,15 @@ public abstract class AbstractJob implements Serializable, Job {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#getContext()
 	 */
-	public Context getContext() {
-		return mContext;
+	public Context getGroupContext() {
+		return mGroupContext;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Job#setContext(de.phleisch.app.itsucks.Context)
 	 */
-	public void setContext(Context pContext) {
-		mContext = pContext;
+	public void setGroupContext(Context pContext) {
+		mGroupContext = pContext;
 	}
 	
 	/* (non-Javadoc)

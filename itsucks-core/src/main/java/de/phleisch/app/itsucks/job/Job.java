@@ -11,6 +11,8 @@ package de.phleisch.app.itsucks.job;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import de.phleisch.app.itsucks.context.Context;
+
 
 /**
  * A job is a single task to be done.
@@ -130,14 +132,14 @@ public interface Job {
 	 * 
 	 * @return the context the job belongs.
 	 */
-	public abstract Context getContext();
+	public abstract Context getGroupContext();
 
 	/**
 	 * Sets the context for this job group.
 	 * 
 	 * @param pContext the context the job belongs.
 	 */
-	public abstract void setContext(Context pContext);
+	public abstract void setGroupContext(Context pContext);
 	
 	/**
 	 * Returns true when the filter should not be applied for this job. 

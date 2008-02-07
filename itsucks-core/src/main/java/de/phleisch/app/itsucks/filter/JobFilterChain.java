@@ -10,7 +10,7 @@ package de.phleisch.app.itsucks.filter;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.job.Context;
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.job.Job;
 
 public interface JobFilterChain {
@@ -25,7 +25,7 @@ public interface JobFilterChain {
 	
 	public abstract Job filterJob(Job pJob);
 	
-	public abstract Context getContext();
+	public abstract EventContext getContext();
 
-	public abstract void setContext(Context pContext);
+	public abstract void setContext(EventContext pContext);
 }

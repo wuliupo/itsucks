@@ -6,17 +6,14 @@
  * Created on 28.09.2007
  */
 
-package de.phleisch.app.itsucks.job;
+package de.phleisch.app.itsucks.context;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import de.phleisch.app.itsucks.event.EventDispatcher;
-
 public class Context {
 
 	private Map<Object, Object> mParameters = new ConcurrentHashMap<Object, Object>();
-	private EventDispatcher mEventDispatcher = null;
 	
 	public void setContextParameter(Object pKey, Object pValue) {
 		mParameters.put(pKey, pValue);
@@ -28,14 +25,6 @@ public class Context {
 
 	public void putAllContextParameter(Map<String, Object> contextParameter) {
 		mParameters.putAll(contextParameter);
-	}
-
-	public EventDispatcher getEventDispatcher() {
-		return mEventDispatcher;
-	}
-
-	public void setEventDispatcher(EventDispatcher pEventDispatcher) {
-		mEventDispatcher = pEventDispatcher;
 	}
 	
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.EventObserver;
@@ -23,7 +24,6 @@ import de.phleisch.app.itsucks.event.job.JobChangedEvent;
 import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.JobFilterChain;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobList;
 import de.phleisch.app.itsucks.job.JobManager;
@@ -41,7 +41,7 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	private static Log mLog = LogFactory.getLog(FilterJobManagerImpl.class);
 
 	private JobList mJobList;
-	private Context mContext;
+	private EventContext mGroupContext;
 	
 	private EventDispatcher mEventDispatcher;
 	private JobFilterChain mJobFilterChain;
@@ -58,7 +58,7 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		if(pJob == null) return;
 		
 		pJob.setJobManager(this);
-		pJob.setContext(mContext);
+		pJob.setGroupContext(mGroupContext);
 		
 		// This event must be fired before adding the job to the list.
 		// When adding the job, the job list changes the state and produces
@@ -154,8 +154,8 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#getContext()
 	 */
-	public Context getContext() {
-		return mContext;
+	public EventContext getContext() {
+		return mGroupContext;
 	}
 
 	public JobFilterChain getJobFilterChain() {
@@ -166,10 +166,10 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		mJobFilterChain = pJobFilterChain;
 	}
 
-	public void setContext(Context pContext) {
-		mContext = pContext;
-		mEventDispatcher = mContext.getEventDispatcher();
-		mJobFilterChain.setContext(mContext);
+	public void setContext(EventContext pContext) {
+		mGroupContext = pContext;
+		mEventDispatcher = mGroupContext.getEventDispatcher();
+		mJobFilterChain.setContext(mGroupContext);
 	}
 	
 	public void addJobFilter(JobFilter pJobFilter) {

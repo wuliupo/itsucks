@@ -10,9 +10,9 @@ package de.phleisch.app.itsucks.core;
 
 import java.util.List;
 
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobManager;
 

@@ -13,12 +13,12 @@ import java.beans.PropertyChangeEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.event.job.JobChangedEvent;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 
 public class CleanJobManagerImpl extends FilterJobManagerImpl {
@@ -58,7 +58,7 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 //		return mJobManager.removeJob(pJob);
 //	}
 
-	public void setContext(Context pContext) {
+	public void setContext(EventContext pContext) {
 		
 		//deregister from old event dispatcher
 		EventDispatcher oldEventDispatcher = getEventDispatcher();

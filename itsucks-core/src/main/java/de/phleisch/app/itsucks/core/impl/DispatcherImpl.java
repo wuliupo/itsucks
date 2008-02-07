@@ -17,13 +17,14 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import de.phleisch.app.itsucks.context.Context;
+import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.core.WorkerPool;
 import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.filter.JobFilter;
-import de.phleisch.app.itsucks.job.Context;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl;
 
@@ -41,7 +42,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	private ApplicationContext mSpringApplicationContext;
 	
 	private String mName;
-	private Context mContext;
+	private EventContext mContext;
 	private FilterJobManagerImpl mJobManager;
 	private WorkerPool mWorkerPool;
 	private EventDispatcher mEventManager;
@@ -276,6 +277,10 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		return mJobManager.getContext();
 	}
 	
+	public void setContext(EventContext pContext) {
+		mContext = pContext;
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#getDispatchDelay()
 	 */
@@ -323,11 +328,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
 	}
-
-	public void setContext(Context pContext) {
-		mContext = pContext;
-	}
-
+	
 	public void setEventManager(EventDispatcher pEventManager) {
 		
 		if(mContext == null) {

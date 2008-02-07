@@ -9,8 +9,8 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.net.URL;
 
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.io.DataRetriever;
-import de.phleisch.app.itsucks.job.Context;
 
 
 /**

@@ -21,9 +21,9 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.io.impl.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
-import de.phleisch.app.itsucks.job.Context;
 
 /**
  * Implentation of an data retriever for the http protocol.
@@ -31,7 +31,7 @@ import de.phleisch.app.itsucks.job.Context;
  * @author olli
  *
  */
-public class AdvancedHttpRetriever extends AbstractDataRetriever {
+public class HttpRetriever extends AbstractDataRetriever {
 
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
 	
@@ -44,7 +44,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	
 	private static Object STATIC_MUTEX = new Object();
 	
-	private static Log mLog = LogFactory.getLog(AdvancedHttpRetriever.class);
+	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
 	private GetMethod mGet = null;
 	private HttpMetadata mMetadata;
@@ -54,7 +54,7 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 
 	private long mBytesToSkip;
 	
-	public AdvancedHttpRetriever() {
+	public HttpRetriever() {
 		super();
 	}
 	
@@ -103,10 +103,10 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 	
 	private HttpClient getHttpClientFromContext() {
 		
-		Context jobContext = getContext();
+		Context groupContext = getContext();
 		
 		HttpClient httpClient = 
-			(HttpClient) jobContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+			(HttpClient) groupContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
 		
 		if(httpClient == null) {
 			
@@ -115,12 +115,12 @@ public class AdvancedHttpRetriever extends AbstractDataRetriever {
 				//try again, because in the time waiting for the lock, the configuration 
 				//could be created by another thread.
 				httpClient = 
-					(HttpClient) jobContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+					(HttpClient) groupContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
 				
 				if(httpClient == null) {
-					HttpRetrieverConfiguration configuration = getHttpRetrieverConfiguration(jobContext);
+					HttpRetrieverConfiguration configuration = getHttpRetrieverConfiguration(groupContext);
 		     		httpClient = createHttpClient(configuration);
-		     		jobContext.setContextParameter("AdvancedHttpRetriever_HttpClient", httpClient);
+		     		groupContext.setContextParameter("AdvancedHttpRetriever_HttpClient", httpClient);
 				}
 			}
 		}
