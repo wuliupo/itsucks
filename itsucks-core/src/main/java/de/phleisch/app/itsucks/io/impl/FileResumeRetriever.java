@@ -38,7 +38,7 @@ public class FileResumeRetriever implements DataRetriever {
 	private File mLocalFile;
 
 	private long mResumeOffset;
-	private long mOverlap = 512;
+	private long mOverlap = 128;
 
 	private boolean mConnected;
 	private boolean mResumePrepared;
@@ -95,10 +95,18 @@ public class FileResumeRetriever implements DataRetriever {
 			}
 
 			// try to resume the data stream
-			mDataRetriever.setBytesToSkip(mResumeOffset - mOverlap);
+			long bytesToSkip = mResumeOffset - mOverlap;
+			if(bytesToSkip > 0) {
+				mDataRetriever.setBytesToSkip(bytesToSkip);
+			}
 			mDataRetriever.connect();
 
-			if (mDataRetriever.getBytesSkipped() > 0) {
+			if(bytesToSkip <= 0) {
+				mLog.info("Resume is smaller than overlap or resumeOffset <= 0 set, " 
+					+ "stopping resume and load the file normally: " 
+					+ mDataRetriever.getUrl());
+				
+			} else if (mDataRetriever.getBytesSkipped() > 0) {
 				mLog.info("Resume of URL successful: "
 						+ mDataRetriever.getUrl());
 
@@ -111,8 +119,8 @@ public class FileResumeRetriever implements DataRetriever {
 				// resume not possible, read everything from the live stream
 				mResumeOffset = 0;
 
-				mLog.info("Resume of URL not possible: "
-						+ mDataRetriever.getUrl() + ", seeking not allowed.");
+				mLog.info("Resume of URL not possible, seeking not allowed: "
+						+ mDataRetriever.getUrl());
 			}
 
 		} else {

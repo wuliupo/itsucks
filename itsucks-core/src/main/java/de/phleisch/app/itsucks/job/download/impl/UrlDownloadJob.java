@@ -250,40 +250,10 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		//if resuming from file, configure the resume retriever
 		if(mFileResumeRetriever != null) {
 			
+			//recheck if resume is necessary
 			long resumeOffset = mFileResumeRetriever.getResumeOffset();
-			
-			if (dataProcessorChain.canResume()) {
-				// ok, resume of chain is possible, advise every processor to resume at
-				// the given position.
-
-				dataProcessorChain.resumeAt(resumeOffset);
-				
-				//data from disk is not needed, resume retriever can pipe the data through
-				mFileResumeRetriever.setReadFromFile(false);
-
-			} else {
-				
-				// resume is not possible, read the data from the file and pipe
-				// it through the processors
-				List<DataProcessor> dataProcessors = dataProcessorChain
-						.getDataProcessors();
-
-				for (DataProcessor processor : dataProcessors) {
-
-					// skip the persistence processor
-					if (processor instanceof PersistenceProcessor) {
-
-						processor.resumeAt(resumeOffset);
-						dataProcessorChain.replaceDataProcessor(processor,
-								new SeekDataProcessorWrapper(processor,
-										resumeOffset));
-
-						continue;
-					}
-				}
-
-				//instruct resume retriever to read data from disk
-				mFileResumeRetriever.setReadFromFile(true);
+			if(resumeOffset > 0) {
+				prepareResume(dataProcessorChain, resumeOffset);
 			}
 		}
 		
@@ -322,6 +292,43 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			throw new RuntimeException("Error retrieving/processing data.", ex);
 		} finally {
 			dataProcessorChain.finish();
+		}
+	}
+
+	protected void prepareResume(DataProcessorChain dataProcessorChain,
+			long resumeOffset) {
+		if (dataProcessorChain.canResume()) {
+			// ok, resume of chain is possible, advise every processor to resume at
+			// the given position.
+
+			dataProcessorChain.resumeAt(resumeOffset);
+			
+			//data from disk is not needed, resume retriever can pipe the data through
+			mFileResumeRetriever.setReadFromFile(false);
+
+		} else {
+			
+			// resume is not possible, read the data from the file and pipe
+			// it through the processors
+			List<DataProcessor> dataProcessors = dataProcessorChain
+					.getDataProcessors();
+
+			for (DataProcessor processor : dataProcessors) {
+
+				// skip the persistence processor
+				if (processor instanceof PersistenceProcessor) {
+
+					processor.resumeAt(resumeOffset);
+					dataProcessorChain.replaceDataProcessor(processor,
+							new SeekDataProcessorWrapper(processor,
+									resumeOffset));
+
+					continue;
+				}
+			}
+
+			//instruct resume retriever to read data from disk
+			mFileResumeRetriever.setReadFromFile(true);
 		}
 	}
 	
