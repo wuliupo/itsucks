@@ -175,7 +175,7 @@
 	
 	<bean 
 		id="HttpRetrieverFactory" 
-		class="de.phleisch.app.itsucks.job.download.impl.HttpRetrieverFactory" 
+		class="de.phleisch.app.itsucks.job.download.http.impl.HttpRetrieverFactory" 
 		singleton="true">
 	</bean>
 	
