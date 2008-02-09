@@ -13,18 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.net.URL;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
-import de.phleisch.app.itsucks.processing.DataProcessor;
-import de.phleisch.app.itsucks.processing.DataProcessorChain;
-import de.phleisch.app.itsucks.processing.download.impl.PersistenceProcessor;
-import de.phleisch.app.itsucks.processing.impl.SeekDataProcessorWrapper;
 
 /**
  * This retriever is used to resume partial downloaded files. It creates an
@@ -40,8 +34,6 @@ public class FileResumeRetriever implements DataRetriever {
 
 	private FileRetriever mFileRetriever;
 	private DataRetriever mDataRetriever;
-
-	protected DataProcessorChain mDataProcessorChain;
 
 	private File mLocalFile;
 
@@ -59,10 +51,9 @@ public class FileResumeRetriever implements DataRetriever {
 		mFileRetriever = null;
 		mDataRetriever = pDataRetriever;
 		mLocalFile = pFile;
-		mReadFromFile = false;
+		mReadFromFile = true;
 		mResumePrepared = false;
 		mConnected = false;
-		mDataProcessorChain = null;
 		mResumeOffset = 0;
 	}
 
@@ -145,64 +136,21 @@ public class FileResumeRetriever implements DataRetriever {
 			throw new IllegalStateException("Not connected!");
 		}
 		
-		if (mResumePrepared)
+		if (mResumePrepared) {
 			return;
-
-		// check the processor chain
-		DataProcessorChain dataProcessorChain = mDataProcessorChain;
-
-		if (dataProcessorChain == null) {
-			throw new IllegalArgumentException("Processor Chain not set!");
 		}
 
-		if (mResumeOffset > 0) {
-
-			// retriever successfully seeked to the position
-			// reorganize the data processors
-
-			if (dataProcessorChain.canResume()) {
-				// ok, resume of chain is possible, advise every processor to resume at
-				// the given position.
-
-				dataProcessorChain.resumeAt(mResumeOffset);
-
-				mReadFromFile = false;
-
-			} else {
-				// resume is not possible, read the data from the file and pipe
-				// it through the processors
-
-				mFileRetriever = new FileRetriever(mLocalFile);
-
-				List<DataProcessor> dataProcessors = dataProcessorChain
-						.getDataProcessors();
-
-				for (DataProcessor processor : dataProcessors) {
-
-					// skip the persistence processor
-					if (processor instanceof PersistenceProcessor) {
-
-						processor.resumeAt(mResumeOffset);
-						dataProcessorChain.replaceDataProcessor(processor,
-								new SeekDataProcessorWrapper(processor,
-										mResumeOffset));
-
-						continue;
-					}
-				}
-
-				mFileRetriever.connect();
-
-				mReadFromFile = true;
-			}
-
-		} else {
+		if (mResumeOffset == 0) {
 			// only pipe through
-			mReadFromFile = false;
+			setReadFromFile(false);
 		}
-
+		
 		//prepare input stream
 		if (mReadFromFile) {
+			
+			mFileRetriever = new FileRetriever(mLocalFile);
+			mFileRetriever.connect();
+			
 			mIn = new SequenceInputStream(
 					mFileRetriever.getDataAsInputStream(), mDataRetriever
 							.getDataAsInputStream());
@@ -317,6 +265,14 @@ public class FileResumeRetriever implements DataRetriever {
 			return mResumeOffset;
 		}
 	}
+	
+	/**
+	 * Returns count of bytes which are available on disk.
+	 * @return
+	 */
+	public long getResumeOffset() {
+		return mResumeOffset;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -325,32 +281,6 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public int getResultCode() {
 		return mDataRetriever.getResultCode();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getContext()
-	 */
-	public Context getContext() {
-		return mDataRetriever.getContext();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#setContext(de.phleisch.app.itsucks.Context)
-	 */
-	public void setContext(Context pContext) {
-		mDataRetriever.setContext(pContext);
-	}
-
-	public DataProcessorChain getDataProcessorChain() {
-		return mDataProcessorChain;
-	}
-
-	public void setDataProcessorChain(DataProcessorChain pDataProcessorChain) {
-		mDataProcessorChain = pDataProcessorChain;
 	}
 
 	public long getContentLenght() throws IOException {
@@ -369,6 +299,18 @@ public class FileResumeRetriever implements DataRetriever {
 		}
 
 		return length;
+	}
+
+	public boolean isReadFromFile() {
+		return mReadFromFile;
+	}
+
+	public void setReadFromFile(boolean pReadFromFile) {
+		if(mResumePrepared) {
+			throw new IllegalStateException("Resume already prepared!");
+		}
+		
+		mReadFromFile = pReadFromFile;
 	}
 
 }

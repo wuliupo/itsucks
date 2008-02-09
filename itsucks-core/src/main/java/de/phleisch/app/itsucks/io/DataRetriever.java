@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.phleisch.app.itsucks.context.Context;
-
 /**
  * This interface specifies an DataRetriever. DataRetriever are used to provided
  * an extended input stream for the processor chain.
@@ -52,18 +50,6 @@ public interface DataRetriever {
 	 * This value is returned if the retrieval was aborted.
 	 */
 	public final static Integer RESULT_RETRIEVAL_ABORTED = 12;
-
-	/**
-	 * Sets the context for this data retriever.
-	 * @param pContext
-	 */
-	public void setContext(Context pContext);
-	
-	/**
-	 * Gets the context from this data retriever.
-	 * @return
-	 */
-	public Context getContext();
 	
 	/**
 	 * Returns the URL which is retrieved.

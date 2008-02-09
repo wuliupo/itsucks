@@ -154,7 +154,7 @@
 	
 	<bean 
 		id="DataRetrieverManager" 
-		class="de.phleisch.app.itsucks.io.impl.DataRetrieverManager" 
+		class="de.phleisch.app.itsucks.job.download.impl.DataRetrieverManager" 
 		singleton="true">
 		
 		<property name="retriever">
@@ -175,7 +175,7 @@
 	
 	<bean 
 		id="HttpRetrieverFactory" 
-		class="de.phleisch.app.itsucks.io.http.impl.HttpRetrieverFactory" 
+		class="de.phleisch.app.itsucks.job.download.impl.HttpRetrieverFactory" 
 		singleton="true">
 	</bean>
 	
@@ -183,10 +183,6 @@
 		id="HttpRetriever" 
 		class="de.phleisch.app.itsucks.io.http.impl.HttpRetriever" 
 		singleton="false">
-		
-		<property name="userAgent">
-			<value>Mozilla/5.0</value>
-		</property>
 	</bean>
 
 	<bean 

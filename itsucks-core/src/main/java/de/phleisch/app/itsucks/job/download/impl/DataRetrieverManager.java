@@ -5,7 +5,7 @@
  * $Id$
  */
 
-package de.phleisch.app.itsucks.io.impl;
+package de.phleisch.app.itsucks.job.download.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,6 @@ import java.util.Map;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import de.phleisch.app.itsucks.io.DataRetriever;
 
 /**
  * Manages the data retriever for every protocol.
@@ -38,12 +36,12 @@ public class DataRetrieverManager implements ApplicationContextAware {
 	 * @param pProtocol
 	 * @return
 	 */
-	public DataRetriever getRetrieverForProtocol(String pProtocol) {
-		DataRetriever retriever = null;
+	public DataRetrieverFactory getRetrieverFactoryForProtocol(String pProtocol) {
+		DataRetrieverFactory retriever = null;
 		
 		String retrieverBeanName = mRetriever.get(pProtocol);
 		if(retrieverBeanName != null) {
-			retriever = (DataRetriever) mContext.getBean(retrieverBeanName);
+			retriever = (DataRetrieverFactory) mContext.getBean(retrieverBeanName);
 		}
 		
 		return retriever;

@@ -19,14 +19,14 @@ import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.EventSource;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
-import de.phleisch.app.itsucks.event.job.JobAddedEvent;
-import de.phleisch.app.itsucks.event.job.JobChangedEvent;
-import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.JobFilterChain;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobList;
 import de.phleisch.app.itsucks.job.JobManager;
+import de.phleisch.app.itsucks.job.event.JobAddedEvent;
+import de.phleisch.app.itsucks.job.event.JobChangedEvent;
+import de.phleisch.app.itsucks.job.event.JobEvent;
 
 /**
  * The job manager filters the incoming jobs and manages the internal job list. 

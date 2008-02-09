@@ -205,7 +205,7 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		}
 		mBufferedOut = null;
 		
-		if(mFile != null && pDeleteFile) {
+		if(mFile != null && mFile.exists() && pDeleteFile) {
 			boolean deleteSucessful = mFile.delete();
 			if(!deleteSucessful) {
 				mLog.error("Could not delete partial file: " + mFile.getAbsolutePath());

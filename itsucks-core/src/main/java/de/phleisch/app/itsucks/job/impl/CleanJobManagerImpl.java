@@ -18,8 +18,8 @@ import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
-import de.phleisch.app.itsucks.event.job.JobChangedEvent;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.event.JobChangedEvent;
 
 public class CleanJobManagerImpl extends FilterJobManagerImpl {
 	

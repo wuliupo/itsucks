@@ -22,10 +22,10 @@ import java.util.TreeSet;
 
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.impl.SimpleDirectEventSource;
-import de.phleisch.app.itsucks.event.job.JobChangedEvent;
-import de.phleisch.app.itsucks.event.job.JobEvent;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobList;
+import de.phleisch.app.itsucks.job.event.JobChangedEvent;
+import de.phleisch.app.itsucks.job.event.JobEvent;
 
 
 /**

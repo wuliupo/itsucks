@@ -8,6 +8,10 @@
 
 package de.phleisch.app.itsucks.io.http.impl;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class HttpRetrieverConfiguration {
 
 	public static final String CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION = 
@@ -26,6 +30,10 @@ public class HttpRetrieverConfiguration {
 	private String mProxyRealm;
 	
 	private String mUserAgent;
+	
+	private transient Map<String, Object> mSharedObjects = 
+		Collections.synchronizedMap(new HashMap<String, Object>());
+
 	
 	public Integer getMaxConnectionsPerServer() {
 		return mMaxConnectionsPerServer;
@@ -86,6 +94,9 @@ public class HttpRetrieverConfiguration {
 	}
 	public void setBandwidthLimit(Integer pBandwidthLimit) {
 		mBandwidthLimit = pBandwidthLimit;
+	}
+	public Map<String, Object> getSharedObjects() {
+		return mSharedObjects;
 	}
 	
 }

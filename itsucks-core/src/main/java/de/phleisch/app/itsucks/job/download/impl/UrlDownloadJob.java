@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.io.Metadata;
-import de.phleisch.app.itsucks.io.impl.DataRetrieverManager;
 import de.phleisch.app.itsucks.io.impl.FileResumeRetriever;
 import de.phleisch.app.itsucks.io.impl.ProgressInputStream;
 import de.phleisch.app.itsucks.job.Job;
@@ -30,9 +30,12 @@ import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.impl.AbstractJob;
 import de.phleisch.app.itsucks.processing.AbortProcessingException;
+import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.DataProcessorChain;
 import de.phleisch.app.itsucks.processing.ProcessingException;
+import de.phleisch.app.itsucks.processing.download.impl.PersistenceProcessor;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
+import de.phleisch.app.itsucks.processing.impl.SeekDataProcessorWrapper;
 
 
 /**
@@ -130,19 +133,20 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		URL url = mUrl;
 		String protocol = url.getProtocol();
 		
-		mDataRetriever = 
-			mDataRetrieverManager.getRetrieverForProtocol(protocol);
+		DataRetrieverFactory retrieverFactoryForProtocol = 
+			mDataRetrieverManager.getRetrieverFactoryForProtocol(protocol);
 		
 		//check if an data retriever is available
-		if(mDataRetriever == null) {
+		if(retrieverFactoryForProtocol == null) {
 			mLog.warn("Protocol not supported: '" + protocol + "', job aborted. - " + this);
 			setState(Job.STATE_IGNORED);
 			
 			return;
 		}
 		
-		mDataRetriever.setContext(getGroupContext());
-		mDataRetriever.setUrl(url);
+		//create data retriever
+		mDataRetriever = retrieverFactoryForProtocol.createDataRetriever(
+			url, getGroupContext(), getParameterList());
 		
 		boolean skip = false;
 		
@@ -243,10 +247,44 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		DataProcessorChain dataProcessorChain =
 			mDataProcessorManager.getProcessorChainForJob(this);
 		
-		//if resuming from file, set the processor chain to the resumer
-		//because it's changing the processing chain
+		//if resuming from file, configure the resume retriever
 		if(mFileResumeRetriever != null) {
-			mFileResumeRetriever.setDataProcessorChain(dataProcessorChain);
+			
+			long resumeOffset = mFileResumeRetriever.getResumeOffset();
+			
+			if (dataProcessorChain.canResume()) {
+				// ok, resume of chain is possible, advise every processor to resume at
+				// the given position.
+
+				dataProcessorChain.resumeAt(resumeOffset);
+				
+				//data from disk is not needed, resume retriever can pipe the data through
+				mFileResumeRetriever.setReadFromFile(false);
+
+			} else {
+				
+				// resume is not possible, read the data from the file and pipe
+				// it through the processors
+				List<DataProcessor> dataProcessors = dataProcessorChain
+						.getDataProcessors();
+
+				for (DataProcessor processor : dataProcessors) {
+
+					// skip the persistence processor
+					if (processor instanceof PersistenceProcessor) {
+
+						processor.resumeAt(resumeOffset);
+						dataProcessorChain.replaceDataProcessor(processor,
+								new SeekDataProcessorWrapper(processor,
+										resumeOffset));
+
+						continue;
+					}
+				}
+
+				//instruct resume retriever to read data from disk
+				mFileResumeRetriever.setReadFromFile(true);
+			}
 		}
 		
 		//set up processor chain

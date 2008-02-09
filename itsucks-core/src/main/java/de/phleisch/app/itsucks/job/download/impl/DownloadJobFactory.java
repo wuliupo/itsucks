@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import de.phleisch.app.itsucks.io.impl.DataRetrieverManager;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
 

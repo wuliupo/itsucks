@@ -6,7 +6,7 @@
  * Created on 27.04.2007
  */
 
-package de.phleisch.app.itsucks.event.job;
+package de.phleisch.app.itsucks.job.event;
 
 import java.beans.PropertyChangeEvent;
 

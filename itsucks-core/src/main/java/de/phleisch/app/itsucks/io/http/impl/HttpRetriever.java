@@ -21,7 +21,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.io.impl.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 
@@ -42,17 +41,16 @@ public class HttpRetriever extends AbstractDataRetriever {
 	private static int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
 	private static int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
 	
-	private static Object STATIC_MUTEX = new Object();
-	
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
-	private GetMethod mGet = null;
-	private HttpMetadata mMetadata;
-	private String mUserAgent;
+	protected HttpRetrieverConfiguration mConfiguration = createDefaultConfiguration();
 	
-	private boolean mAbort = false;
+	protected GetMethod mGet = null;
+	protected HttpMetadata mMetadata;
+	
+	protected boolean mAbort = false;
 
-	private long mBytesToSkip;
+	protected long mBytesToSkip;
 	
 	public HttpRetriever() {
 		super();
@@ -66,8 +64,8 @@ public class HttpRetriever extends AbstractDataRetriever {
 		if(mAbort) {
 			throw new IllegalStateException("Retriever is aborted.");
 		}
-
-		HttpClient client = getHttpClientFromContext();
+		
+		HttpClient client = getHttpClientFromConfiguration();
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
@@ -75,9 +73,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 		HttpMethodParams params = mGet.getParams();
 		params.setSoTimeout(90 * 1000); //90 seconds
 		
-		if(getUserAgent() != null) {
-			params.setParameter(HttpMethodParams.USER_AGENT, getUserAgent());
-		}
 		if(mBytesToSkip > 0) { //try to resume
 			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
 		}
@@ -101,40 +96,34 @@ public class HttpRetriever extends AbstractDataRetriever {
 		mMetadata.setConnection(mGet);
 	}
 	
-	private HttpClient getHttpClientFromContext() {
+	protected HttpClient getHttpClientFromConfiguration() {
 		
-		Context groupContext = getContext();
+		HttpRetrieverConfiguration configuration = getConfiguration();
 		
+		//try to get share httpclient from configuration
 		HttpClient httpClient = 
-			(HttpClient) groupContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+			(HttpClient) configuration.getSharedObjects().get("AdvancedHttpRetriever_HttpClient");
 		
 		if(httpClient == null) {
+			//httpclient instance not available, create a new one.
 			
-			synchronized (STATIC_MUTEX) {
+			synchronized (configuration) {
 			
-				//try again, because in the time waiting for the lock, the configuration 
+				//try again, because in the time waiting for the lock, the http client 
 				//could be created by another thread.
 				httpClient = 
-					(HttpClient) groupContext.getContextParameter("AdvancedHttpRetriever_HttpClient");
+					(HttpClient) configuration.getSharedObjects().get("AdvancedHttpRetriever_HttpClient");
 				
+				//create and save the http client
 				if(httpClient == null) {
-					HttpRetrieverConfiguration configuration = getHttpRetrieverConfiguration(groupContext);
 		     		httpClient = createHttpClient(configuration);
-		     		groupContext.setContextParameter("AdvancedHttpRetriever_HttpClient", httpClient);
+		     		configuration.getSharedObjects().put(
+		     				"AdvancedHttpRetriever_HttpClient", httpClient);
 				}
 			}
 		}
 		
 		return httpClient;
-	}
-
-	protected HttpRetrieverConfiguration getHttpRetrieverConfiguration(
-			Context jobContext) {
-		
-		HttpRetrieverConfiguration configuration = 
-			(HttpRetrieverConfiguration) jobContext.getContextParameter(
-					HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
-		return configuration;
 	}
 
 	protected HttpClient createHttpClient(HttpRetrieverConfiguration pConfiguration) {
@@ -174,7 +163,8 @@ public class HttpRetriever extends AbstractDataRetriever {
      							pConfiguration.getProxyPassword()));
      		}
      		if(pConfiguration.getUserAgent() != null) {
-     			setUserAgent(pConfiguration.getUserAgent());
+   				params.setParameter(HttpMethodParams.USER_AGENT, 
+   						pConfiguration.getUserAgent());
      		}
      	}
      	
@@ -200,8 +190,7 @@ public class HttpRetriever extends AbstractDataRetriever {
 		
 		InputStream in = mGet.getResponseBodyAsStream();
 		
-		HttpRetrieverConfiguration httpRetrieverConfiguration = 
-			getHttpRetrieverConfiguration(getContext());
+		HttpRetrieverConfiguration httpRetrieverConfiguration = getConfiguration();
 		
 		if(httpRetrieverConfiguration != null) {
 			Integer bandwidthLimit = httpRetrieverConfiguration.getBandwidthLimit();
@@ -234,24 +223,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 	 */
 	public HttpMetadata getMetadata() {
 		return mMetadata;
-	}
-
-	/**
-	 * Gets the http user agent.
-	 * 
-	 * @return
-	 */
-	public String getUserAgent() {
-		return mUserAgent;
-	}
-
-	/**
-	 * Sets the http user agent.
-	 * 
-	 * @param userAgent
-	 */
-	public void setUserAgent(String userAgent) {
-		mUserAgent = userAgent;
 	}
 
 	/* (non-Javadoc)
@@ -340,4 +311,27 @@ public class HttpRetriever extends AbstractDataRetriever {
 		return mMetadata.getContentLength();
 	}
 
+	public HttpRetrieverConfiguration createDefaultConfiguration() {
+		
+		HttpRetrieverConfiguration defaultConfiguration = 
+			new HttpRetrieverConfiguration();
+		
+		defaultConfiguration.setUserAgent("Mozilla/5.0");
+		
+		
+		return defaultConfiguration;
+	}
+
+	public HttpRetrieverConfiguration getConfiguration() {
+		return mConfiguration;
+	}
+
+	public void setConfiguration(HttpRetrieverConfiguration pConfiguration) {
+		if(pConfiguration == null) {
+			throw new NullPointerException("Configuration is null.");
+		}
+		
+		mConfiguration = pConfiguration;
+	}
+	
 }
