@@ -21,6 +21,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
 import de.phleisch.app.itsucks.io.impl.AbstractDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 
@@ -44,6 +45,8 @@ public class HttpRetriever extends AbstractDataRetriever {
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
 	protected HttpRetrieverConfiguration mConfiguration = createDefaultConfiguration();
+	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
+		createDefaultHttpRetrieverBehaviour();
 	
 	protected GetMethod mGet = null;
 	protected HttpMetadata mMetadata;
@@ -278,29 +281,13 @@ public class HttpRetriever extends AbstractDataRetriever {
 		} 
 		
 		int statusCode = mMetadata.getStatusCode();
-		int result;
 		
-		if(statusCode < 400) {
-			result = RESULT_RETRIEVAL_OK;
-		} else {
-			
-			if(statusCode == HTTP_STATUS_RANGE_NOT_SATISFIABLE) {
-				//hm, maybe it's better to return failed and let the FileResumeRetriever handle this... 
-				result = RESULT_RETRIEVAL_OK;
-			} else if(statusCode == HTTP_STATUS_REQUEST_TIMEOUT) {
-				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
-			} else if(statusCode == HTTP_STATUS_INTERNAL_SERVER_ERROR) {
-				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE;
-			} else if(statusCode == HTTP_STATUS_SERVICE_UNAVAILABLE) {
-				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
-			} else if(statusCode == HTTP_STATUS_GATEWAY_TIMEOUT) {
-				result = RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE; 
-			} else {
-				result = RESULT_RETRIEVAL_FAILED;
-			}
+		Action action = mResponseCodeBehaviour.findActionForResponseCode(statusCode);
+		if(action == null) {
+			throw new IllegalStateException("No action found for response code: " + statusCode);
 		}
 		
-		return result;
+		return action.getRetrieverAction();
 	}
 
 	public long getContentLenght() {
@@ -309,17 +296,6 @@ public class HttpRetriever extends AbstractDataRetriever {
 		}
 		
 		return mMetadata.getContentLength();
-	}
-
-	public HttpRetrieverConfiguration createDefaultConfiguration() {
-		
-		HttpRetrieverConfiguration defaultConfiguration = 
-			new HttpRetrieverConfiguration();
-		
-		defaultConfiguration.setUserAgent("Mozilla/5.0");
-		
-		
-		return defaultConfiguration;
 	}
 
 	public HttpRetrieverConfiguration getConfiguration() {
@@ -332,6 +308,49 @@ public class HttpRetriever extends AbstractDataRetriever {
 		}
 		
 		mConfiguration = pConfiguration;
+	}	
+	
+	protected static HttpRetrieverConfiguration createDefaultConfiguration() {
+		
+		HttpRetrieverConfiguration defaultConfiguration = 
+			new HttpRetrieverConfiguration();
+		
+		defaultConfiguration.setUserAgent("Mozilla/5.0");
+		
+		
+		return defaultConfiguration;
+	}
+
+	protected static HttpRetrieverResponseCodeBehaviour createDefaultHttpRetrieverBehaviour() {
+		
+		HttpRetrieverResponseCodeBehaviour defaultBehaviour = new HttpRetrieverResponseCodeBehaviour();
+		
+		//all between 100 and 399 is ok
+		defaultBehaviour.add(100, 399, HttpRetrieverResponseCodeBehaviour.Action.OK);
+
+		//resume not possible because file is already fully downloaded.
+		defaultBehaviour.add(HTTP_STATUS_RANGE_NOT_SATISFIABLE, 
+				HttpRetrieverResponseCodeBehaviour.Action.OK);
+		
+		defaultBehaviour.add(HTTP_STATUS_REQUEST_TIMEOUT, 
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+		
+		defaultBehaviour.add(HTTP_STATUS_INTERNAL_SERVER_ERROR, 
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+		
+		defaultBehaviour.add(HTTP_STATUS_SERVICE_UNAVAILABLE, 
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+		
+		defaultBehaviour.add(HTTP_STATUS_GATEWAY_TIMEOUT, 
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+		
+		
+		//default is failed when return code is not known.
+		defaultBehaviour.add(0, Integer.MAX_VALUE, 
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED);
+		
+		
+		return defaultBehaviour;
 	}
 	
 }
