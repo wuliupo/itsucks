@@ -12,9 +12,11 @@ import java.net.URL;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.impl.DataRetrieverFactory;
 
@@ -38,9 +40,33 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 			retriever.setConfiguration(httpRetrieverConfiguration);
 		}
 		
+		JobParameter parameter = 
+			findParameter(ChangeHttpResponseCodeBehaviourFilter.HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
+					pParameterList);
+		if(parameter != null) {
+			HttpRetrieverResponseCodeBehaviour specialBehaviour = 
+				(HttpRetrieverResponseCodeBehaviour) parameter.getValue();
+			
+			HttpRetrieverResponseCodeBehaviour actualBehaviour = 
+				retriever.getResponseCodeBehaviour();
+			
+			actualBehaviour.add(specialBehaviour);
+		}
+		
 		retriever.setUrl(pUrl);
 		
 		return retriever;
+	}
+
+	protected JobParameter findParameter(String pString, List<JobParameter> pParameterList) {
+		
+		for (JobParameter jobParameter : pParameterList) {
+			if(pString.equals(jobParameter.getKey())) {
+				return jobParameter;
+			}
+		}
+		
+		return null;
 	}
 
 	protected HttpRetrieverConfiguration getHttpRetrieverConfigurationFromContext(

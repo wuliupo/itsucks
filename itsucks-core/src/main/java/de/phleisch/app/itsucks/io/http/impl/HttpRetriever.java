@@ -309,6 +309,15 @@ public class HttpRetriever extends AbstractDataRetriever {
 		
 		mConfiguration = pConfiguration;
 	}	
+
+	public HttpRetrieverResponseCodeBehaviour getResponseCodeBehaviour() {
+		return mResponseCodeBehaviour;
+	}
+
+	public void setResponseCodeBehaviour(
+			HttpRetrieverResponseCodeBehaviour pResponseCodeBehaviour) {
+		mResponseCodeBehaviour = pResponseCodeBehaviour;
+	}
 	
 	protected static HttpRetrieverConfiguration createDefaultConfiguration() {
 		
@@ -326,28 +335,35 @@ public class HttpRetriever extends AbstractDataRetriever {
 		HttpRetrieverResponseCodeBehaviour defaultBehaviour = new HttpRetrieverResponseCodeBehaviour();
 		
 		//all between 100 and 399 is ok
-		defaultBehaviour.add(100, 399, HttpRetrieverResponseCodeBehaviour.Action.OK);
+		defaultBehaviour.add(100, 399, HttpRetrieverResponseCodeBehaviour.Action.OK,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 
 		//resume not possible because file is already fully downloaded.
 		defaultBehaviour.add(HTTP_STATUS_RANGE_NOT_SATISFIABLE, 
-				HttpRetrieverResponseCodeBehaviour.Action.OK);
+				HttpRetrieverResponseCodeBehaviour.Action.OK, 
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		defaultBehaviour.add(HTTP_STATUS_REQUEST_TIMEOUT, 
-				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		defaultBehaviour.add(HTTP_STATUS_INTERNAL_SERVER_ERROR, 
-				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		defaultBehaviour.add(HTTP_STATUS_SERVICE_UNAVAILABLE, 
-				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		defaultBehaviour.add(HTTP_STATUS_GATEWAY_TIMEOUT, 
-				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		
 		//default is failed when return code is not known.
 		defaultBehaviour.add(0, Integer.MAX_VALUE, 
-				HttpRetrieverResponseCodeBehaviour.Action.FAILED);
+				HttpRetrieverResponseCodeBehaviour.Action.FAILED,
+				HttpRetrieverResponseCodeBehaviour.ResponseCodeRange.LOW_PRIORITY);
 		
 		
 		return defaultBehaviour;
