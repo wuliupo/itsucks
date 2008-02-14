@@ -190,7 +190,7 @@ public class FileResumeRetriever implements DataRetriever {
 
 		if(mConnected) {
 		
-			if (mReadFromFile) {
+			if (mReadFromFile && mFileRetriever != null) {
 				mFileRetriever.disconnect();
 			}
 			mDataRetriever.disconnect();

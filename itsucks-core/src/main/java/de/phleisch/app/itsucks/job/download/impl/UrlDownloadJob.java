@@ -169,7 +169,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 				
 					mLog.info("Try to resume job: " + this);
 					
-					//ok, it seems the file already exists partially/completly
+					//ok, it seems the file already exists partially/completely
 					//try to resume the file
 					mFileResumeRetriever = new FileResumeRetriever(mDataRetriever, file);
 					mDataRetriever = mFileResumeRetriever;
@@ -203,21 +203,27 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			return;
 		}
 		
+		int resultCode;
 		try {
 			//connect the retriever
 			mDataRetriever.connect();
 			
-			executeProcessorChain();
+			//save the metadata
+			mMetadata = mDataRetriever.getMetadata();
+			
+			resultCode = mDataRetriever.getResultCode();
+			
+			//if retrieval was ok, process the data
+			if(resultCode == DataRetriever.RESULT_RETRIEVAL_OK) {
+				executeProcessorChain();
+			}
+			
 		} finally {
 			mDataRetriever.disconnect();
+			mTryCount ++;
 		}
 		
-		//save the metadata
-		mMetadata = mDataRetriever.getMetadata();
-		
-		mTryCount ++;
-		int resultCode = mDataRetriever.getResultCode(); 
-		
+		//set final state of job
 		if(resultCode == DataRetriever.RESULT_RETRIEVAL_OK) {
 			
 			setState(Job.STATE_FINISHED);
