@@ -43,6 +43,12 @@ public class ChangeHttpResponseCodeBehaviourFilter
 		private String mHostnameRegexp;
 		private HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour;
 		
+		public HttpResponseCodeBehaviourHostConfig(String pHostnameRegexp,
+				HttpRetrieverResponseCodeBehaviour pResponseCodeBehaviour) {
+			mHostnameRegexp = pHostnameRegexp;
+			mResponseCodeBehaviour = pResponseCodeBehaviour;
+		}
+
 		public String getHostnameRegexp() {
 			return mHostnameRegexp;
 		}
@@ -76,7 +82,8 @@ public class ChangeHttpResponseCodeBehaviourFilter
 			
 			if(matcher.matches()) {
 				pJob.addParameter(
-						new JobParameter(HTTP_BEHAVIOUR_CONFIG_PARAMETER, config));
+						new JobParameter(HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
+								config.getResponseCodeBehaviour()));
 			}
 			
 		}
@@ -99,6 +106,10 @@ public class ChangeHttpResponseCodeBehaviourFilter
 		}
 		
 		return result;
+	}
+	
+	public boolean addConfig(String pHostnameRegExp, HttpRetrieverResponseCodeBehaviour pConfig) {
+		return mConfigList.add(new HttpResponseCodeBehaviourHostConfig(pHostnameRegExp, pConfig));
 	}
 	
 	public boolean addConfig(HttpResponseCodeBehaviourHostConfig pConfig) {
