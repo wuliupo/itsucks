@@ -16,6 +16,7 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
 
 
@@ -26,7 +27,7 @@ import de.phleisch.app.itsucks.io.Metadata;
  * @author olli
  *
  */
-public class FileRetriever extends AbstractDataRetriever {
+public class FileRetriever implements DataRetriever {
 
 	private static Log mLog = LogFactory.getLog(FileRetriever.class);
 	
@@ -131,12 +132,8 @@ public class FileRetriever extends AbstractDataRetriever {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
+	 * @see de.phleisch.app.itsucks.io.DataRetriever#getContentLenght()
 	 */
-	public int getResultCode() {
-		return RESULT_RETRIEVAL_OK;
-	}
-
 	public long getContentLenght() {
 		if(mIn == null) {
 			throw new IllegalStateException("Not connected");

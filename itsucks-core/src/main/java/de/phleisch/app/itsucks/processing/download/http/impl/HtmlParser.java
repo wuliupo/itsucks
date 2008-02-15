@@ -20,8 +20,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpMetadata;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
@@ -72,7 +72,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		super.init();
 		
 		UrlDownloadJob job = (UrlDownloadJob) getProcessorChain().getJob();
-		DataRetriever dataRetriever = job.getDataRetriever();
+		UrlDataRetriever dataRetriever = job.getDataRetriever();
 		
 		try {
 			mBaseURI = dataRetriever.getUrl().toURI();

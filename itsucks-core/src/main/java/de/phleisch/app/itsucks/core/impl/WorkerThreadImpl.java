@@ -119,13 +119,23 @@ public class WorkerThreadImpl implements Runnable, WorkerThread {
 					mLog.error("Error executing job: " + mJob, ex);
 				}
 				
+				mLog.info("Finished working on job: " + mJob);
+				
 				if(mJob.getState() == Job.STATE_IN_PROGRESS) {
 					mJob.setState(Job.STATE_ERROR);
 					mLog.error("Job does not finish correctly, state after processing is still 'in progress': " + mJob);
 				}
+
+				if(mJob.getState() == Job.STATE_OPEN) {
+					mJob.setState(Job.STATE_ERROR);
+					mLog.error("Job does not finish correctly, state after processing is 'open', please use state 'reopen' to retry an job: " + mJob);
+				}
+
+				if(mJob.getState() == Job.STATE_REOPEN) {
+					mJob.setState(Job.STATE_OPEN);
+					mLog.info("Reopened job: " + mJob);
+				}
 				
-				
-				mLog.info("Finished working on job: " + mJob);
 				mJob = null;
 				break;
 		

@@ -9,7 +9,7 @@ package de.phleisch.app.itsucks.io.impl;
 
 import java.net.URL;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 
 
 /**
@@ -18,11 +18,11 @@ import de.phleisch.app.itsucks.io.DataRetriever;
  * @author olli
  *
  */
-public abstract class AbstractDataRetriever implements DataRetriever {
+public abstract class AbstractUrlDataRetriever implements UrlDataRetriever {
 
 	protected URL mUrl;
 	
-	public AbstractDataRetriever() {
+	public AbstractUrlDataRetriever() {
 		super();
 	}
 
@@ -38,6 +38,10 @@ public abstract class AbstractDataRetriever implements DataRetriever {
 	 */
 	public void setUrl(URL pUrl) {
 		mUrl = pUrl;
+	}
+	
+	public String toString() {
+		return getClass().getName() + " Url:" + getUrl();
 	}
 	
 }

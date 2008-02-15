@@ -20,10 +20,10 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.io.Metadata;
-import de.phleisch.app.itsucks.io.impl.FileResumeRetriever;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
+import de.phleisch.app.itsucks.io.impl.FileResumeUrlRetriever;
 import de.phleisch.app.itsucks.io.impl.ProgressInputStream;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
@@ -63,28 +63,28 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	
 	private static Log mLog = LogFactory.getLog(UrlDownloadJob.class);
 	
-	private boolean mSaveToDisk = true;
-	private boolean mAbort = false; //indicates if the download has been aborted
-	private File mSavePath = null;
+	protected boolean mSaveToDisk = true;
+	protected boolean mAbort = false; //indicates if the download has been aborted
+	protected File mSavePath = null;
 	
-	private URL mUrl;
-	private UrlDownloadJob mParent = null;
-	private int mDepth = 0;
-	private int mMaxRetryCount = 3;
-	private int mTryCount = 0;
-	private transient DataProcessorManager mDataProcessorManager;
-	private transient DataRetrieverManager mDataRetrieverManager;
+	protected URL mUrl;
+	protected UrlDownloadJob mParent = null;
+	protected int mDepth = 0;
+	protected int mMaxRetryCount = 3;
+	protected int mTryCount = 0;
+	protected transient DataProcessorManager mDataProcessorManager;
+	protected transient DataRetrieverManager mDataRetrieverManager;
 	
-	private transient DataRetriever mDataRetriever;
-	private transient FileResumeRetriever mFileResumeRetriever;
-	private transient ProgressInputStream mProgressInputStream;
+	protected transient UrlDataRetriever mDataRetriever;
+	protected transient FileResumeUrlRetriever mFileResumeRetriever;
+	protected transient ProgressInputStream mProgressInputStream;
 	
-	private float mProgress = -1;
-	private long mBytesDownloaded = -1;
-	private transient Metadata mMetadata = null;
+	protected float mProgress = -1;
+	protected long mBytesDownloaded = -1;
+	protected transient Metadata mMetadata = null;
 
-	private long mWaitUntil = 0;
-	private long mMinTimeBetweenRetry = 5000; //5 seconds 
+	protected long mWaitUntil = 0;
+	protected long mMinTimeBetweenRetry = 5000; //5 seconds 
 
 	public UrlDownloadJob() {
 		super();
@@ -107,7 +107,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 			//check if the exception can be ignored because we aborted the retrieval
 			if(mDataRetriever != null 
-					&& mDataRetriever.getResultCode() == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
+					&& mDataRetriever.getResultCode() == UrlDataRetriever.RESULT_RETRIEVAL_ABORTED) {
 				
 				mLog.info("Aborting download caused exception. URL: " + mUrl, e);
 				
@@ -171,7 +171,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 					
 					//ok, it seems the file already exists partially/completely
 					//try to resume the file
-					mFileResumeRetriever = new FileResumeRetriever(mDataRetriever, file);
+					mFileResumeRetriever = new FileResumeUrlRetriever(mDataRetriever, file);
 					mDataRetriever = mFileResumeRetriever;
 				}
 			}
@@ -214,7 +214,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			resultCode = mDataRetriever.getResultCode();
 			
 			//if retrieval was ok, process the data
-			if(resultCode == DataRetriever.RESULT_RETRIEVAL_OK) {
+			if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_OK) {
 				executeProcessorChain();
 			}
 			
@@ -224,23 +224,23 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 		
 		//set final state of job
-		if(resultCode == DataRetriever.RESULT_RETRIEVAL_OK) {
+		if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_OK) {
 			
 			setState(Job.STATE_FINISHED);
 			
-		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
+		} else if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
 			
 			if(mTryCount <= (mMaxRetryCount + 1)) {
 				
 				mWaitUntil = System.currentTimeMillis() + mMinTimeBetweenRetry;
-				setState(Job.STATE_OPEN);
+				setState(Job.STATE_REOPEN);
 			} else {
 				setState(Job.STATE_ERROR);
 			}
 			
-		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_FAILED) {
+		} else if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_FAILED) {
 			setState(Job.STATE_ERROR);
-		} else if(resultCode == DataRetriever.RESULT_RETRIEVAL_ABORTED) {
+		} else if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_ABORTED) {
 			setState(Job.STATE_IGNORED);
 		} else {
 			setState(Job.STATE_ERROR);
@@ -338,7 +338,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 	}
 	
-	private class ProgressListener implements PropertyChangeListener {
+	protected class ProgressListener implements PropertyChangeListener {
 
 		public void propertyChange(PropertyChangeEvent pEvt) {
 			if ("progress".equals(pEvt.getPropertyName())) {
@@ -481,7 +481,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.download.impl.DownloadJob#getDataRetriever()
 	 */
-	public DataRetriever getDataRetriever() {
+	public UrlDataRetriever getDataRetriever() {
 		return mDataRetriever;
 	}
 

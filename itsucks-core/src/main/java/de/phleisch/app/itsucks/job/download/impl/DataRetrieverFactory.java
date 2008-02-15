@@ -12,14 +12,14 @@ import java.net.URL;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
-import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.job.JobParameter;
 
 public interface DataRetrieverFactory {
 
 //	public DataRetriever createDataRetriever(String pProtocol, Context pContext);
 
-	public DataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
+	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList);
 	
 }

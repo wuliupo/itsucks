@@ -11,19 +11,19 @@ package de.phleisch.app.itsucks.io.http.impl;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 
 public class HttpRetrieverResponseCodeBehaviour {
 
 	public static enum Action {
 		OK { 
-			Integer getRetrieverAction() {return DataRetriever.RESULT_RETRIEVAL_OK;} 
+			Integer getRetrieverAction() {return UrlDataRetriever.RESULT_RETRIEVAL_OK;} 
 		},
 		FAILED_BUT_RETRYABLE { 
-			Integer getRetrieverAction() {return DataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE;} 
+			Integer getRetrieverAction() {return UrlDataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE;} 
 		},
 		FAILED { 
-			Integer getRetrieverAction() {return DataRetriever.RESULT_RETRIEVAL_FAILED;} 
+			Integer getRetrieverAction() {return UrlDataRetriever.RESULT_RETRIEVAL_FAILED;} 
 		};
 
 		abstract Integer getRetrieverAction();

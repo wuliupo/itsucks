@@ -13,7 +13,7 @@ import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
-import de.phleisch.app.itsucks.io.DataRetriever;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
@@ -22,7 +22,7 @@ import de.phleisch.app.itsucks.job.download.impl.DataRetrieverFactory;
 
 public class HttpRetrieverFactory implements DataRetrieverFactory {
 
-	public DataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
+	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList) {
 
 		HttpRetriever retriever = new HttpRetriever();

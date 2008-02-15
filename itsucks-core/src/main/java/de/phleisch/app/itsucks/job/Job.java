@@ -42,6 +42,11 @@ public interface Job {
 	 * The job is closed and not longer in progress.
 	 */
 	public final static int STATE_CLOSED = 50;
+	
+	/**
+	 * The job is closed but should be reopened
+	 */
+	public final static int STATE_REOPEN = 51;
 
 	/**
 	 * This job is set to ignored by an filter.

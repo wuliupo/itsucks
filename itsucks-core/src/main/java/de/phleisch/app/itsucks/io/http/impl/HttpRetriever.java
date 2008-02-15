@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
-import de.phleisch.app.itsucks.io.impl.AbstractDataRetriever;
+import de.phleisch.app.itsucks.io.impl.AbstractUrlDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 
 /**
@@ -31,7 +31,7 @@ import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
  * @author olli
  *
  */
-public class HttpRetriever extends AbstractDataRetriever {
+public class HttpRetriever extends AbstractUrlDataRetriever {
 
 	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
 	

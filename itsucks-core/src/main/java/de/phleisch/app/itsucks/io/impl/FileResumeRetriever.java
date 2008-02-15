@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
-import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,19 +31,19 @@ public class FileResumeRetriever implements DataRetriever {
 
 	private static Log mLog = LogFactory.getLog(FileResumeRetriever.class);
 
-	private FileRetriever mFileRetriever;
-	private DataRetriever mDataRetriever;
+	protected FileRetriever mFileRetriever;
+	protected DataRetriever mDataRetriever;
 
-	private File mLocalFile;
+	protected File mLocalFile;
 
-	private long mResumeOffset;
-	private long mOverlap = 128;
+	protected long mResumeOffset;
+	protected long mOverlap = 128;
 
-	private boolean mConnected;
-	private boolean mResumePrepared;
-	private boolean mReadFromFile;
+	protected boolean mConnected;
+	protected boolean mResumePrepared;
+	protected boolean mReadFromFile;
 
-	private InputStream mIn;
+	protected InputStream mIn;
 
 	public FileResumeRetriever(DataRetriever pDataRetriever, File pFile) {
 
@@ -104,11 +103,11 @@ public class FileResumeRetriever implements DataRetriever {
 			if(bytesToSkip <= 0) {
 				mLog.info("Resume is smaller than overlap or resumeOffset <= 0 set, " 
 					+ "stopping resume and load the file normally: " 
-					+ mDataRetriever.getUrl());
+					+ mDataRetriever);
 				
 			} else if (mDataRetriever.getBytesSkipped() > 0) {
-				mLog.info("Resume of URL successful: "
-						+ mDataRetriever.getUrl());
+				mLog.info("Resume of retriever successful: "
+						+ mDataRetriever);
 
 				// skip overlap bytes if defined
 				if (mOverlap > 0) {
@@ -119,8 +118,8 @@ public class FileResumeRetriever implements DataRetriever {
 				// resume not possible, read everything from the live stream
 				mResumeOffset = 0;
 
-				mLog.info("Resume of URL not possible, seeking not allowed: "
-						+ mDataRetriever.getUrl());
+				mLog.info("Resume of retriever not possible, seeking not allowed: "
+						+ mDataRetriever);
 			}
 
 		} else {
@@ -130,7 +129,7 @@ public class FileResumeRetriever implements DataRetriever {
 			// connect without skipping any bytes
 			mDataRetriever.connect();
 
-			mLog.info("Resume of url not possible: " + mDataRetriever.getUrl()
+			mLog.info("Resume of retriever not possible: " + mDataRetriever
 					+ ", no local data available.");
 
 		}
@@ -138,7 +137,7 @@ public class FileResumeRetriever implements DataRetriever {
 		mConnected = true;
 	}
 
-	private void prepareResume() throws IOException {
+	protected void prepareResume() throws IOException {
 
 		if(!mConnected) {
 			throw new IllegalStateException("Not connected!");
@@ -214,24 +213,6 @@ public class FileResumeRetriever implements DataRetriever {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#setUrl(java.net.URL)
-	 */
-	public void setUrl(URL pUrl) {
-		throw new IllegalArgumentException("Not possible!");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getUrl()
-	 */
-	public URL getUrl() {
-		return mDataRetriever.getUrl();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#isDataAvailable()
 	 */
 	public boolean isDataAvailable() throws IOException {
@@ -280,15 +261,6 @@ public class FileResumeRetriever implements DataRetriever {
 	 */
 	public long getResumeOffset() {
 		return mResumeOffset;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.phleisch.app.itsucks.io.DataRetriever#getResultCode()
-	 */
-	public int getResultCode() {
-		return mDataRetriever.getResultCode();
 	}
 
 	public long getContentLenght() throws IOException {
