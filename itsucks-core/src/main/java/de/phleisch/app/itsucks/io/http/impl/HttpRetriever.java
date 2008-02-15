@@ -26,23 +26,27 @@ import de.phleisch.app.itsucks.io.impl.AbstractUrlDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 
 /**
- * Implentation of an data retriever for the http protocol.
+ * Implementation of an data retriever for the http protocol.
  * 
  * @author olli
  *
  */
 public class HttpRetriever extends AbstractUrlDataRetriever {
 
-	private static int HTTP_STATUS_PARTIAL_CONTENT = 206;
+	private static final int HTTP_STATUS_PARTIAL_CONTENT = 206;
 	
-	private static int HTTP_STATUS_REQUEST_TIMEOUT = 408;
-	private static int HTTP_STATUS_RANGE_NOT_SATISFIABLE = 416;
+	private static final int HTTP_STATUS_REQUEST_TIMEOUT = 408;
+	private static final int HTTP_STATUS_RANGE_NOT_SATISFIABLE = 416;
 	
-	private static int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500;
-	private static int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
-	private static int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
+	private static final int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500;
+	private static final int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
+	private static final int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
+	
+	protected static final String DEFAULT_USER_AGENT = "Mozilla/5.0";
 	
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
+	
+	protected long mTimeToWaitBetweenRetry = 5000; //5 seconds 
 	
 	protected HttpRetrieverConfiguration mConfiguration = createDefaultConfiguration();
 	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
@@ -50,6 +54,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	
 	protected GetMethod mGet = null;
 	protected HttpMetadata mMetadata;
+	protected int mResultCode = RESULT_RETRIEVAL_NOT_STARTED_YET;
 	
 	protected boolean mAbort = false;
 
@@ -97,6 +102,9 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setStatusText(mGet.getStatusText());
 		mMetadata.setConnection(mGet);
+		
+		mResultCode = getResultCode();
+		
 	}
 	
 	protected HttpClient getHttpClientFromConfiguration() {
@@ -216,6 +224,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 			mGet.abort();
 			mGet.releaseConnection();
 			mGet = null;
+			mResultCode = RESULT_RETRIEVAL_NOT_STARTED_YET;
 			
 			mLog.debug("Disconnected from: " + mUrl);
 		}
@@ -272,13 +281,18 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	 */
 	public int getResultCode() {
 		
+		int result; 
+		
 		if(mAbort) {
-			return RESULT_RETRIEVAL_ABORTED;
+			result = RESULT_RETRIEVAL_ABORTED;
+		} else {
+			result = mResultCode;
 		}
 		
-		if(mMetadata == null) {
-			return RESULT_RETRIEVAL_NOT_STARTED_YET;
-		} 
+		return result;
+	}
+		
+	protected int resolveResultCode() {
 		
 		int statusCode = mMetadata.getStatusCode();
 		
@@ -288,6 +302,13 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		}
 		
 		return action.getRetrieverAction();
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.UrlDataRetriever#getSuggestedTimeToWaitForRetry()
+	 */
+	public long getSuggestedTimeToWaitForRetry() {
+		return mTimeToWaitBetweenRetry;
 	}
 
 	public long getContentLenght() {
@@ -324,7 +345,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		HttpRetrieverConfiguration defaultConfiguration = 
 			new HttpRetrieverConfiguration();
 		
-		defaultConfiguration.setUserAgent("Mozilla/5.0");
+		defaultConfiguration.setUserAgent(DEFAULT_USER_AGENT);
 		
 		
 		return defaultConfiguration;

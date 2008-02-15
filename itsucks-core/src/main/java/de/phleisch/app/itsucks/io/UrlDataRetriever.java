@@ -12,8 +12,6 @@ import java.net.URL;
 
 public interface UrlDataRetriever extends DataRetriever {
 
-
-	
 	/**
 	 * This value is returned if the download was not started yet.
 	 */
@@ -54,13 +52,20 @@ public interface UrlDataRetriever extends DataRetriever {
 	 */
 	public void setUrl(URL pUrl);
 	
-	
 	/**
-	 * Returns the internal state and result code.
+	 * Returns the internal state and result code after connecting.
 	 * Check RESULT_RETRIEVAL_* constants for possible values.
 	 * 
 	 * @return
 	 */
 	public int getResultCode();
+	
+	/**
+	 * Returns the suggested time to wait befory retry the retrieval in ms.
+	 * 
+	 * @return
+	 */
+	public long getSuggestedTimeToWaitForRetry();
+	
 	
 }

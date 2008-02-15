@@ -41,5 +41,12 @@ public class FileResumeUrlRetriever
 	public int getResultCode() {
 		return ((UrlDataRetriever)mDataRetriever).getResultCode();
 	}
+
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.io.UrlDataRetriever#getSuggestedTimeToWaitForRetry()
+	 */
+	public long getSuggestedTimeToWaitForRetry() {
+		return ((UrlDataRetriever)mDataRetriever).getSuggestedTimeToWaitForRetry();
+	}
 	
 }
