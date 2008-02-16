@@ -191,7 +191,10 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		//check if we must wait, important when retrying downloads
 		if(mWaitUntil > System.currentTimeMillis()) {
 			try {
-				Thread.sleep(mWaitUntil - System.currentTimeMillis());
+				long waitingTime = mWaitUntil - System.currentTimeMillis();
+				mLog.debug("Wait " + waitingTime + "ms before " + (getRetryCount()+1) + "th retry.");
+				
+				Thread.sleep(waitingTime);
 			} catch (InterruptedException e) {
 				mLog.info("Aborted while waiting.");
 			}
@@ -230,7 +233,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 		} else if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
 			
-			if(mTryCount <= (mMaxRetryCount + 1)) {
+			if(getRetryCount() < mMaxRetryCount) {
 				
 				mWaitUntil = System.currentTimeMillis() + 
 					mDataRetriever.getSuggestedTimeToWaitForRetry();
@@ -506,6 +509,13 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	public void setMaxRetryCount(int pMaxRetryCount) {
 		mMaxRetryCount = pMaxRetryCount;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.phleisch.app.itsucks.job.download.DownloadJob#getRetryCount()
+	 */
+	public int getRetryCount() {
+		return mTryCount - 1; //first try is not retry
 	}
 
 	/**

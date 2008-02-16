@@ -52,6 +52,12 @@ public interface DownloadJob extends Job {
 	public abstract int getMaxRetryCount();
 
 	/**
+	 * Returns the actual retry count.
+	 * @return
+	 */
+	public abstract int getRetryCount();
+	
+	/**
 	 * Gets the waiting time between two retries.
 	 * @return 
 	 * 

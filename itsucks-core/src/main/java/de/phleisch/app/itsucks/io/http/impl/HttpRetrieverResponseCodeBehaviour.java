@@ -104,24 +104,32 @@ public class HttpRetrieverResponseCodeBehaviour {
 		mResponseCodeAction = new TreeSet<ResponseCodeRange>();
 	}
 
-	public boolean add(int pResponseCode, Action pAction, int pPriority) {
-		return mResponseCodeAction.add(
-				new ResponseCodeRange(pResponseCode, pResponseCode, pAction, pPriority));
+	public ResponseCodeRange add(int pResponseCode, Action pAction, int pPriority) {
+		ResponseCodeRange range = new ResponseCodeRange(pResponseCode, pResponseCode, pAction, pPriority);
+		mResponseCodeAction.add(range);
+		
+		return range;
 	}
 	
-	public boolean add(int pResponseCode, Action pAction) {
-		return mResponseCodeAction.add(
-				new ResponseCodeRange(pResponseCode, pResponseCode, pAction));
+	public ResponseCodeRange add(int pResponseCode, Action pAction) {
+		ResponseCodeRange range = new ResponseCodeRange(pResponseCode, pResponseCode, pAction);
+		mResponseCodeAction.add(range);
+		
+		return range;
 	}
 	
-	public boolean add(int pResponseCodeFrom, int pResponseCodeTo, Action pAction) {
-		return mResponseCodeAction.add(
-				new ResponseCodeRange(pResponseCodeFrom, pResponseCodeTo, pAction));
+	public ResponseCodeRange add(int pResponseCodeFrom, int pResponseCodeTo, Action pAction) {
+		ResponseCodeRange range = new ResponseCodeRange(pResponseCodeFrom, pResponseCodeTo, pAction);
+		mResponseCodeAction.add(range);
+
+		return range;
 	}
 	
-	public boolean add(int pResponseCodeFrom, int pResponseCodeTo, Action pAction, int pPriority) {
-		return mResponseCodeAction.add(
-				new ResponseCodeRange(pResponseCodeFrom, pResponseCodeTo, pAction, pPriority));
+	public ResponseCodeRange add(int pResponseCodeFrom, int pResponseCodeTo, Action pAction, int pPriority) {
+		ResponseCodeRange range = new ResponseCodeRange(pResponseCodeFrom, pResponseCodeTo, pAction, pPriority);
+		mResponseCodeAction.add(range);
+
+		return range;
 	}
 	
 	public boolean add(ResponseCodeRange pResponseCodeRange) {
