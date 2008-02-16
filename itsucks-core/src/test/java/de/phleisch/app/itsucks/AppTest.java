@@ -33,9 +33,6 @@ import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
  */
 public class AppTest extends TestCase {
 	
-	private String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
-	//private String SERVER_BASE_URL =  "http://localhost/~olli/itsucks-website";
-	
 	/**
 	 * Create the test case
 	 * 
@@ -72,7 +69,7 @@ public class AppTest extends TestCase {
 		dispatcher.addJobFilter(contentFilter);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
+		job.setUrl(new URL(TestConstants.SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		job.setIgnoreFilter(true);
 		dispatcher.addJob(job);
@@ -95,7 +92,7 @@ public class AppTest extends TestCase {
 		dispatcher.addJobFilter(filter);		
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
+		job.setUrl(new URL(TestConstants.SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		job.setIgnoreFilter(true);
 		dispatcher.addJob(job);
@@ -130,7 +127,7 @@ public class AppTest extends TestCase {
 		assertNotNull(jobFactory);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
+		job.setUrl(new URL(TestConstants.SERVER_BASE_URL + "/test/test.html"));
 		job.setSavePath(new File("/tmp/crawl"));
 		
 		job.setIgnoreFilter(true);

@@ -32,5 +32,5 @@ public class HttpRetrieverTest extends TestCase {
 		assertTrue(behaviour.findActionForResponseCode(5).equals(
 				HttpRetrieverResponseCodeBehaviour.Action.FAILED));
 	}
-	
+
 }

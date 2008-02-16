@@ -20,47 +20,54 @@ import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 public class FullFilterTest extends TestCase {
 	
-	private String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
-	
 	public void testChangeHttpResponseCodeBehaviourFilter() throws Exception {
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 		
+		//create dispatcher
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 		assertNotNull(dispatcher);
 		
+		//configure download job filter
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setMaxRecursionDepth(0);
 		dispatcher.addJobFilter(filter);
 		
+		//configure reponse code filter
 		ChangeHttpResponseCodeBehaviourFilter behaviourFilter = 
 			new ChangeHttpResponseCodeBehaviourFilter();
 		HttpRetrieverResponseCodeBehaviour behaviour = new HttpRetrieverResponseCodeBehaviour();
-		behaviour.add(200, HttpRetrieverResponseCodeBehaviour.Action.FAILED);
+		ResponseCodeRange rangeConfig = 
+			behaviour.add(403, HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE);
+		rangeConfig.setTimeToWaitBetweenRetry(100l);
 		behaviourFilter.addConfig(".*", behaviour);
 		dispatcher.addJobFilter(behaviourFilter);
-		
+
+		//build job
 		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
 		assertNotNull(jobFactory);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();
-		job.setUrl(new URL(SERVER_BASE_URL + "/test/test.html"));
+		job.setUrl(new URL(TestConstants.SERVER_BASE_URL 
+				+ "/test/response_code_test.php?responseCode=403"));
 		job.setSavePath(new File("/tmp/crawl"));
+		job.setMaxRetryCount(2);
 		
 		job.setIgnoreFilter(true);
 		dispatcher.addJob(job);
 		
+		//start dispatcher
 		dispatcher.processJobs();
 
 		assertTrue(job.getState() == Job.STATE_ERROR);
-
-		
+		assertTrue(job.getRetryCount() == 2);
 	}
 
 }
