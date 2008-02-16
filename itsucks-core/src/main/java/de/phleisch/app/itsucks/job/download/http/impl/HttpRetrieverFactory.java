@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
-import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
@@ -22,6 +21,8 @@ import de.phleisch.app.itsucks.job.download.impl.DataRetrieverFactory;
 
 public class HttpRetrieverFactory implements DataRetrieverFactory {
 
+	public static final String HTTP_BEHAVIOUR_CONFIG_PARAMETER = "HttpRetriever_AdditionalBehaviour";
+	
 	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList) {
 
@@ -41,7 +42,7 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 		}
 		
 		JobParameter parameter = 
-			findParameter(ChangeHttpResponseCodeBehaviourFilter.HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
+			findParameter(HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
 					pParameterList);
 		if(parameter != null) {
 			HttpRetrieverResponseCodeBehaviour specialBehaviour = 

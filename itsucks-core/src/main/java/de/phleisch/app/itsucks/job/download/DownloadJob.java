@@ -54,6 +54,8 @@ public interface DownloadJob extends Job {
 	/**
 	 * Gets the waiting time between two retries.
 	 * @return 
+	 * 
+	 * @deprecated
 	 */
 	public abstract long getMinTimeBetweenRetry();
 

@@ -232,7 +232,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 			if(mTryCount <= (mMaxRetryCount + 1)) {
 				
-				mWaitUntil = System.currentTimeMillis() + mMinTimeBetweenRetry;
+				mWaitUntil = System.currentTimeMillis() + 
+					mDataRetriever.getSuggestedTimeToWaitForRetry();
 				setState(Job.STATE_REOPEN);
 			} else {
 				setState(Job.STATE_ERROR);
@@ -507,8 +508,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mMaxRetryCount = pMaxRetryCount;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.job.download.impl.DownloadJob#getMinTimeBetweenRetry()
+	/**
+	 * @deprecated
 	 */
 	public long getMinTimeBetweenRetry() {
 		return mMinTimeBetweenRetry;
@@ -517,6 +518,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	/**
 	 * Sets the waiting time between two retries. 
 	 * @param pMinTimeBetweenRetry
+	 * 
+	 * @deprecated
 	 */
 	public void setMinTimeBetweenRetry(long pMinTimeBetweenRetry) {
 		mMinTimeBetweenRetry = pMinTimeBetweenRetry;

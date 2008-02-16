@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.io.impl.AbstractUrlDataRetriever;
 import de.phleisch.app.itsucks.io.impl.ThrottledInputStream;
 
@@ -43,10 +44,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	private static final int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
 	
 	protected static final String DEFAULT_USER_AGENT = "Mozilla/5.0";
+	protected static final long DEFAULT_TIME_TO_WAIT_BETWEEN_RETRY = 5000; //5 seconds
 	
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
-	protected long mTimeToWaitBetweenRetry = 5000; //5 seconds 
+	protected long mTimeToWaitBetweenRetry; 
 	
 	protected HttpRetrieverConfiguration mConfiguration = createDefaultConfiguration();
 	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
@@ -103,7 +105,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		mMetadata.setStatusText(mGet.getStatusText());
 		mMetadata.setConnection(mGet);
 		
-		mResultCode = getResultCode();
+		analyzeResultCode();
 		
 	}
 	
@@ -292,16 +294,27 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		return result;
 	}
 		
-	protected int resolveResultCode() {
+	protected void analyzeResultCode() {
 		
 		int statusCode = mMetadata.getStatusCode();
 		
-		Action action = mResponseCodeBehaviour.findActionForResponseCode(statusCode);
-		if(action == null) {
+		ResponseCodeRange responseCodeConfig = 
+			mResponseCodeBehaviour.findConfigurationForResponseCode(statusCode);
+		
+		if(responseCodeConfig == null) {
 			throw new IllegalStateException("No action found for response code: " + statusCode);
 		}
 		
-		return action.getRetrieverAction();
+		//save result code
+		Action action = responseCodeConfig.getAction();
+		mResultCode = action.getRetrieverAction();
+		
+		//resolve time to wait 
+		if(responseCodeConfig.getTimeToWaitBetweenRetry() != null) {
+			mTimeToWaitBetweenRetry = responseCodeConfig.getTimeToWaitBetweenRetry();
+		} else {
+			mTimeToWaitBetweenRetry = DEFAULT_TIME_TO_WAIT_BETWEEN_RETRY;
+		}
 	}
 	
 	/* (non-Javadoc)

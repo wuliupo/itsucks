@@ -39,6 +39,7 @@ public class HttpRetrieverResponseCodeBehaviour {
 		private int mResponseCodeTo;
 		private Action mAction;
 		private int mPriority;
+		private Long mTimeToWaitBetweenRetry;
 		
 		public ResponseCodeRange(int pResponseCodeFrom, int pResponseCodeTo, 
 				Action pAction) {
@@ -61,6 +62,10 @@ public class HttpRetrieverResponseCodeBehaviour {
 			return mResponseCodeTo;
 		}
 
+		public void setAction(Action pAction) {
+			mAction = pAction;
+		}
+
 		public Action getAction() {
 			return mAction;
 		}
@@ -69,6 +74,14 @@ public class HttpRetrieverResponseCodeBehaviour {
 			return mPriority;
 		}
 		
+		public Long getTimeToWaitBetweenRetry() {
+			return mTimeToWaitBetweenRetry;
+		}
+
+		public void setTimeToWaitBetweenRetry(Long pTimeToWaitBetweenRetry) {
+			mTimeToWaitBetweenRetry = pTimeToWaitBetweenRetry;
+		}
+
 		public int compareTo(final ResponseCodeRange pResponseCodeRange) {
 			int result = 
 				compareInt(this.getResponseCodeTo(), pResponseCodeRange.getResponseCodeTo());
@@ -123,7 +136,7 @@ public class HttpRetrieverResponseCodeBehaviour {
 		return mResponseCodeAction.remove(pResponseCodeRange);
 	}
 	
-	public ResponseCodeRange findRangeForCode(int pResponseCode) {
+	public ResponseCodeRange findConfigurationForResponseCode(int pResponseCode) {
 		
 		ResponseCodeRange result = null;
 		
@@ -142,7 +155,7 @@ public class HttpRetrieverResponseCodeBehaviour {
 	public Action findActionForResponseCode(int pResponseCode) {
 		Action action = null;
 		
-		ResponseCodeRange rangeForCode = findRangeForCode(pResponseCode);
+		ResponseCodeRange rangeForCode = findConfigurationForResponseCode(pResponseCode);
 		if(rangeForCode != null) {
 			action = rangeForCode.getAction();
 		}

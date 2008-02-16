@@ -55,7 +55,9 @@ public class DispatcherThread extends DispatcherImpl {
 	}
 
 	public void join() throws InterruptedException {
-		mOwnThread.join();
+		if(mOwnThread != null && mOwnThread.isAlive()) {
+			mOwnThread.join();
+		}
 	}
 
 }

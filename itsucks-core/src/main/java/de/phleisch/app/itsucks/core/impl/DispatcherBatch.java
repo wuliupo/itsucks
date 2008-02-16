@@ -87,19 +87,22 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 			
 			fireEvent(CoreEvents.EVENT_BATCH_START);
 			
+			mLog.info("Batch dispatcher start.");
+			
 			try {
 				watchJobs();
+				joinAllJobs();
 			} catch(Exception e) {
 				mLog.error("Error running batch", e);
 			} finally {
 				mBatchRunning = false;
 				fireEvent(CoreEvents.EVENT_BATCH_FINISH);
 			}
+			
+			mLog.info("Batch dispatcher finished.");
 		}
 
-		private void watchJobs() {
-			mLog.info("Start batch dispatcher.");
-			
+		protected void watchJobs() {
 			while(true) {
 				
 				synchronized(mSyncMutex) {
@@ -125,8 +128,18 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 				}
 			}
 		}
+
+		protected void joinAllJobs() throws InterruptedException {
+			mLog.debug("Wait for all dispatcher to join.");
+			
+			synchronized(mSyncMutex) {
+				for (DispatcherListElement itelement : mJobList) {
+					itelement.getDispatcher().join();
+				}
+			}
+		}
 		
-		private void startNextDispatcher() {
+		protected void startNextDispatcher() {
 
 			DispatcherThread dispatcher = null;
 			synchronized(mSyncMutex) {
@@ -176,7 +189,7 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 		}
 		
 
-		private void finishDispatcher(DispatcherThread pDispatcher) {
+		protected void finishDispatcher(DispatcherThread pDispatcher) {
 			mLog.debug("Finish dispatcher: " + pDispatcher);
 
 			DispatcherListElement element = null;
@@ -212,7 +225,7 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 			}
 		}
 		
-		private class DispatcherListener implements EventObserver {
+		protected class DispatcherListener implements EventObserver {
 
 			public void processEvent(Event pEvent) {
 				
@@ -246,6 +259,12 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 			
 			if(mBatchRunning) {
 				throw new IllegalStateException("Could not add Job while batch is running!");
+			}
+			
+			for (DispatcherListElement itelement : mJobList) {
+				if(itelement.getDispatcher() == pDispatcher) {
+					throw new IllegalArgumentException("Dispatcher already added!");
+				}
 			}
 			
 			mJobList.add(new DispatcherListElement(pDispatcher));

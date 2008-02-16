@@ -20,6 +20,7 @@ import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
+import de.phleisch.app.itsucks.job.download.http.impl.HttpRetrieverFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 /**
@@ -34,8 +35,6 @@ public class ChangeHttpResponseCodeBehaviourFilter
 
 	private static final long serialVersionUID = 7630921381984994229L;
 	
-	public static final String HTTP_BEHAVIOUR_CONFIG_PARAMETER = "HttpRetriever_AdditionalBehaviour";
-
 	public static class HttpResponseCodeBehaviourHostConfig implements Serializable {
 		
 		private static final long serialVersionUID = 2888428738451176299L;
@@ -82,7 +81,7 @@ public class ChangeHttpResponseCodeBehaviourFilter
 			
 			if(matcher.matches()) {
 				pJob.addParameter(
-						new JobParameter(HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
+						new JobParameter(HttpRetrieverFactory.HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
 								config.getResponseCodeBehaviour()));
 			}
 			
