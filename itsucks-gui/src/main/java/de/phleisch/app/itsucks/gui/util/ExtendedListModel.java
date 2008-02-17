@@ -31,6 +31,12 @@ public class ExtendedListModel extends DefaultListModel {
 		return targetIndex;
 	}
 
+	/**
+	 * 
+	 * @param pIndex0
+	 * @param pIndex1
+	 * @deprecated
+	 */
 	public void fireContentsChanged(int pIndex0, int pIndex1) {
 		
 		/*
