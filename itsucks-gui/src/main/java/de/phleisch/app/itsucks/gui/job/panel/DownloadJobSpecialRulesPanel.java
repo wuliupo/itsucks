@@ -297,6 +297,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourCheckBox.setMargin(new java.awt.Insets(0, 0, 0,
 				0));
 
+		httpStatusCodeBehaviourEditListPanel.setEnabled(false);
+
 		httpStatusCodeBehaviourSubPanel.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("HTTP Status Filter"));
 
@@ -305,46 +307,58 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourHostnameLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		httpStatusCodeBehaviourHostnameLabel.setText("Hostname:");
+		httpStatusCodeBehaviourHostnameLabel.setEnabled(false);
+
+		httpStatusCodeBehaviourHostnameTextField.setEnabled(false);
 
 		httpStatusCodeBehaviourHostnameDescLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourHostnameDescLabel
 				.setText("(regular expression, partial match)");
+		httpStatusCodeBehaviourHostnameDescLabel.setEnabled(false);
 
 		httpStatusCodeBehaviourStatusCodeLabel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourStatusCodeLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		httpStatusCodeBehaviourStatusCodeLabel.setText("Status Code:");
+		httpStatusCodeBehaviourStatusCodeLabel.setEnabled(false);
 
 		httpStatusCodeBehaviourStatusCodeFromTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		httpStatusCodeBehaviourStatusCodeFromTextField.setEnabled(false);
 
 		httpStatusCodeBehaviourStatusCodeToPanel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourStatusCodeToPanel.setText("to");
+		httpStatusCodeBehaviourStatusCodeToPanel.setEnabled(false);
+
+		httpStatusCodeBehaviourStatusCodeToTextField.setEnabled(false);
 
 		httpStatusCodeBehaviourActionLabel.setFont(new java.awt.Font("Dialog",
 				0, 12));
 		httpStatusCodeBehaviourActionLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		httpStatusCodeBehaviourActionLabel.setText("Action:");
+		httpStatusCodeBehaviourActionLabel.setEnabled(false);
 
 		httpStatusCodeBehaviourActionComboBox.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourActionComboBox
 				.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 						"Retry", "Ok ", "Error" }));
+		httpStatusCodeBehaviourActionComboBox.setEnabled(false);
 
 		httpStatusCodeBehaviourWaitLabel.setFont(new java.awt.Font("Dialog", 0,
 				12));
 		httpStatusCodeBehaviourWaitLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		httpStatusCodeBehaviourWaitLabel
-				.setText("<html>Wait between retry:</html>");
+		httpStatusCodeBehaviourWaitLabel.setText("Wait between retry:");
+		httpStatusCodeBehaviourWaitLabel.setEnabled(false);
 
 		httpStatusCodeBehaviourWaitTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		httpStatusCodeBehaviourWaitTextField.setEnabled(false);
 
 		httpStatusCodeBehaviourWaitMsLabel.setFont(new java.awt.Font("Dialog",
 				0, 12));
@@ -355,6 +369,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourQueueBehaviourLabel
 				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		httpStatusCodeBehaviourQueueBehaviourLabel.setText("Queue behaviour:");
+		httpStatusCodeBehaviourQueueBehaviourLabel.setEnabled(false);
 
 		httpStatusCodeBehaviourQueueBehaviourComboBox
 				.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -362,6 +377,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 						"Directly wait for retry timeout",
 						"Move Job back into queue" }));
+		httpStatusCodeBehaviourQueueBehaviourComboBox.setEnabled(false);
 
 		org.jdesktop.layout.GroupLayout httpStatusCodeBehaviourSubPanelLayout = new org.jdesktop.layout.GroupLayout(
 				httpStatusCodeBehaviourSubPanel);
@@ -503,13 +519,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 										.add(
 												httpStatusCodeBehaviourSubPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.BASELINE,
+																org.jdesktop.layout.GroupLayout.LEADING,
 																false)
-														.add(
-																httpStatusCodeBehaviourHostnameTextField,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
 																httpStatusCodeBehaviourSubPanelLayout
 																		.createSequentialGroup()
@@ -520,7 +531,16 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 																		.add(
 																				httpStatusCodeBehaviourHostnameLabel))
 														.add(
-																httpStatusCodeBehaviourHostnameDescLabel))
+																httpStatusCodeBehaviourSubPanelLayout
+																		.createParallelGroup(
+																				org.jdesktop.layout.GroupLayout.BASELINE)
+																		.add(
+																				httpStatusCodeBehaviourHostnameTextField,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+																		.add(
+																				httpStatusCodeBehaviourHostnameDescLabel)))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
