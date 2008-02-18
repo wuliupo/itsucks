@@ -6,7 +6,12 @@
 
 package de.phleisch.app.itsucks.gui.common.panel;
 
+import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.SwingUtils;
 
 /**
  *
@@ -17,8 +22,20 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	protected ExtendedListModel mListModel = new ExtendedListModel();
 	protected ListElement mElementInEditMode;
 
-	public interface ListElement {
+	public static interface ListElement {
 	}
+	
+	protected FocusListener mFocusListener = new FocusListener() {
+
+		public void focusGained(FocusEvent pE) {
+			//no action
+		}
+
+		public void focusLost(FocusEvent pE) {
+			updateListElement();
+		}
+		
+	};
 
 	/** Creates new form EntryListPanel */
 	public EditListPanel() {
@@ -233,6 +250,14 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 		}
 	}
 
+	public void registerDataField(Component pComponent) {
+		pComponent.addFocusListener(mFocusListener);
+	}
+	
+	public void deregisterDataField(Component pComponent) {
+		pComponent.removeFocusListener(mFocusListener);
+	}
+	
 	protected abstract ListElement createNewElement();
 
 	protected abstract void loadEditArea(ListElement pElement);
@@ -240,6 +265,14 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	protected abstract void emptyEditArea();
 
 	protected abstract void enableEditArea(boolean pEnable);
+	
+	protected abstract void updateListElement();
+	
+	@Override
+	public void setEnabled(boolean pEnabled) {
+		super.setEnabled(pEnabled);
+		SwingUtils.setChildrenEnabled(this, pEnabled);
+	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

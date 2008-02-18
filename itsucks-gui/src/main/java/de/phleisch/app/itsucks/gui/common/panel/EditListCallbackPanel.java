@@ -9,6 +9,7 @@
 package de.phleisch.app.itsucks.gui.common.panel;
 
 
+
 public class EditListCallbackPanel extends EditListPanel {
 
 	private static final long serialVersionUID = 7042712273665076919L;
@@ -24,6 +25,8 @@ public class EditListCallbackPanel extends EditListPanel {
 		abstract void emptyEditArea();
 
 		abstract void enableEditArea(boolean pEnable);
+		
+		abstract void updateListElement();
 	}
 	
 	public EditListCallbackPanel(EditListCallbackInterface pLogic) {
@@ -62,6 +65,11 @@ public class EditListCallbackPanel extends EditListPanel {
 	@Override
 	protected void loadEditArea(ListElement pElement) {
 		mLogic.loadEditArea(pElement);
+	}
+
+	@Override
+	protected void updateListElement() {
+		mLogic.updateListElement();
 	}
 
 }

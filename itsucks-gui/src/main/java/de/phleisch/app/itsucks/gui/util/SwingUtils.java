@@ -18,6 +18,12 @@ public class SwingUtils {
 		
 		pContainer.setEnabled(pEnabled);
 		
+		setChildrenEnabled(pContainer, pEnabled);
+	}
+
+	public static void setChildrenEnabled(
+			Container pContainer, boolean pEnabled) {
+		
 		Component[] components = pContainer.getComponents();
 		for (Component component : components) {
 			

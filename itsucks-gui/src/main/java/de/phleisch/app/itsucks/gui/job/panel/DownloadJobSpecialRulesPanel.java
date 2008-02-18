@@ -8,7 +8,11 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
+import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
+import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
+import de.phleisch.app.itsucks.gui.util.SwingUtils;
 
 /**
  *
@@ -21,6 +25,23 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 	/** Creates new form DownloadJobSpecialRulesPanel */
 	public DownloadJobSpecialRulesPanel() {
 		initComponents();
+		this.httpStatusCodeBehaviourEditListPanel
+				.setLogic(new EditListCallback());
+		
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourHostnameTextField);
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourStatusCodeFromTextField);
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourStatusCodeToTextField);
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourActionComboBox);
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourWaitTextField);
+		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
+				httpStatusCodeBehaviourQueueBehaviourComboBox);
+		
+		
 	}
 
 	public List<String> validateFields() {
@@ -41,6 +62,43 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		}
 
 		return validator.getErrors();
+	}
+
+	protected class HttpStatusCodeBehaviourListElement implements
+			EditListPanel.ListElement {
+
+	}
+
+	protected class EditListCallback implements
+			EditListCallbackPanel.EditListCallbackInterface {
+
+		public ListElement createNewElement() {
+			return new HttpStatusCodeBehaviourListElement();
+		}
+
+		public void emptyEditArea() {
+			loadEditArea(new HttpStatusCodeBehaviourListElement());
+		}
+
+		public void enableEditArea(boolean pEnable) {
+			SwingUtils.setContainerAndChildrenEnabled(
+					httpStatusCodeBehaviourSubPanel, pEnable);
+		}
+
+		public void loadEditArea(ListElement pElement) {
+
+			httpStatusCodeBehaviourHostnameTextField.setText(".*hostname.de");
+			httpStatusCodeBehaviourStatusCodeFromTextField.setText("100");
+			httpStatusCodeBehaviourStatusCodeToTextField.setText("200");
+			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(0);
+			httpStatusCodeBehaviourWaitTextField.setText("3000");
+			httpStatusCodeBehaviourQueueBehaviourComboBox.setSelectedIndex(1);
+
+		}
+
+		public void updateListElement() {
+			
+		}
 	}
 
 	//GEN-BEGIN:initComponents
@@ -296,6 +354,12 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				.createEmptyBorder(0, 0, 0, 0));
 		httpStatusCodeBehaviourCheckBox.setMargin(new java.awt.Insets(0, 0, 0,
 				0));
+		httpStatusCodeBehaviourCheckBox
+				.addChangeListener(new javax.swing.event.ChangeListener() {
+					public void stateChanged(javax.swing.event.ChangeEvent evt) {
+						httpStatusCodeBehaviourCheckBoxStateChanged(evt);
+					}
+				});
 
 		httpStatusCodeBehaviourEditListPanel.setEnabled(false);
 
@@ -333,6 +397,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourStatusCodeToPanel.setText("to");
 		httpStatusCodeBehaviourStatusCodeToPanel.setEnabled(false);
 
+		httpStatusCodeBehaviourStatusCodeToTextField
+				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		httpStatusCodeBehaviourStatusCodeToTextField.setEnabled(false);
 
 		httpStatusCodeBehaviourActionLabel.setFont(new java.awt.Font("Dialog",
@@ -348,6 +414,12 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 						"Retry", "Ok ", "Error" }));
 		httpStatusCodeBehaviourActionComboBox.setEnabled(false);
+		httpStatusCodeBehaviourActionComboBox
+				.addItemListener(new java.awt.event.ItemListener() {
+					public void itemStateChanged(java.awt.event.ItemEvent evt) {
+						httpStatusCodeBehaviourActionComboBoxItemStateChanged(evt);
+					}
+				});
 
 		httpStatusCodeBehaviourWaitLabel.setFont(new java.awt.Font("Dialog", 0,
 				12));
@@ -394,37 +466,36 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 										.add(
 												httpStatusCodeBehaviourSubPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
+																org.jdesktop.layout.GroupLayout.LEADING,
+																false)
 														.add(
-																httpStatusCodeBehaviourSubPanelLayout
-																		.createParallelGroup(
-																				org.jdesktop.layout.GroupLayout.TRAILING,
-																				false)
-																		.add(
-																				httpStatusCodeBehaviourHostnameLabel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				116,
-																				Short.MAX_VALUE)
-																		.add(
-																				httpStatusCodeBehaviourActionLabel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				116,
-																				Short.MAX_VALUE)
-																		.add(
-																				httpStatusCodeBehaviourStatusCodeLabel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				116,
-																				Short.MAX_VALUE)
-																		.add(
-																				httpStatusCodeBehaviourWaitLabel,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				116,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																httpStatusCodeBehaviourActionLabel,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																116,
+																Short.MAX_VALUE)
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																httpStatusCodeBehaviourStatusCodeLabel,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																116,
+																Short.MAX_VALUE)
+														.add(
+																org.jdesktop.layout.GroupLayout.TRAILING,
+																httpStatusCodeBehaviourWaitLabel,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																116,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
 																httpStatusCodeBehaviourQueueBehaviourLabel,
 																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
 																116,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+														.add(
+																httpStatusCodeBehaviourHostnameLabel,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																116,
+																Short.MAX_VALUE))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -508,7 +579,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 																				292,
 																				292,
 																				292)))
-										.addContainerGap()));
+										.add(0, 0, 0)));
 		httpStatusCodeBehaviourSubPanelLayout
 				.setVerticalGroup(httpStatusCodeBehaviourSubPanelLayout
 						.createParallelGroup(
@@ -519,28 +590,16 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 										.add(
 												httpStatusCodeBehaviourSubPanelLayout
 														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																false)
+																org.jdesktop.layout.GroupLayout.BASELINE)
 														.add(
-																httpStatusCodeBehaviourSubPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				4,
-																				4,
-																				4)
-																		.add(
-																				httpStatusCodeBehaviourHostnameLabel))
+																httpStatusCodeBehaviourHostnameTextField,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 														.add(
-																httpStatusCodeBehaviourSubPanelLayout
-																		.createParallelGroup(
-																				org.jdesktop.layout.GroupLayout.BASELINE)
-																		.add(
-																				httpStatusCodeBehaviourHostnameTextField,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-																		.add(
-																				httpStatusCodeBehaviourHostnameDescLabel)))
+																httpStatusCodeBehaviourHostnameDescLabel)
+														.add(
+																httpStatusCodeBehaviourHostnameLabel))
 										.addPreferredGap(
 												org.jdesktop.layout.LayoutStyle.RELATED)
 										.add(
@@ -705,6 +764,33 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 								Short.MAX_VALUE)));
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void httpStatusCodeBehaviourActionComboBoxItemStateChanged(
+			java.awt.event.ItemEvent evt) {
+
+		boolean enabled = false;
+
+		if (this.httpStatusCodeBehaviourActionComboBox.getSelectedIndex() == 0
+				&& this.httpStatusCodeBehaviourActionComboBox.isEnabled()) {
+
+			enabled = true;
+		}
+
+		this.httpStatusCodeBehaviourWaitLabel.setEnabled(enabled);
+		this.httpStatusCodeBehaviourWaitTextField.setEnabled(enabled);
+		this.httpStatusCodeBehaviourWaitMsLabel.setEnabled(enabled);
+
+		this.httpStatusCodeBehaviourQueueBehaviourLabel.setEnabled(enabled);
+		this.httpStatusCodeBehaviourQueueBehaviourComboBox.setEnabled(enabled);
+	}
+
+	private void httpStatusCodeBehaviourCheckBoxStateChanged(
+			javax.swing.event.ChangeEvent evt) {
+
+		boolean enabled = this.httpStatusCodeBehaviourCheckBox.isSelected();
+
+		this.httpStatusCodeBehaviourEditListPanel.setEnabled(enabled);
+	}
 
 	//GEN-FIRST:event_fileSizeEnableCheckBoxStateChanged
 	private void fileSizeEnableCheckBoxStateChanged(

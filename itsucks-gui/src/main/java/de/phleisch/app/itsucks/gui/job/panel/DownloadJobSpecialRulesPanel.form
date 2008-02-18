@@ -271,6 +271,9 @@
               <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="httpStatusCodeBehaviourCheckBoxStateChanged"/>
+          </Events>
         </Component>
         <Component class="de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel" name="httpStatusCodeBehaviourEditListPanel">
           <Properties>
@@ -290,17 +293,15 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="httpStatusCodeBehaviourHostnameLabel" pref="116" max="32767" attributes="1"/>
-                              <Component id="httpStatusCodeBehaviourActionLabel" pref="116" max="32767" attributes="1"/>
-                              <Component id="httpStatusCodeBehaviourStatusCodeLabel" alignment="1" pref="116" max="32767" attributes="1"/>
-                              <Component id="httpStatusCodeBehaviourWaitLabel" alignment="1" min="-2" pref="116" max="-2" attributes="2"/>
-                          </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="httpStatusCodeBehaviourActionLabel" alignment="1" pref="116" max="32767" attributes="1"/>
+                          <Component id="httpStatusCodeBehaviourStatusCodeLabel" alignment="1" pref="116" max="32767" attributes="1"/>
+                          <Component id="httpStatusCodeBehaviourWaitLabel" alignment="1" min="-2" pref="116" max="-2" attributes="2"/>
                           <Component id="httpStatusCodeBehaviourQueueBehaviourLabel" min="-2" pref="116" max="-2" attributes="0"/>
+                          <Component id="httpStatusCodeBehaviourHostnameLabel" alignment="0" pref="116" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="httpStatusCodeBehaviourQueueBehaviourComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -329,22 +330,17 @@
                               <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="4" pref="4" max="4" attributes="0"/>
-                              <Component id="httpStatusCodeBehaviourHostnameLabel" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="httpStatusCodeBehaviourHostnameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="httpStatusCodeBehaviourHostnameDescLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="httpStatusCodeBehaviourHostnameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="httpStatusCodeBehaviourHostnameDescLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="httpStatusCodeBehaviourHostnameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -426,6 +422,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="httpStatusCodeBehaviourStatusCodeToTextField">
               <Properties>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -453,6 +450,9 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="httpStatusCodeBehaviourActionComboBoxItemStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="httpStatusCodeBehaviourWaitLabel">
               <Properties>
