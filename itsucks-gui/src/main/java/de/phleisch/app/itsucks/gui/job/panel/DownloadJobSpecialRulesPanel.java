@@ -8,6 +8,7 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
@@ -67,6 +68,23 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 	protected class HttpStatusCodeBehaviourListElement implements
 			EditListPanel.ListElement {
 
+		ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig
+			mHostConfig;
+		
+		public HttpStatusCodeBehaviourListElement() {
+//			mHostConfig = 
+//				new ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig();
+		}
+
+		public ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig getHostConfig() {
+			return mHostConfig;
+		}
+
+		public void setHostConfig(
+				ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig pHostConfig) {
+			mHostConfig = pHostConfig;
+		}
+		
 	}
 
 	protected class EditListCallback implements
