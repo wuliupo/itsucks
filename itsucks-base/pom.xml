@@ -83,26 +83,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>jaxb</groupId>
-			<artifactId>jaxb-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jaxb</groupId>
-			<artifactId>jaxb-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jaxb</groupId>
-			<artifactId>jaxb-libs</artifactId>
 		</dependency>
 		
 		<dependency>

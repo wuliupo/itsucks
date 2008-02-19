@@ -1,7 +1,9 @@
 <projectDescription>
   <name>itsucks-core</name>
   <comment/>
-  <projects/>
+  <projects>
+    <project>itsucks-base</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

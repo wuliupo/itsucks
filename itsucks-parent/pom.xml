@@ -33,6 +33,7 @@
 	</repositories>
 
 	<modules>
+		<module>../itsucks-base</module>
 		<module>../itsucks-core</module>
 		<module>../itsucks-gui</module>
 		<module>../itsucks-console</module>
@@ -43,6 +44,13 @@
 	<dependencyManagement>
 
 		<dependencies>
+
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-base</artifactId>
+				<version>${project.version}</version>
+			</dependency>		
+		
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-core</artifactId>

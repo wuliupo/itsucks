@@ -10,7 +10,7 @@ package de.phleisch.app.itsucks;
 
 public class TestConstants {
 
-//	public static final String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
-	public static final String SERVER_BASE_URL =  "http://localhost/~olli/itsucks-website";
+	public static final String SERVER_BASE_URL =  "http://itsucks.sourceforge.net";
+//	public static final String SERVER_BASE_URL =  "http://localhost/~olli/itsucks-website";
 	
 }

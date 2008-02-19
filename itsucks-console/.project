@@ -2,6 +2,7 @@
   <name>itsucks-console</name>
   <comment/>
   <projects>
+    <project>itsucks-base</project>
     <project>itsucks-core</project>
   </projects>
   <buildSpec>
