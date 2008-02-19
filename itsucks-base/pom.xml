@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>itsucks</groupId>
+		<artifactId>itsucks-parent</artifactId>
+		<version>0.3.0-pre6</version>
+		<relativePath>../itsucks-parent</relativePath>
+	</parent>
+
+	<artifactId>itsucks-base</artifactId>
+	<groupId>itsucks</groupId>
+	<packaging>jar</packaging>
+	<name>ItSucks-Base</name>
+
+	<build>
+
+		<!-- include the source code - ->
+			<resources>
+			<resource>
+			<directory>src/main/java</directory>
+			<targetPath>/src</targetPath>
+			<includes>
+			<include>**/*.java</include>
+			</includes>
+			</resource>
+			
+			<!- -
+			<resource>
+			<directory>resources</directory>
+			<targetPath>/</targetPath>
+			<includes>
+			<include>**/*</include>
+			</includes>
+			</resource> 
+			</resources> -->
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+
+						<manifest>
+							<packageName>itsucks-base</packageName>
+							<addClasspath>true</addClasspath>
+							<addExtensions />
+							<classpathPrefix />
+						</manifest>
+
+						<manifestEntries></manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jaxb</groupId>
+			<artifactId>jaxb-libs</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>
