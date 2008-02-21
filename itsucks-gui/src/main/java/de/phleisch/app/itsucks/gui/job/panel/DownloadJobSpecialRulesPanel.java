@@ -8,7 +8,6 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
@@ -68,21 +67,59 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 	protected class HttpStatusCodeBehaviourListElement implements
 			EditListPanel.ListElement {
 
-		ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig
-			mHostConfig;
+		private String mHostnameRegexp = "";
+		private String mResponseCodeFrom = "";
+		private String mResponseCodeTo = "";
+		private int mAction;
+		private String mTimeToWaitBetweenRetry = "";
+		private int mQueueBehaviour;
 		
-		public HttpStatusCodeBehaviourListElement() {
-//			mHostConfig = 
-//				new ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig();
+		public String getHostnameRegexp() {
+			return mHostnameRegexp;
 		}
-
-		public ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig getHostConfig() {
-			return mHostConfig;
+		public void setHostnameRegexp(String pHostnameRegexp) {
+			mHostnameRegexp = pHostnameRegexp;
 		}
-
-		public void setHostConfig(
-				ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig pHostConfig) {
-			mHostConfig = pHostConfig;
+		public String getResponseCodeFrom() {
+			return mResponseCodeFrom;
+		}
+		public void setResponseCodeFrom(String pResponseCodeFrom) {
+			mResponseCodeFrom = pResponseCodeFrom;
+		}
+		public String getResponseCodeTo() {
+			return mResponseCodeTo;
+		}
+		public void setResponseCodeTo(String pResponseCodeTo) {
+			mResponseCodeTo = pResponseCodeTo;
+		}
+		public int getAction() {
+			return mAction;
+		}
+		public void setAction(int pAction) {
+			mAction = pAction;
+		}
+		public String getTimeToWaitBetweenRetry() {
+			return mTimeToWaitBetweenRetry;
+		}
+		public void setTimeToWaitBetweenRetry(String pTimeToWaitBetweenRetry) {
+			mTimeToWaitBetweenRetry = pTimeToWaitBetweenRetry;
+		}
+		public int getQueueBehaviour() {
+			return mQueueBehaviour;
+		}
+		public void setQueueBehaviour(int pQueueBehaviour) {
+			mQueueBehaviour = pQueueBehaviour;
+		}		
+		
+		@Override
+		public String toString() {
+			return 
+				"<html>Hostname RegExp: '" + getHostnameRegexp() + "' / Status Code: "
+				+ this.getResponseCodeFrom() + " - " + this.getResponseCodeTo() + "<br>"
+				+ "Action: " + this.getAction() + "<br>"
+				+ "Waiting time: " + this.getTimeToWaitBetweenRetry() + "ms / " 
+				+ "Queue Behaviour: " + this.getQueueBehaviour()
+				+ "</html>";
 		}
 		
 	}
@@ -105,16 +142,29 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 		public void loadEditArea(ListElement pElement) {
 
-			httpStatusCodeBehaviourHostnameTextField.setText(".*hostname.de");
-			httpStatusCodeBehaviourStatusCodeFromTextField.setText("100");
-			httpStatusCodeBehaviourStatusCodeToTextField.setText("200");
-			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(0);
-			httpStatusCodeBehaviourWaitTextField.setText("3000");
-			httpStatusCodeBehaviourQueueBehaviourComboBox.setSelectedIndex(1);
+			HttpStatusCodeBehaviourListElement element = 
+				(HttpStatusCodeBehaviourListElement) pElement;
+			
+			httpStatusCodeBehaviourHostnameTextField.setText(element.getHostnameRegexp());
+			httpStatusCodeBehaviourStatusCodeFromTextField.setText(element.getResponseCodeFrom());
+			httpStatusCodeBehaviourStatusCodeToTextField.setText(element.getResponseCodeTo());
+			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(element.getAction());
+			httpStatusCodeBehaviourWaitTextField.setText(element.getTimeToWaitBetweenRetry());
+			httpStatusCodeBehaviourQueueBehaviourComboBox.setSelectedIndex(element.getQueueBehaviour());
 
 		}
 
-		public void updateListElement() {
+		public void updateListElement(ListElement pElement) {
+			
+			HttpStatusCodeBehaviourListElement element = 
+				(HttpStatusCodeBehaviourListElement) pElement;
+			
+			element.setHostnameRegexp(httpStatusCodeBehaviourHostnameTextField.getText());
+			element.setResponseCodeFrom(httpStatusCodeBehaviourStatusCodeFromTextField.getText());
+			element.setResponseCodeTo(httpStatusCodeBehaviourStatusCodeToTextField.getText());
+			element.setAction(httpStatusCodeBehaviourActionComboBox.getSelectedIndex());
+			element.setTimeToWaitBetweenRetry(httpStatusCodeBehaviourWaitTextField.getText());
+			element.setQueueBehaviour(httpStatusCodeBehaviourQueueBehaviourComboBox.getSelectedIndex());
 			
 		}
 	}

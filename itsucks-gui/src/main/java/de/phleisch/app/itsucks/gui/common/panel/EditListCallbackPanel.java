@@ -26,7 +26,7 @@ public class EditListCallbackPanel extends EditListPanel {
 
 		abstract void enableEditArea(boolean pEnable);
 		
-		abstract void updateListElement();
+		abstract void updateListElement(ListElement pElement);
 	}
 	
 	public EditListCallbackPanel(EditListCallbackInterface pLogic) {
@@ -68,8 +68,8 @@ public class EditListCallbackPanel extends EditListPanel {
 	}
 
 	@Override
-	protected void updateListElement() {
-		mLogic.updateListElement();
+	protected void updateListElement(ListElement pElement) {
+		mLogic.updateListElement(pElement);
 	}
 
 }

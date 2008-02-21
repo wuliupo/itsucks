@@ -51,16 +51,16 @@ public class ChangeHttpResponseCodeBehaviourFilter
 		public String getHostnameRegexp() {
 			return mHostnameRegexp;
 		}
-		public void setHostnameRegexp(String pHostnameRegexp) {
-			mHostnameRegexp = pHostnameRegexp;
-		}
+//		public void setHostnameRegexp(String pHostnameRegexp) {
+//			mHostnameRegexp = pHostnameRegexp;
+//		}
 		public HttpRetrieverResponseCodeBehaviour getResponseCodeBehaviour() {
 			return mResponseCodeBehaviour;
 		}
-		public void setResponseCodeBehaviour(
-				HttpRetrieverResponseCodeBehaviour pResponseCodeBehaviour) {
-			mResponseCodeBehaviour = pResponseCodeBehaviour;
-		}
+//		public void setResponseCodeBehaviour(
+//				HttpRetrieverResponseCodeBehaviour pResponseCodeBehaviour) {
+//			mResponseCodeBehaviour = pResponseCodeBehaviour;
+//		}
 		
 	}
 	

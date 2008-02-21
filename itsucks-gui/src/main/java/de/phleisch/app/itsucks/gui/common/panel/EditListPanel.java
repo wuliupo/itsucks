@@ -32,7 +32,9 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 		}
 
 		public void focusLost(FocusEvent pE) {
-			updateListElement();
+			if(mElementInEditMode != null) {
+				updateListElement(mElementInEditMode);
+			}
 		}
 		
 	};
@@ -266,7 +268,7 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 
 	protected abstract void enableEditArea(boolean pEnable);
 	
-	protected abstract void updateListElement();
+	protected abstract void updateListElement(ListElement pElement);
 	
 	@Override
 	public void setEnabled(boolean pEnabled) {
