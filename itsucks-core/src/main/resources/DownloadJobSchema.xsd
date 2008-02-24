@@ -192,6 +192,46 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	
+	<!-- HttpRetrieverResponseCodeBehaviour -->
+	<xs:element name="serializedHttpRetrieverResponseCodeBehaviour">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="responseCodeFrom" type="xs:int"/>
+				<xs:element name="responseCodeTo" type="xs:int"/>
+				<xs:element name="action" type="xs:string"/>
+				<xs:element name="priority" type="xs:int"/>
+				<xs:element name="timeToWaitBetweenRetry" type="xs:long" 
+					nillable="true"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- HttpResponseCodeBehaviourHostConfig -->
+	<xs:element name="serializedHttpResponseCodeBehaviourHostConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="hostname" type="xs:string"/>
+				<xs:element ref="itsucks:serializedHttpRetrieverResponseCodeBehaviour"/>
+				<xs:element name="queueBehaviour" type="xs:string" nillable="true"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- ChangeHttpResponseCodeBehaviourFilter -->
+	<xs:element name="serializedChangeHttpResponseCodeBehaviourFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element
+							ref="itsucks:serializedHttpResponseCodeBehaviourHostConfig" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="serializedHttpRetrieverConfiguration">
 		<xs:complexType>
