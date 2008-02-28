@@ -6,11 +6,15 @@
 
 package de.phleisch.app.itsucks.gui.job.panel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
+import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 
@@ -67,6 +71,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 	protected class HttpStatusCodeBehaviourListElement implements
 			EditListPanel.ListElement {
 
+		private PropertyChangeSupport mChangeSupport = new PropertyChangeSupport(this);
+		
 		private String mHostnameRegexp = "";
 		private String mResponseCodeFrom = "";
 		private String mResponseCodeTo = "";
@@ -78,37 +84,55 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 			return mHostnameRegexp;
 		}
 		public void setHostnameRegexp(String pHostnameRegexp) {
+			String oldValue = mHostnameRegexp;
 			mHostnameRegexp = pHostnameRegexp;
+			
+			mChangeSupport.firePropertyChange("hostnameRegexp", oldValue, pHostnameRegexp);
 		}
 		public String getResponseCodeFrom() {
 			return mResponseCodeFrom;
 		}
 		public void setResponseCodeFrom(String pResponseCodeFrom) {
+			String oldValue = mResponseCodeFrom;
 			mResponseCodeFrom = pResponseCodeFrom;
+			
+			mChangeSupport.firePropertyChange("responseCodeFrom", oldValue, pResponseCodeFrom);
 		}
 		public String getResponseCodeTo() {
 			return mResponseCodeTo;
 		}
 		public void setResponseCodeTo(String pResponseCodeTo) {
+			String oldValue = mResponseCodeTo;
 			mResponseCodeTo = pResponseCodeTo;
+			
+			mChangeSupport.firePropertyChange("responseCodeTo", oldValue, pResponseCodeTo);
 		}
 		public int getAction() {
 			return mAction;
 		}
 		public void setAction(int pAction) {
+			int oldValue = mAction;
 			mAction = pAction;
+			
+			mChangeSupport.firePropertyChange("action", oldValue, pAction);
 		}
 		public String getTimeToWaitBetweenRetry() {
 			return mTimeToWaitBetweenRetry;
 		}
 		public void setTimeToWaitBetweenRetry(String pTimeToWaitBetweenRetry) {
+			String oldValue = mTimeToWaitBetweenRetry;
 			mTimeToWaitBetweenRetry = pTimeToWaitBetweenRetry;
+			
+			mChangeSupport.firePropertyChange("timeToWaitBetweenRetry", oldValue, pTimeToWaitBetweenRetry);
 		}
 		public int getQueueBehaviour() {
 			return mQueueBehaviour;
 		}
 		public void setQueueBehaviour(int pQueueBehaviour) {
+			int oldValue = mQueueBehaviour;
 			mQueueBehaviour = pQueueBehaviour;
+			
+			mChangeSupport.firePropertyChange("queueBehaviour", oldValue, pQueueBehaviour);
 		}		
 		
 		@Override
@@ -122,13 +146,48 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				+ "</html>";
 		}
 		
+		public void addPropertyChangeListener(PropertyChangeListener pListener) {
+			mChangeSupport.addPropertyChangeListener(pListener);
+		}
+
+		public void addPropertyChangeListener(String pPropertyName,
+				PropertyChangeListener pListener) {
+			mChangeSupport.addPropertyChangeListener(pPropertyName, pListener);
+		}
+
+		public void removePropertyChangeListener(
+				PropertyChangeListener pListener) {
+			mChangeSupport.removePropertyChangeListener(pListener);
+		}
+
+		public void removePropertyChangeListener(String pPropertyName,
+				PropertyChangeListener pListener) {
+			mChangeSupport.removePropertyChangeListener(pPropertyName,
+					pListener);
+		}
+		
 	}
 
 	protected class EditListCallback implements
 			EditListCallbackPanel.EditListCallbackInterface {
 
 		public ListElement createNewElement() {
-			return new HttpStatusCodeBehaviourListElement();
+			HttpStatusCodeBehaviourListElement element =
+				new HttpStatusCodeBehaviourListElement();
+			
+			element.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent pEvt) {
+					ExtendedListModel listModel = 
+						httpStatusCodeBehaviourEditListPanel.getListModel();
+					
+					int index = listModel.indexOf(pEvt.getSource());
+					if(index > -1) {
+						listModel.fireContentsChanged(index, index);
+					}
+				}
+			});
+			
+			return element;
 		}
 
 		public void emptyEditArea() {

@@ -35,12 +35,12 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(BatchProcessingPanel.class);
 
-	protected BatchListModel jobListModel;
+	protected ExtendedListModel jobListModel;
 
 	/** Creates new form BatchProcessingPanel */
 	public BatchProcessingPanel() {
-		jobListModel = new BatchListModel();
-
+		jobListModel = new ExtendedListModel();
+		
 		initComponents();
 	}
 
@@ -49,27 +49,16 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 		if (pJob != null) {
 			
 			final JobListElement jobListElement = new JobListElement(pJob);
-			
 			jobListModel.add(jobListModel.getSize(), jobListElement);
-
-			jobListElement.addPropertyChangeListener("state", new PropertyChangeListener() {
+			
+			jobListElement.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent pEvt) {
-					int index = jobListModel.indexOf(jobListElement);
+					int index = jobListModel.indexOf(pEvt.getSource());
 					if(index > -1) {
 						jobListModel.fireContentsChanged(index, index);
 					}
 				}
 			});
-			
-		}
-
-	}
-
-	public static class BatchListModel extends ExtendedListModel {
-		
-		private static final long serialVersionUID = 2321310044625450683L;
-
-		public BatchListModel() {
 		}
 	}
 	
@@ -97,6 +86,13 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 		public SerializableJobPackage getJobList() {
 			return mJobList;
+		}
+		
+		public void setJobList(SerializableJobPackage pJobList) {
+			SerializableJobPackage oldList = mJobList;
+			mJobList = pJobList;
+			
+			mChangeSupport.firePropertyChange("jobList", oldList, mJobList);
 		}
 
 		public State getState() {
@@ -505,10 +501,7 @@ public class BatchProcessingPanel extends javax.swing.JPanel implements
 
 			helper.editDownload(new AddDownloadJobCapable() {
 				public void addDownload(SerializableJobPackage pJob) {
-					element.mJobList = pJob;
-
-					int index = jobListModel.indexOf(element);
-					jobListModel.fireContentsChanged(index, index);
+					element.setJobList(pJob);
 				}
 			}, element.mJobList);
 		}
