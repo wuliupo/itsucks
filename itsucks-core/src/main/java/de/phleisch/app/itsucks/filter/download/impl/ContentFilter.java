@@ -118,7 +118,7 @@ public class ContentFilter extends AbstractJobFilter implements Serializable {
 
 	public Job filter(Job pJob) throws Exception {
 		
-		pJob.addParameter(new JobParameter(CONTENT_FILTER_CONFIG_LIST_PARAMETER, mConfigList));
+		pJob.setParameter(new JobParameter(CONTENT_FILTER_CONFIG_LIST_PARAMETER, mConfigList));
 		
 		return pJob;
 	}

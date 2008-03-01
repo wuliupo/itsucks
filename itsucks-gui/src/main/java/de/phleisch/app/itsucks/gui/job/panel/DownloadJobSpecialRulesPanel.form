@@ -276,9 +276,9 @@
           </Events>
         </Component>
         <Component class="de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel" name="httpStatusCodeBehaviourEditListPanel">
-          <Properties>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="httpStatusCodeBehaviourEditListPanel.setEnabled(false);"/>
+          </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="httpStatusCodeBehaviourSubPanel">
           <Properties>
@@ -311,7 +311,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="httpStatusCodeBehaviourActionComboBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="371" max="32767" attributes="1"/>
+                              <EmptySpace pref="397" max="32767" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" max="-2" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -410,6 +410,9 @@
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="httpStatusCodeBehaviourStatusCodeFromTextFieldFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="httpStatusCodeBehaviourStatusCodeToPanel">
               <Properties>
@@ -441,12 +444,8 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="Retry"/>
-                    <StringItem index="1" value="Ok "/>
-                    <StringItem index="2" value="Error"/>
-                  </StringArray>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new DefaultComboBoxModel(HttpResponseCodeFilterActions.toArray())" type="code"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>

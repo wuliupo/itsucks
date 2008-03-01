@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.filter.JobFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
@@ -24,8 +26,11 @@ import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel.HttpStatusCodeBehaviourListElement;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
@@ -64,6 +69,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
 		RegExpJobFilter regExpJobFilter = null;
 		FileSizeFilter fileSizeFilter = null;
+		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = null;
 		TimeLimitFilter timeLimitFilter = null;
 		ContentFilter contentFilter = null;
 
@@ -84,6 +90,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 				fileSizeFilter = (FileSizeFilter) jobFilter;
 				continue;
 			}
+			if (jobFilter instanceof ChangeHttpResponseCodeBehaviourFilter) {
+				httpResponseCodeFilter = (ChangeHttpResponseCodeBehaviourFilter) jobFilter;
+				continue;
+			}			
 			if (jobFilter instanceof TimeLimitFilter) {
 				timeLimitFilter = (TimeLimitFilter) jobFilter;
 				continue;
@@ -231,6 +241,36 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 			this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
 					.setSelectedIndex(fileSizeFilter.isAcceptWhenLengthNotSet() ? 0
 							: 1);
+		}
+		
+		if(httpResponseCodeFilter != null) {
+			
+			ExtendedListModel model = 
+				this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourEditListPanel.getListModel();
+			
+			for (HttpResponseCodeBehaviourHostConfig hostConfig : 
+				httpResponseCodeFilter.getConfigList()) {
+				
+				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = 
+					hostConfig.getResponseCodeBehaviour();
+				
+				for (ResponseCodeRange responseCodeRange : 
+					responseCodeBehaviour.getConfigurationList()) {
+					
+					HttpStatusCodeBehaviourListElement element = 
+						this.downloadJobSpecialRulesPanel.new HttpStatusCodeBehaviourListElement();
+					
+					element.setHostnameRegexp(hostConfig.getHostnameRegexp());
+					element.setResponseCodeFrom(Integer.toString(responseCodeRange.getResponseCodeFrom()));
+					element.setResponseCodeTo(Integer.toString(responseCodeRange.getResponseCodeTo()));
+					element.setAction(
+							this.downloadJobSpecialRulesPanel.findIndexForHttpRetrieverResponseCodeBehaviour(
+									responseCodeRange.getAction()));
+					element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
+
+					model.addElement(element);
+				}
+			}
 		}
 
 		//load advanced rules
@@ -431,6 +471,50 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 							.getSelectedIndex() > 0 ? false : true);
 
 			jobFilterList.add(fileSizeFilter);
+		}
+		
+		//http status code filter
+		if (this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourCheckBox
+				.isSelected()) {
+			
+			ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = 
+				new ChangeHttpResponseCodeBehaviourFilter();
+			
+			ExtendedListModel listModel = 
+				this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourEditListPanel.getListModel();
+			
+			Object[] elements = listModel.toArray();
+			for (int i = 0; i < elements.length; i++) {
+				HttpStatusCodeBehaviourListElement element = 
+					(HttpStatusCodeBehaviourListElement) elements[i];
+				
+				HttpRetrieverResponseCodeBehaviour.Action action = 
+					this.downloadJobSpecialRulesPanel.HttpResponseCodeFilterActions.get(element.getAction()).getValue();
+				
+				ResponseCodeRange responseCodeRange = 
+					new ResponseCodeRange(
+							Integer.parseInt(element.getResponseCodeFrom()),
+							Integer.parseInt(element.getResponseCodeTo()),
+							action
+					);
+				
+				if(action.equals(HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE)) {
+					responseCodeRange.setTimeToWaitBetweenRetry(
+							Long.parseLong(element.getTimeToWaitBetweenRetry()));
+				}
+				
+				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour =
+					new HttpRetrieverResponseCodeBehaviour();
+				responseCodeBehaviour.add(responseCodeRange);
+				
+				HttpResponseCodeBehaviourHostConfig hostConfig = 
+					new HttpResponseCodeBehaviourHostConfig(element.getHostnameRegexp(), 
+							responseCodeBehaviour);
+				
+				httpResponseCodeFilter.addConfig(hostConfig);
+			}
+			
+			jobFilterList.add(httpResponseCodeFilter);
 		}
 		
 		//advanced rules

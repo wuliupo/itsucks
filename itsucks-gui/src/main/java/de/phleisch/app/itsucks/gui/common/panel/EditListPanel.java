@@ -9,6 +9,13 @@ package de.phleisch.app.itsucks.gui.common.panel;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
@@ -37,6 +44,24 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 			}
 		}
 		
+	};
+	
+	protected ItemListener mItemListener = new ItemListener() {
+
+		public void itemStateChanged(ItemEvent pE) {
+			if(mElementInEditMode != null) {
+				updateListElement(mElementInEditMode);
+			}
+		}
+	};
+	
+	protected ChangeListener mChangeListener = new ChangeListener() {
+
+		public void stateChanged(ChangeEvent pE) {
+			if(mElementInEditMode != null) {
+				updateListElement(mElementInEditMode);
+			}
+		}
 	};
 
 	/** Creates new form EntryListPanel */
@@ -257,10 +282,24 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	}
 
 	public void registerDataField(Component pComponent) {
+		if(pComponent instanceof JComboBox) {
+			((JComboBox)pComponent).addItemListener(mItemListener);
+		}
+		if(pComponent instanceof JCheckBox) {
+			((JCheckBox)pComponent).addChangeListener(mChangeListener);
+		}
+		
 		pComponent.addFocusListener(mFocusListener);
 	}
 	
 	public void deregisterDataField(Component pComponent) {
+		if(pComponent instanceof JComboBox) {
+			((JComboBox)pComponent).removeItemListener(mItemListener);
+		}
+		if(pComponent instanceof JCheckBox) {
+			((JCheckBox)pComponent).removeChangeListener(mChangeListener);
+		}
+		
 		pComponent.removeFocusListener(mFocusListener);
 	}
 	
@@ -278,6 +317,10 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	public void setEnabled(boolean pEnabled) {
 		super.setEnabled(pEnabled);
 		SwingUtils.setChildrenEnabled(this, pEnabled);
+		
+		if(!pEnabled) {
+			editList.clearSelection();
+		}
 	}
 
 	//GEN-BEGIN:variables

@@ -215,10 +215,10 @@ public interface Job {
 	public abstract void setName(String pName);
 
 	/**
-	 * Add a parameter to the job
+	 * Set a parameter to the job
 	 * @param pParameter
 	 */
-	public abstract void addParameter(JobParameter pParameter);
+	public abstract void setParameter(JobParameter pParameter);
 	
 	/**
 	 * Returns the parameter under the given key or null.

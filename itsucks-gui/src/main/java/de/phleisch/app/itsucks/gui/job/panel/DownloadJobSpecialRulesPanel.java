@@ -9,14 +9,20 @@ package de.phleisch.app.itsucks.gui.job.panel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
 
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
+import de.phleisch.app.itsucks.gui.util.ListItem;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
 
 /**
  *
@@ -26,26 +32,37 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = -2550810599331718712L;
 
+	public List<ListItem<Action>> HttpResponseCodeFilterActions = createFilterActions();
+
+	protected List<ListItem<Action>> createFilterActions() {
+
+		List<ListItem<Action>> list = new ArrayList<ListItem<Action>>();
+		list.add(new ListItem<Action>("Retry", Action.FAILED_BUT_RETRYABLE));
+		list.add(new ListItem<Action>("Ok", Action.OK));
+		list.add(new ListItem<Action>("Error", Action.FAILED));
+
+		return list;
+	}
+
 	/** Creates new form DownloadJobSpecialRulesPanel */
 	public DownloadJobSpecialRulesPanel() {
 		initComponents();
 		this.httpStatusCodeBehaviourEditListPanel
 				.setLogic(new EditListCallback());
-		
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourHostnameTextField);
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourStatusCodeFromTextField);
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourStatusCodeToTextField);
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourActionComboBox);
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourWaitTextField);
-		this.httpStatusCodeBehaviourEditListPanel.registerDataField(
-				httpStatusCodeBehaviourQueueBehaviourComboBox);
-		
-		
+
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourHostnameTextField);
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourStatusCodeFromTextField);
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourStatusCodeToTextField);
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourActionComboBox);
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourWaitTextField);
+		this.httpStatusCodeBehaviourEditListPanel
+				.registerDataField(httpStatusCodeBehaviourQueueBehaviourComboBox);
+
 	}
 
 	public List<String> validateFields() {
@@ -65,87 +82,150 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 					"Enter a valid value for the maximum file size.");
 		}
 
+		if (httpStatusCodeBehaviourCheckBox.isSelected()) {
+
+			ExtendedListModel listModel = httpStatusCodeBehaviourEditListPanel
+					.getListModel();
+
+			Object[] elements = listModel.toArray();
+			for (int i = 0; i < elements.length; i++) {
+				HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) elements[i];
+
+				validator.assertValidRegExp(element.getHostnameRegexp(),
+						"Enter a valid regular expression for the hostname in HTTP Status Filter "
+								+ (i + 1));
+
+				validator.assertInteger(element.getResponseCodeFrom(),
+						"Enter a valid value for the 'from' status code in HTTP Status Filter "
+								+ (i + 1));
+				validator.assertInteger(element.getResponseCodeTo(),
+						"Enter a valid value for the 'to' status code in HTTP Status Filter "
+								+ (i + 1));
+
+				if (element.getAction() == findIndexForHttpRetrieverResponseCodeBehaviour(Action.FAILED_BUT_RETRYABLE)) {
+
+					validator.assertInteger(
+							element.getTimeToWaitBetweenRetry(),
+							"Enter a valid value for 'wait between retry' in HTTP Status Filter "
+									+ (i + 1));
+
+				}
+			}
+		}
+
 		return validator.getErrors();
 	}
 
-	protected class HttpStatusCodeBehaviourListElement implements
+	public class HttpStatusCodeBehaviourListElement implements
 			EditListPanel.ListElement {
 
-		private PropertyChangeSupport mChangeSupport = new PropertyChangeSupport(this);
-		
+		private PropertyChangeSupport mChangeSupport = new PropertyChangeSupport(
+				this);
+
 		private String mHostnameRegexp = "";
 		private String mResponseCodeFrom = "";
 		private String mResponseCodeTo = "";
 		private int mAction;
 		private String mTimeToWaitBetweenRetry = "";
 		private int mQueueBehaviour;
-		
+
 		public String getHostnameRegexp() {
 			return mHostnameRegexp;
 		}
+
 		public void setHostnameRegexp(String pHostnameRegexp) {
 			String oldValue = mHostnameRegexp;
 			mHostnameRegexp = pHostnameRegexp;
-			
-			mChangeSupport.firePropertyChange("hostnameRegexp", oldValue, pHostnameRegexp);
+
+			mChangeSupport.firePropertyChange("hostnameRegexp", oldValue,
+					pHostnameRegexp);
 		}
+
 		public String getResponseCodeFrom() {
 			return mResponseCodeFrom;
 		}
+
 		public void setResponseCodeFrom(String pResponseCodeFrom) {
 			String oldValue = mResponseCodeFrom;
 			mResponseCodeFrom = pResponseCodeFrom;
-			
-			mChangeSupport.firePropertyChange("responseCodeFrom", oldValue, pResponseCodeFrom);
+
+			mChangeSupport.firePropertyChange("responseCodeFrom", oldValue,
+					pResponseCodeFrom);
 		}
+
 		public String getResponseCodeTo() {
 			return mResponseCodeTo;
 		}
+
 		public void setResponseCodeTo(String pResponseCodeTo) {
 			String oldValue = mResponseCodeTo;
 			mResponseCodeTo = pResponseCodeTo;
-			
-			mChangeSupport.firePropertyChange("responseCodeTo", oldValue, pResponseCodeTo);
+
+			mChangeSupport.firePropertyChange("responseCodeTo", oldValue,
+					pResponseCodeTo);
 		}
+
 		public int getAction() {
 			return mAction;
 		}
+
 		public void setAction(int pAction) {
 			int oldValue = mAction;
 			mAction = pAction;
-			
+
 			mChangeSupport.firePropertyChange("action", oldValue, pAction);
 		}
+
 		public String getTimeToWaitBetweenRetry() {
 			return mTimeToWaitBetweenRetry;
 		}
+
 		public void setTimeToWaitBetweenRetry(String pTimeToWaitBetweenRetry) {
 			String oldValue = mTimeToWaitBetweenRetry;
 			mTimeToWaitBetweenRetry = pTimeToWaitBetweenRetry;
-			
-			mChangeSupport.firePropertyChange("timeToWaitBetweenRetry", oldValue, pTimeToWaitBetweenRetry);
+
+			mChangeSupport.firePropertyChange("timeToWaitBetweenRetry",
+					oldValue, pTimeToWaitBetweenRetry);
 		}
+
 		public int getQueueBehaviour() {
 			return mQueueBehaviour;
 		}
+
 		public void setQueueBehaviour(int pQueueBehaviour) {
 			int oldValue = mQueueBehaviour;
 			mQueueBehaviour = pQueueBehaviour;
-			
-			mChangeSupport.firePropertyChange("queueBehaviour", oldValue, pQueueBehaviour);
-		}		
-		
+
+			mChangeSupport.firePropertyChange("queueBehaviour", oldValue,
+					pQueueBehaviour);
+		}
+
 		@Override
 		public String toString() {
-			return 
-				"<html>Hostname RegExp: '" + getHostnameRegexp() + "' / Status Code: "
-				+ this.getResponseCodeFrom() + " - " + this.getResponseCodeTo() + "<br>"
-				+ "Action: " + this.getAction() + "<br>"
-				+ "Waiting time: " + this.getTimeToWaitBetweenRetry() + "ms / " 
-				+ "Queue Behaviour: " + this.getQueueBehaviour()
-				+ "</html>";
+			String result = "<html>Hostname RegExp: '"
+					+ getHostnameRegexp()
+					+ "' / Status Code: "
+					+ this.getResponseCodeFrom()
+					+ " - "
+					+ this.getResponseCodeTo()
+					+ "<br>"
+					+ "Action: "
+					+ httpStatusCodeBehaviourActionComboBox.getModel()
+							.getElementAt(this.getAction());
+			if (this.getAction() == 0) {
+				result += "<br>"
+						+ "Waiting time: "
+						+ this.getTimeToWaitBetweenRetry()
+						+ "ms / "
+						+ "Queue Behaviour: "
+						+ httpStatusCodeBehaviourQueueBehaviourComboBox
+								.getModel().getElementAt(
+										this.getQueueBehaviour()) + "</html>";
+			}
+
+			return result;
 		}
-		
+
 		public void addPropertyChangeListener(PropertyChangeListener pListener) {
 			mChangeSupport.addPropertyChangeListener(pListener);
 		}
@@ -165,28 +245,27 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 			mChangeSupport.removePropertyChangeListener(pPropertyName,
 					pListener);
 		}
-		
+
 	}
 
 	protected class EditListCallback implements
 			EditListCallbackPanel.EditListCallbackInterface {
 
 		public ListElement createNewElement() {
-			HttpStatusCodeBehaviourListElement element =
-				new HttpStatusCodeBehaviourListElement();
-			
+			HttpStatusCodeBehaviourListElement element = new HttpStatusCodeBehaviourListElement();
+
 			element.addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent pEvt) {
-					ExtendedListModel listModel = 
-						httpStatusCodeBehaviourEditListPanel.getListModel();
-					
+					ExtendedListModel listModel = httpStatusCodeBehaviourEditListPanel
+							.getListModel();
+
 					int index = listModel.indexOf(pEvt.getSource());
-					if(index > -1) {
+					if (index > -1) {
 						listModel.fireContentsChanged(index, index);
 					}
 				}
 			});
-			
+
 			return element;
 		}
 
@@ -201,31 +280,56 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 		public void loadEditArea(ListElement pElement) {
 
-			HttpStatusCodeBehaviourListElement element = 
-				(HttpStatusCodeBehaviourListElement) pElement;
-			
-			httpStatusCodeBehaviourHostnameTextField.setText(element.getHostnameRegexp());
-			httpStatusCodeBehaviourStatusCodeFromTextField.setText(element.getResponseCodeFrom());
-			httpStatusCodeBehaviourStatusCodeToTextField.setText(element.getResponseCodeTo());
-			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(element.getAction());
-			httpStatusCodeBehaviourWaitTextField.setText(element.getTimeToWaitBetweenRetry());
-			httpStatusCodeBehaviourQueueBehaviourComboBox.setSelectedIndex(element.getQueueBehaviour());
+			HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) pElement;
+
+			httpStatusCodeBehaviourHostnameTextField.setText(element
+					.getHostnameRegexp());
+			httpStatusCodeBehaviourStatusCodeFromTextField.setText(element
+					.getResponseCodeFrom());
+			httpStatusCodeBehaviourStatusCodeToTextField.setText(element
+					.getResponseCodeTo());
+			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(element
+					.getAction());
+			httpStatusCodeBehaviourWaitTextField.setText(element
+					.getTimeToWaitBetweenRetry());
+			httpStatusCodeBehaviourQueueBehaviourComboBox
+					.setSelectedIndex(element.getQueueBehaviour());
 
 		}
 
 		public void updateListElement(ListElement pElement) {
-			
-			HttpStatusCodeBehaviourListElement element = 
-				(HttpStatusCodeBehaviourListElement) pElement;
-			
-			element.setHostnameRegexp(httpStatusCodeBehaviourHostnameTextField.getText());
-			element.setResponseCodeFrom(httpStatusCodeBehaviourStatusCodeFromTextField.getText());
-			element.setResponseCodeTo(httpStatusCodeBehaviourStatusCodeToTextField.getText());
-			element.setAction(httpStatusCodeBehaviourActionComboBox.getSelectedIndex());
-			element.setTimeToWaitBetweenRetry(httpStatusCodeBehaviourWaitTextField.getText());
-			element.setQueueBehaviour(httpStatusCodeBehaviourQueueBehaviourComboBox.getSelectedIndex());
-			
+
+			HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) pElement;
+
+			element.setHostnameRegexp(httpStatusCodeBehaviourHostnameTextField
+					.getText());
+			element
+					.setResponseCodeFrom(httpStatusCodeBehaviourStatusCodeFromTextField
+							.getText());
+			element
+					.setResponseCodeTo(httpStatusCodeBehaviourStatusCodeToTextField
+							.getText());
+			element.setAction(httpStatusCodeBehaviourActionComboBox
+					.getSelectedIndex());
+			element
+					.setTimeToWaitBetweenRetry(httpStatusCodeBehaviourWaitTextField
+							.getText());
+			element
+					.setQueueBehaviour(httpStatusCodeBehaviourQueueBehaviourComboBox
+							.getSelectedIndex());
+
 		}
+	}
+
+	public int findIndexForHttpRetrieverResponseCodeBehaviour(
+			HttpRetrieverResponseCodeBehaviour.Action pAction) {
+		for (ListItem<Action> item : HttpResponseCodeFilterActions) {
+			if (item.getValue().equals(pAction)) {
+				return HttpResponseCodeFilterActions.indexOf(item);
+			}
+		}
+
+		return -1;
 	}
 
 	//GEN-BEGIN:initComponents
@@ -518,6 +622,12 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourStatusCodeFromTextField
 				.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		httpStatusCodeBehaviourStatusCodeFromTextField.setEnabled(false);
+		httpStatusCodeBehaviourStatusCodeFromTextField
+				.addFocusListener(new java.awt.event.FocusAdapter() {
+					public void focusLost(java.awt.event.FocusEvent evt) {
+						httpStatusCodeBehaviourStatusCodeFromTextFieldFocusLost(evt);
+					}
+				});
 
 		httpStatusCodeBehaviourStatusCodeToPanel.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
@@ -538,8 +648,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 		httpStatusCodeBehaviourActionComboBox.setFont(new java.awt.Font(
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourActionComboBox
-				.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-						"Retry", "Ok ", "Error" }));
+				.setModel(new DefaultComboBoxModel(
+						HttpResponseCodeFilterActions.toArray()));
 		httpStatusCodeBehaviourActionComboBox.setEnabled(false);
 		httpStatusCodeBehaviourActionComboBox
 				.addItemListener(new java.awt.event.ItemListener() {
@@ -659,7 +769,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
 																		.addPreferredGap(
 																				org.jdesktop.layout.LayoutStyle.RELATED,
-																				371,
+																				397,
 																				Short.MAX_VALUE))
 														.add(
 																httpStatusCodeBehaviourSubPanelLayout
@@ -892,11 +1002,24 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void httpStatusCodeBehaviourStatusCodeFromTextFieldFocusLost(
+			java.awt.event.FocusEvent evt) {
+
+		//copy the 'from' value into the 'to' field when to is empty 
+		String from = httpStatusCodeBehaviourStatusCodeFromTextField.getText();
+		String to = httpStatusCodeBehaviourStatusCodeToTextField.getText();
+		if (from.trim().length() > 0 && to.trim().length() == 0) {
+			httpStatusCodeBehaviourStatusCodeToTextField.setText(from);
+		}
+
+	}
+
 	private void httpStatusCodeBehaviourActionComboBoxItemStateChanged(
 			java.awt.event.ItemEvent evt) {
 
 		boolean enabled = false;
 
+		//if action is retry (0) and http status filter is active
 		if (this.httpStatusCodeBehaviourActionComboBox.getSelectedIndex() == 0
 				&& this.httpStatusCodeBehaviourActionComboBox.isEnabled()) {
 

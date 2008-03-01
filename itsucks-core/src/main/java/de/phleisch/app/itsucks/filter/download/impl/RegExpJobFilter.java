@@ -95,7 +95,7 @@ public class RegExpJobFilter
 	        	if(action.hasJobParameter()) {
 	        		List<JobParameter> jobParameterList = action.getJobParameterList();
 	        		for (JobParameter parameter : jobParameterList) {
-						pJob.addParameter(parameter);
+						pJob.setParameter(parameter);
 					}
 	        	}
 	        	

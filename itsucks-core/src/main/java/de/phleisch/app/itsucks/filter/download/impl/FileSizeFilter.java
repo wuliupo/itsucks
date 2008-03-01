@@ -72,7 +72,7 @@ public class FileSizeFilter
 	 */
 	public Job filter(Job pJob) throws Exception {
 		
-		pJob.addParameter(new JobParameter(FILE_SIZE_CONFIG_PARAMETER, mConfig));
+		pJob.setParameter(new JobParameter(FILE_SIZE_CONFIG_PARAMETER, mConfig));
 		
 		return pJob;
 	}

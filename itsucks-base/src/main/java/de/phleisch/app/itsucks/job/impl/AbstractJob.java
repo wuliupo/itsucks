@@ -202,9 +202,9 @@ public abstract class AbstractJob implements Serializable, Job {
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.Job#addParameter(de.phleisch.app.itsucks.JobParameter)
+	 * @see de.phleisch.app.itsucks.Job#setParameter(de.phleisch.app.itsucks.JobParameter)
 	 */
-	public void addParameter(JobParameter pParameter) {
+	public void setParameter(JobParameter pParameter) {
 		if(pParameter != null) { 
 			mParameter.put(pParameter.getKey(), pParameter);
 		}

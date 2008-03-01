@@ -8,6 +8,8 @@
 
 package de.phleisch.app.itsucks.io.http.impl;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -160,6 +162,10 @@ public class HttpRetrieverResponseCodeBehaviour {
 		return result;
 	}
 	
+	public Set<ResponseCodeRange> getConfigurationList() {
+		return Collections.unmodifiableSet(mResponseCodeAction);
+	}
+	
 	public Action findActionForResponseCode(int pResponseCode) {
 		Action action = null;
 		
@@ -169,6 +175,10 @@ public class HttpRetrieverResponseCodeBehaviour {
 		}
 		
 		return action;
-	}	
+	}
+
+	public int size() {
+		return mResponseCodeAction.size();
+	}
 
 }

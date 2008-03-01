@@ -89,7 +89,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		job.setUrl(new URL(pJob.getUrl()));
 		
 		for (SerializedJobParameter serializedJobParameter : pJob.getParameter()) {
-			job.addParameter(convertSerializedJobParameterToClass(serializedJobParameter));
+			job.setParameter(convertSerializedJobParameterToClass(serializedJobParameter));
 		}
 		
 		return job;

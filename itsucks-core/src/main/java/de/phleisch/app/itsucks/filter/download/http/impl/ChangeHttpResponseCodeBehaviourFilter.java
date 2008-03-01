@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.filter.download.http.impl;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,16 +52,9 @@ public class ChangeHttpResponseCodeBehaviourFilter
 		public String getHostnameRegexp() {
 			return mHostnameRegexp;
 		}
-//		public void setHostnameRegexp(String pHostnameRegexp) {
-//			mHostnameRegexp = pHostnameRegexp;
-//		}
 		public HttpRetrieverResponseCodeBehaviour getResponseCodeBehaviour() {
 			return mResponseCodeBehaviour;
 		}
-//		public void setResponseCodeBehaviour(
-//				HttpRetrieverResponseCodeBehaviour pResponseCodeBehaviour) {
-//			mResponseCodeBehaviour = pResponseCodeBehaviour;
-//		}
 		
 	}
 	
@@ -74,17 +68,24 @@ public class ChangeHttpResponseCodeBehaviourFilter
 		
 		UrlDownloadJob job = (UrlDownloadJob) pJob;
 		
+		HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = 
+			new HttpRetrieverResponseCodeBehaviour();
+		
 		for (HttpResponseCodeBehaviourHostConfig config : mConfigList) {
 			
 			Pattern pattern = compilePattern(config.getHostnameRegexp());
 			Matcher matcher = pattern.matcher(job.getUrl().getHost());
 			
 			if(matcher.matches()) {
-				pJob.addParameter(
-						new JobParameter(HttpRetrieverFactory.HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
-								config.getResponseCodeBehaviour()));
+				responseCodeBehaviour.add(config.getResponseCodeBehaviour());
 			}
 			
+		}
+		
+		if(responseCodeBehaviour.size() > 0) {
+			pJob.setParameter(
+					new JobParameter(HttpRetrieverFactory.HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
+							responseCodeBehaviour));
 		}
 		
 		return pJob;
@@ -113,6 +114,10 @@ public class ChangeHttpResponseCodeBehaviourFilter
 	
 	public boolean addConfig(HttpResponseCodeBehaviourHostConfig pConfig) {
 		return mConfigList.add(pConfig);
+	}
+	
+	public List<HttpResponseCodeBehaviourHostConfig> getConfigList() {
+		return Collections.unmodifiableList(mConfigList);
 	}
 	
 	private static Pattern compilePattern(final String pPattern) {
