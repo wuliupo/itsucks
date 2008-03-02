@@ -41,6 +41,7 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 		public void focusLost(FocusEvent pE) {
 			if(mElementInEditMode != null) {
 				updateListElement(mElementInEditMode);
+				fireListElementChanged(mElementInEditMode);
 			}
 		}
 		
@@ -51,6 +52,7 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 		public void itemStateChanged(ItemEvent pE) {
 			if(mElementInEditMode != null) {
 				updateListElement(mElementInEditMode);
+				fireListElementChanged(mElementInEditMode);
 			}
 		}
 	};
@@ -60,6 +62,7 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 		public void stateChanged(ChangeEvent pE) {
 			if(mElementInEditMode != null) {
 				updateListElement(mElementInEditMode);
+				fireListElementChanged(mElementInEditMode);
 			}
 		}
 	};
@@ -312,6 +315,14 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	protected abstract void enableEditArea(boolean pEnable);
 	
 	protected abstract void updateListElement(ListElement pElement);
+	
+	protected void fireListElementChanged(ListElement pElement) {
+		
+		int index = mListModel.indexOf(pElement);
+		if (index > -1) {
+			mListModel.fireContentsChanged(index, index);
+		}
+	}
 	
 	@Override
 	public void setEnabled(boolean pEnabled) {

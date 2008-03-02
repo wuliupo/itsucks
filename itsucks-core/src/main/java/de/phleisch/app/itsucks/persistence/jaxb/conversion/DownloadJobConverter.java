@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
@@ -24,16 +26,21 @@ import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilterConfig;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedFileSizeFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpResponseCodeBehaviourHostConfig;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobParameter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedMaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedRegExpJobFilter;
@@ -60,6 +67,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedRegExpJobFilterToClass((SerializedRegExpJobFilter) pBean);
 		} if(pBean instanceof SerializedFileSizeFilter) {
 			return convertSerializedFileSizeFilterToClass((SerializedFileSizeFilter) pBean);
+		} if(pBean instanceof SerializedChangeHttpResponseCodeBehaviourFilter) {
+			return convertSerializedChangeHttpResponseCodeBehaviourFilterToClass((SerializedChangeHttpResponseCodeBehaviourFilter) pBean);			
 		} if(pBean instanceof SerializedTimeLimitFilter) {
 			return convertSerializedTimeLimitFilterToClass((SerializedTimeLimitFilter) pBean);
 		} if(pBean instanceof SerializedContentFilter) {
@@ -69,6 +78,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
 	}
+
 
 	private DownloadJob convertSerializedDownloadJobToClass(SerializedDownloadJob pJob) 
 			throws Exception {
@@ -188,6 +198,48 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		return fileSizeFilter;
 	}
+	
+	private Object convertSerializedChangeHttpResponseCodeBehaviourFilterToClass(
+			SerializedChangeHttpResponseCodeBehaviourFilter pBean) {
+		
+		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter =
+			new ChangeHttpResponseCodeBehaviourFilter();
+		
+		List<SerializedHttpResponseCodeBehaviourHostConfig> serializedHostConfigList = 
+			pBean.getSerializedHttpResponseCodeBehaviourHostConfig();
+		
+		for (SerializedHttpResponseCodeBehaviourHostConfig serializedHostConfig : 
+				serializedHostConfigList) {
+			
+			HttpRetrieverResponseCodeBehaviour responseCodeBehaviour =
+				new HttpRetrieverResponseCodeBehaviour();
+			
+			for (SerializedHttpRetrieverResponseCodeBehaviour 
+					serializedHttpRetrieverResponseCodeBehaviour : 
+						serializedHostConfig.getSerializedHttpRetrieverResponseCodeBehaviour()) {
+				
+				ResponseCodeRange responseCodeRange = responseCodeBehaviour.add(
+						serializedHttpRetrieverResponseCodeBehaviour.getResponseCodeFrom(), 
+						serializedHttpRetrieverResponseCodeBehaviour.getResponseCodeTo(), 
+						HttpRetrieverResponseCodeBehaviour.Action.valueOf(
+								serializedHttpRetrieverResponseCodeBehaviour.getAction()),
+						serializedHttpRetrieverResponseCodeBehaviour.getPriority());
+				
+				responseCodeRange.setTimeToWaitBetweenRetry(
+						serializedHttpRetrieverResponseCodeBehaviour.getTimeToWaitBetweenRetry());
+				
+			}
+			
+			HttpResponseCodeBehaviourHostConfig hostConfig = 
+				new HttpResponseCodeBehaviourHostConfig(
+						serializedHostConfig.getHostname(),
+						responseCodeBehaviour);
+			
+			httpResponseCodeFilter.addConfig(hostConfig);
+		}
+		
+		return httpResponseCodeFilter;
+	}	
 
 	private Object convertSerializedTimeLimitFilterToClass(
 			SerializedTimeLimitFilter pBean) {
@@ -232,6 +284,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertRegExpJobFilterToBean((RegExpJobFilter) pObject);
 		} if(pObject instanceof FileSizeFilter) {
 			return convertFileSizeFilterToBean((FileSizeFilter) pObject);
+		} if(pObject instanceof ChangeHttpResponseCodeBehaviourFilter) {
+			return convertChangeHttpResponseCodeBehaviourFilterToBean((ChangeHttpResponseCodeBehaviourFilter) pObject);
 		} if(pObject instanceof TimeLimitFilter) {
 			return convertTimeLimitFilterToBean((TimeLimitFilter) pObject);
 		} if(pObject instanceof ContentFilter) {
@@ -373,6 +427,47 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		
 		return serializedFileSizeFilter;
 	}
+	
+	private Object convertChangeHttpResponseCodeBehaviourFilterToBean(
+			ChangeHttpResponseCodeBehaviourFilter pChangeHttpResponseCodeBehaviourFilter) {
+		
+		SerializedChangeHttpResponseCodeBehaviourFilter serializedChangeHttpResponseCodeBehaviourFilter = 
+			mBeanFactory.createSerializedChangeHttpResponseCodeBehaviourFilter();
+
+		List<SerializedHttpResponseCodeBehaviourHostConfig> serializedHostConfigList = 
+			serializedChangeHttpResponseCodeBehaviourFilter.getSerializedHttpResponseCodeBehaviourHostConfig();
+		
+		for (HttpResponseCodeBehaviourHostConfig hostConfig : pChangeHttpResponseCodeBehaviourFilter.getConfigList()) {
+
+			SerializedHttpResponseCodeBehaviourHostConfig serializedHostConfig = 
+				mBeanFactory.createSerializedHttpResponseCodeBehaviourHostConfig();
+
+			serializedHostConfig.setHostname(hostConfig.getHostnameRegexp());
+//			serializedHostConfig.setQueueBehaviour(hostConfig.getQueueBehaviour().name());
+			
+			List<SerializedHttpRetrieverResponseCodeBehaviour> serializedResponseCodeBehaviourList = 
+				serializedHostConfig.getSerializedHttpRetrieverResponseCodeBehaviour();
+			
+			HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = hostConfig.getResponseCodeBehaviour();
+			for (ResponseCodeRange responseCodeRange : responseCodeBehaviour.getConfigurationList()) {
+				
+				SerializedHttpRetrieverResponseCodeBehaviour serializedResponseCodeBehaviour = 
+					mBeanFactory.createSerializedHttpRetrieverResponseCodeBehaviour();
+				
+				serializedResponseCodeBehaviour.setResponseCodeFrom(responseCodeRange.getResponseCodeFrom());
+				serializedResponseCodeBehaviour.setResponseCodeTo(responseCodeRange.getResponseCodeTo());
+				serializedResponseCodeBehaviour.setAction(responseCodeRange.getAction().name());
+				serializedResponseCodeBehaviour.setPriority(responseCodeRange.getPriority());
+				serializedResponseCodeBehaviour.setTimeToWaitBetweenRetry(responseCodeRange.getTimeToWaitBetweenRetry());
+
+				serializedResponseCodeBehaviourList.add(serializedResponseCodeBehaviour);
+			}
+			
+			serializedHostConfigList.add(serializedHostConfig);
+		}
+		
+		return serializedChangeHttpResponseCodeBehaviourFilter;
+	}
 
 	private Object convertTimeLimitFilterToBean(TimeLimitFilter pTimeLimitFilter) {
 		
@@ -422,6 +517,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedMaxLinksToFollowFilter.class,
 			SerializedRegExpJobFilter.class,
 			SerializedFileSizeFilter.class,
+			SerializedChangeHttpResponseCodeBehaviourFilter.class,
 			SerializedTimeLimitFilter.class,
 			SerializedContentFilter.class,
 		};
@@ -437,6 +533,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			MaxLinksToFollowFilter.class,
 			RegExpJobFilter.class,
 			FileSizeFilter.class,
+			ChangeHttpResponseCodeBehaviourFilter.class,
 			TimeLimitFilter.class,
 			ContentFilter.class,
 		};

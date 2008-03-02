@@ -245,6 +245,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		
 		if(httpResponseCodeFilter != null) {
 			
+			this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourCheckBox
+				.setSelected(true);
+			
 			ExtendedListModel model = 
 				this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourEditListPanel.getListModel();
 			
@@ -266,7 +269,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 					element.setAction(
 							this.downloadJobSpecialRulesPanel.findIndexForHttpRetrieverResponseCodeBehaviour(
 									responseCodeRange.getAction()));
-					element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
+					if(responseCodeRange.getTimeToWaitBetweenRetry() != null) {
+						element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
+					}
 
 					model.addElement(element);
 				}
