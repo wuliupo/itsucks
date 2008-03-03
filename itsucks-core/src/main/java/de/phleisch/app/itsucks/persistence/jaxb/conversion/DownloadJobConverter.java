@@ -443,7 +443,6 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 				mBeanFactory.createSerializedHttpResponseCodeBehaviourHostConfig();
 
 			serializedHostConfig.setHostname(hostConfig.getHostnameRegexp());
-//			serializedHostConfig.setQueueBehaviour(hostConfig.getQueueBehaviour().name());
 			
 			List<SerializedHttpRetrieverResponseCodeBehaviour> serializedResponseCodeBehaviourList = 
 				serializedHostConfig.getSerializedHttpRetrieverResponseCodeBehaviour();

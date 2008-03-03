@@ -37,7 +37,7 @@ public class FileResumeRetriever implements DataRetriever {
 	protected File mLocalFile;
 
 	protected long mResumeOffset;
-	protected long mOverlap = 128;
+	protected long mOverlap;
 
 	protected boolean mConnected;
 	protected boolean mResumePrepared;
@@ -47,22 +47,29 @@ public class FileResumeRetriever implements DataRetriever {
 
 	public FileResumeRetriever(DataRetriever pDataRetriever, File pFile) {
 
-		mFileRetriever = null;
 		mDataRetriever = pDataRetriever;
 		mLocalFile = pFile;
+
+		reset();
+	}
+
+	protected void reset() {
+		mFileRetriever = null;
 		mReadFromFile = true;
 		mResumePrepared = false;
 		mConnected = false;
 		mResumeOffset = 0;
+		mOverlap = 128;
+		mIn = null;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#abort()
 	 */
 	public void abort() {
-		if (mReadFromFile) {
+		if (mReadFromFile && mFileRetriever != null) {
 			mFileRetriever.abort();
 		}
 		mDataRetriever.abort();
@@ -193,11 +200,8 @@ public class FileResumeRetriever implements DataRetriever {
 				mFileRetriever.disconnect();
 			}
 			mDataRetriever.disconnect();
-
-			mConnected = false;
-			mResumePrepared = false;
-			mIn = null;
 			
+			reset();
 		}
 	}
 

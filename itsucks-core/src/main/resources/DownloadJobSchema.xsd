@@ -212,7 +212,6 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="hostname" type="xs:string"/>
-				<xs:element name="queueBehaviour" type="xs:string" nillable="true"/>
 				<xs:element ref="itsucks:serializedHttpRetrieverResponseCodeBehaviour" 
 					maxOccurs="unbounded"/>
 			</xs:sequence>

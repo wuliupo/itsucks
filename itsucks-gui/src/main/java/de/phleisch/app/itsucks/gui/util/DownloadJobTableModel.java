@@ -243,16 +243,20 @@ public class DownloadJobTableModel extends AbstractTableModel {
     	switch (pState) {
     	
     	case Job.STATE_OPEN:
+    	case Job.STATE_REOPEN:
     		result = "Open";
     		break;
     	
-    		
     	case Job.STATE_ASSIGNED:
     		result = "Assigned";
     		break;
     		
     	case Job.STATE_IN_PROGRESS:
     		result = "In progress";
+    		break;
+    		
+    	case Job.STATE_IN_PROGRESS_RETRY:
+    		result = "Retrying";
     		break;
     		
 

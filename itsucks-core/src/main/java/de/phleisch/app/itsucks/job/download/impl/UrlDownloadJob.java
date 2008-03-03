@@ -61,6 +61,12 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	
 	public static final String JOB_PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
 	
+	public static enum RetryBehaviour {
+		DIRECTLY_WAIT_FOR_RETRY_TIMEOUT,
+		MOVE_JOB_BACK_INTO_QUEUE
+	};
+	
+	
 	private static Log mLog = LogFactory.getLog(UrlDownloadJob.class);
 	
 	protected boolean mSaveToDisk = true;
@@ -83,7 +89,10 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	protected long mBytesDownloaded = -1;
 	protected transient Metadata mMetadata = null;
 
+	protected RetryBehaviour mRetryBehaviour = 
+		RetryBehaviour.DIRECTLY_WAIT_FOR_RETRY_TIMEOUT; // default
 	protected long mWaitUntil = 0;
+	@Deprecated
 	protected long mMinTimeBetweenRetry = 5000; //5 seconds 
 
 	public UrlDownloadJob() {
@@ -178,7 +187,16 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 		
 		if(!skip) {
-			executeDownload();
+
+			//retry connect until job is no longer in state retry
+			
+			while(true) {
+				executeDownload();
+				if(getState() != Job.STATE_IN_PROGRESS_RETRY) {
+					break;
+				}
+			}
+			
 		} else  {
 			setState(Job.STATE_IGNORED);
 		}
@@ -233,11 +251,20 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 		} else if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_FAILED_BUT_RETRYABLE) {
 			
+			//Retry is possible, check if max retry has been reached
 			if(getRetryCount() < mMaxRetryCount) {
 				
 				mWaitUntil = System.currentTimeMillis() + 
 					mDataRetriever.getSuggestedTimeToWaitForRetry();
-				setState(Job.STATE_REOPEN);
+				
+				if(mRetryBehaviour.equals(RetryBehaviour.DIRECTLY_WAIT_FOR_RETRY_TIMEOUT)) {
+					setState(Job.STATE_IN_PROGRESS_RETRY);
+				} else if(mRetryBehaviour.equals(RetryBehaviour.MOVE_JOB_BACK_INTO_QUEUE)) {
+					setState(Job.STATE_REOPEN);
+				} else {
+					throw new IllegalStateException("Unknwon retry behaviour: " + mRetryBehaviour);
+				}
+				
 			} else {
 				setState(Job.STATE_ERROR);
 			}
@@ -533,6 +560,14 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	public void setMinTimeBetweenRetry(long pMinTimeBetweenRetry) {
 		mMinTimeBetweenRetry = pMinTimeBetweenRetry;
+	}
+
+	public RetryBehaviour getRetryBehaviour() {
+		return mRetryBehaviour;
+	}
+
+	public void setRetryBehaviour(RetryBehaviour pRetryBehaviour) {
+		mRetryBehaviour = pRetryBehaviour;
 	}
 	
 	/* (non-Javadoc)

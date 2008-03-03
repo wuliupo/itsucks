@@ -36,6 +36,11 @@ public interface Job {
 	 * The job processing is in progress.
 	 */
 	public final static int STATE_IN_PROGRESS = 3;
+	
+	/**
+	 * The job processing is in retry progress.
+	 */
+	public final static int STATE_IN_PROGRESS_RETRY = 4;	
 
 	// every state over 50 is closed
 	/**

@@ -14,11 +14,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="httpStatusCodeBehaviourPanel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="fileSizePanel" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="fileSizePanel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="httpStatusCodeBehaviourPanel" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -220,13 +220,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="httpStatusCodeBehaviourSubPanel" alignment="0" max="32767" attributes="0"/>
                       <Component id="httpStatusCodeBehaviourLabel" alignment="0" pref="579" max="32767" attributes="0"/>
                       <Component id="httpStatusCodeBehaviourCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="httpStatusCodeBehaviourEditListPanel" alignment="0" pref="579" max="32767" attributes="0"/>
-                      <Component id="httpStatusCodeBehaviourSubPanel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -298,12 +298,10 @@
                           <Component id="httpStatusCodeBehaviourActionLabel" alignment="1" pref="116" max="32767" attributes="1"/>
                           <Component id="httpStatusCodeBehaviourStatusCodeLabel" alignment="1" pref="116" max="32767" attributes="1"/>
                           <Component id="httpStatusCodeBehaviourWaitLabel" alignment="1" min="-2" pref="116" max="-2" attributes="2"/>
-                          <Component id="httpStatusCodeBehaviourQueueBehaviourLabel" min="-2" pref="116" max="-2" attributes="0"/>
                           <Component id="httpStatusCodeBehaviourHostnameLabel" alignment="0" pref="116" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="httpStatusCodeBehaviourQueueBehaviourComboBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="httpStatusCodeBehaviourHostnameTextField" min="-2" pref="205" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -360,12 +358,7 @@
                           <Component id="httpStatusCodeBehaviourWaitTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="httpStatusCodeBehaviourWaitLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="httpStatusCodeBehaviourQueueBehaviourComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourQueueBehaviourLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -475,30 +468,6 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="ms"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="httpStatusCodeBehaviourQueueBehaviourLabel">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Queue behaviour:"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="httpStatusCodeBehaviourQueueBehaviourComboBox">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Directly wait for retry timeout"/>
-                    <StringItem index="1" value="Move Job back into queue"/>
-                  </StringArray>
-                </Property>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>

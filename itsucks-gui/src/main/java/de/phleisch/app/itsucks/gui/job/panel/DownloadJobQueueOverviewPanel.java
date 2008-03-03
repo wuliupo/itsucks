@@ -108,12 +108,13 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 		switch (pState) {
 
 		case Job.STATE_OPEN:
-		case Job.STATE_REOPEN:			
+		case Job.STATE_REOPEN:
 			panels.add(downloadJobStatusTableOpenPanel);
 			break;
 
 		case Job.STATE_ASSIGNED:
 		case Job.STATE_IN_PROGRESS:
+		case Job.STATE_IN_PROGRESS_RETRY:
 			panels.add(downloadJobStatusTableRunningPanel);
 			break;
 
