@@ -29,7 +29,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = -2550810599331718712L;
 
-	public List<ListItem<Action>> HttpResponseCodeFilterActions = createFilterActions();
+	public List<ListItem<Action>> mHttpResponseCodeFilterActions = createFilterActions();
 
 	protected List<ListItem<Action>> createFilterActions() {
 
@@ -249,9 +249,9 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	public int findIndexForHttpRetrieverResponseCodeBehaviour(
 			HttpRetrieverResponseCodeBehaviour.Action pAction) {
-		for (ListItem<Action> item : HttpResponseCodeFilterActions) {
+		for (ListItem<Action> item : mHttpResponseCodeFilterActions) {
 			if (item.getValue().equals(pAction)) {
-				return HttpResponseCodeFilterActions.indexOf(item);
+				return mHttpResponseCodeFilterActions.indexOf(item);
 			}
 		}
 
@@ -573,7 +573,7 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 				"Dialog", 0, 12));
 		httpStatusCodeBehaviourActionComboBox
 				.setModel(new DefaultComboBoxModel(
-						HttpResponseCodeFilterActions.toArray()));
+						mHttpResponseCodeFilterActions.toArray()));
 		httpStatusCodeBehaviourActionComboBox.setEnabled(false);
 		httpStatusCodeBehaviourActionComboBox
 				.addItemListener(new java.awt.event.ItemListener() {

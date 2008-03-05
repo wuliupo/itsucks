@@ -494,7 +494,7 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 					(HttpStatusCodeBehaviourListElement) elements[i];
 				
 				HttpRetrieverResponseCodeBehaviour.Action action = 
-					this.downloadJobSpecialRulesPanel.HttpResponseCodeFilterActions.get(element.getAction()).getValue();
+					this.downloadJobSpecialRulesPanel.mHttpResponseCodeFilterActions.get(element.getAction()).getValue();
 				
 				ResponseCodeRange responseCodeRange = 
 					new ResponseCodeRange(

@@ -8,6 +8,7 @@
 
 package de.phleisch.app.itsucks.io.http.impl;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Set;
 import java.util.SortedSet;
@@ -15,7 +16,9 @@ import java.util.TreeSet;
 
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 
-public class HttpRetrieverResponseCodeBehaviour {
+public class HttpRetrieverResponseCodeBehaviour implements Serializable {
+
+	private static final long serialVersionUID = 8752549289063445405L;
 
 	public static enum Action {
 		OK { 
@@ -96,6 +99,27 @@ public class HttpRetrieverResponseCodeBehaviour {
 		
 		private static final int compareInt(final int thisVal, final int anotherVal) {
 			return (thisVal<anotherVal ? -1 : (thisVal==anotherVal ? 0 : 1));
+		}
+
+		@Override
+		public boolean equals(Object pResponseCodeRange) {
+			return compareTo((ResponseCodeRange) pResponseCodeRange) == 0;
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((mAction == null) ? 0 : mAction.hashCode());
+			result = prime * result + mPriority;
+			result = prime * result + mResponseCodeFrom;
+			result = prime * result + mResponseCodeTo;
+			result = prime
+					* result
+					+ ((mTimeToWaitBetweenRetry == null) ? 0
+							: mTimeToWaitBetweenRetry.hashCode());
+			return result;
 		}
 
 	}

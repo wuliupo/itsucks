@@ -26,7 +26,7 @@ public class UrlExtractor {
 
 	protected static final String REGEXP_PREFIX = "exp_"; 
 	
-	protected static Log mLog = LogFactory.getLog(UrlExtractor.class);
+	protected static final Log mLog = LogFactory.getLog(UrlExtractor.class);
 	protected static Pattern[] mPatterns = null;
 
 	protected URI mBaseURI;
