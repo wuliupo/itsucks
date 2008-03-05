@@ -92,8 +92,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	protected RetryBehaviour mRetryBehaviour = 
 		RetryBehaviour.DIRECTLY_WAIT_FOR_RETRY_TIMEOUT; // default
 	protected long mWaitUntil = 0;
-	@Deprecated
-	protected long mMinTimeBetweenRetry = 5000; //5 seconds 
 
 	public UrlDownloadJob() {
 		super();
@@ -543,23 +541,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	public int getRetryCount() {
 		return mTryCount - 1; //first try is not retry
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public long getMinTimeBetweenRetry() {
-		return mMinTimeBetweenRetry;
-	}
-
-	/**
-	 * Sets the waiting time between two retries. 
-	 * @param pMinTimeBetweenRetry
-	 * 
-	 * @deprecated
-	 */
-	public void setMinTimeBetweenRetry(long pMinTimeBetweenRetry) {
-		mMinTimeBetweenRetry = pMinTimeBetweenRetry;
 	}
 
 	public RetryBehaviour getRetryBehaviour() {

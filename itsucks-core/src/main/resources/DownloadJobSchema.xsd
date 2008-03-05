@@ -18,8 +18,6 @@
 							nillable="true" />
 						<xs:element name="depth" type="xs:int" />
 						<xs:element name="maxRetryCount" type="xs:int" />
-						<xs:element name="minTimeBetweenRetry"
-							type="xs:long" nillable="true" />
 						<xs:element name="saveToDisk" type="xs:boolean" />
 						<xs:element name="savePath" type="xs:string"
 							nillable="true" />

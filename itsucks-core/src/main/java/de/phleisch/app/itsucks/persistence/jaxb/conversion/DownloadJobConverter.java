@@ -90,7 +90,6 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		job.setDepth(pJob.getDepth());
 		job.setIgnoreFilter(pJob.isIgnoreFilter());
 		job.setMaxRetryCount(pJob.getMaxRetryCount());
-		job.setMinTimeBetweenRetry(pJob.getMinTimeBetweenRetry());
 		//job.setParent(pParent) TODO implement
 		job.setPriority(pJob.getPriority());
 		job.setSavePath(pJob.getSavePath() != null ? new File(pJob.getSavePath()) : null);
@@ -312,7 +311,6 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		serializedJob.setParentJobId(pJob.getParent() != null ? Long.valueOf(pJob.getParent().getId()) : null);
 		serializedJob.setDepth(pJob.getDepth());
 		serializedJob.setMaxRetryCount(pJob.getMaxRetryCount());
-		serializedJob.setMinTimeBetweenRetry(Long.valueOf(pJob.getMinTimeBetweenRetry()));
 		
 		for (JobParameter jobParameter : pJob.getParameterList()) {
 			serializedJob.getParameter().add(convertJobParameterToBean(jobParameter));
