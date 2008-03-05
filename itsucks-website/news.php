@@ -7,6 +7,22 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre6 is released</h2>
+        <div class='date'>2008-04-05</div>
+        <p>
+		This release contains a new bandwith limit and configurable HTTP Status Code behaviour.  
+        <ul>
+        <li>Added bandwith limit.</li>
+        <li>Added configurable HTTP Status Code behaviour</li>
+        <li>Minor bugfixes.</li>
+        </ul>
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=582023"> ChangeLog 0.3.0-pre6</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre5 is released</h2>
         <div class='date'>2008-01-12</div>
         <p>
