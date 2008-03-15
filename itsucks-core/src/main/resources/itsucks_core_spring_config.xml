@@ -255,4 +255,21 @@
 		singleton="false">
 	</bean>	
 	
+	<bean
+		id="ApplicationConfiguration"
+		class="de.phleisch.app.itsucks.configuration.impl.PropertyFileConfigurationImpl"
+		singleton="true">
+		
+		<property name="comment">
+			<value>ItSucks Configuration</value>
+		</property>
+		<property name="defaultConfigurationPath">
+			<value>/defaultConfiguration.properties</value>
+		</property>
+		<property name="saveConfigurationPath">
+			<value>$USER_HOME$/.itsucks/itsucks.properties</value>
+		</property>
+		
+	</bean>
+	
 </beans>

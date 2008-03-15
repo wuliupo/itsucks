@@ -16,7 +16,10 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
 
+import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
@@ -281,12 +284,17 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		contentsMenuItem = new javax.swing.JMenuItem();
 		aboutMenuItem = new javax.swing.JMenuItem();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(ApplicationConstants.APPLICATION_TITLE);
 		setIconImage(new javax.swing.ImageIcon(getClass().getResource(
 				"/whirl_icon.png")).getImage());
 		setLocationByPlatform(true);
 		setName("mainFrame");
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosed(java.awt.event.WindowEvent evt) {
+				closeApplication(evt);
+			}
+		});
 
 		downloadsTabbedPane
 				.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -516,8 +524,33 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	// GEN-FIRST:event_exitMenuItemActionPerformed
 	private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-		System.exit(0);
+		this.dispose();
 	}// GEN-LAST:event_exitMenuItemActionPerformed
+
+	protected void closeApplication(java.awt.event.WindowEvent evt) {
+
+		try {
+			saveConfiguration();
+		} catch(Exception ex) {
+			mLog.error("Error saving configuration", ex);
+		}
+
+		System.exit(0);
+	}
+
+	protected void saveConfiguration() {
+		
+		ApplicationContext applicationContext = SpringContextSingelton
+			.getApplicationContext();
+		
+		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
+			.getBean("ApplicationConfiguration");
+		
+		configuration.setValue("title", ApplicationConstants.APPLICATION_TITLE);
+		configuration.setValue("version",
+				ApplicationConstants.APPLICATION_VERSION);
+		configuration.save();
+	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify

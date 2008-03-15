@@ -21,8 +21,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
@@ -47,9 +49,10 @@ public class EditDownloadJobHelper {
 	
 	public void openAddDownloadDialog(AddDownloadJobCapable pAddDownloadJobCapable) {
 
-		JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
-				.getApplicationContext().getBean("JobSerialization");
-
+		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
+		JobSerialization serializationManager = (JobSerialization) applicationContext
+			.getBean("JobSerialization");
+		
 		SerializableJobPackage jobList = null;
 		try {
 			jobList = serializationManager.deserialize(getClass()
@@ -108,6 +111,11 @@ public class EditDownloadJobHelper {
 
 		fc.setMultiSelectionEnabled(true);
 		
+		String lastDirectory = getLastDirectory();
+		if(lastDirectory != null) {
+			fc.setSelectedFile(new File(lastDirectory  + "."));
+		}
+		
 		//Show load dialog; this method does not return until the dialog is closed
 		int result = fc.showOpenDialog(mParentComponent);
 
@@ -130,6 +138,7 @@ public class EditDownloadJobHelper {
 							JOptionPane.ERROR_MESSAGE);
 				}
 
+				setLastDirectory(selectedFile.getParent());
 			}
 			
 		}
@@ -158,7 +167,7 @@ public class EditDownloadJobHelper {
 	}
 	
 	public void saveDownloadTemplate(SerializableJobPackage pDownloadJobList) {
-		
+
 		//open dialog
 		JFileChooser fc = new JFileChooser();
 		fc
@@ -166,9 +175,15 @@ public class EditDownloadJobHelper {
 						"ItSucks Download Templates (*.suck)",
 						new String[] { "suck" }));
 
-		fc.setSelectedFile(new File("ItSucks_"
-				+ pDownloadJobList.getJobs().get(0).getName().replace(' ', '_')
-				+ "_Template.suck"));
+		String fileName = "ItSucks_"
+			+ pDownloadJobList.getJobs().get(0).getName().replace(' ', '_')
+			+ "_Template.suck";
+		
+		String lastDirectory = getLastDirectory();
+		if(lastDirectory != null) {
+			fileName = lastDirectory + fileName; 
+		}
+		fc.setSelectedFile(new File(fileName));
 
 		// Show save dialog; this method does not return until the dialog is closed
 		int result = fc.showSaveDialog(mParentComponent);
@@ -194,9 +209,28 @@ public class EditDownloadJobHelper {
 								+ message, "Error occured",
 						JOptionPane.ERROR_MESSAGE);
 			}
-
+			
+			setLastDirectory(fc.getSelectedFile().getParent());
 		}
 		
+	}
+	
+	public String getLastDirectory() {
+		
+		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
+		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
+			.getBean("ApplicationConfiguration");
+		
+		return configuration.getValue("last_directory");
+	}
+
+	public void setLastDirectory(String pPath) {
+		
+		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
+		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
+			.getBean("ApplicationConfiguration");
+		
+		configuration.setValue("last_directory", pPath + File.separator);
 	}
 	
 }
