@@ -8,8 +8,12 @@ package de.phleisch.app.itsucks.gui.job;
 
 import java.awt.Dialog;
 import java.awt.Frame;
+import java.io.File;
+
+import javax.swing.JOptionPane;
 
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
+import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -141,6 +145,22 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		if (job == null)
 			return;
 
+		DownloadJob downloadJob = (DownloadJob) job.getJobs().get(0);
+		File path = downloadJob.getSavePath();
+		if (!path.exists()) {
+			
+			JOptionPane.showMessageDialog(this, "The save path does not exists. Should it be created?",
+					"Create save path?", JOptionPane.YES_NO_OPTION);
+			
+		} else if (!path.canWrite()) {
+			
+			JOptionPane.showMessageDialog(this, "The save path does not exists. Should it be created?",
+					"Create save path?", JOptionPane.YES_NO_OPTION);
+
+			
+		}
+		
+		
 		mDownloadJobManager.addDownload(job);
 
 		this.dispose();
