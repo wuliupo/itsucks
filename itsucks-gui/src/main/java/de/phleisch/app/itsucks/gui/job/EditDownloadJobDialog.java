@@ -145,21 +145,40 @@ public class EditDownloadJobDialog extends javax.swing.JDialog {
 		if (job == null)
 			return;
 
+		boolean savePathOk = true;
 		DownloadJob downloadJob = (DownloadJob) job.getJobs().get(0);
 		File path = downloadJob.getSavePath();
 		if (!path.exists()) {
 			
-			JOptionPane.showMessageDialog(this, "The save path does not exists. Should it be created?",
+			int result = JOptionPane.showConfirmDialog(this, "The save path does not exists. " +
+					"Should it be created?",
 					"Create save path?", JOptionPane.YES_NO_OPTION);
 			
-		} else if (!path.canWrite()) {
+			if(result == JOptionPane.YES_OPTION) {
+				boolean success = path.mkdirs();
+				if(!success) {
+					JOptionPane.showMessageDialog(this, "The save path could not be created!",
+							"Error", JOptionPane.ERROR_MESSAGE);
+					savePathOk = false;
+				}
+				
+			} else {
+				savePathOk = false;
+			}
 			
-			JOptionPane.showMessageDialog(this, "The save path does not exists. Should it be created?",
-					"Create save path?", JOptionPane.YES_NO_OPTION);
+		} 
+		
+		if (savePathOk && !path.canWrite()) {
+			
+			JOptionPane.showMessageDialog(this, "The save path is not writable!",
+					"Error", JOptionPane.ERROR_MESSAGE);
 
-			
+			savePathOk = false;
 		}
 		
+		if(!savePathOk) {
+			return;
+		}
 		
 		mDownloadJobManager.addDownload(job);
 

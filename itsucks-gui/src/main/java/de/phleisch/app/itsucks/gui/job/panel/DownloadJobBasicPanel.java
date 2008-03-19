@@ -50,16 +50,8 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel {
 					"Enter a valid URL.");
 		}
 
-		if (validator.assertNotEmpty(this.savePathTextField.getText(),
-				"Enter a valid path to save files.")) {
-
-			File path = new File(this.savePathTextField.getText());
-			if (!path.exists()) {
-				validator.addError("Path to save files does not exist.");
-			} else if (!path.canWrite()) {
-				validator.addError("Path to save files is not writable.");
-			}
-		}
+		validator.assertNotEmpty(this.savePathTextField.getText(),
+				"Enter a valid path to save files.");
 
 		validator.assertInteger(this.workingThreadsTextField.getText(),
 				"Enter a valid number of working threads.");
