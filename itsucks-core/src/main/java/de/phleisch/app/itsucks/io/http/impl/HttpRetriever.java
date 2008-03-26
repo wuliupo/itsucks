@@ -9,6 +9,9 @@ package de.phleisch.app.itsucks.io.http.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -16,6 +19,7 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
@@ -54,6 +58,8 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
 		createDefaultHttpRetrieverBehaviour();
 	
+	private List<String> mCookieList;
+	
 	protected GetMethod mGet = null;
 	protected HttpMetadata mMetadata;
 	protected int mResultCode = RESULT_RETRIEVAL_NOT_STARTED_YET;
@@ -79,12 +85,24 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		mGet = new GetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
-
+		
 		HttpMethodParams params = mGet.getParams();
 		params.setSoTimeout(90 * 1000); //90 seconds
 		
+		//set cookie single header to improve compatibility
+		params.setBooleanParameter("http.protocol.single-cookie-header", true);
+
 		if(mBytesToSkip > 0) { //try to resume
 			mGet.addRequestHeader("Range", "bytes=" + mBytesToSkip + "-");
+		}
+		
+		//accept gzip
+		mGet.addRequestHeader("Accept-Encoding", "gzip,deflate");
+		
+		//add cookies to header
+		List<String> cookieList = getCookieList();
+		for (String cookie : cookieList) {
+			mGet.addRequestHeader("Cookie", cookie);
 		}
 		
 		client.executeMethod(mGet);
@@ -148,11 +166,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      	
      	if(pConfiguration != null) {
      		
-     		HttpConnectionManagerParams params = connectionManager.getParams();
+     		HttpConnectionManagerParams connectionManagerParams = connectionManager.getParams();
      		
      		//set max connections per server
      		if(pConfiguration.getMaxConnectionsPerServer() != null) {
-     			params.setDefaultMaxConnectionsPerHost(
+     			connectionManagerParams.setDefaultMaxConnectionsPerHost(
      					pConfiguration.getMaxConnectionsPerServer() );
      		}
 
@@ -175,10 +193,14 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      							pConfiguration.getProxyUser(), 
      							pConfiguration.getProxyPassword()));
      		}
+     		
+     		HttpClientParams httpClientParams = httpClient.getParams();
+     		
      		if(pConfiguration.getUserAgent() != null) {
-   				params.setParameter(HttpMethodParams.USER_AGENT, 
+     			httpClientParams.setParameter(HttpMethodParams.USER_AGENT, 
    						pConfiguration.getUserAgent());
      		}
+     		
      	}
      	
 		return httpClient;
@@ -401,6 +423,13 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		
 		return defaultBehaviour;
+	}
+	
+	public List<String> getCookieList() {
+		return Collections.unmodifiableList(mCookieList);
+	}
+	public void setCookieList(List<String> pCookieList) {
+		mCookieList = new ArrayList<String>(pCookieList);
 	}
 	
 }
