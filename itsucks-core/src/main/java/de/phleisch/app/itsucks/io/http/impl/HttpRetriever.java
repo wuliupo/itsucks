@@ -101,9 +101,8 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		//add cookies to header
 		List<String> cookieList = getCookieList();
-		for (String cookie : cookieList) {
-			mGet.addRequestHeader("Cookie", cookie);
-		}
+		CookieHelper cookieHelper = new CookieHelper();
+		mGet.addRequestHeader("Cookie", cookieHelper.buildCookieString(cookieList));
 		
 		client.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " Status: " + mGet.getStatusCode());
