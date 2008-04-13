@@ -1,0 +1,22 @@
+:title Advanced RegExp Rules
+
+With an advanced filter you can freely set an regular expression to match an URL and actions which should be executed when an URL matches the regular expression.
+These actions can be:
+ 
+* Accept the URL
+. The URL will be retrieved and parsed for URL's. This means not it will be saved on disk! This depends on the settings made in the 'Files to download' box on the first tab.
+
+* Reject the URL 
+. The URL will be not be retrieved and therefore not saved on disk.
+
+* Change the priority
+. This field takes an value which will be added to the original priority. This value can also be negative.
+. Here an example:~~
+Priority: 500, Change Value: 50, Final Priority: 550~~
+Priority: 500, Change Value: -20, Final Priority: 480
+
+* Advise ItSucks not to resume a file when it's already on disk.
+. This is useful when resuming an large download.
+
+
+Every of these rules can be applied for the case the regular expression matches and when the regular expression do not match.

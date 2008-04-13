@@ -1,0 +1,42 @@
+:title Simple Rules
+These rules can be used to control the behaviour of ItSucks.
+
+:h1 Limits
+
+:h2 Max. recursion depth:
+The recursion depth defines how deep ItSucks should crawl through linked web sites. 
+Think about a site structure like this: 
+:div code
+ ______________________________________\_ site3.html~~
+ _____________________________________/~~
+ _________________________\_ site2.html~~ 
+ ________________________/~~
+ ____________\_ site1.html~~
+ ___________/____________\\\_ yellow.png~~
+ _index.html~~
+ ___________\\\_ background.png~~
+:/div
+If you set the recursion depth to 0, you will only get the index.html.~~
+With an value of 1, you will get index.html, site1.html and background.png.~~
+With an value of 2, you will get index.html, site1.html, background.png, site2.html and yellow.png.~~
+With an value of 3, you will get index.html, site1.html, background.png, site2.html, yellow.png and site3.html.~~
+When set to -1 it's unlimited.~~
+
+:h2 Time limit
+Defines a time limit. If the time limit is reached, no more links are added to the 'open' list. After all links in the 'open' list are finished, the download ends.
+
+:h2 Max. links to follow
+Define a maximum limit of links(URL's). When the limitation is reached, no more links are added to the 'open' list. After all links in the 'open' list are finished, the download ends.
+
+:h2 URL prefix Filter
+Defines a prefix for the URL. When set, only URL's which begins with the prefix are accepted. This can be handy of only a specific directory should be downloaded. Only a string is allowed, no regular expresions. ~~
+:div code
+Example: http://www.example.com/section1/
+:/div
+
+:h1 Hostname Filter
+A host filter can be set if ItSucks should follow only links which hostname matches an regular expression. 
+To do so, remove the '.*' entry from the 'Allowed Hostname' box and add something like '.*google\.de'. In this case ItSucks will only retrieve files from an host like 'images.google.de', 'google.de' or 'http:\/\/www.google.de'. 
+
+:h1 'Save to Disk' Filter
+To control which filetypes should be saved on disk, this filter can be used. Only files matching one of the regular expressions are saved on disk. As an example to accept only jpegs, remove the '.*' entry from the list and add '.*jpg$'. 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<HelpSetMaker>
+<DocumentProperties>
+<Value Key="eclipse.makeintro">false</Value>
+<Value Key="eclipse.quotation">none</Value>
+<Value Key="general.locale">en</Value>
+<Value Key="general.uselabelforfilename">false</Value>
+<Value Key="helpset.createjarfile">true</Value>
+<Value Key="helpset.fulltextsearch">true</Value>
+<Value Key="helpset.jarfilename">itsucks-help.jar</Value>
+<Value Key="helpset.mainlocalesuffix">false</Value>
+<Value Key="helpset.navigation.bottom">line</Value>
+<Value Key="helpset.navigation.top">line</Value>
+<Value Key="helpset.quotation">none</Value>
+<Value Key="helpset.scaleimages">false</Value>
+<Value Key="helpset.titletag">false</Value>
+<Value Key="html4.cssfortree">false</Value>
+<Value Key="html4.navigation.bottom">line</Value>
+<Value Key="html4.navigation.top">line</Value>
+<Value Key="html4.quotation">none</Value>
+<Value Key="html4.scaleimages">false</Value>
+<Value Key="html4.titletag">false</Value>
+<Value Key="latex.firstsection.ownpage">false</Value>
+<Value Key="latex.firstsection.type">abstract</Value>
+<Value Key="latex.fontsize">10pt</Value>
+<Value Key="latex.fontstyle">cm</Value>
+<Value Key="latex.image.frame">false</Value>
+<Value Key="latex.ownpage">false</Value>
+<Value Key="latex.papertype">a4paper</Value>
+<Value Key="latex.paragraph">inset</Value>
+<Value Key="latex.quotation">none</Value>
+<Value Key="latex.references">empty</Value>
+<Value Key="latex.scaleimages">false</Value>
+<Value Key="latex.sectioning.deepest">section</Value>
+<Value Key="latex.sectioning.uppermost">part</Value>
+<Value Key="latex.sides">oneside</Value>
+<Value Key="latex.usehyperref">false</Value>
+<Value Key="preview.unscaledimages">false</Value>
+<Value Key="project.charset">UTF-8</Value>
+<Value Key="stml.charset">UTF-8</Value>
+</DocumentProperties>
+<DocumentTree>
+<DocumentNode>
+<Filename>5f355eea</Filename>
+<Title>ItSucks Documentation</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>b0a6579c</Filename>
+<Title>Download configuration</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>61531506</Filename>
+<Title>Basic Parameters</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>74589458</Filename>
+<Title>Simple Rules</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>b18a032a</Filename>
+<Title>Special Rules</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>b57b22c9</Filename>
+<Title>Advanced RegExp Rules</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>e5eec676</Filename>
+<Title>Content Filter</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>9ae09ca9</Filename>
+<Title>Batch processing</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>45dbe34d</Filename>
+<Title>Regular expression helper</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+</DocumentTree>
+<ImageLibrary>
+<ThumbnailSize>100</ThumbnailSize>
+</ImageLibrary>
+</HelpSetMaker>

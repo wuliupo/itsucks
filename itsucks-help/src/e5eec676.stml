@@ -1,0 +1,4 @@
+:title Content Filter
+
+The content filter can be used to check text files which are being download with regular expressions. ~~
+All files which are send with content type */text are filtered, these can be HTML files, php/cgi output, .txt files etc.

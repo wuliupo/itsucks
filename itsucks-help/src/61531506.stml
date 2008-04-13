@@ -1,0 +1,29 @@
+:title Basic Parameters
+Generic parameters for the download.
+
+:h2 Name
+Name for the download job.
+
+:h2 Start URL
+URL where ItSucks should begin to download. Multiple URL's can be set using the 'More' button.
+
+:h2 Save path
+Path where downloaded data should be saved on disk.
+
+:h1 Connections Settings
+Configuration of the connection.
+
+:h2 Working Threads
+Count of parallel threads to crawl on servers. Increase this value when downloading on multiple servers to reduce working time.
+
+:h2 Max. connections per server
+Defines the maximum connections for a hostname.
+
+:h2 Max. retries before giving up
+Defines how often ItSucks should retry downloads when an retryable error occurs.
+
+:h1 Proxy Settings
+Proxy settings to use a proxy for connections.
+
+:h1 User Agent
+User Agent which is send to the HTTP Server when requesting a page.
