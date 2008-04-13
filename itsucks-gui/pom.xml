@@ -82,6 +82,14 @@
 			<artifactId>itsucks-core</artifactId>
 		</dependency>
 
+        <dependency>
+          <groupId>de.phleisch</groupId>
+          <artifactId>itsucks-help</artifactId>
+          <version>0.1</version>
+          <scope>system</scope>
+          <systemPath>${basedir}/lib/itsucks-help.jar</systemPath>
+       	</dependency>
+
 		<!-- 
 			<dependency>
 			<groupId>jgoodies</groupId>

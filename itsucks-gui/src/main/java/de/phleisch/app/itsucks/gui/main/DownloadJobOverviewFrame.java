@@ -9,9 +9,13 @@ package de.phleisch.app.itsucks.gui.main;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.help.CSH;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
@@ -58,6 +62,29 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		mDispatcherList.registerObserver(this);
 
 		initComponents();
+		registerHelp();
+	}
+
+	private void registerHelp() {
+		
+		ClassLoader cl = DownloadJobOverviewFrame.class.getClassLoader();
+		String helpHS = "main.hs";
+		URL hsURL = HelpSet.findHelpSet(cl, helpHS);
+		if(hsURL == null) {
+			mLog.error("Can't find helpset: " + helpHS);
+			return;
+		}
+		
+		HelpSet hs = null;
+		try {
+			hs = new HelpSet(cl, hsURL);
+		} catch (Exception ee) {
+			mLog.error("Can't load helpset: " + helpHS, ee);
+			return;
+		}
+		
+		HelpBroker hb = hs.createHelpBroker();
+		contentsMenuItem.addActionListener(new CSH.DisplayHelpFromSource( hb ));
 	}
 
 	public void addDownload(SerializableJobPackage pJobList) {
@@ -412,7 +439,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		helpMenu.setText("Help");
 
 		contentsMenuItem.setText("Contents");
-		contentsMenuItem.setEnabled(false);
+		contentsMenuItem.setEnabled(true);
 		helpMenu.add(contentsMenuItem);
 
 		aboutMenuItem.setText("About");
