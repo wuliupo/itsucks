@@ -101,8 +101,10 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		//add cookies to header
 		List<String> cookieList = getCookieList();
-		CookieHelper cookieHelper = new CookieHelper();
-		mGet.addRequestHeader("Cookie", cookieHelper.buildCookieString(cookieList));
+		if(cookieList != null && cookieList.size() > 0) {
+			CookieHelper cookieHelper = new CookieHelper();
+			mGet.addRequestHeader("Cookie", cookieHelper.buildCookieString(cookieList));
+		}
 		
 		client.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " Status: " + mGet.getStatusCode());
@@ -425,7 +427,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	}
 	
 	public List<String> getCookieList() {
-		return Collections.unmodifiableList(mCookieList);
+		if(mCookieList != null) {
+			return Collections.unmodifiableList(mCookieList);
+		} else {
+			return null;
+		}
 	}
 	public void setCookieList(List<String> pCookieList) {
 		mCookieList = new ArrayList<String>(pCookieList);
