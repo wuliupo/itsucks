@@ -1,1 +1,14 @@
-:title Download configuration
+:title Download job configuration
+
+ItSucks contains many rules and filters. They are categorized as follows:
+
+* <<basic parameters|Basic Parameters>>
+. Generic configuration settings.
+* <<simple rules|Simple Rules>>
+. Relative simple rules and limitations for the crawler and configuration which files should be saved on disk.
+* <<special rules|Special Rules>>
+* <<advanced rules|Advanced RegExp Rules>>
+. A chain of regular expression to change the crawl behaviour.
+* <<content filter|Content Filter>>
+. A regular expression content filter for text files.
+

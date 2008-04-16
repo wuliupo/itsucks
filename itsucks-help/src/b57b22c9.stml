@@ -1,4 +1,5 @@
 :title Advanced RegExp Rules
+:label advanced rules
 
 With an advanced filter you can freely set an regular expression to match an URL and actions which should be executed when an URL matches the regular expression.
 These actions can be:

@@ -45,32 +45,42 @@
 <Title>ItSucks Documentation</Title>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
+<Filename>4390e8a1</Filename>
+<Title>Operation breakdown</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
 <Filename>b0a6579c</Filename>
-<Title>Download configuration</Title>
+<Title>Download job configuration</Title>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>61531506</Filename>
 <Title>Basic Parameters</Title>
+<Label>basic parameters</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>74589458</Filename>
 <Title>Simple Rules</Title>
+<Label>simple rules</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>b18a032a</Filename>
 <Title>Special Rules</Title>
+<Label>special rules</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>b57b22c9</Filename>
 <Title>Advanced RegExp Rules</Title>
+<Label>advanced rules</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>e5eec676</Filename>
 <Title>Content Filter</Title>
+<Label>content filter</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
@@ -85,6 +95,11 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
+<Label Name="advanced rules">b57b22c9</Label>
+<Label Name="basic parameters">61531506</Label>
+<Label Name="content filter">e5eec676</Label>
+<Label Name="simple rules">74589458</Label>
+<Label Name="special rules">b18a032a</Label>
 </DocumentTree>
 <ImageLibrary>
 <ThumbnailSize>100</ThumbnailSize>
