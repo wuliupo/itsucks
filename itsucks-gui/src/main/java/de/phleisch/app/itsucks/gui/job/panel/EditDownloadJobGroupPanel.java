@@ -31,7 +31,6 @@ import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
-import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
@@ -52,253 +51,20 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 
 	public void loadJob(SerializableJobPackage pJobList) {
 
-		UrlDownloadJob pJob = (UrlDownloadJob) pJobList.getJobs().get(0);
-		List<URL> urlList = new ArrayList<URL>();
-		for (Job job : pJobList.getJobs()) {
-			urlList.add(((UrlDownloadJob) job).getUrl());
-		}
-		List<JobFilter> pFilters = pJobList.getFilters();
-
-		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
-				.getDispatcherConfiguration();
-
-		HttpRetrieverConfiguration httpRetrieverConfiguration = (HttpRetrieverConfiguration) pJobList
-				.getContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
-
-		DownloadJobFilter downloadJobFilter = null;
-		MaxLinksToFollowFilter maxLinksToFollowFilter = null;
-		RegExpJobFilter regExpJobFilter = null;
-		FileSizeFilter fileSizeFilter = null;
-		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = null;
-		TimeLimitFilter timeLimitFilter = null;
-		ContentFilter contentFilter = null;
-
-		for (JobFilter jobFilter : pFilters) {
-			if (jobFilter instanceof DownloadJobFilter) {
-				downloadJobFilter = (DownloadJobFilter) jobFilter;
-				continue;
-			}
-			if (jobFilter instanceof MaxLinksToFollowFilter) {
-				maxLinksToFollowFilter = (MaxLinksToFollowFilter) jobFilter;
-				continue;
-			}
-			if (jobFilter instanceof RegExpJobFilter) {
-				regExpJobFilter = (RegExpJobFilter) jobFilter;
-				continue;
-			}
-			if (jobFilter instanceof FileSizeFilter) {
-				fileSizeFilter = (FileSizeFilter) jobFilter;
-				continue;
-			}
-			if (jobFilter instanceof ChangeHttpResponseCodeBehaviourFilter) {
-				httpResponseCodeFilter = (ChangeHttpResponseCodeBehaviourFilter) jobFilter;
-				continue;
-			}			
-			if (jobFilter instanceof TimeLimitFilter) {
-				timeLimitFilter = (TimeLimitFilter) jobFilter;
-				continue;
-			}
-			if (jobFilter instanceof ContentFilter) {
-				contentFilter = (ContentFilter) jobFilter;
-			}
-		}
-
 		//load basic panel
-		this.downloadJobBasicPanel.nameTextField.setText(pJob.getName());
-		this.downloadJobBasicPanel.setUrlList(urlList);
-		this.downloadJobBasicPanel.savePathTextField.setText(pJob.getSavePath()
-				.getAbsolutePath());
-		this.downloadJobBasicPanel.maxRetriesTextField.setText(String
-				.valueOf(pJob.getMaxRetryCount()));
-
-		if (dispatcherConfiguration != null) {
-			if (dispatcherConfiguration.getWorkerThreads() != null) {
-				this.downloadJobBasicPanel.workingThreadsTextField
-						.setText(String.valueOf(dispatcherConfiguration
-								.getWorkerThreads()));
-			}
-		}
-
-		if (httpRetrieverConfiguration != null) {
-
-			if (httpRetrieverConfiguration.getMaxConnectionsPerServer() != null) {
-				this.downloadJobBasicPanel.maxConnectionsTextField
-						.setText(String.valueOf(httpRetrieverConfiguration
-								.getMaxConnectionsPerServer()));
-			}
-			
-			if (httpRetrieverConfiguration.getBandwidthLimit() != null) {
-				
-				final int kbytes = 1024;
-				final int mbytes = 1024 * 1024;
-				
-				int limit = httpRetrieverConfiguration.getBandwidthLimit();
-				int index = 0;
-				
-				if((limit % mbytes) == 0) {
-					limit /= mbytes;
-					index = 2;
-				} else if((limit % kbytes) == 0) {
-					limit /= kbytes;
-					index = 1;
-				} 
-				
-				this.downloadJobBasicPanel.enableBandwidthLimitCheckBox.setSelected(true);
-				this.downloadJobBasicPanel.bandwidthLimitComboBox.setSelectedIndex(index);
-				this.downloadJobBasicPanel.bandwidthLimitTextField.setText(String.valueOf(limit));
-			}
-
-			if (httpRetrieverConfiguration.isProxyEnabled()) {
-				this.downloadJobBasicPanel.enableProxyCheckBox
-						.setSelected(true);
-				this.downloadJobBasicPanel.proxyServerTextField
-						.setText(httpRetrieverConfiguration.getProxyServer());
-				this.downloadJobBasicPanel.proxyPortTextField.setText(String
-						.valueOf(httpRetrieverConfiguration.getProxyPort()));
-
-				if (httpRetrieverConfiguration.isProxyAuthenticationEnabled()) {
-
-					this.downloadJobBasicPanel.enableAuthenticationCheckBox
-							.setSelected(true);
-					this.downloadJobBasicPanel.authenticationUserTextField
-							.setText(httpRetrieverConfiguration.getProxyUser());
-					this.downloadJobBasicPanel.authenticationPasswordTextField
-							.setText(httpRetrieverConfiguration
-									.getProxyPassword());
-				}
-			}
-			
-			if(httpRetrieverConfiguration.getUserAgent() != null) {
-				this.downloadJobBasicPanel.userAgentCheckBox
-					.setSelected(true);
-				this.downloadJobBasicPanel.userAgentTextField
-					.setText(httpRetrieverConfiguration.getUserAgent());
-			}
-		}
+		this.downloadJobBasicPanel.loadJobPackage(pJobList);
 
 		//load simple rules
-		if (maxLinksToFollowFilter != null) {
-			this.downloadJobSimpleRulesPanel.linksToFollowTextField
-					.setText(String.valueOf(maxLinksToFollowFilter
-							.getMaxLinksToFollow()));
-		} else {
-			this.downloadJobSimpleRulesPanel.linksToFollowTextField
-					.setText("-1");
-		}
-
-		if (timeLimitFilter != null) {
-			this.downloadJobSimpleRulesPanel.timeLimitTextField
-					.setText(timeLimitFilter.getTimeLimitAsText());
-		} else {
-			this.downloadJobSimpleRulesPanel.timeLimitTextField.setText("-1");
-		}
-
-		if (downloadJobFilter != null) {
-
-			this.downloadJobSimpleRulesPanel.recursionDepthTextField
-					.setText(String.valueOf(downloadJobFilter
-							.getMaxRecursionDepth()));
-
-			if (downloadJobFilter.getURLPrefix() != null) {
-				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox
-						.setSelected(true);
-				this.downloadJobSimpleRulesPanel.urlPrefixTextField
-						.setText(downloadJobFilter.getURLPrefix()
-								.toExternalForm());
-			} else {
-				this.downloadJobSimpleRulesPanel.urlPrefixCheckBox
-						.setSelected(false);
-			}
-
-			this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
-					.setRowCount(0);
-			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
-			for (String string : allowedHostNames) {
-				this.downloadJobSimpleRulesPanel.hostnameFilterTableModel
-						.addRow(new Object[] { string });
-			}
-
-			this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
-					.setRowCount(0);
-			String[] saveToDiskFilter = downloadJobFilter.getSaveToDisk();
-			for (String string : saveToDiskFilter) {
-				this.downloadJobSimpleRulesPanel.saveToDiskFilterTabelModel
-						.addRow(new Object[] { string });
-			}
-
-		}
-
-		//load special rules
-		if (fileSizeFilter != null) {
-
-			this.downloadJobSpecialRulesPanel.fileSizeEnableCheckBox
-					.setSelected(true);
-
-			this.downloadJobSpecialRulesPanel.fileSizeMinField
-					.setText(fileSizeFilter.getMinSizeAsText());
-			this.downloadJobSpecialRulesPanel.fileSizeMaxField
-					.setText(fileSizeFilter.getMaxSizeAsText());
-			this.downloadJobSpecialRulesPanel.fileSizeNotKnownComboBox
-					.setSelectedIndex(fileSizeFilter.isAcceptWhenLengthNotSet() ? 0
-							: 1);
-		}
+		this.downloadJobSimpleRulesPanel.loadJobPackage(pJobList);
 		
-		if(httpResponseCodeFilter != null) {
-			
-			this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourCheckBox
-				.setSelected(true);
-			
-			ExtendedListModel model = 
-				this.downloadJobSpecialRulesPanel.httpStatusCodeBehaviourEditListPanel.getListModel();
-			
-			for (HttpResponseCodeBehaviourHostConfig hostConfig : 
-				httpResponseCodeFilter.getConfigList()) {
-				
-				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = 
-					hostConfig.getResponseCodeBehaviour();
-				
-				for (ResponseCodeRange responseCodeRange : 
-					responseCodeBehaviour.getConfigurationList()) {
-					
-					HttpStatusCodeBehaviourListElement element = 
-						this.downloadJobSpecialRulesPanel.new HttpStatusCodeBehaviourListElement();
-					
-					element.setHostnameRegexp(hostConfig.getHostnameRegexp());
-					element.setResponseCodeFrom(Integer.toString(responseCodeRange.getResponseCodeFrom()));
-					element.setResponseCodeTo(Integer.toString(responseCodeRange.getResponseCodeTo()));
-					element.setAction(
-							this.downloadJobSpecialRulesPanel.findIndexForHttpRetrieverResponseCodeBehaviour(
-									responseCodeRange.getAction()));
-					if(responseCodeRange.getTimeToWaitBetweenRetry() != null) {
-						element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
-					}
-
-					model.addElement(element);
-				}
-			}
-		}
-
+		//load special rules
+		this.downloadJobSpecialRulesPanel.loadJobPackage(pJobList);
+		
 		//load advanced rules
-		if (regExpJobFilter != null) {
-			ExtendedListModel model = this.downloadJobRegExpRulesPanel.regExpFilterListModel;
-//			this.downloadJobRegExpRulesPanel.regExpFilterList.setModel(model);
-			for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
-				model
-						.addElement(this.downloadJobRegExpRulesPanel.new RegExpFilterRuleListElement(
-								jobFilterRule));
-			}
-		}
+		this.downloadJobRegExpRulesPanel.loadJobPackage(pJobList);
 		
 		//load content filter
-		if (contentFilter != null) {
-			ExtendedListModel model = this.downloadJobContentFilterPanel.contentFilterListModel;
-			
-			for (ContentFilterConfig jobFilterRule : contentFilter.getContentFilterConfigList()) {
-				model.addElement(this.downloadJobContentFilterPanel.new ContentFilterRuleListElement(
-								jobFilterRule));
-			}
-			
-		}
+		this.downloadJobContentFilterPanel.loadJobPackage(pJobList);
 
 	}
 

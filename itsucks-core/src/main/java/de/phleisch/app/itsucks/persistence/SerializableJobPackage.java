@@ -95,4 +95,22 @@ public class SerializableJobPackage implements Serializable {
 		mDispatcherConfiguration = pDispatcherConfiguration;
 	}
 	
+	public Job getFirstJob() {
+		if(mJobs != null && mJobs.size() > 0) {
+			return mJobs.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	public JobFilter getFilterByType(Class<? extends JobFilter> pFilterType) {
+	
+		for (JobFilter jobFilter : mFilters) {
+			if(pFilterType.isAssignableFrom(jobFilter.getClass())) {
+				return jobFilter;
+			}
+		}
+		
+		return null;
+	}
 }

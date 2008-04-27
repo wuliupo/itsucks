@@ -11,21 +11,28 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
+import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
+import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.gui.util.ListItem;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
  * @author  __USER__
  */
-public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
+public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel 
+		implements EditJobCapable {
 
 	private static final long serialVersionUID = -2550810599331718712L;
 
@@ -60,6 +67,74 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel {
 
 	}
 
+	public void loadJobPackage(SerializableJobPackage pJobPackage) {
+		
+		FileSizeFilter fileSizeFilter = 
+			(FileSizeFilter) pJobPackage.getFilterByType(FileSizeFilter.class);
+		
+		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = 
+			(ChangeHttpResponseCodeBehaviourFilter) 
+			pJobPackage.getFilterByType(ChangeHttpResponseCodeBehaviourFilter.class);
+		
+		
+		if (fileSizeFilter != null) {
+
+			this.fileSizeEnableCheckBox
+					.setSelected(true);
+
+			this.fileSizeMinField
+					.setText(fileSizeFilter.getMinSizeAsText());
+			this.fileSizeMaxField
+					.setText(fileSizeFilter.getMaxSizeAsText());
+			this.fileSizeNotKnownComboBox
+					.setSelectedIndex(fileSizeFilter.isAcceptWhenLengthNotSet() ? 0
+							: 1);
+		}
+		
+
+		if(httpResponseCodeFilter != null) {
+			
+			this.httpStatusCodeBehaviourCheckBox
+				.setSelected(true);
+			
+			ExtendedListModel model = 
+				this.httpStatusCodeBehaviourEditListPanel.getListModel();
+			
+			for (HttpResponseCodeBehaviourHostConfig hostConfig : 
+				httpResponseCodeFilter.getConfigList()) {
+				
+				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = 
+					hostConfig.getResponseCodeBehaviour();
+				
+				for (ResponseCodeRange responseCodeRange : 
+					responseCodeBehaviour.getConfigurationList()) {
+					
+					HttpStatusCodeBehaviourListElement element = 
+						this.new HttpStatusCodeBehaviourListElement();
+					
+					element.setHostnameRegexp(hostConfig.getHostnameRegexp());
+					element.setResponseCodeFrom(Integer.toString(responseCodeRange.getResponseCodeFrom()));
+					element.setResponseCodeTo(Integer.toString(responseCodeRange.getResponseCodeTo()));
+					element.setAction(
+							this.findIndexForHttpRetrieverResponseCodeBehaviour(
+									responseCodeRange.getAction()));
+					if(responseCodeRange.getTimeToWaitBetweenRetry() != null) {
+						element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
+					}
+
+					model.addElement(element);
+				}
+			}
+		}
+		
+	}
+
+	public void saveJobPackage(SerializableJobPackage pJobPackage) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	public List<String> validateFields() {
 
 		FieldValidator validator = new FieldValidator();

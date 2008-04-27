@@ -8,19 +8,22 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Dialog;
 import java.io.Serializable;
+import java.util.List;
 
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig.Action;
 import de.phleisch.app.itsucks.gui.common.EditRegularExpressionDialog;
+import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
  * @author  __USER__
  */
-public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
+public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = -8393121172912816716L;
 
@@ -74,6 +77,35 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel {
 //        });
 	}
 
+
+	public void loadJobPackage(SerializableJobPackage pJobPackage) {
+		
+		ContentFilter contentFilter = 
+			(ContentFilter) pJobPackage.getFilterByType(ContentFilter.class);
+		
+		if (contentFilter != null) {
+			ExtendedListModel model = this.contentFilterListModel;
+			
+			for (ContentFilterConfig jobFilterRule : contentFilter.getContentFilterConfigList()) {
+				model.addElement(this.new ContentFilterRuleListElement(
+								jobFilterRule));
+			}
+			
+		}
+		
+	}
+
+	public void saveJobPackage(SerializableJobPackage pJobPackage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<String> validateFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	protected class ContentFilterRuleListElement {
 
 		private ContentFilterConfig mRule;

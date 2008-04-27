@@ -11,13 +11,18 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
+import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
+import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
  * @author  __USER__
  */
-public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
+public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = -4537668236021804263L;
 
@@ -33,6 +38,76 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel {
 		saveToDiskFilterTabelModel.addColumn("'Save to disk' Filter");
 
 		initComponents();
+	}
+
+	public void loadJobPackage(SerializableJobPackage pJobPackage) {
+		
+		MaxLinksToFollowFilter maxLinksToFollowFilter = 
+			(MaxLinksToFollowFilter) pJobPackage.getFilterByType(MaxLinksToFollowFilter.class);
+		
+		TimeLimitFilter timeLimitFilter = 
+			(TimeLimitFilter) pJobPackage.getFilterByType(TimeLimitFilter.class);
+		
+		DownloadJobFilter downloadJobFilter = 
+			(DownloadJobFilter) pJobPackage.getFilterByType(DownloadJobFilter.class);
+		
+		if (maxLinksToFollowFilter != null) {
+			this.linksToFollowTextField
+					.setText(String.valueOf(maxLinksToFollowFilter
+							.getMaxLinksToFollow()));
+		} else {
+			this.linksToFollowTextField
+					.setText("-1");
+		}
+
+		if (timeLimitFilter != null) {
+			this.timeLimitTextField
+					.setText(timeLimitFilter.getTimeLimitAsText());
+		} else {
+			this.timeLimitTextField.setText("-1");
+		}
+
+		if (downloadJobFilter != null) {
+
+			this.recursionDepthTextField
+					.setText(String.valueOf(downloadJobFilter
+							.getMaxRecursionDepth()));
+
+			if (downloadJobFilter.getURLPrefix() != null) {
+				this.urlPrefixCheckBox
+						.setSelected(true);
+				this.urlPrefixTextField
+						.setText(downloadJobFilter.getURLPrefix()
+								.toExternalForm());
+			} else {
+				this.urlPrefixCheckBox
+						.setSelected(false);
+			}
+
+			this.hostnameFilterTableModel
+					.setRowCount(0);
+			String[] allowedHostNames = downloadJobFilter.getAllowedHostNames();
+			for (String string : allowedHostNames) {
+				this.hostnameFilterTableModel
+						.addRow(new Object[] { string });
+			}
+
+			this.saveToDiskFilterTabelModel
+					.setRowCount(0);
+			String[] saveToDiskFilter = downloadJobFilter.getSaveToDisk();
+			for (String string : saveToDiskFilter) {
+				this.saveToDiskFilterTabelModel
+						.addRow(new Object[] { string });
+			}
+
+		}
+		
+	}
+
+	public void saveJobPackage(SerializableJobPackage pJobPackage) {
+		
+		// TODO Auto-generated method stub
+		
 	}
 
 	public List<String> validateFields() {

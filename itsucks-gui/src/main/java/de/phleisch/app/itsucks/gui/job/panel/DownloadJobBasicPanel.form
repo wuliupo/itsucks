@@ -68,13 +68,13 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="nameTextField" pref="174" max="32767" attributes="0"/>
+                          <Component id="nameTextField" pref="179" max="32767" attributes="0"/>
                           <EmptySpace min="204" pref="204" max="204" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="urlTextField" alignment="0" pref="292" max="32767" attributes="0"/>
-                              <Component id="savePathTextField" alignment="1" pref="292" max="32767" attributes="0"/>
+                              <Component id="urlTextField" alignment="0" pref="319" max="32767" attributes="0"/>
+                              <Component id="savePathTextField" alignment="1" pref="319" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -289,7 +289,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="enableAuthenticationCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="218" max="-2" attributes="0"/>
+                              <EmptySpace pref="213" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -307,7 +307,7 @@
                           <Component id="proxyPortTextField" linkSize="4" min="-2" pref="122" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -348,9 +348,6 @@
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
               </Border>
-            </Property>
-            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[0, 0, 0, 0]"/>
             </Property>
           </Properties>
           <Events>
@@ -399,9 +396,6 @@
               </Border>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
-            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[0, 0, 0, 0]"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="enableAuthenticationCheckBoxStateChanged"/>
@@ -458,7 +452,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="userAgentLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="userAgentTextField" pref="371" max="32767" attributes="0"/>
+                          <Component id="userAgentTextField" pref="376" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -523,7 +517,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="bandwidthLimitLabel" alignment="0" pref="450" max="32767" attributes="0"/>
+                      <Component id="bandwidthLimitLabel" alignment="0" pref="455" max="32767" attributes="0"/>
                       <Component id="enableBandwidthLimitCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="bandwidthLimitTextField" min="-2" pref="84" max="-2" attributes="0"/>

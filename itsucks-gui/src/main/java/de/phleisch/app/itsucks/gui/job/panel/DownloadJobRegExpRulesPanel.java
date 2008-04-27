@@ -8,20 +8,24 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Dialog;
 import java.io.Serializable;
+import java.util.List;
 
+import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.gui.common.EditRegularExpressionDialog;
+import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
+import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
  *
  * @author  __USER__
  */
-public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
+public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = 9062521650244140654L;
 
@@ -44,6 +48,33 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 		//disable advanced edit filter panel
 		SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel, false);
 	}
+	
+
+	public void loadJobPackage(SerializableJobPackage pJobPackage) {
+		
+		RegExpJobFilter regExpJobFilter = 
+			(RegExpJobFilter) pJobPackage.getFilterByType(RegExpJobFilter.class);
+		
+		if (regExpJobFilter != null) {
+			ExtendedListModel model = this.regExpFilterListModel;
+//			this.regExpFilterList.setModel(model);
+			for (RegExpFilterRule jobFilterRule : regExpJobFilter.getFilterRules()) {
+				model.addElement(this.new RegExpFilterRuleListElement(
+								jobFilterRule));
+			}
+		}
+		
+	}
+
+	public void saveJobPackage(SerializableJobPackage pJobPackage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<String> validateFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 
 	protected class RegExpFilterRuleListElement {
 
@@ -1158,5 +1189,6 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel {
 	protected javax.swing.JScrollPane regExpFilterPane;
 	protected javax.swing.JButton regExpFilterRemoveButton;
 	// End of variables declaration//GEN-END:variables
+
 
 }
