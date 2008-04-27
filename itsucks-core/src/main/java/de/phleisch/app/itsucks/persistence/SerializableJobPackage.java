@@ -47,6 +47,10 @@ public class SerializableJobPackage implements Serializable {
 	}
 	
 	public void addFilter(JobFilter pJobFilter) {
+		if(pJobFilter == null) {
+			throw new NullPointerException("Bad filter given.");
+		}
+		
 		mFilters.add(pJobFilter);
 	}
 	
