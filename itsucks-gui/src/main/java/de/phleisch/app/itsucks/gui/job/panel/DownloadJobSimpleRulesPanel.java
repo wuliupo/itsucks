@@ -7,6 +7,9 @@
 package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.awt.Rectangle;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -106,7 +109,94 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel implements E
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
 		
-		// TODO Auto-generated method stub
+		MaxLinksToFollowFilter maxLinksToFollowFilter = 
+			(MaxLinksToFollowFilter) pJobPackage.getFilterByType(MaxLinksToFollowFilter.class);
+		
+		TimeLimitFilter timeLimitFilter = 
+			(TimeLimitFilter) pJobPackage.getFilterByType(TimeLimitFilter.class);
+		
+		DownloadJobFilter downloadJobFilter = 
+			(DownloadJobFilter) pJobPackage.getFilterByType(DownloadJobFilter.class);
+		
+		if(downloadJobFilter == null) {
+			downloadJobFilter = new DownloadJobFilter();
+			pJobPackage.addFilter(downloadJobFilter);
+		}
+
+		String maxRecursionDepth = this.recursionDepthTextField
+				.getText();
+		if (maxRecursionDepth != null && maxRecursionDepth.length() > 0) {
+			downloadJobFilter.setMaxRecursionDepth(Integer
+					.parseInt(maxRecursionDepth));
+		}
+
+		String maxLinksToFollow = this.linksToFollowTextField
+				.getText();
+		if (maxLinksToFollow != null && maxLinksToFollow.length() > 0) {
+			
+			if(maxLinksToFollowFilter == null) {
+				maxLinksToFollowFilter = new MaxLinksToFollowFilter();
+				pJobPackage.addFilter(maxLinksToFollowFilter);
+			}
+			
+			maxLinksToFollowFilter.setMaxLinksToFollow(Integer
+					.parseInt(maxLinksToFollow));
+
+			if (maxLinksToFollowFilter.getMaxLinksToFollow() < 0) {
+				pJobPackage.removeFilter(maxLinksToFollowFilter);
+			}
+		}
+
+		String timeLimit = this.timeLimitTextField
+				.getText();
+		if (timeLimit != null && timeLimit.length() > 0) {
+			
+			if(timeLimitFilter == null) {
+				timeLimitFilter = new TimeLimitFilter();
+				pJobPackage.addFilter(timeLimitFilter);
+			}
+			
+			timeLimitFilter.setTimeLimitAsText(timeLimit);
+			if (timeLimitFilter.getTimeLimit() < 0) {
+				pJobPackage.removeFilter(timeLimitFilter);
+			}
+		}
+
+		if (this.urlPrefixCheckBox.isSelected()) {
+			try {
+				downloadJobFilter.setURLPrefix(new URL(
+						this.urlPrefixTextField
+								.getText()));
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Bad URL: "
+						+ this.urlPrefixTextField
+								.getText(), e);
+			}
+		} else {
+			downloadJobFilter.setURLPrefix(null);
+		}
+
+		int hostnameFilterRowCount = this.hostnameFilterTableModel
+				.getRowCount();
+		List<String> allowedHostnames = new ArrayList<String>();
+		for (int i = 0; i < hostnameFilterRowCount; i++) {
+			allowedHostnames
+					.add((String) this.hostnameFilterTableModel
+							.getValueAt(i, 0));
+		}
+		downloadJobFilter.setAllowedHostNames(allowedHostnames
+				.toArray(new String[allowedHostnames.size()]));
+
+		int saveToDiskFilterRowCount = this.saveToDiskFilterTabelModel
+				.getRowCount();
+		List<String> saveToDiskFilters = new ArrayList<String>();
+		for (int i = 0; i < saveToDiskFilterRowCount; i++) {
+			saveToDiskFilters
+					.add((String) this.saveToDiskFilterTabelModel
+							.getValueAt(i, 0));
+		}
+		downloadJobFilter.setSaveToDisk(saveToDiskFilters
+				.toArray(new String[saveToDiskFilters.size()]));
 		
 	}
 

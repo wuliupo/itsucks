@@ -96,12 +96,28 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
 		
+		ContentFilter contentFilter = 
+			(ContentFilter) pJobPackage.getFilterByType(ContentFilter.class);
+		
+		int contentFilterCount = this.contentFilterListModel.getSize();
+		
+		if (contentFilterCount > 0) {
+			if(contentFilter == null) {
+				contentFilter = new ContentFilter();
+				pJobPackage.addFilter(contentFilter);
+			}
+		
+			for (int i = 0; i < contentFilterCount; i++) {
+				ContentFilterConfig rule = ((DownloadJobContentFilterPanel.ContentFilterRuleListElement) 
+						this.contentFilterListModel
+							.get(i)).getRule();
+				contentFilter.addContentFilterConfig(rule);
+			}
+		}
 	}
 
 	public List<String> validateFields() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

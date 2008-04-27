@@ -67,12 +67,29 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements E
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
 		
+		RegExpJobFilter regExpFilter = 
+			(RegExpJobFilter) pJobPackage.getFilterByType(RegExpJobFilter.class);
+		
+		int advancedFilterCount = this.regExpFilterListModel.getSize();
+		
+		if (advancedFilterCount > 0) {
+			if(regExpFilter == null) {
+				regExpFilter = new RegExpJobFilter();
+				pJobPackage.addFilter(regExpFilter);
+			}
+		
+			for (int i = 0; i < advancedFilterCount; i++) {
+				RegExpFilterRule rule = ((DownloadJobRegExpRulesPanel.RegExpFilterRuleListElement) 
+						this.regExpFilterListModel.get(i))
+							.getRule();
+				regExpFilter.addFilterRule(rule);
+			}
+		
+		}
 	}
 
 	public List<String> validateFields() {
-		// TODO Auto-generated method stub
 		return null;
 	}	
 

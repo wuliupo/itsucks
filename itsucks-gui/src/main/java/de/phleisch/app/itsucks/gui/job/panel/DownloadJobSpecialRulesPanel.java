@@ -130,7 +130,79 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
+
+		FileSizeFilter fileSizeFilter = 
+			(FileSizeFilter) pJobPackage.getFilterByType(FileSizeFilter.class);
+		
+		//file size filter
+		if (this.fileSizeEnableCheckBox
+				.isSelected()) {
+
+			if(fileSizeFilter == null) {
+				fileSizeFilter = new FileSizeFilter();
+				pJobPackage.addFilter(fileSizeFilter);
+			}
+
+			fileSizeFilter
+					.setMinSizeAsText(this.fileSizeMinField
+							.getText().trim());
+			fileSizeFilter
+					.setMaxSizeAsText(this.fileSizeMaxField
+							.getText().trim());
+
+			fileSizeFilter
+					.setAcceptWhenLengthNotSet(this.fileSizeNotKnownComboBox
+							.getSelectedIndex() > 0 ? false : true);
+		}
+		
+		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = 
+			(ChangeHttpResponseCodeBehaviourFilter) 
+			pJobPackage.getFilterByType(ChangeHttpResponseCodeBehaviourFilter.class);
+
+		//http status code filter
+		if (this.httpStatusCodeBehaviourCheckBox
+				.isSelected()) {
+			
+			if(httpResponseCodeFilter == null) {
+				httpResponseCodeFilter = 
+					new ChangeHttpResponseCodeBehaviourFilter();
+				pJobPackage.addFilter(httpResponseCodeFilter);
+			}
+			
+			ExtendedListModel listModel = 
+				this.httpStatusCodeBehaviourEditListPanel.getListModel();
+			
+			Object[] elements = listModel.toArray();
+			for (int i = 0; i < elements.length; i++) {
+				HttpStatusCodeBehaviourListElement element = 
+					(HttpStatusCodeBehaviourListElement) elements[i];
+				
+				HttpRetrieverResponseCodeBehaviour.Action action = 
+					this.mHttpResponseCodeFilterActions.get(element.getAction()).getValue();
+				
+				ResponseCodeRange responseCodeRange = 
+					new ResponseCodeRange(
+							Integer.parseInt(element.getResponseCodeFrom()),
+							Integer.parseInt(element.getResponseCodeTo()),
+							action
+					);
+				
+				if(action.equals(HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE)) {
+					responseCodeRange.setTimeToWaitBetweenRetry(
+							Long.parseLong(element.getTimeToWaitBetweenRetry()));
+				}
+				
+				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour =
+					new HttpRetrieverResponseCodeBehaviour();
+				responseCodeBehaviour.add(responseCodeRange);
+				
+				HttpResponseCodeBehaviourHostConfig hostConfig = 
+					new HttpResponseCodeBehaviourHostConfig(element.getHostnameRegexp(), 
+							responseCodeBehaviour);
+				
+				httpResponseCodeFilter.addConfig(hostConfig);
+			}
+		}
 		
 	}
 	

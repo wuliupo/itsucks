@@ -17,11 +17,13 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
@@ -134,7 +136,117 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel implements EditJob
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
+		
+		//build download job
+		DownloadJobFactory jobFactory = (DownloadJobFactory) SpringContextSingelton
+				.getApplicationContext().getBean("JobFactory");
+		UrlDownloadJob basicJob = jobFactory.createDownloadJob();
+		basicJob.setIgnoreFilter(true);
+		basicJob.setState(UrlDownloadJob.STATE_OPEN);
+		
+		List<URL> urls = new ArrayList<URL>();
+		
+		SerializableDispatcherConfiguration dispatcherConfiguration = pJobPackage
+			.getDispatcherConfiguration();
+		if(dispatcherConfiguration == null) {
+			dispatcherConfiguration = new SerializableDispatcherConfiguration();
+		}
+		
+		HttpRetrieverConfiguration retrieverConfiguration = (HttpRetrieverConfiguration) pJobPackage
+			.getContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
+		if(retrieverConfiguration == null) {
+			retrieverConfiguration = new HttpRetrieverConfiguration();
+		}
+
+		
+		basicJob.setName(this.nameTextField.getText());
+
+		try {
+			urls.addAll(this.getUrlList());
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+
+		basicJob.setSavePath(new File(
+				this.savePathTextField.getText()));
+		basicJob.setMaxRetryCount(Integer
+				.parseInt(this.maxRetriesTextField
+						.getText()));
+
+		dispatcherConfiguration.setWorkerThreads(Integer
+				.parseInt(this.workingThreadsTextField
+						.getText()));
+
+		retrieverConfiguration.setMaxConnectionsPerServer(Integer
+				.parseInt(this.maxConnectionsTextField
+						.getText()));
+
+		//proxy configuration
+		if (this.enableProxyCheckBox.isSelected()) {
+			retrieverConfiguration.setProxyEnabled(true);
+
+			retrieverConfiguration
+					.setProxyServer(this.proxyServerTextField
+							.getText());
+
+			retrieverConfiguration.setProxyPort(Integer
+					.parseInt(this.proxyPortTextField
+							.getText()));
+		} else {
+			retrieverConfiguration.setProxyEnabled(false);
+		}
+
+		if (this.enableAuthenticationCheckBox
+				.isSelected()) {
+			retrieverConfiguration.setProxyAuthenticationEnabled(true);
+
+			retrieverConfiguration
+					.setProxyUser(this.authenticationUserTextField
+							.getText());
+
+			retrieverConfiguration
+					.setProxyPassword(this.authenticationPasswordTextField
+							.getText());
+		} else {
+			retrieverConfiguration.setProxyAuthenticationEnabled(false);
+		}
+		
+		//user agent
+		if (this.userAgentCheckBox.isSelected()) {
+			retrieverConfiguration
+					.setUserAgent(this.userAgentTextField
+							.getText());
+		}
+		
+		//bandwidth limit
+		if (this.enableBandwidthLimitCheckBox.isSelected()) {
+			int bandwidthLimit = Integer.parseInt(this.bandwidthLimitTextField
+					.getText());
+			int multiplier = (int) Math.pow(1024, this.bandwidthLimitComboBox.getSelectedIndex());
+			bandwidthLimit *= multiplier;
+			
+			retrieverConfiguration.setBandwidthLimit(bandwidthLimit);
+		}
+		
+		//build result
+		for (URL url : urls) {
+			UrlDownloadJob job = jobFactory.createDownloadJob();
+
+			job.setUrl(url);
+			job.setIgnoreFilter(basicJob.isIgnoreFilter());
+			job.setState(basicJob.getState());
+			job.setName(basicJob.getName());
+			job.setSavePath(basicJob.getSavePath());
+			job.setMaxRetryCount(basicJob.getMaxRetryCount());
+
+			pJobPackage.addJob(job);
+		}
+
+		pJobPackage.setDispatcherConfiguration(dispatcherConfiguration);
+		pJobPackage
+				.putContextParameter(
+						HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
+						retrieverConfiguration);
 		
 	}	
 	
