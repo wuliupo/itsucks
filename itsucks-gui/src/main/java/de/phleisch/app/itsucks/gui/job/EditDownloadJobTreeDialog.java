@@ -6,13 +6,21 @@
 
 package de.phleisch.app.itsucks.gui.job;
 
+import java.awt.Component;
 import java.io.File;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
@@ -32,25 +40,111 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     
     protected void registerTreeNodes() {
 		
-    	DefaultMutableTreeNode root = new DefaultMutableTreeNode("Bla");
+    	DefaultMutableTreeNode root = new DefaultMutableTreeNode("Job Configuration");
     	
-    	DefaultMutableTreeNode connectionSettings = new DefaultMutableTreeNode();
-    	connectionSettings.setUserObject("Connection Settings");
-    	root.add(connectionSettings);
+    	//basic parameters
+    	DownloadJobBasicPanel basicParametersPanel = new DownloadJobBasicPanel();
+    	DefaultMutableTreeNode basicParameters = new DefaultMutableTreeNode();
+    	basicParameters.setUserObject(
+    			new JobTreeNode("Basic Parameters", basicParametersPanel, basicParametersPanel));
+    	root.add(basicParameters);
+
+    	//simple rules
+    	DownloadJobSimpleRulesPanel simpleRulesPanel = new DownloadJobSimpleRulesPanel();
+    	DefaultMutableTreeNode simpleRules = new DefaultMutableTreeNode();
+    	basicParameters.setUserObject(
+    			new JobTreeNode("Simple Rules", simpleRulesPanel, simpleRulesPanel));
+    	root.add(simpleRules);
+
+    	//special rules
+    	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
+    	DefaultMutableTreeNode specialRules = new DefaultMutableTreeNode();
+    	basicParameters.setUserObject(
+    			new JobTreeNode("Special Rules", specialRulesPanel, specialRulesPanel));
+    	root.add(specialRules);
     	
-    	DefaultMutableTreeNode proxySettings = new DefaultMutableTreeNode();
-    	proxySettings.setUserObject("Proxy");
-    	connectionSettings.add(proxySettings);
+    	//reg exp rules
+    	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
+    	DefaultMutableTreeNode advancedRegExpRules = new DefaultMutableTreeNode();
+    	basicParameters.setUserObject(
+    			new JobTreeNode("Advanced RegExp Rules", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
+    	root.add(advancedRegExpRules);
+    	
+    	//content filter
+    	DownloadJobContentFilterPanel contentFilterPanel = new DownloadJobContentFilterPanel();
+    	DefaultMutableTreeNode contentFilterRules = new DefaultMutableTreeNode();
+    	basicParameters.setUserObject(
+    			new JobTreeNode("Content Filter", contentFilterPanel, contentFilterPanel));
+    	root.add(contentFilterRules);
+
     	
     	DefaultTreeModel model = new DefaultTreeModel(root);
     	tree.setModel(model);
-//    	model.setRoot();
     	
-//    	model.
-    	
-    	this.panelArea.add(new DownloadJobBasicPanel());
-    	
+        //Listen for when the selection changes.
+        tree.addTreeSelectionListener(new JobTreeListener());
 	}
+    
+    protected class JobTreeListener implements TreeSelectionListener {
+
+		public void valueChanged(TreeSelectionEvent pEvent) {
+			
+		    DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+            tree.getLastSelectedPathComponent();
+
+		    panelArea.removeAll();
+		    JobTreeNode jobNode = (JobTreeNode) node.getUserObject();
+		    if(jobNode != null && jobNode.getEditPanel() != null) {
+		    	panelArea.add(jobNode.getEditPanel());
+		    }
+		}
+    	
+    }
+    
+    protected class JobTreeNode {
+    	
+    	private String mTitle;
+    	private Component mEditPanel;
+    	private EditJobCapable mEditJobCapable;
+
+    	public JobTreeNode(String pTitle) {
+    		this(pTitle, null, null);
+    	}
+    	
+    	public JobTreeNode() {
+    	}
+    	
+    	public JobTreeNode(String pTitle, Component pEditPanel, EditJobCapable pEditJobCapable) {
+    		mTitle = pTitle;
+    		mEditPanel = pEditPanel;
+    		mEditJobCapable = pEditJobCapable;
+    	}
+    	
+		public Component getEditPanel() {
+			return mEditPanel;
+		}
+
+		public void setEditPanel(Component pEditPanel) {
+			mEditPanel = pEditPanel;
+		}
+
+		public String getTitle() {
+			return mTitle;
+		}
+
+		public void setTitle(String pTitle) {
+			mTitle = pTitle;
+		}
+
+		public EditJobCapable getEditJobCapable() {
+			return mEditJobCapable;
+		}
+
+		public void setEditJobCapable(EditJobCapable pEditJobCapable) {
+			mEditJobCapable = pEditJobCapable;
+		}
+    	
+    }
 
 	/** This method is called from within the constructor to
      * initialize the form.
