@@ -75,33 +75,41 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     			new JobTreeNode("Basic Parameters", basicParametersPanel, basicParametersPanel));
     	root.add(basicParameters);
 
+    	//rules
+    	DefaultMutableTreeNode rules = new DefaultMutableTreeNode("Rules");
+    	root.add(rules);
+    	
     	//simple rules
     	DownloadJobSimpleRulesPanel simpleRulesPanel = new DownloadJobSimpleRulesPanel();
     	DefaultMutableTreeNode simpleRules = new DefaultMutableTreeNode();
     	simpleRules.setUserObject(
     			new JobTreeNode("Simple Rules", simpleRulesPanel, simpleRulesPanel));
-    	root.add(simpleRules);
+    	rules.add(simpleRules);
 
     	//special rules
     	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
     	DefaultMutableTreeNode specialRules = new DefaultMutableTreeNode();
     	specialRules.setUserObject(
     			new JobTreeNode("Special Rules", specialRulesPanel, specialRulesPanel));
-    	root.add(specialRules);
+    	rules.add(specialRules);
     	
     	//reg exp rules
     	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
     	DefaultMutableTreeNode advancedRegExpRules = new DefaultMutableTreeNode();
     	advancedRegExpRules.setUserObject(
     			new JobTreeNode("Advanced RegExp Rules", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
-    	root.add(advancedRegExpRules);
+    	rules.add(advancedRegExpRules);
+    	
+    	//filter
+    	DefaultMutableTreeNode filter = new DefaultMutableTreeNode("Filter");
+    	root.add(filter);
     	
     	//content filter
     	DownloadJobContentFilterPanel contentFilterPanel = new DownloadJobContentFilterPanel();
-    	DefaultMutableTreeNode contentFilterRules = new DefaultMutableTreeNode();
-    	contentFilterRules.setUserObject(
+    	DefaultMutableTreeNode contentFilter = new DefaultMutableTreeNode();
+    	contentFilter.setUserObject(
     			new JobTreeNode("Content Filter", contentFilterPanel, contentFilterPanel));
-    	root.add(contentFilterRules);
+    	filter.add(contentFilter);
 
     	
     	DefaultTreeModel model = new DefaultTreeModel(root);
