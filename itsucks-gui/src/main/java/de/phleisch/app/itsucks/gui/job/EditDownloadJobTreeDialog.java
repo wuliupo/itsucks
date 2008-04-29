@@ -7,20 +7,29 @@
 package de.phleisch.app.itsucks.gui.job;
 
 import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Frame;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
+import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel;
+import de.phleisch.app.itsucks.gui.util.TreeVisitor;
+import de.phleisch.app.itsucks.gui.util.TreeVisitor.TreeListener;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
@@ -32,11 +41,28 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     
 	private static final long serialVersionUID = -3441346245316972387L;
 	
+	private AddDownloadJobCapable mDownloadJobManager = null;
+	
 	/** Creates new form EditDownloadJobTreeDialog */
-    public EditDownloadJobTreeDialog() {
+    public EditDownloadJobTreeDialog(Frame pOwner,
+			AddDownloadJobCapable pDownloadJobManager) {
+		super(pOwner);
+		init(pDownloadJobManager);
+    }
+    
+	public EditDownloadJobTreeDialog(Dialog pOwner,
+			AddDownloadJobCapable pDownloadJobManager) {
+
+		super(pOwner);
+		init(pDownloadJobManager);
+	}
+	
+	private void init(AddDownloadJobCapable pDownloadJobManager) {
+		mDownloadJobManager = pDownloadJobManager;
+    	
         initComponents();
         registerTreeNodes();
-    }
+	}
     
     protected void registerTreeNodes() {
 		
@@ -52,28 +78,28 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	//simple rules
     	DownloadJobSimpleRulesPanel simpleRulesPanel = new DownloadJobSimpleRulesPanel();
     	DefaultMutableTreeNode simpleRules = new DefaultMutableTreeNode();
-    	basicParameters.setUserObject(
+    	simpleRules.setUserObject(
     			new JobTreeNode("Simple Rules", simpleRulesPanel, simpleRulesPanel));
     	root.add(simpleRules);
 
     	//special rules
     	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
     	DefaultMutableTreeNode specialRules = new DefaultMutableTreeNode();
-    	basicParameters.setUserObject(
+    	specialRules.setUserObject(
     			new JobTreeNode("Special Rules", specialRulesPanel, specialRulesPanel));
     	root.add(specialRules);
     	
     	//reg exp rules
     	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
     	DefaultMutableTreeNode advancedRegExpRules = new DefaultMutableTreeNode();
-    	basicParameters.setUserObject(
+    	advancedRegExpRules.setUserObject(
     			new JobTreeNode("Advanced RegExp Rules", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
     	root.add(advancedRegExpRules);
     	
     	//content filter
     	DownloadJobContentFilterPanel contentFilterPanel = new DownloadJobContentFilterPanel();
     	DefaultMutableTreeNode contentFilterRules = new DefaultMutableTreeNode();
-    	basicParameters.setUserObject(
+    	contentFilterRules.setUserObject(
     			new JobTreeNode("Content Filter", contentFilterPanel, contentFilterPanel));
     	root.add(contentFilterRules);
 
@@ -83,20 +109,99 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	
         //Listen for when the selection changes.
         tree.addTreeSelectionListener(new JobTreeListener());
+        tree.setSelectionPath(new TreePath(basicParameters.getPath()));
 	}
     
+	public void loadJob(final SerializableJobPackage pJobPackage) {
+		List<EditJobCapable> allEditJobCapable = getAllEditJobCapable();
+		
+		for (EditJobCapable editJobCapable : allEditJobCapable) {
+			editJobCapable.loadJobPackage(pJobPackage);
+		}
+	}
+    
+	protected List<EditJobCapable> getAllEditJobCapable() {
+		
+		final List<EditJobCapable> list = new ArrayList<EditJobCapable>();
+		
+		TreeVisitor treeVisitor = new TreeVisitor();
+		treeVisitor.registerListener(new TreeListener() {
+
+			public void processNode(TreeNode pTreeNode) {
+				JobTreeNode jobNode = getJobTreeNode(pTreeNode);
+				if(jobNode != null && jobNode.getEditJobCapable() != null) {
+					list.add(jobNode.getEditJobCapable());
+				}
+			}
+		});
+		
+		treeVisitor.visit((TreeNode) tree.getModel().getRoot());
+		
+		return list;
+	}
+	
+	protected JobTreeNode getJobTreeNode(TreeNode pTreeNode) {
+		
+		JobTreeNode jobNode = null;
+		
+		if(pTreeNode instanceof DefaultMutableTreeNode) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) pTreeNode;
+			Object userObject = node.getUserObject();
+			if(userObject != null && userObject instanceof JobTreeNode) {
+				jobNode = (JobTreeNode) userObject;
+			}
+		}
+	
+		return jobNode;
+	}
+	
+	protected TreeNode findNodeByEditJobCapable(final EditJobCapable pJobCapable) {
+		
+		final List<TreeNode> result = new ArrayList<TreeNode>();
+		
+		TreeVisitor treeVisitor = new TreeVisitor();
+		treeVisitor.registerListener(new TreeListener() {
+
+			public void processNode(TreeNode pTreeNode) {
+				JobTreeNode jobNode = getJobTreeNode(pTreeNode);
+				if(jobNode != null && jobNode.getEditJobCapable() == pJobCapable) {
+					result.add(pTreeNode);
+				}
+			}
+		});
+		
+		treeVisitor.visit((TreeNode) tree.getModel().getRoot());
+		
+		if(result.size() > 0) {
+			return result.get(0);
+		} else {
+			return null;
+		}
+	}
+	
     protected class JobTreeListener implements TreeSelectionListener {
 
 		public void valueChanged(TreeSelectionEvent pEvent) {
 			
-		    DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-            tree.getLastSelectedPathComponent();
+			Object pathComponent = tree.getLastSelectedPathComponent();
+			if(!(pathComponent instanceof DefaultMutableTreeNode)) {
+				return;
+			}
+			
+		    DefaultMutableTreeNode node = (DefaultMutableTreeNode)pathComponent;
 
 		    panelArea.removeAll();
-		    JobTreeNode jobNode = (JobTreeNode) node.getUserObject();
-		    if(jobNode != null && jobNode.getEditPanel() != null) {
-		    	panelArea.add(jobNode.getEditPanel());
+		    Object userObject = node.getUserObject();
+		    
+		    if(userObject instanceof JobTreeNode) {
+			    JobTreeNode jobNode = (JobTreeNode) userObject;
+			    if(jobNode != null && jobNode.getEditPanel() != null) {
+			    	panelArea.add(jobNode.getEditPanel());
+			    }
 		    }
+		    
+	    	panelArea.revalidate();
+	    	panelArea.repaint();
 		}
     	
     }
@@ -143,8 +248,62 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
 		public void setEditJobCapable(EditJobCapable pEditJobCapable) {
 			mEditJobCapable = pEditJobCapable;
 		}
+		
+		public String toString() {
+			return mTitle;
+		}
     	
     }
+    
+
+	public SerializableJobPackage buildJob() {
+
+		List<EditJobCapable> allEditJobCapable = getAllEditJobCapable();
+		
+		if (!validatePanels(allEditJobCapable))
+			return null;
+		
+		SerializableJobPackage result = new SerializableJobPackage();
+		
+		for (EditJobCapable jobPanel : allEditJobCapable) {
+			jobPanel.saveJobPackage(result);
+		}
+		
+		return result;
+	}
+
+	private boolean validatePanels(List<EditJobCapable> pEditJobCapable) {
+
+		boolean result = true;
+		
+		for (EditJobCapable jobPanel : pEditJobCapable) {
+			List<String> errors = jobPanel.validateFields();
+			if(errors != null && errors.size() > 0) {
+				result = false;
+				
+				DefaultMutableTreeNode node = 
+					(DefaultMutableTreeNode) findNodeByEditJobCapable(jobPanel);
+				tree.setSelectionPath(new TreePath(node.getPath()));
+				
+				displayErrors(errors);
+				
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	private void displayErrors(List<String> errorsBasicPanel) {
+		StringBuffer buffer = new StringBuffer();
+		for (String string : errorsBasicPanel) {
+			buffer.append(string + '\n');
+		}
+
+		JOptionPane.showMessageDialog(this, buffer.toString(),
+				"Validation errors", JOptionPane.ERROR_MESSAGE);
+	}
+
 
 	/** This method is called from within the constructor to
      * initialize the form.
@@ -224,7 +383,7 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        SerializableJobPackage job = null;//this.editDownloadJobGroupPanel.buildJob();
+        SerializableJobPackage job = buildJob();
         if (job == null)
             return;
         
@@ -263,13 +422,18 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
             return;
         }
         
-        //mDownloadJobManager.addDownload(job);
+        mDownloadJobManager.addDownload(job);
         
         this.dispose();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        //saveDownloadTemplate();
+		SerializableJobPackage downloadJobList = buildJob();
+		if (downloadJobList == null)
+			return;
+		
+		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
+		helper.saveDownloadTemplate(downloadJobList);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

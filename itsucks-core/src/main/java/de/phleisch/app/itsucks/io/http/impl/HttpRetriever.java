@@ -83,7 +83,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		HttpClient client = getHttpClientFromConfiguration();
 		
-		mGet = new GetMethod(mUrl.toString());
+		mGet = new GZIPAwareGetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
 		
 		HttpMethodParams params = mGet.getParams();
@@ -97,7 +97,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		}
 		
 		//accept gzip
-		mGet.addRequestHeader("Accept-Encoding", "gzip,deflate");
+		mGet.addRequestHeader("Accept-Encoding", "gzip");
 		
 		//add cookies to header
 		List<String> cookieList = getCookieList();
@@ -164,6 +164,41 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
       		new MultiThreadedHttpConnectionManager();
      	
      	HttpClient httpClient = new HttpClient(connectionManager);
+     	
+//     	httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
+//            
+//            public void process(
+//                    final HttpRequest request, 
+//                    final HttpContext context) throws HttpException, IOException {
+//                if (!request.containsHeader("Accept-Encoding")) {
+//                    request.addHeader("Accept-Encoding", "gzip");
+//                }
+//            }
+//
+//        });
+//        
+//     	httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
+//           
+//            public void process(
+//                    final HttpResponse response, 
+//                    final HttpContext context) throws HttpException, IOException {
+//                HttpEntity entity = response.getEntity();
+//                Header ceheader = entity.getContentEncoding();
+//                if (ceheader != null) {
+//                    HeaderElement[] codecs = ceheader.getElements();
+//                    for (int i = 0; i < codecs.length; i++) {
+//                        if (codecs[i].getName().equalsIgnoreCase("gzip")) {
+//                            response.setEntity(
+//                                    new GzipDecompressingEntity(response.getEntity())); 
+//                            return;
+//                        }
+//                    }
+//                }
+//            }
+//            
+//        });
+
+     	
      	
      	if(pConfiguration != null) {
      		

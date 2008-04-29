@@ -75,17 +75,7 @@ public class EditDownloadJobHelper {
 			job.setSavePath(new File(System.getProperty("user.home")
 					+ File.separatorChar + "itsucks" + File.separatorChar));
 
-			EditDownloadJobDialog dialog;
-			if(mParentFrame != null) {
-				dialog = new EditDownloadJobDialog(mParentFrame, pAddDownloadJobCapable);
-			} else if(mParentDialog != null) {
-				dialog = new EditDownloadJobDialog(mParentDialog, pAddDownloadJobCapable);
-			} else {
-				throw new RuntimeException("No parent defined.");
-			}
-			
-			dialog.loadJob(jobList);
-			dialog.setVisible(true);
+			editDownload(pAddDownloadJobCapable, jobList);
 		}
 	}
 
@@ -152,11 +142,20 @@ public class EditDownloadJobHelper {
 		if (jobList != null) {
 			//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
 
-			EditDownloadJobDialog dialog;
+//			EditDownloadJobDialog dialog;
+//			if(mParentFrame != null) {
+//				dialog = new EditDownloadJobDialog(mParentFrame, pAddDownloadJobCapable);
+//			} else if(mParentDialog != null) {
+//				dialog = new EditDownloadJobDialog(mParentDialog, pAddDownloadJobCapable);
+//			} else {
+//				throw new RuntimeException("No parent defined.");
+//			}
+			
+			EditDownloadJobTreeDialog dialog;
 			if(mParentFrame != null) {
-				dialog = new EditDownloadJobDialog(mParentFrame, pAddDownloadJobCapable);
+				dialog = new EditDownloadJobTreeDialog(mParentFrame, pAddDownloadJobCapable);
 			} else if(mParentDialog != null) {
-				dialog = new EditDownloadJobDialog(mParentDialog, pAddDownloadJobCapable);
+				dialog = new EditDownloadJobTreeDialog(mParentDialog, pAddDownloadJobCapable);
 			} else {
 				throw new RuntimeException("No parent defined.");
 			}

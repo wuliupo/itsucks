@@ -2,8 +2,8 @@
   <name>itsucks-gui</name>
   <comment/>
   <projects>
-    <project>itsucks-base</project>
     <project>itsucks-core</project>
+    <project>itsucks-base</project>
   </projects>
   <buildSpec>
     <buildCommand>
