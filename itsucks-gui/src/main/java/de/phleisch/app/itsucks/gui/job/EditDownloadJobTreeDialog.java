@@ -23,6 +23,7 @@ import javax.swing.tree.TreePath;
 
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
+import de.phleisch.app.itsucks.gui.job.panel.BasicConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
@@ -80,10 +81,10 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	root.add(connection);
     	
     	//Basic settings
-//    	DownloadJobBasicPanel basicConnectionSettinsPanel = new DownloadJobBasicPanel();
+    	BasicConnectionSettingsPanel basicConnectionSettinsPanel = new BasicConnectionSettingsPanel();
     	DefaultMutableTreeNode connectionSettings = new DefaultMutableTreeNode();
     	connectionSettings.setUserObject(
-    			new JobTreeNode("Basic Settings", null, null));
+    			new JobTreeNode("Basic Settings", basicConnectionSettinsPanel, basicConnectionSettinsPanel));
     	connection.add(connectionSettings);
     	
     	//Cookie settings
