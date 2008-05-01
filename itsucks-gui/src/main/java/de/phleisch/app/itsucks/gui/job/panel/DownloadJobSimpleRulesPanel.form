@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.3" maxVersion="1.3" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="4"/>
@@ -11,13 +14,13 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="limitsPanel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="urlPrefixFilterPanel" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="hostnameFilterPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="saveToDiskFilterPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="limitsPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="urlPrefixFilterPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -26,15 +29,15 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="limitsPanel" min="-2" pref="102" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="hostnameFilterPanel" pref="134" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="saveToDiskFilterPanel" pref="135" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="limitsPanel" min="-2" pref="126" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="urlPrefixFilterPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="hostnameFilterPanel" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="saveToDiskFilterPanel" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,7 +58,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="limitsLabel" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="limitsLabel" alignment="0" pref="489" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="recursionDepthLabel" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -72,9 +75,9 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="timeLimitTextField" min="-2" pref="74" max="-2" attributes="0"/>
-                                  <EmptySpace pref="178" max="32767" attributes="0"/>
+                                  <EmptySpace pref="103" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jLabel1" pref="252" max="32767" attributes="0"/>
+                              <Component id="jLabel1" pref="177" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -183,7 +186,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="urlPrefixFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="urlPrefixFilterLabel" alignment="0" pref="477" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="urlPrefixFieldLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -231,9 +234,6 @@
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
               </Border>
             </Property>
-            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[0, 0, 0, 0]"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="urlPrefixCheckBoxStateChanged"/>
@@ -272,14 +272,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="hostnameFilterScrollPane" pref="534" max="32767" attributes="0"/>
+                          <Component id="hostnameFilterScrollPane" pref="440" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="hostnameFilterRemoveButton" linkSize="2" min="-2" max="-2" attributes="1"/>
                               <Component id="hostnameFilterAddButton" linkSize="2" alignment="0" max="32767" attributes="1"/>
                           </Group>
                       </Group>
-                      <Component id="hostnameFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="hostnameFilterLabel" alignment="0" pref="477" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -296,7 +296,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="hostnameFilterRemoveButton" linkSize="7" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="hostnameFilterScrollPane" pref="56" max="32767" attributes="0"/>
+                      <Component id="hostnameFilterScrollPane" pref="72" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -368,14 +368,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="saveToDiskPane" pref="534" max="32767" attributes="0"/>
+                          <Component id="saveToDiskPane" pref="440" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="saveToDiskRemoveButton" linkSize="6" min="-2" max="-2" attributes="0"/>
                               <Component id="saveToDiskAddButton" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="saveToDiskFilterLabel" alignment="0" pref="564" max="32767" attributes="0"/>
+                      <Component id="saveToDiskFilterLabel" alignment="0" pref="477" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -392,7 +392,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="saveToDiskRemoveButton" linkSize="5" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="saveToDiskPane" alignment="0" pref="56" max="32767" attributes="0"/>
+                      <Component id="saveToDiskPane" alignment="0" pref="72" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

@@ -33,12 +33,12 @@ public class Main {
 		SpringContextSingelton.getApplicationContext();
 		
 		try {
-			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
-			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-			//UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
-			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+//			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
+//			UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+//			UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
+//			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

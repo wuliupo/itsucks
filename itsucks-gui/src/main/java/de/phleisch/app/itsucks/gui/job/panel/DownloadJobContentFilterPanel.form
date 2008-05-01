@@ -20,7 +20,7 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="editContentFilterPanel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="contentFilterPane" pref="599" max="32767" attributes="0"/>
+                      <Component id="contentFilterPane" pref="419" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="contentFilterRemoveButton" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -29,7 +29,7 @@
                           <Component id="contentFilterMoveDownButton" linkSize="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="contentFilterChainExplanationLabel" alignment="0" pref="650" max="32767" attributes="0"/>
+                  <Component id="contentFilterChainExplanationLabel" alignment="0" pref="476" max="32767" attributes="0"/>
                   <Component id="contentFilterChainLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -170,7 +170,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="editContentFilterRegExpPane" alignment="1" pref="616" max="32767" attributes="0"/>
+                      <Component id="editContentFilterRegExpPane" alignment="1" pref="440" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="editContentFilterMatchPanel" max="32767" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -183,10 +183,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="editContentFilterDescriptionLabel" min="-2" pref="111" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editContentFilterDescriptionPane" pref="261" max="32767" attributes="0"/>
+                          <Component id="editContentFilterDescriptionPane" pref="85" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="editContentFilterRegExpLabel" pref="441" max="32767" attributes="0"/>
+                          <Component id="editContentFilterRegExpLabel" pref="265" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="175" max="-2" attributes="0"/>
                       </Group>
                       <Component id="editContentFilterOpenRegExpEditorButton" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -210,7 +210,7 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="editContentFilterRegExpLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="editContentFilterRegExpPane" pref="58" max="32767" attributes="0"/>
+                  <Component id="editContentFilterRegExpPane" pref="54" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="editContentFilterOpenRegExpEditorButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
@@ -323,7 +323,7 @@
                       <Component id="editContentFilterMatchStatusChangeLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="editContentFilterMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="0"/>
-                      <EmptySpace pref="104" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -378,7 +378,7 @@
                       <Component id="editContentFilterNoMatchStatusChangeLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="editContentFilterNoMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="1"/>
-                      <EmptySpace pref="100" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

@@ -255,536 +255,299 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 //				"Validation errors", JOptionPane.ERROR_MESSAGE);
 //	}
 
-	//GEN-BEGIN:initComponents
-	// <editor-fold defaultstate="collapsed" desc="Generated Code">
-	private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		contentFilterChainLabel = new javax.swing.JLabel();
-		contentFilterChainExplanationLabel = new javax.swing.JLabel();
-		contentFilterPane = new javax.swing.JScrollPane();
-		contentFilterList = new javax.swing.JList();
-		contentFilterAddButton = new javax.swing.JButton();
-		contentFilterRemoveButton = new javax.swing.JButton();
-		contentFilterMoveUpButton = new javax.swing.JButton();
-		contentFilterMoveDownButton = new javax.swing.JButton();
-		editContentFilterPanel = new javax.swing.JPanel();
-		editContentFilterNameLabel = new javax.swing.JLabel();
-		editContentFilterNameField = new javax.swing.JTextField();
-		editContentFilterDescriptionLabel = new javax.swing.JLabel();
-		editContentFilterDescriptionPane = new javax.swing.JScrollPane();
-		editContentFilterDescriptionTextArea = new javax.swing.JTextArea();
-		editContentFilterRegExpLabel = new javax.swing.JLabel();
-		editContentFilterRegExpPane = new javax.swing.JScrollPane();
-		editContentFilterRegExpTextArea = new javax.swing.JTextArea();
-		editContentFilterOpenRegExpEditorButton = new javax.swing.JButton();
-		editContentFilterMatchPanel = new javax.swing.JPanel();
-		editContentFilterMatchStatusChangeLabel = new javax.swing.JLabel();
-		editContentFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
-		editContentFilterNoMatchPanel = new javax.swing.JPanel();
-		editContentFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
-		editContentFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
+        contentFilterChainLabel = new javax.swing.JLabel();
+        contentFilterChainExplanationLabel = new javax.swing.JLabel();
+        contentFilterPane = new javax.swing.JScrollPane();
+        contentFilterList = new javax.swing.JList();
+        contentFilterAddButton = new javax.swing.JButton();
+        contentFilterRemoveButton = new javax.swing.JButton();
+        contentFilterMoveUpButton = new javax.swing.JButton();
+        contentFilterMoveDownButton = new javax.swing.JButton();
+        editContentFilterPanel = new javax.swing.JPanel();
+        editContentFilterNameLabel = new javax.swing.JLabel();
+        editContentFilterNameField = new javax.swing.JTextField();
+        editContentFilterDescriptionLabel = new javax.swing.JLabel();
+        editContentFilterDescriptionPane = new javax.swing.JScrollPane();
+        editContentFilterDescriptionTextArea = new javax.swing.JTextArea();
+        editContentFilterRegExpLabel = new javax.swing.JLabel();
+        editContentFilterRegExpPane = new javax.swing.JScrollPane();
+        editContentFilterRegExpTextArea = new javax.swing.JTextArea();
+        editContentFilterOpenRegExpEditorButton = new javax.swing.JButton();
+        editContentFilterMatchPanel = new javax.swing.JPanel();
+        editContentFilterMatchStatusChangeLabel = new javax.swing.JLabel();
+        editContentFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
+        editContentFilterNoMatchPanel = new javax.swing.JPanel();
+        editContentFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
+        editContentFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
 
-		contentFilterChainLabel.setText("Content Filter Chain");
+        contentFilterChainLabel.setText("Content Filter Chain");
 
-		contentFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog",
-				0, 12));
-		contentFilterChainExplanationLabel
-				.setText("<html>This filter is applied to every text file while it's being downloaded.</html>");
+        contentFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterChainExplanationLabel.setText("<html>This filter is applied to every text file while it's being downloaded.</html>");
 
-		contentFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
-		contentFilterList.setModel(contentFilterListModel);
-		contentFilterList
-				.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-					public void valueChanged(
-							javax.swing.event.ListSelectionEvent evt) {
-						contentFilterListValueChanged(evt);
-					}
-				});
-		contentFilterPane.setViewportView(contentFilterList);
+        contentFilterList.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterList.setModel(contentFilterListModel);
+        contentFilterList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                contentFilterListValueChanged(evt);
+            }
+        });
+        contentFilterPane.setViewportView(contentFilterList);
 
-		contentFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		contentFilterAddButton.setText("+");
-		contentFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		contentFilterAddButton
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						contentFilterAddButtonActionPerformed(evt);
-					}
-				});
+        contentFilterAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterAddButton.setText("+");
+        contentFilterAddButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        contentFilterAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentFilterAddButtonActionPerformed(evt);
+            }
+        });
 
-		contentFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		contentFilterRemoveButton.setText("-");
-		contentFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		contentFilterRemoveButton
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						contentFilterRemoveButtonActionPerformed(evt);
-					}
-				});
+        contentFilterRemoveButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterRemoveButton.setText("-");
+        contentFilterRemoveButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        contentFilterRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentFilterRemoveButtonActionPerformed(evt);
+            }
+        });
 
-		contentFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		contentFilterMoveUpButton.setText("up");
-		contentFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		contentFilterMoveUpButton
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						contentFilterMoveUpButtonActionPerformed(evt);
-					}
-				});
+        contentFilterMoveUpButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterMoveUpButton.setText("up");
+        contentFilterMoveUpButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        contentFilterMoveUpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentFilterMoveUpButtonActionPerformed(evt);
+            }
+        });
 
-		contentFilterMoveDownButton.setFont(new java.awt.Font("Dialog", 0, 12));
-		contentFilterMoveDownButton.setText("down");
-		contentFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-		contentFilterMoveDownButton
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						contentFilterMoveDownButtonActionPerformed(evt);
-					}
-				});
+        contentFilterMoveDownButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        contentFilterMoveDownButton.setText("down");
+        contentFilterMoveDownButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        contentFilterMoveDownButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentFilterMoveDownButtonActionPerformed(evt);
+            }
+        });
 
-		editContentFilterPanel.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Content Filter"));
+        editContentFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Content Filter"));
 
-		editContentFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-		editContentFilterNameLabel.setText("Filter Name:");
+        editContentFilterNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterNameLabel.setText("Filter Name:");
 
-		editContentFilterNameField
-				.addFocusListener(new java.awt.event.FocusAdapter() {
-					public void focusLost(java.awt.event.FocusEvent evt) {
-						editContentFilterNameFieldFocusLost(evt);
-					}
-				});
+        editContentFilterNameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                editContentFilterNameFieldFocusLost(evt);
+            }
+        });
 
-		editContentFilterDescriptionLabel.setFont(new java.awt.Font("Dialog",
-				0, 12));
-		editContentFilterDescriptionLabel
-				.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		editContentFilterDescriptionLabel.setText("Filter Description:");
+        editContentFilterDescriptionLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterDescriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        editContentFilterDescriptionLabel.setText("Filter Description:");
 
-		editContentFilterDescriptionTextArea.setColumns(20);
-		editContentFilterDescriptionTextArea.setLineWrap(true);
-		editContentFilterDescriptionTextArea.setRows(2);
-		editContentFilterDescriptionTextArea
-				.addFocusListener(new java.awt.event.FocusAdapter() {
-					public void focusLost(java.awt.event.FocusEvent evt) {
-						editContentFilterDescriptionTextAreaFocusLost(evt);
-					}
-				});
-		editContentFilterDescriptionPane
-				.setViewportView(editContentFilterDescriptionTextArea);
+        editContentFilterDescriptionTextArea.setColumns(20);
+        editContentFilterDescriptionTextArea.setLineWrap(true);
+        editContentFilterDescriptionTextArea.setRows(2);
+        editContentFilterDescriptionTextArea.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                editContentFilterDescriptionTextAreaFocusLost(evt);
+            }
+        });
+        editContentFilterDescriptionPane.setViewportView(editContentFilterDescriptionTextArea);
 
-		editContentFilterRegExpLabel
-				.setFont(new java.awt.Font("Dialog", 0, 12));
-		editContentFilterRegExpLabel
-				.setText("Regular Expression, partial match:");
+        editContentFilterRegExpLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterRegExpLabel.setText("Regular Expression, partial match:");
 
-		editContentFilterRegExpTextArea.setColumns(20);
-		editContentFilterRegExpTextArea.setLineWrap(true);
-		editContentFilterRegExpTextArea.setRows(3);
-		editContentFilterRegExpTextArea
-				.addFocusListener(new java.awt.event.FocusAdapter() {
-					public void focusLost(java.awt.event.FocusEvent evt) {
-						editContentFilterRegExpTextAreaFocusLost(evt);
-					}
-				});
-		editContentFilterRegExpPane
-				.setViewportView(editContentFilterRegExpTextArea);
+        editContentFilterRegExpTextArea.setColumns(20);
+        editContentFilterRegExpTextArea.setLineWrap(true);
+        editContentFilterRegExpTextArea.setRows(3);
+        editContentFilterRegExpTextArea.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                editContentFilterRegExpTextAreaFocusLost(evt);
+            }
+        });
+        editContentFilterRegExpPane.setViewportView(editContentFilterRegExpTextArea);
 
-		editContentFilterOpenRegExpEditorButton.setFont(new java.awt.Font(
-				"Dialog", 0, 10));
-		editContentFilterOpenRegExpEditorButton
-				.setText("Open Regular Expression Editor");
-		editContentFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(
-				2, 4, 2, 4));
-		editContentFilterOpenRegExpEditorButton
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editContentFilterOpenRegExpEditorButtonActionPerformed(evt);
-					}
-				});
+        editContentFilterOpenRegExpEditorButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        editContentFilterOpenRegExpEditorButton.setText("Open Regular Expression Editor");
+        editContentFilterOpenRegExpEditorButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        editContentFilterOpenRegExpEditorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editContentFilterOpenRegExpEditorButtonActionPerformed(evt);
+            }
+        });
 
-		editContentFilterMatchPanel.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Action in case of match"));
+        editContentFilterMatchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Action in case of match"));
 
-		editContentFilterMatchStatusChangeLabel.setFont(new java.awt.Font(
-				"Dialog", 0, 12));
-		editContentFilterMatchStatusChangeLabel.setText("Action:");
+        editContentFilterMatchStatusChangeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterMatchStatusChangeLabel.setText("Action:");
 
-		editContentFilterMatchStatusChangeComboBox.setFont(new java.awt.Font(
-				"Dialog", 0, 12));
-		editContentFilterMatchStatusChangeComboBox
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editContentFilterMatchStatusChangeComboBoxActionPerformed(evt);
-					}
-				});
+        editContentFilterMatchStatusChangeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterMatchStatusChangeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editContentFilterMatchStatusChangeComboBoxActionPerformed(evt);
+            }
+        });
 
-		org.jdesktop.layout.GroupLayout editContentFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editContentFilterMatchPanel);
-		editContentFilterMatchPanel
-				.setLayout(editContentFilterMatchPanelLayout);
-		editContentFilterMatchPanelLayout
-				.setHorizontalGroup(editContentFilterMatchPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterMatchPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterMatchStatusChangeLabel)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												editContentFilterMatchStatusChangeComboBox,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												128,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(104, Short.MAX_VALUE)));
-		editContentFilterMatchPanelLayout
-				.setVerticalGroup(editContentFilterMatchPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterMatchPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterMatchPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(
-																editContentFilterMatchStatusChangeLabel)
-														.add(
-																editContentFilterMatchStatusChangeComboBox,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(45, Short.MAX_VALUE)));
+        org.jdesktop.layout.GroupLayout editContentFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(editContentFilterMatchPanel);
+        editContentFilterMatchPanel.setLayout(editContentFilterMatchPanelLayout);
+        editContentFilterMatchPanelLayout.setHorizontalGroup(
+            editContentFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterMatchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterMatchStatusChangeLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editContentFilterMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        editContentFilterMatchPanelLayout.setVerticalGroup(
+            editContentFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterMatchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(editContentFilterMatchStatusChangeLabel)
+                    .add(editContentFilterMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
 
-		editContentFilterNoMatchPanel.setBorder(javax.swing.BorderFactory
-				.createTitledBorder("Action in case of no match"));
+        editContentFilterNoMatchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Action in case of no match"));
 
-		editContentFilterNoMatchStatusChangeLabel.setFont(new java.awt.Font(
-				"Dialog", 0, 12));
-		editContentFilterNoMatchStatusChangeLabel.setText("Action:");
+        editContentFilterNoMatchStatusChangeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterNoMatchStatusChangeLabel.setText("Action:");
 
-		editContentFilterNoMatchStatusChangeComboBox.setFont(new java.awt.Font(
-				"Dialog", 0, 12));
-		editContentFilterNoMatchStatusChangeComboBox
-				.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						editContentFilterNoMatchStatusChangeComboBoxActionPerformed(evt);
-					}
-				});
+        editContentFilterNoMatchStatusChangeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        editContentFilterNoMatchStatusChangeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editContentFilterNoMatchStatusChangeComboBoxActionPerformed(evt);
+            }
+        });
 
-		org.jdesktop.layout.GroupLayout editContentFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editContentFilterNoMatchPanel);
-		editContentFilterNoMatchPanel
-				.setLayout(editContentFilterNoMatchPanelLayout);
-		editContentFilterNoMatchPanelLayout
-				.setHorizontalGroup(editContentFilterNoMatchPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterNoMatchPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterNoMatchStatusChangeLabel)
-										.add(16, 16, 16)
-										.add(
-												editContentFilterNoMatchStatusChangeComboBox,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												128,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(100, Short.MAX_VALUE)));
-		editContentFilterNoMatchPanelLayout
-				.setVerticalGroup(editContentFilterNoMatchPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterNoMatchPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterNoMatchPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.BASELINE)
-														.add(
-																editContentFilterNoMatchStatusChangeComboBox,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-														.add(
-																editContentFilterNoMatchStatusChangeLabel))
-										.addContainerGap(45, Short.MAX_VALUE)));
+        org.jdesktop.layout.GroupLayout editContentFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(editContentFilterNoMatchPanel);
+        editContentFilterNoMatchPanel.setLayout(editContentFilterNoMatchPanelLayout);
+        editContentFilterNoMatchPanelLayout.setHorizontalGroup(
+            editContentFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterNoMatchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterNoMatchStatusChangeLabel)
+                .add(16, 16, 16)
+                .add(editContentFilterNoMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        editContentFilterNoMatchPanelLayout.setVerticalGroup(
+            editContentFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterNoMatchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(editContentFilterNoMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(editContentFilterNoMatchStatusChangeLabel))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
 
-		org.jdesktop.layout.GroupLayout editContentFilterPanelLayout = new org.jdesktop.layout.GroupLayout(
-				editContentFilterPanel);
-		editContentFilterPanel.setLayout(editContentFilterPanelLayout);
-		editContentFilterPanelLayout
-				.setHorizontalGroup(editContentFilterPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																editContentFilterRegExpPane,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																616,
-																Short.MAX_VALUE)
-														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																editContentFilterPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				editContentFilterMatchPanel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				editContentFilterNoMatchPanel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				Short.MAX_VALUE))
-														.add(
-																editContentFilterPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				editContentFilterNameLabel)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				editContentFilterNameField,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				138,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				editContentFilterDescriptionLabel,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				111,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				editContentFilterDescriptionPane,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				261,
-																				Short.MAX_VALUE))
-														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																editContentFilterPanelLayout
-																		.createSequentialGroup()
-																		.add(
-																				editContentFilterRegExpLabel,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				441,
-																				Short.MAX_VALUE)
-																		.add(
-																				175,
-																				175,
-																				175))
-														.add(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																editContentFilterOpenRegExpEditorButton))
-										.addContainerGap()));
-		editContentFilterPanelLayout
-				.setVerticalGroup(editContentFilterPanelLayout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								editContentFilterPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												editContentFilterPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(
-																editContentFilterPanelLayout
-																		.createParallelGroup(
-																				org.jdesktop.layout.GroupLayout.BASELINE)
-																		.add(
-																				editContentFilterNameLabel)
-																		.add(
-																				editContentFilterNameField,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-																		.add(
-																				editContentFilterDescriptionLabel))
-														.add(
-																editContentFilterDescriptionPane,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-																41,
-																org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(editContentFilterRegExpLabel)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												editContentFilterRegExpPane,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												58, Short.MAX_VALUE)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												editContentFilterOpenRegExpEditorButton)
-										.add(31, 31, 31)
-										.add(
-												editContentFilterPanelLayout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.TRAILING,
-																false)
-														.add(
-																editContentFilterMatchPanel,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.add(
-																editContentFilterNoMatchPanel,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE))
-										.addContainerGap()));
+        org.jdesktop.layout.GroupLayout editContentFilterPanelLayout = new org.jdesktop.layout.GroupLayout(editContentFilterPanel);
+        editContentFilterPanel.setLayout(editContentFilterPanelLayout);
+        editContentFilterPanelLayout.setHorizontalGroup(
+            editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, editContentFilterRegExpPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, editContentFilterPanelLayout.createSequentialGroup()
+                        .add(editContentFilterMatchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editContentFilterNoMatchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(editContentFilterPanelLayout.createSequentialGroup()
+                        .add(editContentFilterNameLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editContentFilterNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editContentFilterDescriptionLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editContentFilterDescriptionPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, editContentFilterPanelLayout.createSequentialGroup()
+                        .add(editContentFilterRegExpLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                        .add(175, 175, 175))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, editContentFilterOpenRegExpEditorButton))
+                .addContainerGap())
+        );
+        editContentFilterPanelLayout.setVerticalGroup(
+            editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(editContentFilterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(editContentFilterNameLabel)
+                        .add(editContentFilterNameField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(editContentFilterDescriptionLabel))
+                    .add(editContentFilterDescriptionPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editContentFilterRegExpLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editContentFilterRegExpPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editContentFilterOpenRegExpEditorButton)
+                .add(31, 31, 31)
+                .add(editContentFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                    .add(editContentFilterMatchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(editContentFilterNoMatchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
-		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
-				this);
-		this.setLayout(layout);
-		layout
-				.setHorizontalGroup(layout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								org.jdesktop.layout.GroupLayout.TRAILING,
-								layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(
-												layout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.TRAILING)
-														.add(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																editContentFilterPanel,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.add(
-																layout
-																		.createSequentialGroup()
-																		.add(
-																				contentFilterPane,
-																				org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																				599,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				layout
-																						.createParallelGroup(
-																								org.jdesktop.layout.GroupLayout.LEADING)
-																						.add(
-																								contentFilterRemoveButton)
-																						.add(
-																								contentFilterAddButton)
-																						.add(
-																								contentFilterMoveUpButton)
-																						.add(
-																								contentFilterMoveDownButton)))
-														.add(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																contentFilterChainExplanationLabel,
-																org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-																650,
-																Short.MAX_VALUE)
-														.add(
-																org.jdesktop.layout.GroupLayout.LEADING,
-																contentFilterChainLabel))
-										.addContainerGap()));
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, editContentFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .add(contentFilterPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(contentFilterRemoveButton)
+                            .add(contentFilterAddButton)
+                            .add(contentFilterMoveUpButton)
+                            .add(contentFilterMoveDownButton)))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, contentFilterChainExplanationLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, contentFilterChainLabel))
+                .addContainerGap())
+        );
 
-		layout.linkSize(new java.awt.Component[] { contentFilterAddButton,
-				contentFilterRemoveButton },
-				org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[] {contentFilterAddButton, contentFilterRemoveButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		layout.linkSize(new java.awt.Component[] { contentFilterMoveDownButton,
-				contentFilterMoveUpButton },
-				org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[] {contentFilterMoveDownButton, contentFilterMoveUpButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
-		layout
-				.setVerticalGroup(layout
-						.createParallelGroup(
-								org.jdesktop.layout.GroupLayout.LEADING)
-						.add(
-								layout
-										.createSequentialGroup()
-										.addContainerGap()
-										.add(contentFilterChainLabel)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												contentFilterChainExplanationLabel,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-												35,
-												org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												layout
-														.createParallelGroup(
-																org.jdesktop.layout.GroupLayout.LEADING)
-														.add(
-																layout
-																		.createSequentialGroup()
-																		.add(
-																				contentFilterAddButton)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				contentFilterRemoveButton)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				contentFilterMoveUpButton)
-																		.addPreferredGap(
-																				org.jdesktop.layout.LayoutStyle.RELATED)
-																		.add(
-																				contentFilterMoveDownButton))
-														.add(contentFilterPane,
-																0, 0,
-																Short.MAX_VALUE))
-										.addPreferredGap(
-												org.jdesktop.layout.LayoutStyle.RELATED)
-										.add(
-												editContentFilterPanel,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addContainerGap()));
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(contentFilterChainLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(contentFilterChainExplanationLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(contentFilterAddButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(contentFilterRemoveButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(contentFilterMoveUpButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(contentFilterMoveDownButton))
+                    .add(contentFilterPane, 0, 0, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editContentFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-		layout.linkSize(new java.awt.Component[] { contentFilterAddButton,
-				contentFilterRemoveButton },
-				org.jdesktop.layout.GroupLayout.VERTICAL);
+        layout.linkSize(new java.awt.Component[] {contentFilterAddButton, contentFilterRemoveButton}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
-		layout.linkSize(new java.awt.Component[] { contentFilterMoveDownButton,
-				contentFilterMoveUpButton },
-				org.jdesktop.layout.GroupLayout.VERTICAL);
+        layout.linkSize(new java.awt.Component[] {contentFilterMoveDownButton, contentFilterMoveUpButton}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
-	}// </editor-fold>
-	//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_editContentFilterOpenRegExpEditorButtonActionPerformed
 	private void editContentFilterOpenRegExpEditorButtonActionPerformed(
@@ -982,7 +745,7 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 
 	}//GEN-LAST:event_contentFilterAddButtonActionPerformed
 
-	//GEN-FIRST:event_contentFilterRemoveButtonActionPerformed
+	                                                          
 	private void contentFilterRemoveButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
@@ -993,34 +756,33 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 			}
 		}
 
-	}//GEN-LAST:event_contentFilterRemoveButtonActionPerformed	
+	}                                                          
 
-	//GEN-BEGIN:variables
-	// Variables declaration - do not modify
-	protected javax.swing.JButton contentFilterAddButton;
-	protected javax.swing.JLabel contentFilterChainExplanationLabel;
-	protected javax.swing.JLabel contentFilterChainLabel;
-	protected javax.swing.JList contentFilterList;
-	protected javax.swing.JButton contentFilterMoveDownButton;
-	protected javax.swing.JButton contentFilterMoveUpButton;
-	protected javax.swing.JScrollPane contentFilterPane;
-	protected javax.swing.JButton contentFilterRemoveButton;
-	protected javax.swing.JLabel editContentFilterDescriptionLabel;
-	protected javax.swing.JScrollPane editContentFilterDescriptionPane;
-	protected javax.swing.JTextArea editContentFilterDescriptionTextArea;
-	protected javax.swing.JPanel editContentFilterMatchPanel;
-	protected javax.swing.JComboBox editContentFilterMatchStatusChangeComboBox;
-	protected javax.swing.JLabel editContentFilterMatchStatusChangeLabel;
-	protected javax.swing.JTextField editContentFilterNameField;
-	protected javax.swing.JLabel editContentFilterNameLabel;
-	protected javax.swing.JPanel editContentFilterNoMatchPanel;
-	protected javax.swing.JComboBox editContentFilterNoMatchStatusChangeComboBox;
-	protected javax.swing.JLabel editContentFilterNoMatchStatusChangeLabel;
-	protected javax.swing.JButton editContentFilterOpenRegExpEditorButton;
-	protected javax.swing.JPanel editContentFilterPanel;
-	protected javax.swing.JLabel editContentFilterRegExpLabel;
-	protected javax.swing.JScrollPane editContentFilterRegExpPane;
-	protected javax.swing.JTextArea editContentFilterRegExpTextArea;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    protected javax.swing.JButton contentFilterAddButton;
+    protected javax.swing.JLabel contentFilterChainExplanationLabel;
+    protected javax.swing.JLabel contentFilterChainLabel;
+    protected javax.swing.JList contentFilterList;
+    protected javax.swing.JButton contentFilterMoveDownButton;
+    protected javax.swing.JButton contentFilterMoveUpButton;
+    protected javax.swing.JScrollPane contentFilterPane;
+    protected javax.swing.JButton contentFilterRemoveButton;
+    protected javax.swing.JLabel editContentFilterDescriptionLabel;
+    protected javax.swing.JScrollPane editContentFilterDescriptionPane;
+    protected javax.swing.JTextArea editContentFilterDescriptionTextArea;
+    protected javax.swing.JPanel editContentFilterMatchPanel;
+    protected javax.swing.JComboBox editContentFilterMatchStatusChangeComboBox;
+    protected javax.swing.JLabel editContentFilterMatchStatusChangeLabel;
+    protected javax.swing.JTextField editContentFilterNameField;
+    protected javax.swing.JLabel editContentFilterNameLabel;
+    protected javax.swing.JPanel editContentFilterNoMatchPanel;
+    protected javax.swing.JComboBox editContentFilterNoMatchStatusChangeComboBox;
+    protected javax.swing.JLabel editContentFilterNoMatchStatusChangeLabel;
+    protected javax.swing.JButton editContentFilterOpenRegExpEditorButton;
+    protected javax.swing.JPanel editContentFilterPanel;
+    protected javax.swing.JLabel editContentFilterRegExpLabel;
+    protected javax.swing.JScrollPane editContentFilterRegExpPane;
+    protected javax.swing.JTextArea editContentFilterRegExpTextArea;
+    // End of variables declaration//GEN-END:variables
 
 }
