@@ -1,5 +1,5 @@
 /*
- * BasicConnectionSettingsPanel.java
+ * DownloadJobConnectionSettingsPanel.java
  *
  * Created on 1. Mai 2008, 12:18
  */
@@ -19,12 +19,12 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class BasicConnectionSettingsPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobConnectionSettingsPanel extends javax.swing.JPanel implements EditJobCapable {
     
 	private static final long serialVersionUID = -3590680545290495451L;
 	
-	/** Creates new form BasicConnectionSettingsPanel */
-    public BasicConnectionSettingsPanel() {
+	/** Creates new form DownloadJobConnectionSettingsPanel */
+    public DownloadJobConnectionSettingsPanel() {
         initComponents();
     }
     

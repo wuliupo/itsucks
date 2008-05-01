@@ -23,9 +23,10 @@ import javax.swing.tree.TreePath;
 
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
-import de.phleisch.app.itsucks.gui.job.panel.BasicConnectionSettingsPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobCookieSettings;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel;
@@ -70,8 +71,8 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	DefaultMutableTreeNode root = new DefaultMutableTreeNode("Job Configuration");
     	
     	//basic parameters
-    	DownloadJobBasicPanel basicParametersPanel = new DownloadJobBasicPanel();
     	DefaultMutableTreeNode basicParameters = new DefaultMutableTreeNode();
+    	DownloadJobBasicPanel basicParametersPanel = new DownloadJobBasicPanel();
     	basicParameters.setUserObject(
     			new JobTreeNode("Basic Parameters", basicParametersPanel, basicParametersPanel));
     	root.add(basicParameters);
@@ -81,14 +82,17 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	root.add(connection);
     	
     	//Basic settings
-    	BasicConnectionSettingsPanel basicConnectionSettinsPanel = new BasicConnectionSettingsPanel();
     	DefaultMutableTreeNode connectionSettings = new DefaultMutableTreeNode();
+    	DownloadJobConnectionSettingsPanel basicConnectionSettingsPanel = new DownloadJobConnectionSettingsPanel();
     	connectionSettings.setUserObject(
-    			new JobTreeNode("Basic Settings", basicConnectionSettinsPanel, basicConnectionSettinsPanel));
+    			new JobTreeNode("Basic Settings", basicConnectionSettingsPanel, basicConnectionSettingsPanel));
     	connection.add(connectionSettings);
     	
     	//Cookie settings
-    	DefaultMutableTreeNode cookieSettings = new DefaultMutableTreeNode("Cookie Settings");
+    	DefaultMutableTreeNode cookieSettings = new DefaultMutableTreeNode();
+    	DownloadJobCookieSettings cookieSettingsPanel = new DownloadJobCookieSettings();
+    	cookieSettings.setUserObject(
+    			new JobTreeNode("Cookie Settings", cookieSettingsPanel, cookieSettingsPanel));
     	connection.add(cookieSettings);
     	
     	//rules
@@ -96,22 +100,22 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	root.add(rules);
     	
     	//simple rules
-    	DownloadJobSimpleRulesPanel simpleRulesPanel = new DownloadJobSimpleRulesPanel();
     	DefaultMutableTreeNode simpleRules = new DefaultMutableTreeNode();
+    	DownloadJobSimpleRulesPanel simpleRulesPanel = new DownloadJobSimpleRulesPanel();
     	simpleRules.setUserObject(
     			new JobTreeNode("Simple Rules", simpleRulesPanel, simpleRulesPanel));
     	rules.add(simpleRules);
 
     	//special rules
-    	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
     	DefaultMutableTreeNode specialRules = new DefaultMutableTreeNode();
+    	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
     	specialRules.setUserObject(
     			new JobTreeNode("Special Rules", specialRulesPanel, specialRulesPanel));
     	rules.add(specialRules);
     	
     	//reg exp rules
-    	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
     	DefaultMutableTreeNode advancedRegExpRules = new DefaultMutableTreeNode();
+    	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
     	advancedRegExpRules.setUserObject(
     			new JobTreeNode("Advanced RegExp Rules", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
     	rules.add(advancedRegExpRules);
@@ -121,8 +125,8 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	root.add(filter);
     	
     	//content filter
-    	DownloadJobContentFilterPanel contentFilterPanel = new DownloadJobContentFilterPanel();
     	DefaultMutableTreeNode contentFilter = new DefaultMutableTreeNode();
+    	DownloadJobContentFilterPanel contentFilterPanel = new DownloadJobContentFilterPanel();
     	contentFilter.setUserObject(
     			new JobTreeNode("Content Filter", contentFilterPanel, contentFilterPanel));
     	filter.add(contentFilter);
