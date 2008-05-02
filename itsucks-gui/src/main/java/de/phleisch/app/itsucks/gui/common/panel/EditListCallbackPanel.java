@@ -31,6 +31,7 @@ public class EditListCallbackPanel extends EditListPanel {
 	
 	public EditListCallbackPanel(EditListCallbackInterface pLogic) {
 		super();
+		
 		mLogic = pLogic;
 	}
 	

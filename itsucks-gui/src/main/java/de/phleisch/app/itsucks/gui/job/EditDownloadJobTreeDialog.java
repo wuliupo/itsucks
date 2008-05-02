@@ -23,8 +23,8 @@ import javax.swing.tree.TreePath;
 
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
-import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobCookieSettings;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
