@@ -11,6 +11,7 @@ package de.phleisch.app.itsucks.filter.download.http.impl;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.phleisch.app.itsucks.filter.JobFilter;
@@ -104,6 +105,10 @@ public class CookieFilter
 	
 	public boolean removeCookie(final Cookie pCookie) {
 		return mCookies.remove(pCookie);
+	}
+	
+	public List<Cookie> getCookies() {
+		return Collections.unmodifiableList(mCookies);
 	}
 
 }

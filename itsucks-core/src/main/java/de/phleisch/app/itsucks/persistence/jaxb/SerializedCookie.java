@@ -23,15 +23,14 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="pattern" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="matchAction" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="noMatchAction" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="value" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="domain" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="path" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
- *     &lt;/extension>
+ *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -41,26 +40,21 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "name",
-    "description",
-    "pattern",
-    "matchAction",
-    "noMatchAction"
+    "value",
+    "domain",
+    "path"
 })
-@XmlRootElement(name = "serializedContentFilterConfig")
-public class SerializedContentFilterConfig
-    extends SerializedJobFilter
-{
+@XmlRootElement(name = "serializedCookie")
+public class SerializedCookie {
 
-    @XmlElement(required = true, nillable = true)
+    @XmlElement(required = true)
     protected String name;
-    @XmlElement(required = true, nillable = true)
-    protected String description;
     @XmlElement(required = true)
-    protected String pattern;
+    protected String value;
     @XmlElement(required = true)
-    protected String matchAction;
+    protected String domain;
     @XmlElement(required = true)
-    protected String noMatchAction;
+    protected String path;
 
     /**
      * Gets the value of the name property.
@@ -87,99 +81,75 @@ public class SerializedContentFilterConfig
     }
 
     /**
-     * Gets the value of the description property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getDescription() {
-        return description;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the description property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setDescription(String value) {
-        this.description = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**
-     * Gets the value of the pattern property.
+     * Gets the value of the domain property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getPattern() {
-        return pattern;
+    public String getDomain() {
+        return domain;
     }
 
     /**
-     * Sets the value of the pattern property.
+     * Sets the value of the domain property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setPattern(String value) {
-        this.pattern = value;
+    public void setDomain(String value) {
+        this.domain = value;
     }
 
     /**
-     * Gets the value of the matchAction property.
+     * Gets the value of the path property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMatchAction() {
-        return matchAction;
+    public String getPath() {
+        return path;
     }
 
     /**
-     * Sets the value of the matchAction property.
+     * Sets the value of the path property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMatchAction(String value) {
-        this.matchAction = value;
-    }
-
-    /**
-     * Gets the value of the noMatchAction property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNoMatchAction() {
-        return noMatchAction;
-    }
-
-    /**
-     * Sets the value of the noMatchAction property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNoMatchAction(String value) {
-        this.noMatchAction = value;
+    public void setPath(String value) {
+        this.path = value;
     }
 
 }

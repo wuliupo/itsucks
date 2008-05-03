@@ -230,7 +230,35 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	
+	<!-- Cookie -->
+	<xs:element name="serializedCookie">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="value" type="xs:string"/>
+				<xs:element name="domain" type="xs:string"/>
+				<xs:element name="path" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- CookieFilter -->
+	<xs:element name="serializedCookieFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element
+							ref="itsucks:serializedCookie" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>	
 
+	<!-- HttpRetriever Configuration -->
 	<xs:element name="serializedHttpRetrieverConfiguration">
 		<xs:complexType>
 			<xs:sequence>

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
+import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
@@ -36,6 +38,8 @@ import de.phleisch.app.itsucks.persistence.jaxb.ObjectFactory;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilterConfig;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedCookie;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedCookieFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedFileSizeFilter;
@@ -73,12 +77,12 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedTimeLimitFilterToClass((SerializedTimeLimitFilter) pBean);
 		} if(pBean instanceof SerializedContentFilter) {
 			return convertSerializedContentFilterToClass((SerializedContentFilter) pBean);
+		} if(pBean instanceof SerializedCookieFilter) {
+			return convertSerializedCookieFilterToClass((SerializedCookieFilter) pBean);
 		}
-		
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
 	}
-
 
 	private DownloadJob convertSerializedDownloadJobToClass(SerializedDownloadJob pJob) 
 			throws Exception {
@@ -271,6 +275,26 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return contentFilter;
 	}
 	
+	private Object convertSerializedCookieFilterToClass(
+			SerializedCookieFilter pBean) {
+		
+		CookieFilter cookieFilter = new CookieFilter();
+		
+		for(SerializedCookie serializedCookie : pBean.getSerializedCookie()) {
+			
+			Cookie cookie = new Cookie();
+			
+			cookie.setName(serializedCookie.getName());
+			cookie.setValue(serializedCookie.getValue());
+			cookie.setDomain(serializedCookie.getDomain());
+			cookie.setPath(serializedCookie.getPath());
+			
+			cookieFilter.addCookie(cookie);
+		}
+		
+		return cookieFilter;
+	}
+	
 	public Object convertClassToBean(Object pObject) {
 		
 		if(pObject instanceof UrlDownloadJob) {
@@ -289,6 +313,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertTimeLimitFilterToBean((TimeLimitFilter) pObject);
 		} if(pObject instanceof ContentFilter) {
 			return convertContentFilterToBean((ContentFilter) pObject);
+		} if(pObject instanceof CookieFilter) {
+			return convertCookieFilterToBean((CookieFilter) pObject);
 		}
 			
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
@@ -502,6 +528,27 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedContentFilter;
 	}
 	
+	private Object convertCookieFilterToBean(CookieFilter pCookieFilter) {
+		
+		SerializedCookieFilter serializedCookieFilter = 
+			mBeanFactory.createSerializedCookieFilter();
+		
+		for(Cookie cookie : pCookieFilter.getCookies()) {
+			
+			SerializedCookie serializedCookie = 
+				mBeanFactory.createSerializedCookie();
+			
+			serializedCookie.setName(cookie.getName());
+			serializedCookie.setValue(cookie.getValue());
+			serializedCookie.setDomain(cookie.getDomain());
+			serializedCookie.setPath(cookie.getPath());
+			
+			serializedCookieFilter.getSerializedCookie().add(serializedCookie);
+		}
+		
+		return serializedCookieFilter;
+	}
+	
 	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}
@@ -517,6 +564,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedChangeHttpResponseCodeBehaviourFilter.class,
 			SerializedTimeLimitFilter.class,
 			SerializedContentFilter.class,
+			SerializedCookieFilter.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);
@@ -533,6 +581,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			ChangeHttpResponseCodeBehaviourFilter.class,
 			TimeLimitFilter.class,
 			ContentFilter.class,
+			CookieFilter.class,
 		};
 		
 		return Arrays.asList(supportedClassConvertClasses);

@@ -14,6 +14,17 @@ public class Cookie {
 	private String mValue = "";
 	private String mDomain = "";
 	private String mPath = "";
+	
+	public Cookie() {
+	}
+	
+	public Cookie(final Cookie pCookie) {
+		setName(pCookie.getName());
+		setValue(pCookie.getValue());
+		setDomain(pCookie.getDomain());
+		setPath(pCookie.getPath());
+	}
+	
 	public String getName() {
 		return mName;
 	}

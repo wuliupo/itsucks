@@ -50,8 +50,17 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 	}    
 
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
 		
+		CookieFilter cookieFilter = 
+			(CookieFilter) pJobPackage.getFilterByType(CookieFilter.class);
+		
+		if(cookieFilter != null) {
+			
+			ExtendedListModel model = this.cookieListPane.getListModel();
+			for (Cookie cookie : cookieFilter.getCookies()) {
+				model.addElement(this.new CookieListElement(cookie));
+			}
+		}
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
@@ -83,6 +92,14 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 	public class CookieListElement
 		extends Cookie
 		implements EditListPanel.ListElement {
+		
+		public CookieListElement() {
+			super();
+		}
+		
+		public CookieListElement(final Cookie pCookie) {
+			super(pCookie);
+		}
 		
 		@Override
 		public String toString() {

@@ -26,8 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
  *       &lt;sequence>
- *         &lt;element name="letUnfilteredJobsPass" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element ref="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedRegExpJobFilterRule" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedCookie" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -38,60 +37,42 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "letUnfilteredJobsPass",
-    "serializedRegExpJobFilterRule"
+    "serializedCookie"
 })
-@XmlRootElement(name = "serializedRegExpJobFilter")
-public class SerializedRegExpJobFilter
+@XmlRootElement(name = "serializedCookieFilter")
+public class SerializedCookieFilter
     extends SerializedJobFilter
 {
 
-    protected boolean letUnfilteredJobsPass;
-    protected List<SerializedRegExpJobFilterRule> serializedRegExpJobFilterRule;
+    protected List<SerializedCookie> serializedCookie;
 
     /**
-     * Gets the value of the letUnfilteredJobsPass property.
-     * 
-     */
-    public boolean isLetUnfilteredJobsPass() {
-        return letUnfilteredJobsPass;
-    }
-
-    /**
-     * Sets the value of the letUnfilteredJobsPass property.
-     * 
-     */
-    public void setLetUnfilteredJobsPass(boolean value) {
-        this.letUnfilteredJobsPass = value;
-    }
-
-    /**
-     * Gets the value of the serializedRegExpJobFilterRule property.
+     * Gets the value of the serializedCookie property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the serializedRegExpJobFilterRule property.
+     * This is why there is not a <CODE>set</CODE> method for the serializedCookie property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getSerializedRegExpJobFilterRule().add(newItem);
+     *    getSerializedCookie().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link SerializedRegExpJobFilterRule }
+     * {@link SerializedCookie }
      * 
      * 
      */
-    public List<SerializedRegExpJobFilterRule> getSerializedRegExpJobFilterRule() {
-        if (serializedRegExpJobFilterRule == null) {
-            serializedRegExpJobFilterRule = new ArrayList<SerializedRegExpJobFilterRule>();
+    public List<SerializedCookie> getSerializedCookie() {
+        if (serializedCookie == null) {
+            serializedCookie = new ArrayList<SerializedCookie>();
         }
-        return this.serializedRegExpJobFilterRule;
+        return this.serializedCookie;
     }
 
 }
