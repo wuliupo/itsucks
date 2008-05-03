@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
+import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
@@ -23,11 +24,17 @@ import de.phleisch.app.itsucks.job.download.impl.DataRetrieverFactory;
 public class HttpRetrieverFactory implements DataRetrieverFactory {
 
 	public static final String HTTP_BEHAVIOUR_CONFIG_PARAMETER = "HttpRetriever_AdditionalBehaviour";
+	public static final String HTTP_COOKIE_CONFIG_PARAMETER = "HttpRetriever_CookieConfig";
 	
+	
+	@SuppressWarnings("unchecked")
 	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList) {
 
 		HttpRetriever retriever = new HttpRetriever();
+		
+		//set url
+		retriever.setUrl(pUrl);
 		
 		//get configuration from the context
 		HttpRetrieverConfiguration httpRetrieverConfiguration = 
@@ -42,12 +49,12 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 			retriever.setConfiguration(httpRetrieverConfiguration);
 		}
 		
-		JobParameter parameter = 
+		JobParameter parameterBehaviour = 
 			findParameter(HTTP_BEHAVIOUR_CONFIG_PARAMETER, 
 					pParameterList);
-		if(parameter != null) {
+		if(parameterBehaviour != null) {
 			HttpRetrieverResponseCodeBehaviour specialBehaviour = 
-				(HttpRetrieverResponseCodeBehaviour) parameter.getValue();
+				(HttpRetrieverResponseCodeBehaviour) parameterBehaviour.getValue();
 			
 			HttpRetrieverResponseCodeBehaviour actualBehaviour = 
 				retriever.getResponseCodeBehaviour();
@@ -55,16 +62,21 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 			actualBehaviour.add(specialBehaviour);
 		}
 		
-		//test cookie
-		ArrayList<String> cookies = new ArrayList<String>();
-		cookies.add("sso_session_ser=pGCbC0kSqqOZPoAmqrXVGEsGhQ2Sizl56uAUcF8%2FGdlxxPcKZU3Nh7uOM2xHiPVI7sq%2F2vTL7ZG9XYTfj6dktR0XoeIjwJZ3lLQRWHejDBdoGgOoCN41m8qhMMAaMPw0SX2Z78V1DQrXkayedgi6SbSkwgIp4VoRe2fSCfUuIOxvfRh3CEdjXKVrYPUvj3bI-e359c3c6233f9bc7f25fab5a9bc42850");
-		cookies.add("username=FWAL2kKciOfKgErt17p55Q%3D%3D");
-		cookies.add("session_ser=pGCbC0kSqqOZPoAmqrXVGEsGhQ2Sizl56uAUcF8%2FGdlxxPcKZU3Nh7uOM2xHiPVI7sq%2F2vTL7ZG9XYTfj6dktR0XoeIjwJZ3lLQRWHejDBdoGgOoCN41m8qhMMAaMPw0SX2Z78V1DQrXkayedgi6SbSkwgIp4VoRe2fSCfUuIOxvfRh3CEdjXKVrYPUvj3bI-e359c3c6233f9bc7f25fab5a9bc42850");
-//		cookies.add("__utma=191645736.1890521747.1164894501.1204901905.1206556782.19; __qca=1183738333-3134264-40151882; __utmz=191645736.1204897018.17.1.utmccn=(direct)|utmcsr=(direct)|utmcmd=(none); __utmb=191645736.2; __utmc=191645736.2; __qcb=472408243; session_ser=pGCbC0kSqqOZPoAmqrXVGEsGhQ2Sizl56uAUcF8%2FGdlxxPcKZU3Nh7uOM2xHiPVI7sq%2F2vTL7ZG9XYTfj6dktR0XoeIjwJZ3lLQRWHejDBdoGgOoCN41m8qhMMAaMPw0SX2Z78V1DQrXkayedgi6SbSkwgIp4VoRe2fSCfUuIOxvfRh3CEdjXKVrYPUvj3bI-e359c3c6233f9bc7f25fab5a9bc42850; username=FWAL2kKciOfKgErt17p55Q%3D%3D; sso_session_ser=pGCbC0kSqqOZPoAmqrXVGEsGhQ2Sizl56uAUcF8%2FGdlxxPcKZU3Nh7uOM2xHiPVI7sq%2F2vTL7ZG9XYTfj6dktR0XoeIjwJZ3lLQRWHejDBdoGgOoCN41m8qhMMAaMPw0SX2Z78V1DQrXkayedgi6SbSkwgIp4VoRe2fSCfUuIOxvfRh3CEdjXKVrYPUvj3bI-e359c3c6233f9bc7f25fab5a9bc42850");
+		JobParameter parameterCookie = 
+			findParameter(HTTP_COOKIE_CONFIG_PARAMETER,
+					pParameterList);
 		
-		retriever.setCookieList(cookies);
-		
-		retriever.setUrl(pUrl);
+		if(parameterCookie != null) {
+			
+			List<Cookie> cookieList = (List<Cookie>) parameterCookie.getValue();
+			List<String> convertedCookies = new ArrayList<String>();
+			
+			for (Cookie cookie : cookieList) {
+				convertedCookies.add(cookie.getName() + "=" + cookie.getValue());
+			}
+			
+			retriever.setCookieList(convertedCookies);
+		}
 		
 		return retriever;
 	}

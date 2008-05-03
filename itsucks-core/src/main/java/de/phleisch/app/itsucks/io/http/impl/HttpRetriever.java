@@ -165,41 +165,6 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      	
      	HttpClient httpClient = new HttpClient(connectionManager);
      	
-//     	httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
-//            
-//            public void process(
-//                    final HttpRequest request, 
-//                    final HttpContext context) throws HttpException, IOException {
-//                if (!request.containsHeader("Accept-Encoding")) {
-//                    request.addHeader("Accept-Encoding", "gzip");
-//                }
-//            }
-//
-//        });
-//        
-//     	httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
-//           
-//            public void process(
-//                    final HttpResponse response, 
-//                    final HttpContext context) throws HttpException, IOException {
-//                HttpEntity entity = response.getEntity();
-//                Header ceheader = entity.getContentEncoding();
-//                if (ceheader != null) {
-//                    HeaderElement[] codecs = ceheader.getElements();
-//                    for (int i = 0; i < codecs.length; i++) {
-//                        if (codecs[i].getName().equalsIgnoreCase("gzip")) {
-//                            response.setEntity(
-//                                    new GzipDecompressingEntity(response.getEntity())); 
-//                            return;
-//                        }
-//                    }
-//                }
-//            }
-//            
-//        });
-
-     	
-     	
      	if(pConfiguration != null) {
      		
      		HttpConnectionManagerParams connectionManagerParams = connectionManager.getParams();

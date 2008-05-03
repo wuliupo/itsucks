@@ -8,11 +8,13 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
+import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
@@ -53,8 +55,24 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
-		// TODO Auto-generated method stub
 		
+		CookieFilter cookieFilter = 
+			(CookieFilter) pJobPackage.getFilterByType(CookieFilter.class);
+		
+		ExtendedListModel listModel = this.cookieListPane.getListModel();
+		if(listModel.size() > 0) {
+		
+			if(cookieFilter == null) {
+				cookieFilter = new CookieFilter();
+				pJobPackage.addFilter(cookieFilter);
+			}
+		
+			Object[] elements = listModel.toArray();
+			for (int i = 0; i < elements.length; i++) {
+				CookieListElement element = (CookieListElement) elements[i];
+				cookieFilter.addCookie(element);
+			}
+		}
 	}
 
 	public List<String> validateFields() {
@@ -63,7 +81,7 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 	}
 	
 	public class CookieListElement
-		extends CookieFilter.Cookie
+		extends Cookie
 		implements EditListPanel.ListElement {
 		
 		@Override

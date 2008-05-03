@@ -16,6 +16,8 @@ import java.util.List;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobParameter;
+import de.phleisch.app.itsucks.job.download.http.impl.HttpRetrieverFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 public class CookieFilter 
@@ -25,38 +27,6 @@ public class CookieFilter
 	private static final long serialVersionUID = 399630859261954159L;
 
 	protected List<Cookie> mCookies; 
-	
-	public static class Cookie {
-
-		private String mName = "";
-		private String mValue = "";
-		private String mDomain = "";
-		private String mPath = "";
-		public String getName() {
-			return mName;
-		}
-		public void setName(String pName) {
-			mName = pName;
-		}
-		public String getValue() {
-			return mValue;
-		}
-		public void setValue(String pValue) {
-			mValue = pValue;
-		}
-		public String getDomain() {
-			return mDomain;
-		}
-		public void setDomain(String pDomain) {
-			mDomain = pDomain;
-		}
-		public String getPath() {
-			return mPath;
-		}
-		public void setPath(String pPath) {
-			mPath = pPath;
-		}
-	}
 	
 	public CookieFilter() {
 		mCookies = new ArrayList<Cookie>();
@@ -71,14 +41,22 @@ public class CookieFilter
 			return pJob;
 		}
 		
-		List<Cookie> cookieList = new ArrayList<Cookie>(); 
+		List<Cookie> cookieList = null; 
 		UrlDownloadJob downloadJob = (UrlDownloadJob) pJob;
 		URL url = downloadJob.getUrl();
 		
 		for (Cookie cookie : mCookies) {
 			if(checkCookie(url, cookie)) {
+				if(cookieList == null) {
+					cookieList = new ArrayList<Cookie>(5);
+				}
 				cookieList.add(cookie);
 			}
+		}
+		
+		if(cookieList != null) {
+			downloadJob.setParameter(
+					new JobParameter(HttpRetrieverFactory.HTTP_COOKIE_CONFIG_PARAMETER, cookieList));
 		}
 		
 		return pJob;
@@ -87,16 +65,16 @@ public class CookieFilter
 	private boolean checkCookie(URL pUrl, Cookie pCookie) {
 		
 		String domain = pCookie.getDomain();
-		boolean match = true;
+		boolean match;
 		
 		if(domain.startsWith(".")) {
-			match |= pUrl.getHost().toLowerCase().endsWith(domain.toLowerCase());
+			match = pUrl.getHost().toLowerCase().endsWith(domain.toLowerCase().substring(1));
 		} else {
-			match |= pUrl.getHost().equalsIgnoreCase(domain);
+			match = pUrl.getHost().equalsIgnoreCase(domain);
 		}
 		
 		if(match) {
-			match |= pUrl.getPath().toLowerCase().startsWith(pCookie.getPath().toLowerCase());
+			match = pUrl.getPath().toLowerCase().startsWith(pCookie.getPath().toLowerCase());
 		}
 		
 		return match;
@@ -112,12 +90,20 @@ public class CookieFilter
 			UrlDownloadJob job = (UrlDownloadJob) pJob;
 			URL url = job.getUrl();
 			if(url != null) {
-				result = "http".equalsIgnoreCase(url.getProtocol());
+				result = "http".equalsIgnoreCase(url.getProtocol())
+					|| "https".equalsIgnoreCase(url.getProtocol());
 			}
 		}
 		
 		return result;
 	}
 
+	public boolean addCookie(final Cookie pCookie) {
+		return mCookies.add(pCookie);
+	}
+	
+	public boolean removeCookie(final Cookie pCookie) {
+		return mCookies.remove(pCookie);
+	}
 
 }

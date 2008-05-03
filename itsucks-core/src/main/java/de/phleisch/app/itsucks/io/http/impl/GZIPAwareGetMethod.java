@@ -38,7 +38,7 @@ public class GZIPAwareGetMethod extends GetMethod {
 
         if (contentEncodingHeader != null && contentEncodingHeader.getValue().equalsIgnoreCase("gzip")) {
         	
-        	mLog.debug("Wrap gunzip around http stream.");
+        	mLog.trace("Wrap gunzip around http stream.");
         	
             try {
 				setResponseStream(new GZIPInputStream(getResponseStream()));

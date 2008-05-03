@@ -101,7 +101,8 @@ public class ChangeHttpResponseCodeBehaviourFilter
 			UrlDownloadJob job = (UrlDownloadJob) pJob;
 			URL url = job.getUrl();
 			if(url != null) {
-				result = "http".equalsIgnoreCase(url.getProtocol());
+				result = "http".equalsIgnoreCase(url.getProtocol())
+					|| "https".equalsIgnoreCase(url.getProtocol());
 			}
 		}
 		
