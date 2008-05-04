@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -74,6 +75,10 @@ public abstract class EditListPanel extends javax.swing.JPanel {
 	
 	public ExtendedListModel getListModel() {
 		return mListModel;
+	}
+	
+	public JList getList() {
+		return editList;
 	}
 
 	/** This method is called from within the constructor to

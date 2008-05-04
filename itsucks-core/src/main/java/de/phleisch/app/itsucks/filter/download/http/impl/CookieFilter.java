@@ -75,7 +75,10 @@ public class CookieFilter
 		}
 		
 		if(match) {
-			match = pUrl.getPath().toLowerCase().startsWith(pCookie.getPath().toLowerCase());
+			String path = pCookie.getPath().trim().toLowerCase();
+			if(!path.equals("/")) {
+				match = pUrl.getPath().toLowerCase().startsWith(path);
+			}
 		}
 		
 		return match;

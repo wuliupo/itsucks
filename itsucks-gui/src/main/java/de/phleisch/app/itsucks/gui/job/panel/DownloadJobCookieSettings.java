@@ -8,13 +8,20 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
+import de.phleisch.app.itsucks.gui.util.CookieParser;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
+import de.phleisch.app.itsucks.gui.util.FieldValidator;
+import de.phleisch.app.itsucks.gui.util.Firefox3CookieParser;
+import de.phleisch.app.itsucks.gui.util.IECookieParser;
+import de.phleisch.app.itsucks.gui.util.MozillaCookieParser;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
@@ -85,8 +92,22 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 	}
 
 	public List<String> validateFields() {
-		// TODO Auto-generated method stub
-		return null;
+
+		FieldValidator validator = new FieldValidator();
+
+		ExtendedListModel model = this.cookieListPane.getListModel();
+		Object[] elements = model.toArray();
+		for (int i = 0; i < elements.length; i++) {
+			CookieListElement element = (CookieListElement) elements[i];
+			
+			validator.assertNotEmpty(element.getName(),
+				"Enter a valid name for the cookie. (Entry: " + (i+1) + ")");
+			
+			validator.assertNotEmpty(element.getDomain(),
+					"Enter a valid domain for the cookie. (Entry: " + (i+1) + ")");
+		}
+		
+		return validator.getErrors();
 	}
 	
 	public class CookieListElement
@@ -160,6 +181,7 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
     private void initComponents() {
 
         cookieSettingsPane = new javax.swing.JPanel();
+        cookieSettingsLabel = new javax.swing.JLabel();
         cookieListPane = new de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel();
         editCookiePane = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
@@ -171,23 +193,31 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
         pathLabel = new javax.swing.JLabel();
         pathTextField = new javax.swing.JTextField();
         cookieParserPane = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        cookieParserLabel = new javax.swing.JLabel();
+        formatLabel = new javax.swing.JLabel();
+        formatComboBox = new javax.swing.JComboBox();
+        dataLabel = new javax.swing.JLabel();
+        dataScrollPane = new javax.swing.JScrollPane();
+        dataTextArea = new javax.swing.JTextArea();
+        parseButton = new javax.swing.JButton();
 
-        cookieSettingsPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookie Settings"));
+        cookieSettingsPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cookie Settings", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12)));
 
-        editCookiePane.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookie"));
+        cookieSettingsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        cookieSettingsLabel.setText("<html>Configuration for cookies which will be used by ItSucks.</html>");
 
+        editCookiePane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cookie", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12)));
+
+        nameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         nameLabel.setText("Name:");
 
+        valueLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         valueLabel.setText("Value:");
 
+        domainLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         domainLabel.setText("Domain:");
 
+        pathLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         pathLabel.setText("Path:");
 
         javax.swing.GroupLayout editCookiePaneLayout = new javax.swing.GroupLayout(editCookiePane);
@@ -203,10 +233,10 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
                     .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(7, 7, 7)
                 .addGroup(editCookiePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addComponent(valueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addComponent(domainTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                    .addComponent(pathTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+                    .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(valueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(domainTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(pathTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
                 .addContainerGap())
         );
         editCookiePaneLayout.setVerticalGroup(
@@ -230,19 +260,32 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cookieParserPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookie Parser"));
+        cookieParserPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cookie Parser", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12)));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        cookieParserLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        cookieParserLabel.setText("<html>To add cookies from an browser, please paste the data into the data field.<br>More details can be found in the help.</html>");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Firefox (Mozilla)", "Internet Explorer" }));
+        formatLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        formatLabel.setText("Format:");
 
-        jLabel5.setText("Format:");
+        formatComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        formatComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Firefox2 (Cookies.txt)", "Firefox3 (SQLite Export)", "Internet Explorer (user@host.domain[n].txt)" }));
 
-        jLabel6.setText("Data:");
+        dataLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        dataLabel.setText("Data:");
 
-        jButton1.setText("Parse Cookie String");
+        dataTextArea.setColumns(20);
+        dataTextArea.setFont(new java.awt.Font("Dialog", 0, 12));
+        dataTextArea.setRows(5);
+        dataScrollPane.setViewportView(dataTextArea);
+
+        parseButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        parseButton.setText("Parse Cookie String");
+        parseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parseButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout cookieParserPaneLayout = new javax.swing.GroupLayout(cookieParserPane);
         cookieParserPane.setLayout(cookieParserPaneLayout);
@@ -250,52 +293,63 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
             cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cookieParserPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cookieParserLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                    .addGroup(cookieParserPaneLayout.createSequentialGroup()
+                        .addComponent(formatLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(formatComboBox, 0, 235, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cookieParserPaneLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(dataLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(parseButton)
+                            .addComponent(dataScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         cookieParserPaneLayout.setVerticalGroup(
             cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cookieParserPaneLayout.createSequentialGroup()
-                .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+            .addGroup(cookieParserPaneLayout.createSequentialGroup()
+                .addComponent(cookieParserLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(6, 6, 6))
+                .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(formatLabel)
+                    .addComponent(formatComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(cookieParserPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(parseButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout cookieSettingsPaneLayout = new javax.swing.GroupLayout(cookieSettingsPane);
         cookieSettingsPane.setLayout(cookieSettingsPaneLayout);
         cookieSettingsPaneLayout.setHorizontalGroup(
             cookieSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cookieSettingsPaneLayout.createSequentialGroup()
+            .addGroup(cookieSettingsPaneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(cookieSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cookieParserPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(editCookiePane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cookieListPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+                .addGroup(cookieSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cookieParserPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editCookiePane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cookieListPane, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                    .addComponent(cookieSettingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
                 .addContainerGap())
         );
         cookieSettingsPaneLayout.setVerticalGroup(
             cookieSettingsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cookieSettingsPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cookieSettingsLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cookieListPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editCookiePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cookieParserPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(cookieParserPane, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -312,25 +366,64 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cookieSettingsPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void parseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parseButtonActionPerformed
+    	
+    	CookieParser parser = null;
+    	if(formatComboBox.getSelectedIndex() == 0) {
+    		parser = new MozillaCookieParser();
+    	} else if(formatComboBox.getSelectedIndex() == 1) {
+    		parser = new Firefox3CookieParser();
+    	} else if(formatComboBox.getSelectedIndex() == 2) {
+    		parser = new IECookieParser();    		
+    	}
+    	
+    	List<Cookie> parsedCookies = null;
+    	try {
+    		parsedCookies = parser.parseCookies(dataTextArea.getText());
+    	} catch(Exception ex) {
+    		JOptionPane.showMessageDialog(this, ex.getMessage(),
+    				"Validation errors", JOptionPane.ERROR_MESSAGE);
+//    		ex.printStackTrace();
+    	}
+    	
+    	if(parsedCookies != null) {
+    		ExtendedListModel model = this.cookieListPane.getListModel();
+    		
+    		CookieListElement cookieListElement = null;
+    		for (Cookie cookie : parsedCookies) {
+    			cookieListElement = this.new CookieListElement(cookie);
+   				model.addElement(cookieListElement);
+			}
+    		
+    		//select last added element
+    		if(cookieListElement != null) {
+    			this.cookieListPane.getList().setSelectedValue(cookieListElement, true);
+    		}
+    	}
+    	
+}//GEN-LAST:event_parseButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel cookieListPane;
+    private javax.swing.JLabel cookieParserLabel;
     private javax.swing.JPanel cookieParserPane;
+    private javax.swing.JLabel cookieSettingsLabel;
     private javax.swing.JPanel cookieSettingsPane;
+    private javax.swing.JLabel dataLabel;
+    private javax.swing.JScrollPane dataScrollPane;
+    private javax.swing.JTextArea dataTextArea;
     private javax.swing.JLabel domainLabel;
     private javax.swing.JTextField domainTextField;
     private javax.swing.JPanel editCookiePane;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JComboBox formatComboBox;
+    private javax.swing.JLabel formatLabel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
+    private javax.swing.JButton parseButton;
     private javax.swing.JLabel pathLabel;
     private javax.swing.JTextField pathTextField;
     private javax.swing.JLabel valueLabel;
