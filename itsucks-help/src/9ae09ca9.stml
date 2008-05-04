@@ -1,3 +1,4 @@
 :title Batch processing
+:label batch processing
 
 The batch processing feature can be used to execute multiple jobs in an row. To do so, add all jobs to the list using the add/load buttons. In the field 'Jobs at the same time' can be defined how much jobs should be run parallel. The job will be closed when finished when the option 'Close Jobs when finished' is selected.

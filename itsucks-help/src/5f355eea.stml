@@ -1,1 +1,14 @@
 :title ItSucks Documentation
+
+The following chapters are categorized as follows:
+
+
+* <<job configuration|Download Job configuration>>
+. Configuration options for download jobs.
+* <<batch processing|Batch processing>>
+. Running multiple jobs parallel and/or sequentiel
+* <<regexp helper|Regular expression helper>>
+. Test your regexp on the fly.
+* <<operation breakdown|Operation Breakdown>>
+. A short breakdown how ItSucks works.
+

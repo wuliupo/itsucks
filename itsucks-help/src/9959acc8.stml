@@ -1,0 +1,54 @@
+:title Cookie Settings
+:label cookie settings
+
+Configuration of the cookies which are sent when opening an connection to an http server.
+
+:h1 Cookie Parser
+
+It is painsome to add a long list of cookies by copy/paste every field. The cookie parser can parse a block of exported cookie data from an browser. At the moment Firefox2/3 and Internet Explorer are supported. 
+
+:h2 Firefox 2
+
+In your firefox profile directory copy/paste the cookies into the data field.
+
+An entry should be formatted like this:
+:div code
+.example.com	TRUE	/	FALSE	1210456801	session-id	000-0000000-0000000
+:/div
+
+:h2 Firefox 3
+
+Firefox 3 saves the cookie in sqlite databases. 
+
+Here is an explanation how to export them under *nix:~~
+Execute the following command in your profile directory to export the cookies:
+
+:div code
+sqlite3 -separator $'\t' cookies.sqlite "select name,value,host,path from moz_cookies" > cookie_export.txt
+:/div
+
+Copy/Paste the result from cookie_export.txt into the parser field. (Be careful to preseve the tabs between the fields)
+
+An entry should be formatted like this:
+:div code
+session-id	000-0000000-0000000	.example.com	/
+:/div
+
+
+:h2 Internet Explorer
+
+Copy the data from your user@host.domain[n].txt file and paste it into the data field.
+Do not use the windows notepad, it removes the CR's which are needed to separate the fields.
+
+An entry should be formatted like this:
+:div code
+session-id
+000-0000000-0000000
+.example.com/
+1024
+342532096
+32065574
+2034862032
+29898233
+*
+:/div

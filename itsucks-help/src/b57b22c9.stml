@@ -1,7 +1,7 @@
-:title Advanced RegExp Rules
-:label advanced rules
+:title RegExp Chain
+:label regexp chain
 
-With an advanced filter you can freely set an regular expression to match an URL and actions which should be executed when an URL matches the regular expression.
+With an Regexp Chain Filter you can freely set an regular expression to match an URL and actions which should be executed when an URL matches the regular expression.
 These actions can be:
  
 * Accept the URL

@@ -1,0 +1,5 @@
+:title Http Response Behaviour
+:label http response
+
+Define the behaviour of ItSucks for certain HTTP Status Codes. For instance if an server sends 403 (Forbidden) after to many downloads, a retry + waiting time can be defined here.
+

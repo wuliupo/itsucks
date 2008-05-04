@@ -45,13 +45,9 @@
 <Title>ItSucks Documentation</Title>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
-<Filename>4390e8a1</Filename>
-<Title>Operation breakdown</Title>
-<FullTextSearch>true</FullTextSearch>
-</DocumentNode>
-<DocumentNode>
 <Filename>b0a6579c</Filename>
 <Title>Download job configuration</Title>
+<Label>job configuration</Label>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>61531506</Filename>
@@ -60,6 +56,35 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
+<Filename>09a7295e</Filename>
+<Title>Connection Settings</Title>
+<Label>connection settings</Label>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>11a843d1</Filename>
+<Title>Basic settings</Title>
+<Label>basic settings</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>9959acc8</Filename>
+<Title>Cookie Settings</Title>
+<Label>cookie settings</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>2ac3e574</Filename>
+<Title>Http Response Behaviour</Title>
+<Label>http response</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>361ae1b6</Filename>
+<Title>Rules</Title>
+<Label>rules</Label>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
 <Filename>74589458</Filename>
 <Title>Simple Rules</Title>
 <Label>simple rules</Label>
@@ -67,16 +92,22 @@
 </DocumentNode>
 <DocumentNode>
 <Filename>b18a032a</Filename>
-<Title>Special Rules</Title>
-<Label>special rules</Label>
+<Title>File Size Rule</Title>
+<Label>file size rule</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>b57b22c9</Filename>
-<Title>Advanced RegExp Rules</Title>
-<Label>advanced rules</Label>
+<Title>RegExp Chain</Title>
+<Label>regexp chain</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>a84d89c0</Filename>
+<Title>Filter</Title>
+<Label>filter</Label>
+<FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>e5eec676</Filename>
 <Title>Content Filter</Title>
@@ -84,22 +115,41 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
+</DocumentNode>
 <DocumentNode>
 <Filename>9ae09ca9</Filename>
 <Title>Batch processing</Title>
+<Label>batch processing</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>45dbe34d</Filename>
 <Title>Regular expression helper</Title>
+<Label>regexp helper</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>4390e8a1</Filename>
+<Title>Operation breakdown</Title>
+<Label>operation breakdown</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
-<Label Name="advanced rules">b57b22c9</Label>
 <Label Name="basic parameters">61531506</Label>
+<Label Name="basic settings">11a843d1</Label>
+<Label Name="batch processing">9ae09ca9</Label>
+<Label Name="connection settings">09a7295e</Label>
 <Label Name="content filter">e5eec676</Label>
+<Label Name="cookie settings">9959acc8</Label>
+<Label Name="file size rule">b18a032a</Label>
+<Label Name="filter">a84d89c0</Label>
+<Label Name="http response">2ac3e574</Label>
+<Label Name="job configuration">b0a6579c</Label>
+<Label Name="operation breakdown">4390e8a1</Label>
+<Label Name="regexp chain">b57b22c9</Label>
+<Label Name="regexp helper">45dbe34d</Label>
+<Label Name="rules">361ae1b6</Label>
 <Label Name="simple rules">74589458</Label>
-<Label Name="special rules">b18a032a</Label>
 </DocumentTree>
 <ImageLibrary>
 <ThumbnailSize>100</ThumbnailSize>

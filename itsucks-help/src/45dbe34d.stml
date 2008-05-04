@@ -1,4 +1,5 @@
 :title Regular expression helper
+:label regexp helper
 
 The upper field 'Regular Expression' takes your Regular Expression you want to test. The lower field 'Test Text' takes your test text which you want as input for your regular expression. 
 The Option Partial Match/Full Match change if your Regular Expression must match the complete text or only a portion of it. 

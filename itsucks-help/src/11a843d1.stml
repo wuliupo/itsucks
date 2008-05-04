@@ -1,0 +1,17 @@
+:title Basic settings
+:label basic settings
+
+:h1 Connections Settings
+Configuration of the connection.
+
+:h2 Max. connections per server
+Defines the maximum connections for a hostname.
+
+:h2 Max. retries before giving up
+Defines how often ItSucks should retry downloads when an retryable error occurs.
+
+:h1 Proxy Settings
+Proxy settings to use a proxy for connections.
+
+:h1 User Agent
+User Agent which is send to the HTTP Server when requesting a page.

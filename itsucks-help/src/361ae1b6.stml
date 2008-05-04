@@ -1,0 +1,13 @@
+:title Rules
+:label rules
+
+ItSucks contains many rules and filters which can be used to control the behaviour of ItSucks. They are categorized as follows:
+
+* <<simple rules|Simple Rules>>
+. Relative simple rules and limitations for the crawler and configuration which files should be saved on disk.
+* <<file size rule|File Size Rule>>
+* <<regexp chain|RegExp Chain>>
+. A chain of regular expression to change the crawl behaviour.
+* <<content filter|Content Filter>>
+. A regular expression content filter for text files.
+
