@@ -6,25 +6,11 @@
 
 package de.phleisch.app.itsucks.gui.job.panel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
-
-import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
-import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
-import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
-import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
-import de.phleisch.app.itsucks.gui.common.panel.EditListPanel.ListElement;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
-import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
-import de.phleisch.app.itsucks.gui.util.ListItem;
-import de.phleisch.app.itsucks.gui.util.SwingUtils;
-import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
-import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
-import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -36,51 +22,15 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
 
 	private static final long serialVersionUID = -2550810599331718712L;
 
-	public List<ListItem<Action>> mHttpResponseCodeFilterActions = createFilterActions();
-
-	protected List<ListItem<Action>> createFilterActions() {
-
-		List<ListItem<Action>> list = new ArrayList<ListItem<Action>>();
-		list.add(new ListItem<Action>("Retry", Action.FAILED_BUT_RETRYABLE));
-		list.add(new ListItem<Action>("Ok", Action.OK));
-		list.add(new ListItem<Action>("Error", Action.FAILED));
-
-		return list;
-	}
-
 	/** Creates new form DownloadJobFileSizeRulesPanel */
 	public DownloadJobFileSizeRulesPanel() {
 		initComponents();
-		initListPanel();
-	}
-
-	private void initListPanel() {
-		EditListCallback editListCallback = new EditListCallback();
-		editListCallback.enableEditArea(false);
-		this.httpStatusCodeBehaviourEditListPanel
-				.setLogic(editListCallback);
-
-		this.httpStatusCodeBehaviourEditListPanel
-				.registerDataField(httpStatusCodeBehaviourHostnameTextField);
-		this.httpStatusCodeBehaviourEditListPanel
-				.registerDataField(httpStatusCodeBehaviourStatusCodeFromTextField);
-		this.httpStatusCodeBehaviourEditListPanel
-				.registerDataField(httpStatusCodeBehaviourStatusCodeToTextField);
-		this.httpStatusCodeBehaviourEditListPanel
-				.registerDataField(httpStatusCodeBehaviourActionComboBox);
-		this.httpStatusCodeBehaviourEditListPanel
-				.registerDataField(httpStatusCodeBehaviourWaitTextField);
 	}
 
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
 		
 		FileSizeFilter fileSizeFilter = 
 			(FileSizeFilter) pJobPackage.getFilterByType(FileSizeFilter.class);
-		
-		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = 
-			(ChangeHttpResponseCodeBehaviourFilter) 
-			pJobPackage.getFilterByType(ChangeHttpResponseCodeBehaviourFilter.class);
-		
 		
 		if (fileSizeFilter != null) {
 
@@ -95,43 +45,6 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
 					.setSelectedIndex(fileSizeFilter.isAcceptWhenLengthNotSet() ? 0
 							: 1);
 		}
-		
-
-		if(httpResponseCodeFilter != null) {
-			
-			this.httpStatusCodeBehaviourCheckBox
-				.setSelected(true);
-			
-			ExtendedListModel model = 
-				this.httpStatusCodeBehaviourEditListPanel.getListModel();
-			
-			for (HttpResponseCodeBehaviourHostConfig hostConfig : 
-				httpResponseCodeFilter.getConfigList()) {
-				
-				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour = 
-					hostConfig.getResponseCodeBehaviour();
-				
-				for (ResponseCodeRange responseCodeRange : 
-					responseCodeBehaviour.getConfigurationList()) {
-					
-					HttpStatusCodeBehaviourListElement element = 
-						this.new HttpStatusCodeBehaviourListElement();
-					
-					element.setHostnameRegexp(hostConfig.getHostnameRegexp());
-					element.setResponseCodeFrom(Integer.toString(responseCodeRange.getResponseCodeFrom()));
-					element.setResponseCodeTo(Integer.toString(responseCodeRange.getResponseCodeTo()));
-					element.setAction(
-							this.findIndexForHttpRetrieverResponseCodeBehaviour(
-									responseCodeRange.getAction()));
-					if(responseCodeRange.getTimeToWaitBetweenRetry() != null) {
-						element.setTimeToWaitBetweenRetry(Long.toString(responseCodeRange.getTimeToWaitBetweenRetry()));
-					}
-
-					model.addElement(element);
-				}
-			}
-		}
-		
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
@@ -159,56 +72,6 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
 					.setAcceptWhenLengthNotSet(this.fileSizeNotKnownComboBox
 							.getSelectedIndex() > 0 ? false : true);
 		}
-		
-		ChangeHttpResponseCodeBehaviourFilter httpResponseCodeFilter = 
-			(ChangeHttpResponseCodeBehaviourFilter) 
-			pJobPackage.getFilterByType(ChangeHttpResponseCodeBehaviourFilter.class);
-
-		//http status code filter
-		if (this.httpStatusCodeBehaviourCheckBox
-				.isSelected()) {
-			
-			if(httpResponseCodeFilter == null) {
-				httpResponseCodeFilter = 
-					new ChangeHttpResponseCodeBehaviourFilter();
-				pJobPackage.addFilter(httpResponseCodeFilter);
-			}
-			
-			ExtendedListModel listModel = 
-				this.httpStatusCodeBehaviourEditListPanel.getListModel();
-			
-			Object[] elements = listModel.toArray();
-			for (int i = 0; i < elements.length; i++) {
-				HttpStatusCodeBehaviourListElement element = 
-					(HttpStatusCodeBehaviourListElement) elements[i];
-				
-				HttpRetrieverResponseCodeBehaviour.Action action = 
-					this.mHttpResponseCodeFilterActions.get(element.getAction()).getValue();
-				
-				ResponseCodeRange responseCodeRange = 
-					new ResponseCodeRange(
-							Integer.parseInt(element.getResponseCodeFrom()),
-							Integer.parseInt(element.getResponseCodeTo()),
-							action
-					);
-				
-				if(action.equals(HttpRetrieverResponseCodeBehaviour.Action.FAILED_BUT_RETRYABLE)) {
-					responseCodeRange.setTimeToWaitBetweenRetry(
-							Long.parseLong(element.getTimeToWaitBetweenRetry()));
-				}
-				
-				HttpRetrieverResponseCodeBehaviour responseCodeBehaviour =
-					new HttpRetrieverResponseCodeBehaviour();
-				responseCodeBehaviour.add(responseCodeRange);
-				
-				HttpResponseCodeBehaviourHostConfig hostConfig = 
-					new HttpResponseCodeBehaviourHostConfig(element.getHostnameRegexp(), 
-							responseCodeBehaviour);
-				
-				httpResponseCodeFilter.addConfig(hostConfig);
-			}
-		}
-		
 	}
 	
 	
@@ -229,185 +92,7 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
 					"Enter a valid value for the maximum file size.");
 		}
 
-		if (httpStatusCodeBehaviourCheckBox.isSelected()) {
-
-			ExtendedListModel listModel = httpStatusCodeBehaviourEditListPanel
-					.getListModel();
-
-			Object[] elements = listModel.toArray();
-			for (int i = 0; i < elements.length; i++) {
-				HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) elements[i];
-
-				validator.assertValidRegExp(element.getHostnameRegexp(),
-						"Enter a valid regular expression for the hostname in HTTP Status Filter "
-								+ (i + 1));
-
-				validator.assertInteger(element.getResponseCodeFrom(),
-						"Enter a valid value for the 'from' status code in HTTP Status Filter "
-								+ (i + 1));
-				validator.assertInteger(element.getResponseCodeTo(),
-						"Enter a valid value for the 'to' status code in HTTP Status Filter "
-								+ (i + 1));
-
-				if (element.getAction() == findIndexForHttpRetrieverResponseCodeBehaviour(Action.FAILED_BUT_RETRYABLE)) {
-
-					validator.assertInteger(
-							element.getTimeToWaitBetweenRetry(),
-							"Enter a valid value for 'wait between retry' in HTTP Status Filter "
-									+ (i + 1));
-
-				}
-			}
-		}
-
 		return validator.getErrors();
-	}
-
-	public class HttpStatusCodeBehaviourListElement implements
-			EditListPanel.ListElement {
-
-		private String mHostnameRegexp = "";
-		private String mResponseCodeFrom = "";
-		private String mResponseCodeTo = "";
-		private int mAction;
-		private String mTimeToWaitBetweenRetry = "";
-		private int mQueueBehaviour;
-
-		public String getHostnameRegexp() {
-			return mHostnameRegexp;
-		}
-
-		public void setHostnameRegexp(String pHostnameRegexp) {
-			mHostnameRegexp = pHostnameRegexp;
-		}
-
-		public String getResponseCodeFrom() {
-			return mResponseCodeFrom;
-		}
-
-		public void setResponseCodeFrom(String pResponseCodeFrom) {
-			mResponseCodeFrom = pResponseCodeFrom;
-		}
-
-		public String getResponseCodeTo() {
-			return mResponseCodeTo;
-		}
-
-		public void setResponseCodeTo(String pResponseCodeTo) {
-			mResponseCodeTo = pResponseCodeTo;
-		}
-
-		public int getAction() {
-			return mAction;
-		}
-
-		public void setAction(int pAction) {
-			mAction = pAction;
-		}
-
-		public String getTimeToWaitBetweenRetry() {
-			return mTimeToWaitBetweenRetry;
-		}
-
-		public void setTimeToWaitBetweenRetry(String pTimeToWaitBetweenRetry) {
-			mTimeToWaitBetweenRetry = pTimeToWaitBetweenRetry;
-		}
-
-		public int getQueueBehaviour() {
-			return mQueueBehaviour;
-		}
-
-		public void setQueueBehaviour(int pQueueBehaviour) {
-			mQueueBehaviour = pQueueBehaviour;
-		}
-
-		@Override
-		public String toString() {
-			String result = "<html>Hostname RegExp: '"
-					+ getHostnameRegexp()
-					+ "' / Status Code: "
-					+ this.getResponseCodeFrom()
-					+ " - "
-					+ this.getResponseCodeTo()
-					+ "<br>"
-					+ "Action: "
-					+ httpStatusCodeBehaviourActionComboBox.getModel()
-							.getElementAt(this.getAction());
-			if (this.getAction() == 0) {
-				result += "<br>" + "Waiting time: "
-						+ this.getTimeToWaitBetweenRetry() + "ms ";
-			}
-			result += "</html>";
-
-			return result;
-		}
-
-	}
-
-	protected class EditListCallback implements
-			EditListCallbackPanel.EditListCallbackInterface {
-
-		public ListElement createNewElement() {
-			HttpStatusCodeBehaviourListElement element = new HttpStatusCodeBehaviourListElement();
-			return element;
-		}
-
-		public void emptyEditArea() {
-			loadEditArea(new HttpStatusCodeBehaviourListElement());
-		}
-
-		public void enableEditArea(boolean pEnable) {
-			SwingUtils.setContainerAndChildrenEnabled(
-					httpStatusCodeBehaviourSubPanel, pEnable);
-		}
-
-		public void loadEditArea(ListElement pElement) {
-
-			HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) pElement;
-
-			httpStatusCodeBehaviourHostnameTextField.setText(element
-					.getHostnameRegexp());
-			httpStatusCodeBehaviourStatusCodeFromTextField.setText(element
-					.getResponseCodeFrom());
-			httpStatusCodeBehaviourStatusCodeToTextField.setText(element
-					.getResponseCodeTo());
-			httpStatusCodeBehaviourActionComboBox.setSelectedIndex(element
-					.getAction());
-			httpStatusCodeBehaviourWaitTextField.setText(element
-					.getTimeToWaitBetweenRetry());
-
-		}
-
-		public void updateListElement(ListElement pElement) {
-
-			HttpStatusCodeBehaviourListElement element = (HttpStatusCodeBehaviourListElement) pElement;
-
-			element.setHostnameRegexp(httpStatusCodeBehaviourHostnameTextField
-					.getText());
-			element
-					.setResponseCodeFrom(httpStatusCodeBehaviourStatusCodeFromTextField
-							.getText());
-			element
-					.setResponseCodeTo(httpStatusCodeBehaviourStatusCodeToTextField
-							.getText());
-			element.setAction(httpStatusCodeBehaviourActionComboBox
-					.getSelectedIndex());
-			element
-					.setTimeToWaitBetweenRetry(httpStatusCodeBehaviourWaitTextField
-							.getText());
-
-		}
-	}
-
-	public int findIndexForHttpRetrieverResponseCodeBehaviour(
-			HttpRetrieverResponseCodeBehaviour.Action pAction) {
-		for (ListItem<Action> item : mHttpResponseCodeFilterActions) {
-			if (item.getValue().equals(pAction)) {
-				return mHttpResponseCodeFilterActions.indexOf(item);
-			}
-		}
-
-		return -1;
 	}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -423,23 +108,6 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
         fileSizeUnitExplanationLabel = new javax.swing.JLabel();
         fileSizeNotKnownLabel = new javax.swing.JLabel();
         fileSizeNotKnownComboBox = new javax.swing.JComboBox();
-        httpStatusCodeBehaviourPanel = new javax.swing.JPanel();
-        httpStatusCodeBehaviourLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourCheckBox = new javax.swing.JCheckBox();
-        httpStatusCodeBehaviourEditListPanel = new de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel();
-        httpStatusCodeBehaviourSubPanel = new javax.swing.JPanel();
-        httpStatusCodeBehaviourHostnameLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourHostnameTextField = new javax.swing.JTextField();
-        httpStatusCodeBehaviourHostnameDescLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourStatusCodeLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourStatusCodeFromTextField = new javax.swing.JTextField();
-        httpStatusCodeBehaviourStatusCodeToPanel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourStatusCodeToTextField = new javax.swing.JTextField();
-        httpStatusCodeBehaviourActionLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourActionComboBox = new javax.swing.JComboBox();
-        httpStatusCodeBehaviourWaitLabel = new javax.swing.JLabel();
-        httpStatusCodeBehaviourWaitTextField = new javax.swing.JTextField();
-        httpStatusCodeBehaviourWaitMsLabel = new javax.swing.JLabel();
 
         fileSizePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Size Filter"));
 
@@ -538,159 +206,13 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        httpStatusCodeBehaviourPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("HTTP Status Code Behaviour"));
-
-        httpStatusCodeBehaviourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourLabel.setText("<html>Define the behaviour of ItSucks for certain HTTP Status Codes. For instance if an server sends 403 (Forbidden) after to many downloads, a retry + waiting time can be defined here.</html>");
-        httpStatusCodeBehaviourLabel.setPreferredSize(new java.awt.Dimension(700, 15));
-
-        httpStatusCodeBehaviourCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourCheckBox.setText("Enable HTTP Status Code Filter");
-        httpStatusCodeBehaviourCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        httpStatusCodeBehaviourCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                httpStatusCodeBehaviourCheckBoxStateChanged(evt);
-            }
-        });
-
-        httpStatusCodeBehaviourEditListPanel.setEnabled(false);
-
-        httpStatusCodeBehaviourSubPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("HTTP Status Filter"));
-
-        httpStatusCodeBehaviourHostnameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourHostnameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        httpStatusCodeBehaviourHostnameLabel.setText("Hostname:");
-
-        httpStatusCodeBehaviourHostnameDescLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourHostnameDescLabel.setText("<html>(regular expression, partial match)</html>");
-
-        httpStatusCodeBehaviourStatusCodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourStatusCodeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        httpStatusCodeBehaviourStatusCodeLabel.setText("Status Code:");
-
-        httpStatusCodeBehaviourStatusCodeFromTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        httpStatusCodeBehaviourStatusCodeFromTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                httpStatusCodeBehaviourStatusCodeFromTextFieldFocusLost(evt);
-            }
-        });
-
-        httpStatusCodeBehaviourStatusCodeToPanel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourStatusCodeToPanel.setText("to");
-
-        httpStatusCodeBehaviourStatusCodeToTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        httpStatusCodeBehaviourActionLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourActionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        httpStatusCodeBehaviourActionLabel.setText("Action:");
-
-        httpStatusCodeBehaviourActionComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourActionComboBox.setModel(new DefaultComboBoxModel(mHttpResponseCodeFilterActions.toArray()));
-        httpStatusCodeBehaviourActionComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                httpStatusCodeBehaviourActionComboBoxItemStateChanged(evt);
-            }
-        });
-
-        httpStatusCodeBehaviourWaitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourWaitLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        httpStatusCodeBehaviourWaitLabel.setText("Wait between retry:");
-
-        httpStatusCodeBehaviourWaitTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        httpStatusCodeBehaviourWaitMsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        httpStatusCodeBehaviourWaitMsLabel.setText("ms");
-
-        org.jdesktop.layout.GroupLayout httpStatusCodeBehaviourSubPanelLayout = new org.jdesktop.layout.GroupLayout(httpStatusCodeBehaviourSubPanel);
-        httpStatusCodeBehaviourSubPanel.setLayout(httpStatusCodeBehaviourSubPanelLayout);
-        httpStatusCodeBehaviourSubPanelLayout.setHorizontalGroup(
-            httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(httpStatusCodeBehaviourSubPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, httpStatusCodeBehaviourActionLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, httpStatusCodeBehaviourStatusCodeLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, httpStatusCodeBehaviourWaitLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourHostnameLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(httpStatusCodeBehaviourHostnameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourSubPanelLayout.createSequentialGroup()
-                        .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(httpStatusCodeBehaviourSubPanelLayout.createSequentialGroup()
-                                    .add(httpStatusCodeBehaviourStatusCodeFromTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 45, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(httpStatusCodeBehaviourStatusCodeToPanel))
-                                .add(httpStatusCodeBehaviourWaitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(httpStatusCodeBehaviourActionComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(httpStatusCodeBehaviourHostnameDescLabel)
-                            .add(httpStatusCodeBehaviourStatusCodeToTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 45, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(httpStatusCodeBehaviourWaitMsLabel))))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-        httpStatusCodeBehaviourSubPanelLayout.setVerticalGroup(
-            httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(httpStatusCodeBehaviourSubPanelLayout.createSequentialGroup()
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(httpStatusCodeBehaviourHostnameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourHostnameLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(httpStatusCodeBehaviourStatusCodeLabel)
-                    .add(httpStatusCodeBehaviourStatusCodeFromTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourStatusCodeToPanel)
-                    .add(httpStatusCodeBehaviourStatusCodeToTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(httpStatusCodeBehaviourActionComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourActionLabel)
-                    .add(httpStatusCodeBehaviourHostnameDescLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourSubPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(httpStatusCodeBehaviourWaitMsLabel)
-                    .add(httpStatusCodeBehaviourWaitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(httpStatusCodeBehaviourWaitLabel))
-                .addContainerGap())
-        );
-
-        org.jdesktop.layout.GroupLayout httpStatusCodeBehaviourPanelLayout = new org.jdesktop.layout.GroupLayout(httpStatusCodeBehaviourPanel);
-        httpStatusCodeBehaviourPanel.setLayout(httpStatusCodeBehaviourPanelLayout);
-        httpStatusCodeBehaviourPanelLayout.setHorizontalGroup(
-            httpStatusCodeBehaviourPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(httpStatusCodeBehaviourPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(httpStatusCodeBehaviourPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(httpStatusCodeBehaviourCheckBox)
-                    .add(httpStatusCodeBehaviourEditListPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
-                    .add(httpStatusCodeBehaviourSubPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(httpStatusCodeBehaviourLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        httpStatusCodeBehaviourPanelLayout.setVerticalGroup(
-            httpStatusCodeBehaviourPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(httpStatusCodeBehaviourPanelLayout.createSequentialGroup()
-                .add(httpStatusCodeBehaviourLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourCheckBox)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(httpStatusCodeBehaviourEditListPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourSubPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, fileSizePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, httpStatusCodeBehaviourPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(fileSizePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -698,48 +220,9 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(fileSizePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(httpStatusCodeBehaviourPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-	private void httpStatusCodeBehaviourStatusCodeFromTextFieldFocusLost(
-			java.awt.event.FocusEvent evt) {
-
-		//copy the 'from' value into the 'to' field when to is empty 
-		String from = httpStatusCodeBehaviourStatusCodeFromTextField.getText();
-		String to = httpStatusCodeBehaviourStatusCodeToTextField.getText();
-		if (from.trim().length() > 0 && to.trim().length() == 0) {
-			httpStatusCodeBehaviourStatusCodeToTextField.setText(from);
-		}
-
-	}
-
-	private void httpStatusCodeBehaviourActionComboBoxItemStateChanged(
-			java.awt.event.ItemEvent evt) {
-
-		boolean enabled = false;
-
-		//if action is retry (0) and http status filter is active
-		if (this.httpStatusCodeBehaviourActionComboBox.getSelectedIndex() == 0
-				&& this.httpStatusCodeBehaviourActionComboBox.isEnabled()) {
-
-			enabled = true;
-		}
-
-		this.httpStatusCodeBehaviourWaitLabel.setEnabled(enabled);
-		this.httpStatusCodeBehaviourWaitTextField.setEnabled(enabled);
-		this.httpStatusCodeBehaviourWaitMsLabel.setEnabled(enabled);
-	}
-
-	private void httpStatusCodeBehaviourCheckBoxStateChanged(
-			javax.swing.event.ChangeEvent evt) {
-
-		boolean enabled = this.httpStatusCodeBehaviourCheckBox.isSelected();
-
-		this.httpStatusCodeBehaviourEditListPanel.setEnabled(enabled);
-	}
 
 	//GEN-FIRST:event_fileSizeEnableCheckBoxStateChanged
 	private void fileSizeEnableCheckBoxStateChanged(
@@ -767,23 +250,6 @@ public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel
     protected javax.swing.JLabel fileSizeNotKnownLabel;
     protected javax.swing.JPanel fileSizePanel;
     protected javax.swing.JLabel fileSizeUnitExplanationLabel;
-    protected javax.swing.JComboBox httpStatusCodeBehaviourActionComboBox;
-    protected javax.swing.JLabel httpStatusCodeBehaviourActionLabel;
-    protected javax.swing.JCheckBox httpStatusCodeBehaviourCheckBox;
-    protected de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel httpStatusCodeBehaviourEditListPanel;
-    protected javax.swing.JLabel httpStatusCodeBehaviourHostnameDescLabel;
-    protected javax.swing.JLabel httpStatusCodeBehaviourHostnameLabel;
-    protected javax.swing.JTextField httpStatusCodeBehaviourHostnameTextField;
-    protected javax.swing.JLabel httpStatusCodeBehaviourLabel;
-    protected javax.swing.JPanel httpStatusCodeBehaviourPanel;
-    protected javax.swing.JTextField httpStatusCodeBehaviourStatusCodeFromTextField;
-    protected javax.swing.JLabel httpStatusCodeBehaviourStatusCodeLabel;
-    protected javax.swing.JLabel httpStatusCodeBehaviourStatusCodeToPanel;
-    protected javax.swing.JTextField httpStatusCodeBehaviourStatusCodeToTextField;
-    protected javax.swing.JPanel httpStatusCodeBehaviourSubPanel;
-    protected javax.swing.JLabel httpStatusCodeBehaviourWaitLabel;
-    protected javax.swing.JLabel httpStatusCodeBehaviourWaitMsLabel;
-    protected javax.swing.JTextField httpStatusCodeBehaviourWaitTextField;
     // End of variables declaration//GEN-END:variables
 
 }

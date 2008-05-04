@@ -27,6 +27,7 @@ import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobCookieSettings;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobHttpResponseBehaviourPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel;
@@ -94,6 +95,13 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	cookieSettings.setUserObject(
     			new JobTreeNode("Cookie Settings", cookieSettingsPanel, cookieSettingsPanel));
     	connection.add(cookieSettings);
+    	
+    	//http response behaviour
+    	DefaultMutableTreeNode httpResponseBehaviour = new DefaultMutableTreeNode();
+    	DownloadJobHttpResponseBehaviourPanel httpResponseBehaviourPanel = new DownloadJobHttpResponseBehaviourPanel();
+    	httpResponseBehaviour.setUserObject(
+    			new JobTreeNode("Http Response Behaviour", httpResponseBehaviourPanel, httpResponseBehaviourPanel));
+    	connection.add(httpResponseBehaviour);
     	
     	//rules
     	DefaultMutableTreeNode rules = new DefaultMutableTreeNode("Rules");
