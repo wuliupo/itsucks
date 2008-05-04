@@ -25,7 +25,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobRegExpRuleChainPanel extends javax.swing.JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = 9062521650244140654L;
 
@@ -33,7 +33,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements E
 	protected RegExpFilterRule mRuleInEditMode;
 
 	/** Creates new form DownloadJobAdvancedRulesPanel */
-	public DownloadJobRegExpRulesPanel() {
+	public DownloadJobRegExpRuleChainPanel() {
 		regExpFilterListModel = new ExtendedListModel();
 		mRuleInEditMode = null;
 
@@ -80,7 +80,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements E
 			}
 		
 			for (int i = 0; i < advancedFilterCount; i++) {
-				RegExpFilterRule rule = ((DownloadJobRegExpRulesPanel.RegExpFilterRuleListElement) 
+				RegExpFilterRule rule = ((DownloadJobRegExpRuleChainPanel.RegExpFilterRuleListElement) 
 						this.regExpFilterListModel.get(i))
 							.getRule();
 				regExpFilter.addFilterRule(rule);
@@ -266,7 +266,7 @@ public class DownloadJobRegExpRulesPanel extends javax.swing.JPanel implements E
         editRegExpFilterNoMatchPrioChangeTextField = new javax.swing.JTextField();
         editRegExpFilterNoMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
 
-        regExpFilterChainLabel.setText("Regular Expression Filter Chain");
+        regExpFilterChainLabel.setText("Regular Expression Chain");
 
         regExpFilterChainExplanationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         regExpFilterChainExplanationLabel.setText("<html>Every found URL will be filtered through the chain. Filtering starts with the first entry in the list and ends with the last entry.</html>");

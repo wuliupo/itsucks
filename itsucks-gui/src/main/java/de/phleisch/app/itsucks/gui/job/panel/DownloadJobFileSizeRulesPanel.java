@@ -1,5 +1,5 @@
 /*
- * DownloadJobSpecialRulesPanel.java
+ * DownloadJobFileSizeRulesPanel.java
  *
  * Created on __DATE__, __TIME__
  */
@@ -31,7 +31,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel 
+public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel 
 		implements EditJobCapable {
 
 	private static final long serialVersionUID = -2550810599331718712L;
@@ -48,8 +48,8 @@ public class DownloadJobSpecialRulesPanel extends javax.swing.JPanel
 		return list;
 	}
 
-	/** Creates new form DownloadJobSpecialRulesPanel */
-	public DownloadJobSpecialRulesPanel() {
+	/** Creates new form DownloadJobFileSizeRulesPanel */
+	public DownloadJobFileSizeRulesPanel() {
 		initComponents();
 		initListPanel();
 	}

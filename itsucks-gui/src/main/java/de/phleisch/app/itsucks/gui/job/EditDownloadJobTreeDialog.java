@@ -27,9 +27,9 @@ import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobCookieSettings;
-import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
-import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor.TreeListener;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
@@ -106,19 +106,19 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     			new JobTreeNode("Simple Rules", simpleRulesPanel, simpleRulesPanel));
     	rules.add(simpleRules);
 
-    	//special rules
-    	DefaultMutableTreeNode specialRules = new DefaultMutableTreeNode();
-    	DownloadJobSpecialRulesPanel specialRulesPanel = new DownloadJobSpecialRulesPanel();
-    	specialRules.setUserObject(
-    			new JobTreeNode("Special Rules", specialRulesPanel, specialRulesPanel));
-    	rules.add(specialRules);
+    	//file size rule
+    	DefaultMutableTreeNode fileSizeRule = new DefaultMutableTreeNode();
+    	DownloadJobFileSizeRulesPanel specialRulesPanel = new DownloadJobFileSizeRulesPanel();
+    	fileSizeRule.setUserObject(
+    			new JobTreeNode("File Size Rule", specialRulesPanel, specialRulesPanel));
+    	rules.add(fileSizeRule);
     	
-    	//reg exp rules
-    	DefaultMutableTreeNode advancedRegExpRules = new DefaultMutableTreeNode();
-    	DownloadJobRegExpRulesPanel advancedRegExpRulesPanel = new DownloadJobRegExpRulesPanel();
-    	advancedRegExpRules.setUserObject(
-    			new JobTreeNode("Advanced RegExp Rules", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
-    	rules.add(advancedRegExpRules);
+    	//regexp rulechain
+    	DefaultMutableTreeNode regExpRuleChain = new DefaultMutableTreeNode();
+    	DownloadJobRegExpRuleChainPanel advancedRegExpRulesPanel = new DownloadJobRegExpRuleChainPanel();
+    	regExpRuleChain.setUserObject(
+    			new JobTreeNode("RegExp Chain", advancedRegExpRulesPanel, advancedRegExpRulesPanel));
+    	rules.add(regExpRuleChain);
     	
     	//filter
     	DefaultMutableTreeNode filter = new DefaultMutableTreeNode("Filter");

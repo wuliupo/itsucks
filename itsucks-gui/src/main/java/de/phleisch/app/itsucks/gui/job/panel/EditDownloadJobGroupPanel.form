@@ -43,7 +43,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel" name="downloadJobSpecialRulesPanel">
+        <Component class="de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel" name="downloadJobSpecialRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Special Rules">
@@ -52,7 +52,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel" name="downloadJobRegExpRulesPanel">
+        <Component class="de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel" name="downloadJobRegExpRulesPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Advanced RegExp Rules">

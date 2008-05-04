@@ -111,8 +111,8 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 		tabbedPane = new javax.swing.JTabbedPane();
 		downloadJobBasicPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel();
 		downloadJobSimpleRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel();
-		downloadJobSpecialRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel();
-		downloadJobRegExpRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel();
+		downloadJobSpecialRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel();
+		downloadJobRegExpRulesPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel();
 		downloadJobContentFilterPanel = new de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel();
 
 		tabbedPane.addTab("Basic Parameters", downloadJobBasicPanel);
@@ -142,9 +142,9 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	// Variables declaration - do not modify
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel downloadJobBasicPanel;
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel downloadJobContentFilterPanel;
-	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRulesPanel downloadJobRegExpRulesPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel downloadJobRegExpRulesPanel;
 	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel downloadJobSimpleRulesPanel;
-	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobSpecialRulesPanel downloadJobSpecialRulesPanel;
+	private de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel downloadJobSpecialRulesPanel;
 	private javax.swing.JTabbedPane tabbedPane;
 	// End of variables declaration//GEN-END:variables
 
