@@ -67,6 +67,7 @@
 
 						<manifestEntries>
 							<SplashScreen-Image>itsucks_splash.jpg</SplashScreen-Image>
+							<Class-Path>itsucks-help.jar</Class-Path>
 						</manifestEntries>
 					</archive>
 				</configuration>
