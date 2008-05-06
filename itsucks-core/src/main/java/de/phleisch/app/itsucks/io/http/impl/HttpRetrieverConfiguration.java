@@ -8,8 +8,10 @@
 
 package de.phleisch.app.itsucks.io.http.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HttpRetrieverConfiguration {
@@ -34,6 +36,8 @@ public class HttpRetrieverConfiguration {
 	private transient Map<String, Object> mSharedObjects = 
 		Collections.synchronizedMap(new HashMap<String, Object>());
 
+	private List<HttpAuthenticationCredentials> mAuthenticationCredentials = 
+		new ArrayList<HttpAuthenticationCredentials>();
 	
 	public Integer getMaxConnectionsPerServer() {
 		return mMaxConnectionsPerServer;
@@ -97,6 +101,18 @@ public class HttpRetrieverConfiguration {
 	}
 	public Map<String, Object> getSharedObjects() {
 		return mSharedObjects;
+	}
+	public List<HttpAuthenticationCredentials> getAuthenticationCredentials() {
+		return mAuthenticationCredentials;
+	}
+	public void setAuthenticationCredentials(
+			List<HttpAuthenticationCredentials> pAuthenticationCredentials) {
+		mAuthenticationCredentials = 
+			new ArrayList<HttpAuthenticationCredentials>(pAuthenticationCredentials);
+	}
+	public void addAuthenticationCredentials(
+			HttpAuthenticationCredentials pAuthenticationCredentials) {
+		mAuthenticationCredentials.add(pAuthenticationCredentials);
 	}
 	
 }
