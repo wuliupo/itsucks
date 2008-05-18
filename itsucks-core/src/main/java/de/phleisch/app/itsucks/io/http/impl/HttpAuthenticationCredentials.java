@@ -10,15 +10,21 @@ package de.phleisch.app.itsucks.io.http.impl;
 
 public class HttpAuthenticationCredentials {
 
-	private String mServer;
+	private String mHost;
 	private String mUser;
 	private String mPassword;
 	
-	public String getServer() {
-		return mServer;
+	public HttpAuthenticationCredentials(String pHost, String pUser, String pPassword) {
+		mHost = pHost;
+		mUser = pUser;
+		mPassword = pPassword;
 	}
-	public void setServer(String pServer) {
-		mServer = pServer;
+	
+	public String getHost() {
+		return mHost;
+	}
+	public void setHost(String pServer) {
+		mHost = pServer;
 	}
 	public String getUser() {
 		return mUser;

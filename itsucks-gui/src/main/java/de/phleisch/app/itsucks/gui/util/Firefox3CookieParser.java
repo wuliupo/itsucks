@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
+import de.phleisch.app.itsucks.io.http.impl.Cookie;
 
 public class Firefox3CookieParser implements CookieParser {
 

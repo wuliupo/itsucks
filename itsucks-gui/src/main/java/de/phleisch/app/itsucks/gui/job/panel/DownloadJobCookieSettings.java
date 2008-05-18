@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
@@ -23,6 +22,7 @@ import de.phleisch.app.itsucks.gui.util.Firefox3CookieParser;
 import de.phleisch.app.itsucks.gui.util.IECookieParser;
 import de.phleisch.app.itsucks.gui.util.MozillaCookieParser;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
+import de.phleisch.app.itsucks.io.http.impl.Cookie;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**

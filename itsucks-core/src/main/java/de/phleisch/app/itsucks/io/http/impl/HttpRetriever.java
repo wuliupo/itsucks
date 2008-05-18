@@ -18,6 +18,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.auth.CredentialsProvider;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -85,6 +86,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		mGet = new GZIPAwareGetMethod(mUrl.toString());
 		mGet.setFollowRedirects(false);
+		mGet.setDoAuthentication(true);
 		
 		HttpMethodParams params = mGet.getParams();
 		params.setSoTimeout(90 * 1000); //90 seconds
@@ -193,6 +195,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      					new UsernamePasswordCredentials(
      							pConfiguration.getProxyUser(), 
      							pConfiguration.getProxyPassword()));
+     		}
+     		if(pConfiguration.getAuthenticationCredentials().size() > 0) {
+     			httpClient.getParams().setParameter(
+     	        		CredentialsProvider.PROVIDER, 
+     	        		new ConfigurationAuthProvider(pConfiguration.getAuthenticationCredentials()));
      		}
      		
      		HttpClientParams httpClientParams = httpClient.getParams();
@@ -377,6 +384,8 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	}
 	
 	protected static HttpRetrieverConfiguration createDefaultConfiguration() {
+		
+		//FIXME move this into an factory!
 		
 		HttpRetrieverConfiguration defaultConfiguration = 
 			new HttpRetrieverConfiguration();

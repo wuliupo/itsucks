@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
-import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
+import de.phleisch.app.itsucks.io.http.impl.Cookie;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;

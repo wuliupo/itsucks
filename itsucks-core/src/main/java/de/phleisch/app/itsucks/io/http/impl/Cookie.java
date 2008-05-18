@@ -6,7 +6,7 @@
  * Created on 03.05.2008
  */
 
-package de.phleisch.app.itsucks.filter.download.http.impl;
+package de.phleisch.app.itsucks.io.http.impl;
 
 public class Cookie {
 

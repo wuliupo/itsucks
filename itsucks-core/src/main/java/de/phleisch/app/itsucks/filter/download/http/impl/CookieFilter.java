@@ -16,6 +16,7 @@ import java.util.List;
 
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
+import de.phleisch.app.itsucks.io.http.impl.Cookie;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
 import de.phleisch.app.itsucks.job.download.http.impl.HttpRetrieverFactory;

@@ -10,7 +10,7 @@ package de.phleisch.app.itsucks.gui.util;
 
 import java.util.List;
 
-import de.phleisch.app.itsucks.filter.download.http.impl.Cookie;
+import de.phleisch.app.itsucks.io.http.impl.Cookie;
 
 public interface CookieParser {
 

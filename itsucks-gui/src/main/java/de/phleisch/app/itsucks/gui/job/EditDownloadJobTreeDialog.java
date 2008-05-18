@@ -27,10 +27,10 @@ import de.phleisch.app.itsucks.gui.job.panel.DownloadJobBasicPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobConnectionSettingsPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobContentFilterPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobCookieSettings;
+import de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobHttpResponseBehaviourPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
-import de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor.TreeListener;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
@@ -307,7 +307,7 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
 		for (EditJobCapable jobPanel : allEditJobCapable) {
 			jobPanel.saveJobPackage(result);
 		}
-		
+
 		return result;
 	}
 
