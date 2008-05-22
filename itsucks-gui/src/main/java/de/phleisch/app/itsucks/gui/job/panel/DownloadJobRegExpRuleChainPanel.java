@@ -10,6 +10,8 @@ import java.awt.Dialog;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
@@ -25,7 +27,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobRegExpRuleChainPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = 9062521650244140654L;
 
@@ -36,7 +38,11 @@ public class DownloadJobRegExpRuleChainPanel extends javax.swing.JPanel implemen
 	public DownloadJobRegExpRuleChainPanel() {
 		regExpFilterListModel = new ExtendedListModel();
 		mRuleInEditMode = null;
-
+		
+		init();
+	}
+	
+	protected void init() {
 		initComponents();
 
 		//add elements to combo boxes
@@ -48,7 +54,6 @@ public class DownloadJobRegExpRuleChainPanel extends javax.swing.JPanel implemen
 		//disable advanced edit filter panel
 		SwingUtils.setContainerAndChildrenEnabled(editRegExpFilterPanel, false);
 	}
-	
 
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
 		

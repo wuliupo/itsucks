@@ -10,6 +10,8 @@ import java.awt.Dialog;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter.ContentFilterConfig.Action;
@@ -23,7 +25,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobContentFilterPanel extends JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = -8393121172912816716L;
 
@@ -34,6 +36,11 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 	public DownloadJobContentFilterPanel() {
 		contentFilterListModel = new ExtendedListModel();
 		mRuleInEditMode = null;
+		
+		init();
+	}
+	
+	protected void init() {
 
 		initComponents();
 
@@ -46,37 +53,7 @@ public class DownloadJobContentFilterPanel extends javax.swing.JPanel implements
 		//disable advanced edit filter panel
 		SwingUtils
 				.setContainerAndChildrenEnabled(editContentFilterPanel, false);
-		
-//		final KeyboardFocusManager focusManager =
-//            KeyboardFocusManager.getCurrentKeyboardFocusManager();
-//        focusManager.addVetoableChangeListener("focusOwner", new VetoableChangeListener() {
-//
-//			public void vetoableChange(PropertyChangeEvent pEvt)
-//					throws PropertyVetoException {
-//				
-////				Component focusOwner = focusManager.getFocusOwner();
-//				
-//				Component lastFocusOwner = (Component) pEvt.getOldValue();
-//				Component nextFocusOwner = (Component) pEvt.getNewValue();
-//				
-//				if(nextFocusOwner != null) {
-//					System.out.println("Next: " + nextFocusOwner);
-//				}
-//				
-//				if(lastFocusOwner != nextFocusOwner 
-//					&& nextFocusOwner == null
-//					&& lastFocusOwner == editContentFilterRegExpTextArea) {
-//				
-////				if(nextFocusOwner == editContentFilterRegExpTextArea) {
-//					
-//					throw new PropertyVetoException("Not a valid input.", pEvt);
-//				}
-//				
-//			}
-//        	
-//        });
 	}
-
 
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
 		

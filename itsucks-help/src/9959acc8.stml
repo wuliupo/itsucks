@@ -42,13 +42,13 @@ Do not use the windows notepad, it removes the CR's which are needed to separate
 
 An entry should be formatted like this:
 :div code
-session-id
-000-0000000-0000000
-.example.com/
-1024
-342532096
-32065574
-2034862032
-29898233
-*
+session-id~~
+000-0000000-0000000~~
+.example.com/~~
+1024~~
+342532096~~
+32065574~~
+2034862032~~
+29898233~~
+*~~
 :/div

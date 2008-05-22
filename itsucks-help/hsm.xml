@@ -67,6 +67,12 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
+<Filename>b81cb605</Filename>
+<Title>Authentication Settings</Title>
+<Label>authentication settings</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
 <Filename>9959acc8</Filename>
 <Title>Cookie Settings</Title>
 <Label>cookie settings</Label>
@@ -135,6 +141,7 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
+<Label Name="authentication settings">b81cb605</Label>
 <Label Name="basic parameters">61531506</Label>
 <Label Name="basic settings">11a843d1</Label>
 <Label Name="batch processing">9ae09ca9</Label>

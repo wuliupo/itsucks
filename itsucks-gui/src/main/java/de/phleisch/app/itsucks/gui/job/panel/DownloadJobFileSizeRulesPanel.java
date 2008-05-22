@@ -8,6 +8,8 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
@@ -17,13 +19,17 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobFileSizeRulesPanel extends javax.swing.JPanel 
+public class DownloadJobFileSizeRulesPanel extends JPanel 
 		implements EditJobCapable {
 
 	private static final long serialVersionUID = -2550810599331718712L;
 
 	/** Creates new form DownloadJobFileSizeRulesPanel */
 	public DownloadJobFileSizeRulesPanel() {
+		init();
+	}
+	
+	protected void init() {
 		initComponents();
 	}
 

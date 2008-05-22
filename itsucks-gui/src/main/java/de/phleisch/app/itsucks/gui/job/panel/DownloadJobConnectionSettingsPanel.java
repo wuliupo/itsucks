@@ -8,6 +8,8 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
@@ -19,13 +21,17 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class DownloadJobConnectionSettingsPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJobCapable {
     
 	private static final long serialVersionUID = -3590680545290495451L;
 	
 	/** Creates new form DownloadJobConnectionSettingsPanel */
     public DownloadJobConnectionSettingsPanel() {
-        initComponents();
+    	init();
+    }
+    
+    protected void init() {
+    	initComponents();
     }
     
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {

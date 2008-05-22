@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
@@ -25,7 +26,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = -4537668236021804263L;
 
@@ -39,7 +40,11 @@ public class DownloadJobSimpleRulesPanel extends javax.swing.JPanel implements E
 		hostnameFilterTableModel.addColumn("Hostname Filter");
 		saveToDiskFilterTabelModel = new DefaultTableModel();
 		saveToDiskFilterTabelModel.addColumn("'Save to disk' Filter");
-
+		
+		init();
+	}
+	
+	protected void init() {
 		initComponents();
 	}
 

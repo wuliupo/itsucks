@@ -9,6 +9,7 @@ package de.phleisch.app.itsucks.gui.job.panel;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
@@ -29,14 +30,18 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class DownloadJobCookieSettings extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobCookieSettings extends JPanel implements EditJobCapable {
     
 	private static final long serialVersionUID = 7000553342079429183L;
 
 	/** Creates new form DownloadJobCookieSettings */
     public DownloadJobCookieSettings() {
-        initComponents();
-        initListPanel();
+    	init();
+    }
+    
+    protected void init() {
+    	initComponents();
+    	initListPanel();
     }
 
 	private void initListPanel() {

@@ -6,6 +6,7 @@
 
 package de.phleisch.app.itsucks.gui.job.panel;
 
+import javax.swing.JPanel;
 import javax.swing.table.TableColumnModel;
 
 import de.phleisch.app.itsucks.gui.util.DownloadJobTableModel;
@@ -15,7 +16,7 @@ import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
  *
  * @author  __USER__
  */
-public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
+public class DownloadJobStatusTablePanel extends JPanel {
 
 	private static final long serialVersionUID = 3808425383728480173L;
 
@@ -25,10 +26,14 @@ public class DownloadJobStatusTablePanel extends javax.swing.JPanel {
 	public DownloadJobStatusTablePanel() {
 		mDownloadStatusTableModel = new DownloadJobTableModel();
 		
-		initComponents();
-		initPreferredColumnWidth();
+		init();
 	}
 
+	protected void init() {
+		initComponents();
+		initPreferredColumnWidth();		
+	}
+	
 	private void initPreferredColumnWidth() {
 		
 		TableColumnModel columnModel = this.jDownloadJobStatusTable.getColumnModel();

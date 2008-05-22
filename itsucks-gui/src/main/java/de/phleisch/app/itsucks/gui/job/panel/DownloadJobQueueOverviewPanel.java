@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
@@ -26,7 +28,7 @@ import de.phleisch.app.itsucks.job.event.JobEvent;
  *
  * @author  __USER__
  */
-public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
+public class DownloadJobQueueOverviewPanel extends JPanel {
 
 	private static final long serialVersionUID = 2406761069696757338L;
 	private transient Dispatcher mJobDispatcher;
@@ -36,6 +38,10 @@ public class DownloadJobQueueOverviewPanel extends javax.swing.JPanel {
 
 	/** Creates new form QueueDownloadJobOverview */
 	public DownloadJobQueueOverviewPanel() {
+		init();
+	}
+	
+	protected void init() {
 		initComponents();
 	}
 

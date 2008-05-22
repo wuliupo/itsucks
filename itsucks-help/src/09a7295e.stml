@@ -5,6 +5,8 @@ Configuration of the connection.
 
 * <<basic settings|Basic Settings>>
 . Basic settings, max. retry count, max connections per server, proxy configuration, user agent and bandwidth limit.
+* <<authentication settings|Authentication Settings>>
+. Authentication settings for websites with standard http authentication. 
 * <<cookie settings|Cookie Settings>>
 . Configuration of the cookies which are sent when opening an connection to an http server.
 * <<http response|Http Response Behaviour>>

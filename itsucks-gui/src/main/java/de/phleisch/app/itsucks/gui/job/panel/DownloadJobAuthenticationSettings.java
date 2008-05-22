@@ -8,6 +8,8 @@ package de.phleisch.app.itsucks.gui.job.panel;
 
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import de.phleisch.app.itsucks.filter.download.http.impl.HttpAuthenticationFilter;
 import de.phleisch.app.itsucks.gui.common.panel.EditListCallbackPanel;
 import de.phleisch.app.itsucks.gui.common.panel.EditListPanel;
@@ -23,7 +25,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class DownloadJobAuthenticationSettings extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobAuthenticationSettings extends JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = -3488931651547521039L;
 	
@@ -34,6 +36,10 @@ public class DownloadJobAuthenticationSettings extends javax.swing.JPanel implem
     }
 
 	private void initListPanel() {
+		init();
+	}    
+	
+	protected void init() {
 		
         EditListCallback editListCallback = new EditListCallback();
         editListCallback.enableEditArea(false);
@@ -46,7 +52,8 @@ public class DownloadJobAuthenticationSettings extends javax.swing.JPanel implem
 				.registerDataField(userTextField);
 		this.authenticationListPane
 				.registerDataField(passwordTextField);
-	}    
+		
+	}
 
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
 		

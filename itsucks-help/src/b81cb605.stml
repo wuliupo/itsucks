@@ -1,0 +1,5 @@
+:title Authentication Settings
+:label authentication settings
+
+Credentials, needed to access a certain website, can be defined here.
+. **Hint:** This feature can only be used for default http authentication. It can not be used to login with a HTML form, like yahoo or flickr as example. In these cases, please login with your browser and copy the session cookie to ItSucks using the <<cookie settings|Cookie Settings>>.

@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
@@ -31,7 +32,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class DownloadJobBasicPanel extends javax.swing.JPanel implements EditJobCapable {
+public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 
 	private static final long serialVersionUID = 6676129664345121404L;
 
@@ -39,9 +40,13 @@ public class DownloadJobBasicPanel extends javax.swing.JPanel implements EditJob
 
 	/** Creates new form DownloadJobMainPanel */
 	public DownloadJobBasicPanel() {
-		initComponents();
+		init();
 	}
 
+	protected void init() {
+		initComponents();
+	}
+	
 	public void loadJobPackage(SerializableJobPackage pJobPackage) {
 		
 		UrlDownloadJob job = (UrlDownloadJob) pJobPackage.getFirstJob();

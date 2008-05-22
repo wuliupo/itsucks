@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
@@ -19,7 +20,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  __USER__
  */
-public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
+public class EditDownloadJobGroupPanel extends JPanel {
 
 	private static final long serialVersionUID = 8250877774474103209L;
 
@@ -27,6 +28,10 @@ public class EditDownloadJobGroupPanel extends javax.swing.JPanel {
 	
 	/** Creates new form EditDownloadJobGroupPanel */
 	public EditDownloadJobGroupPanel() {
+		init();
+	}
+	
+	protected void init() {
 		initComponents();
 		buildPanelList();
 	}

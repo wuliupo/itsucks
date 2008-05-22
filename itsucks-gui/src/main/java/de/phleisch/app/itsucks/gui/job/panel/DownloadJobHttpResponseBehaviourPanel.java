@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
 
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
@@ -30,7 +31,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  *
  * @author  olli
  */
-public class DownloadJobHttpResponseBehaviourPanel extends javax.swing.JPanel
+public class DownloadJobHttpResponseBehaviourPanel extends JPanel
 		implements EditJobCapable {
     
 	private static final long serialVersionUID = -6458439163993474019L;
@@ -49,8 +50,12 @@ public class DownloadJobHttpResponseBehaviourPanel extends javax.swing.JPanel
 	
     /** Creates new form DownloadJobHttpResponseBehaviourPanel */
     public DownloadJobHttpResponseBehaviourPanel() {
-        initComponents();
-        initListPanel();
+    	init();
+    }
+    
+    protected void init() {
+    	initComponents();
+    	initListPanel();
     }
     
 	private void initListPanel() {
