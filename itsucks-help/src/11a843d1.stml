@@ -15,3 +15,6 @@ Proxy settings to use a proxy for connections.
 
 :h1 User Agent
 User Agent which is send to the HTTP Server when requesting a page.
+
+:h1 Bandwidth Limitation
+Bandwidth limit for a single download thread. 
