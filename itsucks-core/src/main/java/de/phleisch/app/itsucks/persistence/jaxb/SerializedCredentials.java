@@ -23,13 +23,13 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
- *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="maxFileSize" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="minFileSize" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="acceptWhenLengthNotSet" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="host" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="user" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
- *     &lt;/extension>
+ *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -38,83 +38,90 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "maxFileSize",
-    "minFileSize",
-    "acceptWhenLengthNotSet"
+    "host",
+    "user",
+    "password"
 })
-@XmlRootElement(name = "serializedFileSizeFilter")
-public class SerializedFileSizeFilter
-    extends SerializedJobFilter
-{
+@XmlRootElement(name = "serializedCredentials")
+public class SerializedCredentials {
 
     @XmlElement(required = true)
-    protected String maxFileSize;
+    protected String host;
     @XmlElement(required = true)
-    protected String minFileSize;
-    protected boolean acceptWhenLengthNotSet;
+    protected String user;
+    @XmlElement(required = true)
+    protected String password;
 
     /**
-     * Gets the value of the maxFileSize property.
+     * Gets the value of the host property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMaxFileSize() {
-        return maxFileSize;
+    public String getHost() {
+        return host;
     }
 
     /**
-     * Sets the value of the maxFileSize property.
+     * Sets the value of the host property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMaxFileSize(String value) {
-        this.maxFileSize = value;
+    public void setHost(String value) {
+        this.host = value;
     }
 
     /**
-     * Gets the value of the minFileSize property.
+     * Gets the value of the user property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMinFileSize() {
-        return minFileSize;
+    public String getUser() {
+        return user;
     }
 
     /**
-     * Sets the value of the minFileSize property.
+     * Sets the value of the user property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMinFileSize(String value) {
-        this.minFileSize = value;
+    public void setUser(String value) {
+        this.user = value;
     }
 
     /**
-     * Gets the value of the acceptWhenLengthNotSet property.
+     * Gets the value of the password property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public boolean isAcceptWhenLengthNotSet() {
-        return acceptWhenLengthNotSet;
+    public String getPassword() {
+        return password;
     }
 
     /**
-     * Sets the value of the acceptWhenLengthNotSet property.
+     * Sets the value of the password property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setAcceptWhenLengthNotSet(boolean value) {
-        this.acceptWhenLengthNotSet = value;
+    public void setPassword(String value) {
+        this.password = value;
     }
 
 }

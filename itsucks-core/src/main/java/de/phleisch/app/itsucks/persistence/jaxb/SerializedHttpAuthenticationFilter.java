@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedJobFilter">
  *       &lt;sequence>
- *         &lt;element ref="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedCookie" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://itsucks.sourceforge.net/ItSucksJobSchema}serializedCredentials" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -37,42 +37,42 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "serializedCookie"
+    "serializedCredentials"
 })
-@XmlRootElement(name = "serializedCookieFilter")
-public class SerializedCookieFilter
+@XmlRootElement(name = "serializedHttpAuthenticationFilter")
+public class SerializedHttpAuthenticationFilter
     extends SerializedJobFilter
 {
 
-    protected List<SerializedCookie> serializedCookie;
+    protected List<SerializedCredentials> serializedCredentials;
 
     /**
-     * Gets the value of the serializedCookie property.
+     * Gets the value of the serializedCredentials property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the serializedCookie property.
+     * This is why there is not a <CODE>set</CODE> method for the serializedCredentials property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getSerializedCookie().add(newItem);
+     *    getSerializedCredentials().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link SerializedCookie }
+     * {@link SerializedCredentials }
      * 
      * 
      */
-    public List<SerializedCookie> getSerializedCookie() {
-        if (serializedCookie == null) {
-            serializedCookie = new ArrayList<SerializedCookie>();
+    public List<SerializedCredentials> getSerializedCredentials() {
+        if (serializedCredentials == null) {
+            serializedCredentials = new ArrayList<SerializedCredentials>();
         }
-        return this.serializedCookie;
+        return this.serializedCredentials;
     }
 
 }

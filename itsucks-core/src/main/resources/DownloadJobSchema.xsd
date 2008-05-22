@@ -257,6 +257,32 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>	
+	
+	<!-- Credentials -->
+	<xs:element name="serializedCredentials">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="host" type="xs:string"/>
+				<xs:element name="user" type="xs:string"/>
+				<xs:element name="password" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+	
+	<!-- AuthenticationFilter -->
+	<xs:element name="serializedHttpAuthenticationFilter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="itsucks:serializedJobFilter">
+					<xs:sequence>
+						<xs:element
+							ref="itsucks:serializedCredentials" minOccurs="0"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>		
 
 	<!-- HttpRetriever Configuration -->
 	<xs:element name="serializedHttpRetrieverConfiguration">
