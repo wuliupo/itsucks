@@ -10,10 +10,10 @@ package de.phleisch.app.itsucks.io.http.impl;
 
 public class Cookie {
 
-	private String mName = "";
-	private String mValue = "";
-	private String mDomain = "";
-	private String mPath = "";
+	private String mName;
+	private String mValue;
+	private String mDomain;
+	private String mPath;
 	
 	public Cookie() {
 	}

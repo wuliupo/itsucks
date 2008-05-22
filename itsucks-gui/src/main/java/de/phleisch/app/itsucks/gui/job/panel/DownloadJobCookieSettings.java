@@ -139,7 +139,13 @@ public class DownloadJobCookieSettings extends javax.swing.JPanel implements Edi
 		EditListCallbackPanel.EditListCallbackInterface {
 
 		public ListElement createNewElement() {
-			return new CookieListElement();
+			
+			CookieListElement element = new CookieListElement();
+			element.setDomain("");
+			element.setName("");
+			element.setPath("");
+			
+			return element;
 		}
 
 		public void emptyEditArea() {

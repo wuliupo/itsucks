@@ -50,15 +50,16 @@ public class DispatcherHelper {
 			}
 		}
 		
+		//add all context parameter
+		dispatcher.getContext().putAllContextParameter(
+				pJobList.getContextParameter());
+		
 		//configure dispatcher
 		dispatcher.addJobFilter(pJobList.getFilters());
 		for (Job job : pJobList.getJobs()) {
 			dispatcher.addJob(job);
 		}
-		
-		//add all context parameter
-		dispatcher.getContext().putAllContextParameter(
-				pJobList.getContextParameter());
+
 		return dispatcher;
 	}
 	

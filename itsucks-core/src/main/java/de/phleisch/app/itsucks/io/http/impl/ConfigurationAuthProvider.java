@@ -39,7 +39,7 @@ public class ConfigurationAuthProvider implements CredentialsProvider {
 
 		Credentials serverCredentials = null;
 		
-			for (HttpAuthenticationCredentials credentials : mAuthenticationCredentials) {
+		for (HttpAuthenticationCredentials credentials : mAuthenticationCredentials) {
 			if(credentials.getHost().equalsIgnoreCase(host)) {
 				
 				serverCredentials = new UsernamePasswordCredentials(

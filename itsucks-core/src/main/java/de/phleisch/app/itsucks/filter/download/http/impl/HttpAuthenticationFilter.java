@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.filter.impl.AbstractJobFilter;
 import de.phleisch.app.itsucks.io.http.impl.HttpAuthenticationCredentials;
@@ -42,14 +43,15 @@ public class HttpAuthenticationFilter
 		if(!mAuthenticationSet) {
 			if(mCredentials.size() > 0) {
 				
-				HttpRetrieverConfiguration retrieverConfiguration = 
-					(HttpRetrieverConfiguration) pJob.getGroupContext().getContextParameter(
+				Context context = getContext();
+				
+				HttpRetrieverConfiguration retrieverConfiguration = (HttpRetrieverConfiguration) context.getContextParameter(
 						HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION);
 				
 				//if null, create retriever configuration
 				if(retrieverConfiguration == null) {
 					retrieverConfiguration = new HttpRetrieverConfiguration();
-					pJob.getGroupContext().setContextParameter(
+					context.setContextParameter(
 						HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION, retrieverConfiguration);
 				}
 				

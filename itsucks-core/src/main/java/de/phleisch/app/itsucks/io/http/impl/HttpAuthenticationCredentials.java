@@ -14,10 +14,19 @@ public class HttpAuthenticationCredentials {
 	private String mUser;
 	private String mPassword;
 	
+	public HttpAuthenticationCredentials() {
+	}
+	
 	public HttpAuthenticationCredentials(String pHost, String pUser, String pPassword) {
-		mHost = pHost;
-		mUser = pUser;
-		mPassword = pPassword;
+		setHost(pHost);
+		setUser(pUser);
+		setPassword(pPassword);
+	}
+	
+	public HttpAuthenticationCredentials(final HttpAuthenticationCredentials pCredentials) {
+		setHost(pCredentials.getHost());
+		setUser(pCredentials.getUser());
+		setPassword(pCredentials.getPassword());
 	}
 	
 	public String getHost() {
