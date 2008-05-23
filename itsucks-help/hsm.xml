@@ -43,6 +43,7 @@
 <DocumentNode>
 <Filename>5f355eea</Filename>
 <Title>ItSucks Documentation</Title>
+<Label>main</Label>
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>b0a6579c</Filename>
@@ -152,6 +153,7 @@
 <Label Name="filter">a84d89c0</Label>
 <Label Name="http response">2ac3e574</Label>
 <Label Name="job configuration">b0a6579c</Label>
+<Label Name="main">5f355eea</Label>
 <Label Name="operation breakdown">4390e8a1</Label>
 <Label Name="regexp chain">b57b22c9</Label>
 <Label Name="regexp helper">45dbe34d</Label>
