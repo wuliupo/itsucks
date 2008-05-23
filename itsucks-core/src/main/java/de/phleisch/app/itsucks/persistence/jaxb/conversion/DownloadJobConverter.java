@@ -18,6 +18,7 @@ import java.util.Set;
 
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.HttpAuthenticationFilter;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
@@ -28,6 +29,7 @@ import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
 import de.phleisch.app.itsucks.io.http.impl.Cookie;
+import de.phleisch.app.itsucks.io.http.impl.HttpAuthenticationCredentials;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.job.JobParameter;
@@ -40,9 +42,11 @@ import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedContentFilterConfig;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedCookie;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedCookieFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedCredentials;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJob;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedDownloadJobFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedFileSizeFilter;
+import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpAuthenticationFilter;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedHttpRetrieverResponseCodeBehaviour;
 import de.phleisch.app.itsucks.persistence.jaxb.SerializedJobParameter;
@@ -79,6 +83,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertSerializedContentFilterToClass((SerializedContentFilter) pBean);
 		} if(pBean instanceof SerializedCookieFilter) {
 			return convertSerializedCookieFilterToClass((SerializedCookieFilter) pBean);
+		} if(pBean instanceof SerializedHttpAuthenticationFilter) {
+			return convertSerializedHttpAuthenticationFilterToClass((SerializedHttpAuthenticationFilter) pBean);
 		}
 		
 		throw new IllegalArgumentException("Unsupported bean type given: " + pBean.getClass());
@@ -295,6 +301,26 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return cookieFilter;
 	}
 	
+	private Object convertSerializedHttpAuthenticationFilterToClass(
+			SerializedHttpAuthenticationFilter pBean) {
+		
+		HttpAuthenticationFilter authenticationFilter = new HttpAuthenticationFilter();
+		
+		for(SerializedCredentials serializedCredenetials : pBean.getSerializedCredentials()) {
+			
+			HttpAuthenticationCredentials credentials = new HttpAuthenticationCredentials();
+			
+			credentials.setHost(serializedCredenetials.getHost());
+			credentials.setUser(serializedCredenetials.getUser());
+			credentials.setPassword(serializedCredenetials.getPassword());
+			
+			authenticationFilter.addCredentials(credentials);
+		}
+		
+		return authenticationFilter;
+	}
+	
+	
 	public Object convertClassToBean(Object pObject) {
 		
 		if(pObject instanceof UrlDownloadJob) {
@@ -315,6 +341,8 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			return convertContentFilterToBean((ContentFilter) pObject);
 		} if(pObject instanceof CookieFilter) {
 			return convertCookieFilterToBean((CookieFilter) pObject);
+		} if(pObject instanceof HttpAuthenticationFilter) {
+			return convertHttpAuthenticationFilterToBean((HttpAuthenticationFilter) pObject);
 		}
 			
 		throw new IllegalArgumentException("Unsupported bean type given: " + pObject.getClass());
@@ -549,6 +577,27 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedCookieFilter;
 	}
 	
+	private Object convertHttpAuthenticationFilterToBean(HttpAuthenticationFilter pAuthenticationFilter) {
+		
+		SerializedHttpAuthenticationFilter serializedAuthenticationFilter = 
+			mBeanFactory.createSerializedHttpAuthenticationFilter();
+		
+		for(HttpAuthenticationCredentials credentials : pAuthenticationFilter.getCredentials()) {
+			
+			SerializedCredentials serializedCredentials = 
+				mBeanFactory.createSerializedCredentials();
+			
+			serializedCredentials.setHost(credentials.getHost());
+			serializedCredentials.setUser(credentials.getUser());
+			serializedCredentials.setPassword(credentials.getPassword());
+			
+			serializedAuthenticationFilter.getSerializedCredentials().add(serializedCredentials);
+		}
+		
+		return serializedAuthenticationFilter;
+	}
+	
+	
 	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}
@@ -565,6 +614,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			SerializedTimeLimitFilter.class,
 			SerializedContentFilter.class,
 			SerializedCookieFilter.class,
+			SerializedHttpAuthenticationFilter.class,
 		};
 		
 		return Arrays.asList(supportedBeanConvertClasses);
@@ -582,6 +632,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 			TimeLimitFilter.class,
 			ContentFilter.class,
 			CookieFilter.class,
+			HttpAuthenticationFilter.class,
 		};
 		
 		return Arrays.asList(supportedClassConvertClasses);

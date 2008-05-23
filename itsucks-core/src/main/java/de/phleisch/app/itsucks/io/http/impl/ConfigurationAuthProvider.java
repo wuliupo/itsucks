@@ -37,6 +37,11 @@ public class ConfigurationAuthProvider implements CredentialsProvider {
 			throw new IllegalStateException("Got request for proxy authentication");
 		}
 
+//		if(authscheme.isComplete()) {
+//			//authentication already failed
+//			throw new CredentialsNotAvailableException();
+//		}
+		
 		Credentials serverCredentials = null;
 		
 		for (HttpAuthenticationCredentials credentials : mAuthenticationCredentials) {
