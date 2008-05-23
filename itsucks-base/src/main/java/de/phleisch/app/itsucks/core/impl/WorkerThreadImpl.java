@@ -14,8 +14,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.core.WorkerThread;
 import de.phleisch.app.itsucks.core.WorkerPool;
+import de.phleisch.app.itsucks.core.WorkerThread;
 import de.phleisch.app.itsucks.job.Job;
 
 
