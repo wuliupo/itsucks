@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -32,6 +33,7 @@ import de.phleisch.app.itsucks.gui.job.panel.DownloadJobFileSizeRulesPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobHttpResponseBehaviourPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobRegExpRuleChainPanel;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobSimpleRulesPanel;
+import de.phleisch.app.itsucks.gui.util.HelpManager;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor;
 import de.phleisch.app.itsucks.gui.util.TreeVisitor.TreeListener;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
@@ -66,6 +68,11 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
     	
         initComponents();
         registerTreeNodes();
+        
+		//register help
+		HelpBroker helpBroker = HelpManager.getInstance().getHelpBroker();
+		helpBroker.enableHelpKey(this.getRootPane(), 
+				"job configuration", helpBroker.getHelpSet());
 	}
     
     protected void registerTreeNodes() {

@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -47,7 +48,7 @@ public class EditDownloadJobHelper {
 		mParentComponent = pParentDialog;
 	}
 	
-	public void openAddDownloadDialog(AddDownloadJobCapable pAddDownloadJobCapable) {
+	public JDialog openAddDownloadDialog(AddDownloadJobCapable pAddDownloadJobCapable) {
 
 		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
 		JobSerialization serializationManager = (JobSerialization) applicationContext
@@ -67,6 +68,8 @@ public class EditDownloadJobHelper {
 					JOptionPane.ERROR_MESSAGE);
 		}
 
+		JDialog dialog = null;
+		
 		if (jobList != null) {
 
 			//set defaults
@@ -75,8 +78,10 @@ public class EditDownloadJobHelper {
 			job.setSavePath(new File(System.getProperty("user.home")
 					+ File.separatorChar + "itsucks" + File.separatorChar));
 
-			editDownload(pAddDownloadJobCapable, jobList);
+			dialog = editDownload(pAddDownloadJobCapable, jobList);
 		}
+		
+		return dialog;
 	}
 
 	public void loadAndEditDownload(AddDownloadJobCapable pAddDownloadJobCapable) {
@@ -136,8 +141,10 @@ public class EditDownloadJobHelper {
 		return jobPackageList;
 	}
 
-	public void editDownload(AddDownloadJobCapable pAddDownloadJobCapable,
+	public JDialog editDownload(AddDownloadJobCapable pAddDownloadJobCapable,
 		SerializableJobPackage jobList) {
+		
+		EditDownloadJobTreeDialog dialog = null;
 		
 		if (jobList != null) {
 			//addDownload((DownloadJob)jobList.getJobs().get(0), jobList.getFilters());
@@ -151,7 +158,6 @@ public class EditDownloadJobHelper {
 //				throw new RuntimeException("No parent defined.");
 //			}
 			
-			EditDownloadJobTreeDialog dialog;
 			if(mParentFrame != null) {
 				dialog = new EditDownloadJobTreeDialog(mParentFrame, pAddDownloadJobCapable);
 			} else if(mParentDialog != null) {
@@ -163,6 +169,8 @@ public class EditDownloadJobHelper {
 			dialog.loadJob(jobList);
 			dialog.setVisible(true);
 		}
+		
+		return dialog;
 	}
 	
 	public void saveDownloadTemplate(SerializableJobPackage pDownloadJobList) {

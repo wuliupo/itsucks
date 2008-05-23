@@ -9,13 +9,10 @@ package de.phleisch.app.itsucks.gui.main;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.help.CSH;
 import javax.help.HelpBroker;
-import javax.help.HelpSet;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
@@ -39,6 +36,7 @@ import de.phleisch.app.itsucks.gui.job.EditDownloadJobHelper;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.gui.job.panel.DownloadJobQueueOverviewPanel;
 import de.phleisch.app.itsucks.gui.main.helper.DispatcherHelper;
+import de.phleisch.app.itsucks.gui.util.HelpManager;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -67,24 +65,11 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	private void registerHelp() {
 		
-		ClassLoader cl = DownloadJobOverviewFrame.class.getClassLoader();
-		String helpHS = "main.hs";
-		URL hsURL = HelpSet.findHelpSet(cl, helpHS);
-		if(hsURL == null) {
-			mLog.error("Can't find helpset: " + helpHS);
-			return;
-		}
+		//register help
+		HelpBroker helpBroker = HelpManager.getInstance().getHelpBroker();
 		
-		HelpSet hs = null;
-		try {
-			hs = new HelpSet(cl, hsURL);
-		} catch (Exception ee) {
-			mLog.error("Can't load helpset: " + helpHS, ee);
-			return;
-		}
-		
-		HelpBroker hb = hs.createHelpBroker();
-		contentsMenuItem.addActionListener(new CSH.DisplayHelpFromSource( hb ));
+		helpBroker.enableHelpOnButton(contentsMenuItem, "main", helpBroker.getHelpSet());
+		helpBroker.enableHelpKey(this.getRootPane(), "main", helpBroker.getHelpSet());
 	}
 
 	public void addDownload(SerializableJobPackage pJobList) {
@@ -104,7 +89,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 		EditDownloadJobHelper helper = new EditDownloadJobHelper(this);
 		helper.openAddDownloadDialog(this);
-
 	}
 
 	private void loadDownload() {
