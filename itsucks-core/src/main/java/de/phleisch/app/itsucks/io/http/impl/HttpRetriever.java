@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.auth.CredentialsProvider;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
@@ -197,9 +197,36 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      							pConfiguration.getProxyPassword()));
      		}
      		if(pConfiguration.getAuthenticationCredentials().size() > 0) {
+     			
+     			List<HttpAuthenticationCredentials> authenticationCredentials = 
+     				pConfiguration.getAuthenticationCredentials();
+     			
+     			AuthScope serverAuthScope;
+     			Credentials serverCredentials;
+     			
+     			for (HttpAuthenticationCredentials credentials : 
+     					authenticationCredentials) {
+					
+     				serverAuthScope = new AuthScope(
+     						credentials.getHost(), 
+ 							AuthScope.ANY_PORT, 
+ 							AuthScope.ANY_REALM, 
+ 							AuthScope.ANY_SCHEME);
+     				
+    				serverCredentials = new UsernamePasswordCredentials(
+    						credentials.getUser(), 
+    						credentials.getPassword());
+     				
+    				//add credentials to httpclient
+    				httpClient.getState().setCredentials(
+    						serverAuthScope, serverCredentials);
+    				
+				}
+     			/*
      			httpClient.getParams().setParameter(
      	        		CredentialsProvider.PROVIDER, 
      	        		new ConfigurationAuthProvider(pConfiguration.getAuthenticationCredentials()));
+     	        		*/
      		}
      		
      		HttpClientParams httpClientParams = httpClient.getParams();
