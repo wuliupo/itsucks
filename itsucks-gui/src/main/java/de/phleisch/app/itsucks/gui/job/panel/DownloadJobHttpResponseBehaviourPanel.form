@@ -148,43 +148,50 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="httpStatusCodeBehaviourHostnameDescLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="httpStatusCodeBehaviourStatusCodeToTextField" alignment="0" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="httpStatusCodeBehaviourStatusCodeToTextField" min="-2" pref="45" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                                      <Component id="httpStatusCodeBehaviourHostnameDescLabel" pref="63" max="32767" attributes="0"/>
+                                  </Group>
                                   <Component id="httpStatusCodeBehaviourWaitMsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="httpStatusCodeBehaviourHostnameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourHostnameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="httpStatusCodeBehaviourHostnameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourHostnameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="httpStatusCodeBehaviourStatusCodeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourStatusCodeFromTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourStatusCodeToPanel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourStatusCodeToTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="httpStatusCodeBehaviourActionComboBox" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourActionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="httpStatusCodeBehaviourWaitMsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourWaitTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="httpStatusCodeBehaviourWaitLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="httpStatusCodeBehaviourHostnameDescLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="httpStatusCodeBehaviourStatusCodeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourStatusCodeFromTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourStatusCodeToPanel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourStatusCodeToTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="httpStatusCodeBehaviourActionComboBox" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourActionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourHostnameDescLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="httpStatusCodeBehaviourWaitMsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourWaitTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="httpStatusCodeBehaviourWaitLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
