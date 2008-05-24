@@ -5,7 +5,7 @@ Configuration of the cookies which are sent when opening an connection to an htt
 
 :h1 Cookie Parser
 
-It is painsome to add a long list of cookies by copy/paste every field. The cookie parser can parse a block of exported cookie data from an browser. At the moment Firefox2/3 and Internet Explorer are supported. 
+It is painsome to add a long list of cookies by copy/paste every field. The cookie parser can parse a block of exported cookie data from a browser. Currently Firefox2/3 and Internet Explorer are supported. 
 
 :h2 Firefox 2
 
@@ -20,14 +20,14 @@ An entry should be formatted like this:
 
 Firefox 3 saves the cookie in sqlite databases. 
 
-Here is an explanation how to export them under *nix:~~
+Here is an explanation how to export them under Unix/Linux:~~
 Execute the following command in your profile directory to export the cookies:
 
 :div code
-sqlite3 -separator $'\t' cookies.sqlite "select name,value,host,path from moz_cookies" > cookie_export.txt
+sqlite3 -separator $\'\t\' cookies.sqlite "select name,value,host,path from moz_cookies" > cookie_export.txt
 :/div
 
-Copy/Paste the result from cookie_export.txt into the parser field. (Be careful to preseve the tabs between the fields)
+Copy/Paste the result from cookie_export.txt into the parser field. (Be careful to preserve the tabs between the fields)
 
 An entry should be formatted like this:
 :div code

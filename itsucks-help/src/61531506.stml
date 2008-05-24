@@ -6,7 +6,7 @@ Generic parameters for the download.
 Name for the download job.
 
 :h2 Start URL
-URL where ItSucks should begin to download. Multiple URL's can be set using the 'More' button.
+URL where ItSucks should begin to download. Multiple URLs can be set using the "More" button.
 
 :h2 Save path
 Path where downloaded data should be saved on disk.

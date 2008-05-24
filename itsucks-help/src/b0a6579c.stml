@@ -8,7 +8,7 @@ A download job is configurable in many ways. The following chapters are categori
 * <<connection settings|Connection Settings>>
 . Connection settings like proxy usage and cookies.
 * <<rules|Rules>>
-. Configurable rules to control the behaviour.
+. Configurable rules to control the crawl behaviour.
 * <<filter|Filter>>
 . Filter which analyzes or changes content.
 

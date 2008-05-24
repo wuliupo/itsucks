@@ -1,7 +1,7 @@
 :title Operation breakdown
 :label operation breakdown
 
-ItSucks do the following steps with every URL it finds:
+ItSucks does the following steps with every URL it finds:
 
 1. URL found (or given initially)
 2. URL is filtered by all filters and decide if the file should be downloaded and if it should be saved on disk.
