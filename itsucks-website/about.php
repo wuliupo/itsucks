@@ -21,17 +21,21 @@ include_once('include/header.php.inc');
           <li>Multithreaded, configurable count of working threads</li>
           <li>Regular Expression Editor to test expressions on the fly</li>
           <li>Save/Load download jobs</li>
+          <li>Online Help</li>
         </ul>
         
         <h3>HTTP Connection Features</h3>
         <ul>
           <li>HTTP/HTTPS supported</li>
           <li>HTTP Proxy Support (+ proxy authentication)</li>
+          <li>HTTP Authentication Support</li>
+          <li>Cookie Support (+ cookie migration from browser)</li>
           <li>Configurable User Agent</li>
           <li>Limitation of connections per server</li>
           <li>Configurable behaviour for HTTP response codes<br>
           Example: If an server sends 403 (Forbidden) after to many download, a retry + waiting time can be defined.</li>
           <li>Bandwidth limitation</li>
+          <li>GZip compression</li>
         </ul>
 
         <h2>Rules</h2>

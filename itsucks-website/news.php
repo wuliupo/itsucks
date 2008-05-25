@@ -7,6 +7,24 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0-pre7 is released</h2>
+        <div class='date'>2008-05-25</div>
+        <p>
+		This release contains a large rebuild of the GUI. It also adds cookie and authentication support.
+        <ul>
+        <li>Added online help. (Press F1 to access)</li>
+        <li>Job Configuration is now structured as a tree instead of tabs.</li>
+        <li>Added http authentication support</li>
+        <li>Added cookie support</li>
+        <li>Added GZip compression support</li>
+        </ul>
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=601938"> ChangeLog 0.3.0-pre6</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre6 is released</h2>
         <div class='date'>2008-04-05</div>
         <p>
@@ -18,7 +36,7 @@ include_once('include/header.php.inc');
         </ul>
 		</p>
 		<p>
-		Detailed changelog can be found here: <a href="https://sourceforge.net/project/shownotes.php?group_id=186141&release_id=582023"> ChangeLog 0.3.0-pre6</a>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=582023"> ChangeLog 0.3.0-pre6</a>
 		</p>
       </p>
 
