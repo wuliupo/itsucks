@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
@@ -559,6 +560,11 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
 	private void hostnameFilterRemoveButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
+		TableCellEditor cellEditor = hostnameFilterTable.getCellEditor();
+		if(cellEditor != null) {
+			cellEditor.stopCellEditing();
+		}
+		
 		int[] selections = hostnameFilterTable.getSelectedRows();
 		if (selections.length > 0) {
 			for (int i = selections.length - 1; i >= 0; i--) {
@@ -595,6 +601,11 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
 	private void saveToDiskRemoveButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {
 
+		TableCellEditor cellEditor = saveToDiskTable.getCellEditor();
+		if(cellEditor != null) {
+			cellEditor.stopCellEditing();
+		}
+		
 		int[] selections = saveToDiskTable.getSelectedRows();
 		if (selections.length > 0) {
 			for (int i = selections.length - 1; i >= 0; i--) {
