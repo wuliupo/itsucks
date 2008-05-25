@@ -20,7 +20,7 @@ include_once('include/header.php.inc');
         </ul>
 		</p>
 		<p>
-		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=601938"> ChangeLog 0.3.0-pre6</a>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=601938"> ChangeLog 0.3.0-pre7</a>
 		</p>
       </p>
 
