@@ -33,9 +33,9 @@ import de.phleisch.app.itsucks.event.EventObserver;
  * @author olli
  *
  */
-public class EventDispatcherImpl implements EventDispatcher {
+public class AsynchronEventDispatcherImpl implements EventDispatcher {
 
-	private static Log mLog = LogFactory.getLog(EventDispatcherImpl.class);
+	private static Log mLog = LogFactory.getLog(AsynchronEventDispatcherImpl.class);
 	
 	/**
 	 * This category is used for special internal commands, 
@@ -70,7 +70,7 @@ public class EventDispatcherImpl implements EventDispatcher {
 	private EventDispatcherThread mEventThread;
 	private static int mEventDispatcherThreadCounter = 0;
 	
-	public EventDispatcherImpl() {
+	public AsynchronEventDispatcherImpl() {
 	}
 	
 	/* (non-Javadoc)
@@ -148,43 +148,6 @@ public class EventDispatcherImpl implements EventDispatcher {
 		
 		synchronized (mRegisteredObserver) {
 			mRegisteredObserver.remove(new EventObserverConfig(pObserver, null));
-		}
-	}
-	
-	private static class EventObserverConfig {
-		
-		private EventObserver mObserver;
-		private EventFilter mFilter;
-		
-		public EventObserverConfig(EventObserver pObserver, EventFilter pFilter) {
-			mObserver = pObserver;
-			mFilter = pFilter;
-		}
-
-		public EventFilter getFilter() {
-			return mFilter;
-		}
-
-		public EventObserver getObserver() {
-			return mObserver;
-		}
-
-		@Override
-		public int hashCode() {
-			return mObserver.hashCode();
-		}
-
-		@Override
-		public boolean equals(Object pObj) {
-			if(pObj == null) {
-				return false;
-			}
-			if (getClass() != pObj.getClass()) {
-				return false;
-			}
-			
-			EventObserverConfig config = (EventObserverConfig) pObj;
-			return config.getObserver().equals(config.getObserver());
 		}
 	}
 	
