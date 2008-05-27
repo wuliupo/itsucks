@@ -9,3 +9,4 @@ cp ../itsucks-gui/target/itsucks-gui*.jar $TARGET_DIR
 cp ../itsucks-console/target/itsucks-console*.jar $TARGET_DIR
 cp ../itsucks-vmcheck/target/itsucks-vmcheck*.jar $TARGET_DIR
 
+cp ../itsucks-help/itsucks-help.jar $TARGET_DIR
