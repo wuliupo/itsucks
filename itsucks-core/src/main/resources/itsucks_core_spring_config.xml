@@ -40,7 +40,7 @@
 
 	<bean 
 		id="EventDispatcher" 
-		class="de.phleisch.app.itsucks.event.impl.EventDispatcherImpl" 
+		class="de.phleisch.app.itsucks.event.impl.AsynchronEventDispatcherImpl" 
 		singleton="false">
 	</bean>
 	
