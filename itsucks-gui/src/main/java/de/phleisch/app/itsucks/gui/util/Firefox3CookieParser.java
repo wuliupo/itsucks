@@ -24,7 +24,7 @@ public class Firefox3CookieParser implements CookieParser {
 		Feld 3
 		    Domainname
 		Feld 4
-		    Pfad für den das Cookie gültig ist
+		    Pfad fuer den das Cookie gueltig ist
 	 */	
 	
 	/* (non-Javadoc)

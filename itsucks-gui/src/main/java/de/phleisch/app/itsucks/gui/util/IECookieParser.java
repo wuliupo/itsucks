@@ -22,17 +22,17 @@ public class IECookieParser implements CookieParser {
 		Zeile 2
 		    Cookie-Daten
 		Zeile 3
-		    Domain bzw. Host und Pfad für den das Cookie gültig ist.
+		    Domain bzw. Host und Pfad fuer den das Cookie gueltig ist.
 		Zeile 4
 		    Unbekannt
 		Zeile 5
-		    Gültigkeit (niederwertigeres DWord der FileTime-Struktur)
+		    Gueltigkeit (niederwertigeres DWord der FileTime-Struktur)
 		Zeile 6
-		    Gültigkeit (höherwertigeres DWord der FileTime-Struktur)
+		    Gueltigkeit (hoeherwertigeres DWord der FileTime-Struktur)
 		Zeile 7
 		    Erstellungszeit (niederwertigeres DWord der FileTime-Struktur)
 		Zeile 8
-		    Erstellungszeit (höherwertigeres DWord der FileTime-Struktur)
+		    Erstellungszeit (hoeherwertigeres DWord der FileTime-Struktur)
 		Zeile 9
 		    Stern-Zeichen (*) zur Trennung 
 	 */	
