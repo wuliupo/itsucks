@@ -20,13 +20,13 @@ public class MozillaCookieParser implements CookieParser {
 		Feld 1
 		    Domainname
 		Feld 2
-		    Gültigkeit (TRUE = für die gesamte Domain gültig, FALSE = nur für den angegebenen Pfad gültig)
+		    Gueltigkeit (TRUE = fuer die gesamte Domain gueltig, FALSE = nur fuer den angegebenen Pfad gueltig)
 		Feld 3
-		    Pfad für den das Cookie gültig ist
+		    Pfad fuer den das Cookie gueltig ist
 		Feld 4
 		    Sichere Verbindung erforderlich (TRUE = Ja, FALSE = Nein)
 		Feld 5
-		    Datum und Uhrzeit der Gültigkeit des Cookies. Diese Zeitangabe (UTC) ist im time_t-Format gespeichert, hier: 09.12.2006, 23:45:49 (UTC)
+		    Datum und Uhrzeit der Gueltigkeit des Cookies. Diese Zeitangabe (UTC) ist im time_t-Format gespeichert, hier: 09.12.2006, 23:45:49 (UTC)
 		Feld 6
 		    Name des Cookies
 		Feld 7
