@@ -48,6 +48,7 @@
 	<modules>
 		<module>../itsucks-base</module>
 		<module>../itsucks-core</module>
+		<module>../itsucks-gui/starter</module>
 		<module>../itsucks-gui</module>
 		<module>../itsucks-console</module>
 		<module>../itsucks-vmcheck</module>
@@ -67,6 +68,18 @@
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-gui</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-vmcheck</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
