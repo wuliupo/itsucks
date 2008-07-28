@@ -67,6 +67,27 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>com.sun.tools.xjc.maven2</groupId>
+				<artifactId>maven-jaxb-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<generatePackage>de.phleisch.app.itsucks.persistence.jaxb</generatePackage>
+					<includeSchemas>
+						<includeSchema>DownloadJobSchema.xsd</includeSchema>
+					</includeSchemas>
+					<generateDirectory>${basedir}/src/main/java</generateDirectory>
+					<strict>true</strict>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
