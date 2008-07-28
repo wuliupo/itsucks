@@ -31,6 +31,19 @@
 		</repository>
 
 	</repositories>
+	
+	<pluginRepositories>
+
+		<pluginRepository>
+		
+			<id>java.net</id>
+			<name>java.net Maven Repository</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+			
+		</pluginRepository>
+
+	</pluginRepositories>	
 
 	<modules>
 		<module>../itsucks-base</module>
@@ -122,16 +135,19 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- Assembly Plugin settings -->
 	<build>
+
 		<plugins>
-			<plugin>
+	      <plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-					<descriptors>
-						<descriptor>assembly.xml</descriptor>
+	  				<descriptors>
+						<descriptor>src/assemble/src.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

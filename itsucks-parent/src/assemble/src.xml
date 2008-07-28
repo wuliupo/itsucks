@@ -1,0 +1,33 @@
+<assembly>
+  <id>src</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <moduleSets>
+    <moduleSet>
+
+      <binaries>
+        <outputDirectory>itsucks/lib</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+  <fileSets>
+  
+   <fileSet>
+    <directory>../itsucks-gui/src/main/bin</directory>
+    <fileMode>774</fileMode>
+    <filtered>true</filtered>
+    <outputDirectory>itsucks</outputDirectory>
+   </fileSet>
+   
+   <fileSet>
+    <directory>../itsucks-gui/lib</directory>
+    <fileMode>774</fileMode>
+    <filtered>true</filtered>
+    <outputDirectory>itsucks/lib</outputDirectory>
+   </fileSet>
+   
+  </fileSets>
+</assembly>
