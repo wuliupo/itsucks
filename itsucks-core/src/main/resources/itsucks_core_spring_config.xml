@@ -24,7 +24,16 @@
 			<ref bean="WorkerPool"/>
 		</property>
 	</bean>
+	
+	<bean 
+		id="DispatcherWithClean" parent="Dispatcher">
+		
+		<property name="filterJobManager">
+			<ref bean="CleanupJobManager"/>
+		</property>
 
+	</bean>
+	
 	<bean 
 		id="DispatcherThread" 
 		class="de.phleisch.app.itsucks.core.impl.DispatcherThread" 
@@ -51,16 +60,6 @@
 		
 	</bean>
 	
-	<!-- 
-	<bean 
-		id="CleanupJobManager" 
-		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" 
-		singleton="false">
-
-		<constructor-arg><ref bean="JobManager"/></constructor-arg>
-	</bean>
-	 -->
-	
 	<bean 
 		id="JobManager" 
 		class="de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl" 
@@ -75,6 +74,10 @@
 		</property>
 		
 	</bean>
+	
+	<bean 
+		id="CleanupJobManager" parent="JobManager"
+		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" />	
 	
 	<bean 
 		id="SimpleJobListImpl" 
