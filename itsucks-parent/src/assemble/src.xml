@@ -1,33 +1,61 @@
-<assembly>
-  <id>src</id>
-  <formats>
-    <format>dir</format>
-  </formats>
-  <includeBaseDirectory>false</includeBaseDirectory>
-  <moduleSets>
-    <moduleSet>
+<assembly xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.0.0.xsd">
+	
+	<id>src</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
 
-      <binaries>
-        <outputDirectory>itsucks/lib</outputDirectory>
-        <unpack>false</unpack>
-      </binaries>
-    </moduleSet>
-  </moduleSets>
-  <fileSets>
-  
-   <fileSet>
-    <directory>../itsucks-gui/src/main/bin</directory>
-    <fileMode>774</fileMode>
-    <filtered>true</filtered>
-    <outputDirectory>itsucks</outputDirectory>
-   </fileSet>
-   
-   <fileSet>
-    <directory>../itsucks-gui/lib</directory>
-    <fileMode>774</fileMode>
-    <filtered>true</filtered>
-    <outputDirectory>itsucks/lib</outputDirectory>
-   </fileSet>
-   
-  </fileSets>
+	<moduleSets>
+	
+		<!-- Copy all libs to /lib -->
+		<moduleSet>
+			<excludes>
+				<exclude>itsucks:itsucks-starter</exclude>
+			</excludes>
+			<binaries>
+				<outputDirectory>itsucks/lib</outputDirectory>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+
+		<!-- Create itsucks-gui.jar to start application -->
+		<moduleSet>
+			<includeSubModules>false</includeSubModules>
+			<includes>
+				<include>itsucks:itsucks-starter</include>
+			</includes>
+			<binaries>
+				<includeDependencies>false</includeDependencies>
+				<outputDirectory>itsucks</outputDirectory>
+				<unpack>false</unpack>
+				<outputFileNameMapping>
+					${module.groupId}-gui.jar
+				</outputFileNameMapping>
+			</binaries>
+		</moduleSet>
+
+	</moduleSets>
+
+	<fileSets>
+
+		<!-- Copy resource files to start itsucks -->
+		<fileSet>
+			<directory>../itsucks-gui/src/main/bin</directory>
+			<fileMode>774</fileMode>
+			<filtered>true</filtered>
+			<outputDirectory>itsucks</outputDirectory>
+		</fileSet>
+
+		<!-- Copy itsucks-help.jar -->
+		<fileSet>
+			<directory>../itsucks-gui/lib</directory>
+			<fileMode>774</fileMode>
+			<filtered>true</filtered>
+			<outputDirectory>itsucks/lib</outputDirectory>
+		</fileSet>
+
+	</fileSets>
 </assembly>

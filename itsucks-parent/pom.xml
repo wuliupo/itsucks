@@ -82,12 +82,6 @@
 				<artifactId>itsucks-vmcheck</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
-			<dependency>
-				<groupId>itsucks</groupId>
-				<artifactId>itsucks-gui</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
