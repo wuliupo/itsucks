@@ -25,38 +25,12 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 	
 	private static Log mLog = LogFactory.getLog(CleanJobManagerImpl.class);
 	
-//	private JobManager mJobManager;
 	private EventObserver mListObserver;
 
 	public CleanJobManagerImpl() {
-//		mJobManager = pJobManger;
 		super();
 		mListObserver = new JobEventObserver();
 	}
-	
-//	public void addJob(Job pJob) {
-//		mJobManager.addJob(pJob);
-//	}
-//
-//	public Context getContext() {
-//		return mJobManager.getContext();
-//	}
-//
-//	public EventDispatcher getEventDispatcher() {
-//		return mJobManager.getEventDispatcher();
-//	}
-//
-//	public JobList getJobList() {
-//		return mJobManager.getJobList();
-//	}
-//
-//	public Job getNextOpenJob() {
-//		return mJobManager.getNextOpenJob();
-//	}
-//
-//	public boolean removeJob(Job pJob) {
-//		return mJobManager.removeJob(pJob);
-//	}
 
 	public void setContext(EventContext pContext) {
 		
@@ -67,7 +41,6 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 		}
 		
 		super.setContext(pContext);
-//		mJobManager.setContext(pContext);
 		
 		//register to new event dispatcher
 		EventDispatcher newEventDispatcher = getEventDispatcher();
@@ -77,10 +50,6 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 		
 	}
 
-//	public void setJobList(JobList pJobList) {
-//		mJobManager.setJobList(pJobList);
-//	}
-	
 	private class JobEventObserver implements EventObserver {
 
 		public void processEvent(Event pEvent) {
