@@ -466,7 +466,13 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 * 
 	 */
 	public Job getParent() {
-		return mParent.get();
+		Job parent = null;
+		
+		if(mParent != null) {
+			parent = mParent.get();
+		} 
+		
+		return parent;
 	}
 
 	/**
