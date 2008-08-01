@@ -546,8 +546,8 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
                 .add(editRegExpFilterOpenRegExpEditorButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(editRegExpFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(editRegExpFilterMatchPanel, 0, 131, Short.MAX_VALUE)
-                    .add(editRegExpFilterNoMatchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(editRegExpFilterMatchPanel, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(editRegExpFilterNoMatchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
