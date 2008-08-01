@@ -66,6 +66,10 @@ public class UrlExtractor {
 				try {
 					match = match.trim(); //remove trailing spaces
 					match = match.replaceAll(" ", "%20"); //try to fix broken url's
+					
+					//allocate new array to prevent reuse of the string which the data is from. 
+					match = new String(match.toCharArray());
+					
 					uri = mBaseURI.resolve(new URI(match));
 				} catch(Exception ex) {
 					mLog.warn("Resolving of base url failed: " +

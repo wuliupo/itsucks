@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
@@ -121,12 +124,28 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 			mMetadata.setContentType("undefined");
 		}
 		
+		buildMetadata();
+		analyzeResultCode();
+		
+	}
+
+	private void buildMetadata() {
 		mMetadata.setContentLength(mGet.getResponseContentLength());
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setStatusText(mGet.getStatusText());
-		mMetadata.setConnection(mGet);
+		mMetadata.setEncoding(mGet.getResponseCharSet());
 		
-		analyzeResultCode();
+		Header[] responseHeaders = mGet.getResponseHeaders();
+		Map<String, String[]> headers = new HashMap<String, String[]>(responseHeaders.length);
+		for (Header header : responseHeaders) {
+			HeaderElement[] elements = header.getElements();
+			String[] elementsAsString = new String[elements.length];
+			for (int i = 0; i < elements.length; i++) {
+				elementsAsString[i] = elements[i].getName();
+			}
+			headers.put(header.getName(), elementsAsString);
+		}
+		mMetadata.setResponseHeader(headers);
 		
 	}
 	

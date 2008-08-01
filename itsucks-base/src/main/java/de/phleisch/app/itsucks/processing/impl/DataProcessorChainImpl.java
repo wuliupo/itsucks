@@ -168,6 +168,8 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 			rollback();
 			throw ex;
 		}
+
+		mBufferedData = null;
 	}
 
 	protected void internalRun() throws IOException, ProcessingException {

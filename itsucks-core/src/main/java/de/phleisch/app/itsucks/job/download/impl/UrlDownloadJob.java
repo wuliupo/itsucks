@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -74,7 +75,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	protected File mSavePath = null;
 	
 	protected URL mUrl;
-	protected UrlDownloadJob mParent = null;
+	protected WeakReference<UrlDownloadJob> mParent = null;
 	protected int mDepth = 0;
 	protected int mMaxRetryCount = 3;
 	protected int mTryCount = 0;
@@ -128,6 +129,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 				if(mDataRetriever != null) {
 					mDataRetriever.disconnect();
 					mDataRetriever = null;
+					mFileResumeRetriever = null;
+					mProgressInputStream = null;
 				}
 			} catch (Exception e) {
 				mLog.warn("Error occured while trying to disconnect", e);
@@ -200,6 +203,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		}
 		
 		mDataRetriever = null;
+		mFileResumeRetriever = null;
+		mProgressInputStream = null;
 	}
 
 	protected void executeDownload() throws IOException {
@@ -456,10 +461,12 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	}
 
 	/**
+	 * Parent is saved as wek reference to save memory. Therefore this reference do not count.
 	 * @return the parent of the job, null if none.
+	 * 
 	 */
 	public Job getParent() {
-		return mParent;
+		return mParent.get();
 	}
 
 	/**
@@ -470,7 +477,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 * @param pParent
 	 */
 	public void setParent(UrlDownloadJob pParent) {
-		mParent = pParent;
+		mParent = new WeakReference<UrlDownloadJob>(pParent);
 		mDepth = pParent.getDepth() + 1;
 		setSavePath(pParent.getSavePath());
 		setMaxRetryCount(pParent.getMaxRetryCount());

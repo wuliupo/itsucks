@@ -8,12 +8,7 @@
 
 package de.phleisch.app.itsucks.io.http.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderElement;
-import org.apache.commons.httpclient.HttpMethodBase;
+import java.util.Map;
 
 import de.phleisch.app.itsucks.io.Metadata;
 
@@ -29,7 +24,8 @@ public class HttpMetadata implements Metadata {
 	private long mContentLength;
 	private int mStatusCode;
 	private String mStatusText;
-	private HttpMethodBase mConnection;
+	private Map<String, String[]> mResponseParameters;
+	private String mEncoding;
 	
 	/**
 	 * Gets the content type of the file.
@@ -102,24 +98,20 @@ public class HttpMetadata implements Metadata {
 	public void setStatusText(String pStatusText) {
 		mStatusText = pStatusText;
 	}
-	
-	/**
-	 * Sets the http conecction.
-	 * 
-	 * @param pConnection
-	 */
-	public void setConnection(HttpMethodBase pConnection) {
-		mConnection = pConnection;
-	}
-	
+
 	/**
 	 * Gets the file encoding.
 	 * 
 	 * @return
 	 */
 	public String getEncoding() {
-		return mConnection.getResponseCharSet();
+		return mEncoding;
 	}
+
+	public void setEncoding(String pEncoding) {
+		mEncoding = pEncoding;
+	}
+	
 	
 	/**
 	 * Gets an http repsonse header field.
@@ -128,20 +120,11 @@ public class HttpMetadata implements Metadata {
 	 * @return
 	 */
 	public String[] getResponseHeaderField(String pName) {
-		List<String> fields = new ArrayList<String>();
-		
-		HeaderElement[] values = new HeaderElement[0];
-		
-		Header requestHeader = mConnection.getResponseHeader(pName);
-		if(requestHeader != null) {
-			values = requestHeader.getElements();
-		}
+		return mResponseParameters.get(pName);
+	}
 
-		for (int i = 0; i < values.length; i++) {
-			fields.add(values[i].getName());
-		}
-		
-		return (String[]) fields.toArray(new String[fields.size()]);
+	public void setResponseHeader(Map<String, String[]> pHeaders) {
+		mResponseParameters = pHeaders;
 	}
 
 }
