@@ -126,7 +126,7 @@ public class ProgressInputStream extends FilterInputStream {
 
 	protected void setProgress(final float pProgress) {
 		final float oldValue = mProgress;
-		mProgress = pProgress;
+		mProgress = pProgress > 1 ? 1 : pProgress;
 		
 		//inform listener
 		mAccessibleChangeSupport.firePropertyChange(

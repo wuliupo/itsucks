@@ -7,6 +7,19 @@ include_once('include/header.php.inc');
     <div class="main">
 
       <p class="text">
+        <h2>Version 0.3.0 is released</h2>
+        <div class='date'>2008-08-01</div>
+        <p>
+		This release is finally a stable one. :-)<br>
+		It includes major memory usage improvements both in GUI and Console mode.<br>
+		Console mode now use less memory than the GUI mode.
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=617192"> ChangeLog 0.3.0</a>
+		</p>
+      </p>
+
+      <p class="text">
         <h2>Version 0.3.0-pre7 is released</h2>
         <div class='date'>2008-05-25</div>
         <p>
