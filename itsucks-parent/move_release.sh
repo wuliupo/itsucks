@@ -5,7 +5,7 @@ TO=$2
 
 echo "Moving from \'$FROM\' to \'$TO\'".
 
-for POM_FILE in ../itsucks-*/pom.xml
+for POM_FILE in ../itsucks-*/pom.xml ../itsucks-*/*/pom.xml
 do
 	echo "Change release for $POM_FILE"
 	
