@@ -83,9 +83,16 @@ public class VMVersionCheck {
 
 	public boolean runVMVersionCheck(VMVersionCheck check) {
 
-		boolean result;
+		boolean result = true;
 
-		if (!check.testVMVersion()) {
+		try {
+			result = check.testVMVersion();
+		} catch(Exception ex) {
+			System.err.println("Error occured parsing VM Version String: \'" 
+					+ mActualJavaVersion + "\', please report.");
+		}
+		
+		if (!result) {
 
 			String msg = "The installed java version ("
 					+ check.getActualJavaVersion() + ") "
@@ -99,10 +106,6 @@ public class VMVersionCheck {
 						"Java Version too old.", JOptionPane.ERROR_MESSAGE);
 				
 			}
-
-			result = false;
-		} else {
-			result = true;
 		}
 
 		return result;
