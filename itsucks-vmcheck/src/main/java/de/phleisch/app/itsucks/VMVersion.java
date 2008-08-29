@@ -45,6 +45,11 @@ public class VMVersion implements Comparable {
 						patchPart, "_");
 				mPatchLevel = Integer.parseInt(patchPartTokenizer.nextToken());
 				mBuildNumber = patchPartTokenizer.nextToken();
+			} else if (patchPart.indexOf('-') != -1) {
+				StringTokenizer patchPartTokenizer = new StringTokenizer(
+						patchPart, "-");
+				mPatchLevel = Integer.parseInt(patchPartTokenizer.nextToken());
+				mBuildNumber = patchPartTokenizer.nextToken();
 			} else {
 				mPatchLevel = Integer.parseInt(patchPart);
 				mBuildNumber = "";

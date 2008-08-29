@@ -102,8 +102,19 @@ public class VMVersionCheck {
 			System.err.println(msg);
 
 			if (mDisplayMessageDialog) {
-				JOptionPane.showMessageDialog(null, msg,
-						"Java Version too old.", JOptionPane.ERROR_MESSAGE);
+				
+//				JOptionPane.showMessageDialog(null, msg,
+//						"Java Version too old.", JOptionPane.ERROR_MESSAGE);
+				
+				int popupResult = JOptionPane.showOptionDialog(null, msg, 
+						"Java Version too old.", JOptionPane.DEFAULT_OPTION, 
+						JOptionPane.ERROR_MESSAGE, null, 
+						new String[]{"Ok", "Ignore"}, "Ok");
+				
+				if(popupResult == 1) {
+					//ignore too old version
+					result = true;
+				}
 				
 			}
 		}
@@ -132,7 +143,7 @@ public class VMVersionCheck {
 		}
 
 		mActualJavaVersion = System.getProperty("java.version");
-
+		
 		String displayMessageDialog = mConfiguration
 				.getProperty("displayMessageDialog");
 		if (displayMessageDialog != null) {
