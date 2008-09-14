@@ -7,7 +7,7 @@
 	<artifactId>itsucks-example</artifactId>
 	<groupId>itsucks</groupId>
 	<url>http://itsucks.sf.net</url>
-	<version>0.3.0-pre5</version>
+	<version>SNAPSHOT</version>
 
 	<repositories>
 		<repository>
@@ -19,6 +19,15 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+
+		<!-- enable to use local libs -->
+		<!--
+		<repository>
+			<id>local</id>
+			<url>file://dependencies</url>
+		</repository>
+		-->
+
 	</repositories>
 
   <build>
@@ -41,7 +50,7 @@
     <dependency>
       <groupId>itsucks</groupId>
       <artifactId>itsucks-core</artifactId>
-      <version>0.3.0-pre5</version>
+      <version>0.3.1</version>
     </dependency>
 
   </dependencies>

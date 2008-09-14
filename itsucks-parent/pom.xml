@@ -45,14 +45,33 @@
 
 	</pluginRepositories>	
 
-	<modules>
-		<module>../itsucks-base</module>
-		<module>../itsucks-core</module>
-		<module>../itsucks-gui/starter</module>
-		<module>../itsucks-gui</module>
-		<module>../itsucks-console</module>
-		<module>../itsucks-vmcheck</module>
-	</modules>
+	<profiles>
+		<profile>
+			<id>default</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<modules>
+				<module>../itsucks-base</module>
+				<module>../itsucks-core</module>
+				<module>../itsucks-gui/starter</module>
+				<module>../itsucks-gui</module>
+				<module>../itsucks-console</module>
+				<module>../itsucks-vmcheck</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<!-- only core modules -->
+			<id>core</id>
+			<modules>
+				<module>../itsucks-base</module>
+				<module>../itsucks-core</module>
+			</modules>
+		</profile>
+	</profiles>
 
 	<!-- dependency management -->
 	<dependencyManagement>
