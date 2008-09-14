@@ -73,6 +73,8 @@ public class UrlExtractor {
 					uri = mBaseURI.resolve(new URI(match));
 				} catch(Exception ex) {
 					mLog.warn("Resolving of base url failed: " +
+							"Match: " + match + " BaseURI: " + mBaseURI);
+					mLog.trace("Resolving of base url failed: " +
 							"Match: " + match + " BaseURI: " + mBaseURI, ex);
 				}
 				if(uri != null) {
