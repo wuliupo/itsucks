@@ -35,7 +35,7 @@ public class ExampleMain {
 		//load dispatcher from spring
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 
-		//configure an download job filter 
+		//configure an download job filter which downloads all images from the website
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
@@ -54,7 +54,14 @@ public class ExampleMain {
 		//create an initial job
 		UrlDownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
-		job.setSavePath(new File("/tmp/crawl")); //change this for windows
+		
+		//create an temporary directory
+		File tempDir = File.createTempFile("itsucks-example", null);
+		if(!tempDir.delete() && !tempDir.mkdir()) {
+			throw new RuntimeException("Cannot create tmp directory: " + tempDir);
+		}
+		
+		job.setSavePath(tempDir); //change this for windows
 		job.setIgnoreFilter(true);
 		dispatcher.addJob(job);
 		
@@ -73,7 +80,8 @@ public class ExampleMain {
 			mLog.info(finishedJob);
 		}
 		
+		mLog.info("Saved data under: " + tempDir);
+		
 	}
-
 
 }
