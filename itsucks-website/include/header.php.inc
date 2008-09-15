@@ -36,7 +36,7 @@
     <div class="sidebar">
       <ul>
         <li><a class="down" href="http://sourceforge.net/project/showfiles.php?group_id=186141"><img style=
-        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.3.0</a></li>
+        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.3.1</a></li>
       </ul>
 
       <div>
@@ -46,6 +46,7 @@
         <li><a class="<? selectMenuEntry('home'); ?>" href="index.php">Home</a></li>
         <li><a class="<? selectMenuEntry('news'); ?>" href="news.php">News</a></li>
         <li><a class="<? selectMenuEntry('about'); ?>" href="about.php">About</a></li>
+        <li><a class="<? selectMenuEntry('development'); ?>" href="development.php">Development</a></li>
         <li><a class="<? selectMenuEntry('screenshots'); ?>" href="screenshots.php">Screenshots</a></li>
         <li><a class="<? selectMenuEntry('downloads'); ?>" href="http://sourceforge.net/project/showfiles.php?group_id=186141">Download</a></li>
       </ul>

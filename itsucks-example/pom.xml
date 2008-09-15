@@ -41,6 +41,14 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>de.phleisch.app.itsucks.example.ExampleMain</mainClass>
+        </configuration>
+      </plugin>
 
     </plugins>
   </build>

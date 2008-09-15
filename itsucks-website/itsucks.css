@@ -134,6 +134,11 @@ div.more a {
   border:1px solid #ddd;
   background-color: #eee;
 }
+div.code {
+  font-family: monospace;
+  padding-left:4ex;
+  border:1px solid #ddd;
+}
 
 h2 { 
   border-bottom: 1px solid #aaa;
@@ -141,10 +146,15 @@ h2 {
   margin-top: 3ex;
   color: #444;
 }
+h3 { 
+  margin-bottom: 0;
+  margin-top: 3ex;
+}
 
 p {
   padding-left:2ex;
 }
+
 p, dl, textarea, li { 
   line-height: 135%;
 }

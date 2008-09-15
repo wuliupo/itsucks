@@ -115,10 +115,11 @@ include_once('include/header.php.inc');
           <li><a href="http://www.junit.org/">JUnit</a></li>
           <li><a href="http://eclipse.org">Eclipse development platform</a>
               <ul>
-                  <li><a href="http://subclipse.tigris.org/">Subclipse plugin (Subversion)</a></li>
+                  <li><a href="http://www.eclipse.org/subversive/">Subversive plugin (Subversion)</a></li>
                   <li><a href="http://springide.org/">Spring IDE plugin</a></li>
                   <li><a href="http://www.slimeuml.de/">Slime UML plugin</a></li>
                   <li><a href="http://classycleplugin.graf-tec.ch/">Classycle Plugin for Eclipse</a></li>
+                  <li><a href="http://www.eclipse.org/mat/">Memory Analyzer Plugin for Eclipse (MAT)</a></li>
               </ul>
           </li>
         </ul>
