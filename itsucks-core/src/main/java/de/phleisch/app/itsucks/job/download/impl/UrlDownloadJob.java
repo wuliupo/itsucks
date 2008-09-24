@@ -487,6 +487,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mDepth = pParent.getDepth() + 1;
 		setSavePath(pParent.getSavePath());
 		setMaxRetryCount(pParent.getMaxRetryCount());
+		setParameter(new JobParameter("RefererURL", pParent.getUrl()));
 	}
 
 	/* (non-Javadoc)

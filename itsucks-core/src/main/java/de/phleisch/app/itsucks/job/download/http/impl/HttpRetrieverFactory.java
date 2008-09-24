@@ -25,6 +25,7 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 
 	public static final String HTTP_BEHAVIOUR_CONFIG_PARAMETER = "HttpRetriever_AdditionalBehaviour";
 	public static final String HTTP_COOKIE_CONFIG_PARAMETER = "HttpRetriever_CookieConfig";
+	public static final String HTTP_REFERER_CONFIG_PARAMETER = "RefererURL";
 	
 	
 	@SuppressWarnings("unchecked")
@@ -47,6 +48,12 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 			setHttpRetrieverConfigurationToContext(httpRetrieverConfiguration, pGroupContext);
 		} else {
 			retriever.setConfiguration(httpRetrieverConfiguration);
+		}
+		
+		//set referer
+		JobParameter referer = findParameter(HTTP_REFERER_CONFIG_PARAMETER, pParameterList);
+		if(referer != null) {
+			retriever.setReferer((URL) referer.getValue());
 		}
 		
 		JobParameter parameterBehaviour = 

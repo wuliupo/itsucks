@@ -9,6 +9,7 @@ package de.phleisch.app.itsucks.io.http.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,7 +63,8 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
 		createDefaultHttpRetrieverBehaviour();
 	
-	private List<String> mCookieList;
+	protected List<String> mCookieList;
+	protected URL mReferer;
 	
 	protected GetMethod mGet = null;
 	protected HttpMetadata mMetadata;
@@ -103,6 +105,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		//accept gzip
 		mGet.addRequestHeader("Accept-Encoding", "gzip");
+		
+		//add referer if existing
+		if(mReferer != null) {
+			mGet.addRequestHeader("Referer", mReferer.toExternalForm());
+		}
 		
 		//add cookies to header
 		List<String> cookieList = getCookieList();
@@ -490,6 +497,14 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	}
 	public void setCookieList(List<String> pCookieList) {
 		mCookieList = new ArrayList<String>(pCookieList);
+	}
+
+	public URL getReferer() {
+		return mReferer;
+	}
+
+	public void setReferer(URL pReferer) {
+		mReferer = pReferer;
 	}
 	
 }
