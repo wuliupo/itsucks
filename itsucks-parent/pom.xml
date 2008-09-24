@@ -10,6 +10,18 @@
 	<version>0.3.1</version>
 	<packaging>pom</packaging>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -31,19 +43,21 @@
 		</repository>
 
 	</repositories>
-	
+
 	<pluginRepositories>
 
 		<pluginRepository>
-		
+
 			<id>java.net</id>
 			<name>java.net Maven Repository</name>
-			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<url>
+				https://maven-repository.dev.java.net/nonav/repository
+			</url>
 			<layout>legacy</layout>
-			
+
 		</pluginRepository>
 
-	</pluginRepositories>	
+	</pluginRepositories>
 
 	<profiles>
 		<profile>
@@ -82,20 +96,20 @@
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-base</artifactId>
 				<version>${project.version}</version>
-			</dependency>		
-		
+			</dependency>
+
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-gui</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-vmcheck</artifactId>
@@ -113,15 +127,15 @@
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>
 			</dependency>
-			
+
 			<!-- 
-  <dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-    <version>4.0-alpha3</version>
-    <scope>compile</scope>
-  </dependency>
-   -->
+				<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.0-alpha3</version>
+				<scope>compile</scope>
+				</dependency>
+			-->
 
 			<dependency>
 				<groupId>commons-httpclient</groupId>
@@ -165,10 +179,10 @@
 	<build>
 
 		<plugins>
-	      <plugin>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-	  				<descriptors>
+					<descriptors>
 						<descriptor>src/assemble/src.xml</descriptor>
 					</descriptors>
 				</configuration>
