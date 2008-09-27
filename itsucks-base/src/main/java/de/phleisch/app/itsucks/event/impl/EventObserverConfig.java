@@ -36,6 +36,6 @@ public class EventObserverConfig {
 		}
 		
 		EventObserverConfig config = (EventObserverConfig) pObj;
-		return config.getObserver().equals(config.getObserver());
+		return this.getObserver().equals(config.getObserver());
 	}
 }
