@@ -116,7 +116,9 @@ include_once('include/header.php.inc');
           <li><a href="http://eclipse.org">Eclipse development platform</a>
               <ul>
                   <li><a href="http://www.eclipse.org/subversive/">Subversive plugin (Subversion)</a></li>
+                  <li><a href="http://m2eclipse.codehaus.org/">Maven Integration for Eclipse</a></li>
                   <li><a href="http://springide.org/">Spring IDE plugin</a></li>
+                  <li><a href="http://findbugs.sourceforge.net/manual/eclipse.html">Find Bugs for Eclipse</a></li>
                   <li><a href="http://www.slimeuml.de/">Slime UML plugin</a></li>
                   <li><a href="http://classycleplugin.graf-tec.ch/">Classycle Plugin for Eclipse</a></li>
                   <li><a href="http://www.eclipse.org/mat/">Memory Analyzer Plugin for Eclipse (MAT)</a></li>
