@@ -206,6 +206,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
      		//set proxy configuration
      		if(pConfiguration.isProxyEnabled()) {
      			
+     			if(pConfiguration.getProxyServer() == null || 
+     					pConfiguration.getProxyPort() == null) {
+     				throw new IllegalArgumentException("Proxy usage enabled but server or port is null");
+     			}
+     			
      			httpClient.getHostConfiguration().setProxy(
      					pConfiguration.getProxyServer(), 
      					pConfiguration.getProxyPort());
