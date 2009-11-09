@@ -13,9 +13,8 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.SpringContextSingelton;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
-import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
+import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
 
 public class DispatcherHelper {
 
@@ -28,38 +27,8 @@ public class DispatcherHelper {
 		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
 			.getApplicationContext().getBean("DispatcherThread");
 
-		if (dispatcher == null) {
-			throw new RuntimeException("Can't instatiate dispatcher!");
-		}
+		DispatcherBuilder.buildDispatcherFromJobPackage(dispatcher, pJobList);
 		
-		//set the name of the dispatcher
-		dispatcher.setName(pJobList.getJobs().get(0).getName());
-		
-		//apply dispatcher configuration
-		SerializableDispatcherConfiguration dispatcherConfiguration = pJobList
-				.getDispatcherConfiguration();
-		if (dispatcherConfiguration != null) {
-			Integer dispatchDelay = dispatcherConfiguration.getDispatchDelay();
-			if (dispatchDelay != null) {
-				dispatcher.setDispatchDelay(dispatchDelay);
-			}
-		
-			Integer workerThreads = dispatcherConfiguration.getWorkerThreads();
-			if (workerThreads != null) {
-				dispatcher.getWorkerPool().setSize(workerThreads);
-			}
-		}
-		
-		//add all context parameter
-		dispatcher.getContext().putAllContextParameter(
-				pJobList.getContextParameter());
-		
-		//configure dispatcher
-		dispatcher.addJobFilter(pJobList.getFilters());
-		for (Job job : pJobList.getJobs()) {
-			dispatcher.addJob(job);
-		}
-
 		return dispatcher;
 	}
 	

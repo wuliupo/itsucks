@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
@@ -446,7 +445,7 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 			new HttpRetrieverConfiguration();
 		
 		defaultConfiguration.setUserAgent(DEFAULT_USER_AGENT);
-		
+		defaultConfiguration.setSendReferer(true);
 		
 		return defaultConfiguration;
 	}

@@ -9,8 +9,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
+import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
@@ -63,6 +67,17 @@ public class ExampleMain {
 		
 		job.setSavePath(tempDir); //change this for windows
 		job.setIgnoreFilter(true);
+		
+		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
+		retrieverConfiguration.setSendReferer(true);
+		retrieverConfiguration.setUserAgent("ItSucks Example");
+		
+		//TODO, der ist erst nach dem add da, mal ansehen ob das so toll ist.
+		//die gui machts ja auch ohne!
+		Context groupContext = job.getGroupContext();
+		groupContext.setContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
+				retrieverConfiguration);
+
 		dispatcher.addJob(job);
 		
 		mLog.info("Start demo dispatcher");

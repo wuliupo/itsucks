@@ -51,9 +51,11 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 		}
 		
 		//set referer
-		JobParameter referer = findParameter(HTTP_REFERER_CONFIG_PARAMETER, pParameterList);
-		if(referer != null) {
-			retriever.setReferer((URL) referer.getValue());
+		if(httpRetrieverConfiguration.isSendReferer()) {
+			JobParameter referer = findParameter(HTTP_REFERER_CONFIG_PARAMETER, pParameterList);
+			if(referer != null) {
+				retriever.setReferer((URL) referer.getValue());
+			}
 		}
 		
 		JobParameter parameterBehaviour = 

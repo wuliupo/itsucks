@@ -33,6 +33,8 @@ public class HttpRetrieverConfiguration {
 	
 	private String mUserAgent;
 	
+	private boolean mSendReferer = false;
+	
 	private transient Map<String, Object> mSharedObjects = 
 		Collections.synchronizedMap(new HashMap<String, Object>());
 
@@ -113,6 +115,12 @@ public class HttpRetrieverConfiguration {
 	public void addAuthenticationCredentials(
 			HttpAuthenticationCredentials pAuthenticationCredentials) {
 		mAuthenticationCredentials.add(pAuthenticationCredentials);
+	}
+	public boolean isSendReferer() {
+		return mSendReferer;
+	}
+	public void setSendReferer(boolean pSendReferer) {
+		mSendReferer = pSendReferer;
 	}
 	
 }

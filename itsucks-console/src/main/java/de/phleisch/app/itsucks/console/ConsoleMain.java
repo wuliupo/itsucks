@@ -8,9 +8,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
-import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
+import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
 
 public class ConsoleMain {
 
@@ -45,11 +45,7 @@ public class ConsoleMain {
 		}
 
 		if (jobList != null) {
-			
-			dispatcher.addJobFilter(jobList.getFilters());
-			for (Job job : jobList.getJobs()) {
-				dispatcher.addJob(job);
-			}
+			DispatcherBuilder.buildDispatcherFromJobPackage(dispatcher, jobList);
 		}
 		
 		//start dispatcher thread
