@@ -19,7 +19,7 @@
 					<aggregate>true</aggregate>
 				</configuration>
 			</plugin>
-		</plugins>
+		</plugins>	
 	</reporting>
 
 	<repositories>
@@ -157,28 +157,29 @@
 			</dependency>
 
 			<dependency>
-				<groupId>jaxb</groupId>
+				<groupId>javax.xml.bind</groupId>
 				<artifactId>jaxb-api</artifactId>
-				<version>1.0</version>
+				<version>2.1</version>
 			</dependency>
+<!-- 			
 			<dependency>
 				<groupId>jaxb</groupId>
 				<artifactId>jaxb-impl</artifactId>
-				<version>1.0.6</version>
+				<version>2.1</version>
 			</dependency>
 			<dependency>
 				<groupId>jaxb</groupId>
 				<artifactId>jaxb-libs</artifactId>
-				<version>1.0.6</version>
+				<version>2.1</version>
 			</dependency>
-
+ -->
+ 
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- Assembly Plugin settings -->
 	<build>
-
 		<plugins>
+			<!-- Assembly Plugin settings -->		
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -187,6 +188,23 @@
 					</descriptors>
 				</configuration>
 			</plugin>
+			
+			<!-- Source Jars -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 

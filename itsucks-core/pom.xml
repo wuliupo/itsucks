@@ -43,8 +43,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
@@ -82,7 +82,7 @@
 					<includeSchemas>
 						<includeSchema>DownloadJobSchema.xsd</includeSchema>
 					</includeSchemas>
-					<generateDirectory>${basedir}/src/main/java</generateDirectory>
+					<!-- <generateDirectory>${basedir}/src/main/java</generateDirectory>  -->
 					<strict>true</strict>
 					<verbose>true</verbose>
 				</configuration>
@@ -104,18 +104,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jaxb</groupId>
+			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>jaxb</groupId>
-			<artifactId>jaxb-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jaxb</groupId>
-			<artifactId>jaxb-libs</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
