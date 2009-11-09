@@ -145,11 +145,8 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		Header[] responseHeaders = mGet.getResponseHeaders();
 		Map<String, String[]> headers = new HashMap<String, String[]>(responseHeaders.length);
 		for (Header header : responseHeaders) {
-			HeaderElement[] elements = header.getElements();
-			String[] elementsAsString = new String[elements.length];
-			for (int i = 0; i < elements.length; i++) {
-				elementsAsString[i] = elements[i].getName();
-			}
+			//get the value unformatted
+			String[] elementsAsString = new String[]{header.getValue()};
 			headers.put(header.getName(), elementsAsString);
 		}
 		mMetadata.setResponseHeader(headers);
