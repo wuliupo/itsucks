@@ -6,6 +6,32 @@ include_once('include/header.php.inc');
 
     <div class="main">
 
+
+      <p class="text">
+        <h2>Version 0.3.2 is released</h2>
+        <div class='date'>2009-11-??</div>
+        <p>
+		This release contains support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)
+		Also a issue is fixed with parameters in redirects (403). (Thanks to Anonymous for reporting this, Bug 2680409)
+	</p>
+	<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=617192"> ChangeLog 0.3.2</a>
+	</p>
+      </p>
+
+      <p class="text">
+        <h2>Version 0.3.1 is released</h2>
+        <div class='date'>2008-08-29</div>
+        <p>
+		Fixed VM Version check.
+	</p>
+	<p>
+		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?release_id=622855"> ChangeLog 0.3.1</a>
+	</p>
+      </p>
+
+ 
+
       <p class="text">
         <h2>Version 0.3.0 is released</h2>
         <div class='date'>2008-08-01</div>
