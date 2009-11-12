@@ -68,8 +68,8 @@
 			</plugin>
 
 			<plugin>
-				<groupId>com.sun.tools.xjc.maven2</groupId>
-				<artifactId>maven-jaxb-plugin</artifactId>
+				<groupId>com.sun.tools.jxc.maven2</groupId>
+				<artifactId>maven-jaxb-schemagen-plugin</artifactId>
 				<executions>
 					<execution>
 						<goals>
@@ -83,8 +83,8 @@
 						<includeSchema>DownloadJobSchema.xsd</includeSchema>
 					</includeSchemas>
 					<!-- <generateDirectory>${basedir}/src/main/java</generateDirectory>  -->
-					<strict>true</strict>
-					<verbose>true</verbose>
+					<strict>false</strict>
+					<verbose>false</verbose>
 				</configuration>
 			</plugin>
 
