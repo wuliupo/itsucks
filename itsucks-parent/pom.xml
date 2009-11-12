@@ -27,20 +27,19 @@
 			<id>central</id>
 			<name>Maven Repository Switchboard</name>
 			<layout>default</layout>
-			<!--
-				<url>http://www.ibiblio.org/maven2</url>
-			-->
 			<url>http://repo1.maven.org/maven2</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 
+<!-- Not longer needed
 		<repository>
-			<id>java.net</id>
+			<id>java.net-legacy</id>
 			<url>http://download.java.net/maven/1</url>
 			<layout>legacy</layout>
 		</repository>
+-->
 
 	</repositories>
 
@@ -48,13 +47,26 @@
 
 		<pluginRepository>
 
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+
+		</pluginRepository>
+
+<!-- Replaced by m2 repo
+		<pluginRepository>
+			<id>java.net-legacy</id>
+			<name>java.net Maven Repository</name>
+			<url>http://download.java.net/maven/1</url>
+			<layout>legacy</layout>
+		</pluginRepository>
+-->
+
+		<pluginRepository>
 			<id>java.net</id>
 			<name>java.net Maven Repository</name>
-			<url>
-				https://maven-repository.dev.java.net/nonav/repository
-			</url>
-			<layout>legacy</layout>
-
+			<url>http://download.java.net/maven/2</url>
 		</pluginRepository>
 
 	</pluginRepositories>
