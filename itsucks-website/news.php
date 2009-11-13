@@ -13,6 +13,15 @@ include_once('include/header.php.inc');
         <p>
 		This release contains support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)
 		Also a issue is fixed with parameters in redirects (403). (Thanks to Anonymous for reporting this, Bug 2680409)
+		
+		Other changes:
+		- Switched to JAXB 2.0
+		- Fixed Maven build
+		- Supports now only Java6 (due JAXB 2.0 integration)
+		- Refactoring HttpRetriever Interface
+		- Referer
+		- Bug 2680409
+		
 	</p>
 	<p>
 		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=617192"> ChangeLog 0.3.2</a>
