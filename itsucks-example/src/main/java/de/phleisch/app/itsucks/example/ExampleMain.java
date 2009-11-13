@@ -12,8 +12,6 @@ import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
-import de.phleisch.app.itsucks.io.UrlDataRetriever;
-import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
@@ -39,6 +37,15 @@ public class ExampleMain {
 		//load dispatcher from spring
 		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 
+		//set default user agent and send referer (optional)
+		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
+		retrieverConfiguration.setSendReferer(true);
+		retrieverConfiguration.setUserAgent("ItSucks Example");
+		
+		Context dispatcherContext = dispatcher.getContext();
+		dispatcherContext.setContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
+				retrieverConfiguration);
+		
 		//configure an download job filter which downloads all images from the website
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setAllowedHostNames(new String[] {".*"});
@@ -67,16 +74,6 @@ public class ExampleMain {
 		
 		job.setSavePath(tempDir); //change this for windows
 		job.setIgnoreFilter(true);
-		
-		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
-		retrieverConfiguration.setSendReferer(true);
-		retrieverConfiguration.setUserAgent("ItSucks Example");
-		
-		//TODO, der ist erst nach dem add da, mal ansehen ob das so toll ist.
-		//die gui machts ja auch ohne!
-		Context groupContext = job.getGroupContext();
-		groupContext.setContextParameter(HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
-				retrieverConfiguration);
 
 		dispatcher.addJob(job);
 		
