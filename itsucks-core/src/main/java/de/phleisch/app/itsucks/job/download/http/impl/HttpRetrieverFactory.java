@@ -26,16 +26,12 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 	public static final String HTTP_BEHAVIOUR_CONFIG_PARAMETER = "HttpRetriever_AdditionalBehaviour";
 	public static final String HTTP_COOKIE_CONFIG_PARAMETER = "HttpRetriever_CookieConfig";
 	public static final String HTTP_REFERER_CONFIG_PARAMETER = "RefererURL";
-	
+
+	protected static final String DEFAULT_USER_AGENT = "Mozilla/5.0";
 	
 	@SuppressWarnings("unchecked")
 	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList) {
-
-		HttpRetriever retriever = new HttpRetriever();
-		
-		//set url
-		retriever.setUrl(pUrl);
 		
 		//get configuration from the context
 		HttpRetrieverConfiguration httpRetrieverConfiguration = 
@@ -44,12 +40,13 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 		if(httpRetrieverConfiguration == null) {
 			//Configuration not defined, set it to the context to allow sharing the httpClient 
 			//instance between different HttpRetrievers
-			httpRetrieverConfiguration = retriever.getConfiguration();
+			httpRetrieverConfiguration = createDefaultConfiguration();
 			setHttpRetrieverConfigurationToContext(httpRetrieverConfiguration, pGroupContext);
-		} else {
-			retriever.setConfiguration(httpRetrieverConfiguration);
 		}
 		
+		HttpRetriever retriever = 
+			new HttpRetriever(pUrl, httpRetrieverConfiguration);
+				
 		//set referer
 		if(httpRetrieverConfiguration.isSendReferer()) {
 			JobParameter referer = findParameter(HTTP_REFERER_CONFIG_PARAMETER, pParameterList);
@@ -90,6 +87,17 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 		return retriever;
 	}
 
+	protected static HttpRetrieverConfiguration createDefaultConfiguration() {
+		
+		HttpRetrieverConfiguration defaultConfiguration = 
+			new HttpRetrieverConfiguration();
+		
+		defaultConfiguration.setUserAgent(DEFAULT_USER_AGENT);
+		defaultConfiguration.setSendReferer(true);
+		
+		return defaultConfiguration;
+	}
+	
 	protected JobParameter findParameter(String pString, List<JobParameter> pParameterList) {
 		
 		for (JobParameter jobParameter : pParameterList) {

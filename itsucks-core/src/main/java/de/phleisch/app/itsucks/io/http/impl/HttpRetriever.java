@@ -51,14 +51,13 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 	private static final int HTTP_STATUS_SERVICE_UNAVAILABLE = 503;
 	private static final int HTTP_STATUS_GATEWAY_TIMEOUT = 504;
 	
-	protected static final String DEFAULT_USER_AGENT = "Mozilla/5.0";
 	protected static final long DEFAULT_TIME_TO_WAIT_BETWEEN_RETRY = 5000; //5 seconds
 	
 	private static Log mLog = LogFactory.getLog(HttpRetriever.class);
 	
 	protected long mTimeToWaitBetweenRetry; 
 	
-	protected HttpRetrieverConfiguration mConfiguration = createDefaultConfiguration();
+	protected HttpRetrieverConfiguration mConfiguration;
 	protected HttpRetrieverResponseCodeBehaviour mResponseCodeBehaviour = 
 		createDefaultHttpRetrieverBehaviour();
 	
@@ -73,10 +72,13 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 
 	protected long mBytesToSkip;
 	
-	public HttpRetriever() {
+	public HttpRetriever(URL pUrl,
+			HttpRetrieverConfiguration pHttpRetrieverConfiguration) {
 		super();
+		setUrl(pUrl);
+		setConfiguration(pHttpRetrieverConfiguration);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#connect()
 	 */
@@ -437,19 +439,6 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		mResponseCodeBehaviour = pResponseCodeBehaviour;
 	}
 	
-	protected static HttpRetrieverConfiguration createDefaultConfiguration() {
-		
-		//FIXME move this into an factory!
-		
-		HttpRetrieverConfiguration defaultConfiguration = 
-			new HttpRetrieverConfiguration();
-		
-		defaultConfiguration.setUserAgent(DEFAULT_USER_AGENT);
-		defaultConfiguration.setSendReferer(true);
-		
-		return defaultConfiguration;
-	}
-
 	protected static HttpRetrieverResponseCodeBehaviour createDefaultHttpRetrieverBehaviour() {
 		
 		HttpRetrieverResponseCodeBehaviour defaultBehaviour = new HttpRetrieverResponseCodeBehaviour();
