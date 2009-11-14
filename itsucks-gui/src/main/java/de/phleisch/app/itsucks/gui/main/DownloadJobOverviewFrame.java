@@ -47,7 +47,6 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 		AddDownloadJobCapable, EventObserver {
 
 	private static final long serialVersionUID = 6628042574113496207L;
-	@SuppressWarnings("unused")
 	private static Log mLog = LogFactory.getLog(DownloadJobOverviewFrame.class);
 
 	private Map<Dispatcher, EventObserver> mEventObserver = new HashMap<Dispatcher, EventObserver>();

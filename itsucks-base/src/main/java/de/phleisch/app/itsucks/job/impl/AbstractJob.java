@@ -31,6 +31,8 @@ import de.phleisch.app.itsucks.job.JobParameter;
  */
 public abstract class AbstractJob implements Serializable, Job {
 
+	private static final long serialVersionUID = -2603839670685071109L;
+
 	private volatile int mId = -1;
 	
 	private String mName;

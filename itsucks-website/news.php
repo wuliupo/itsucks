@@ -21,6 +21,7 @@ include_once('include/header.php.inc');
 		- Refactoring HttpRetriever Interface
 		- Referer
 		- Bug 2680409
+		- Build source jars
 		
 	</p>
 	<p>

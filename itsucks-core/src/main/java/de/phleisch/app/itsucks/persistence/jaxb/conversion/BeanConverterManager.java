@@ -113,10 +113,12 @@ public class BeanConverterManager {
 
 		private static final long serialVersionUID = -5316702756221123193L;
 
+		@SuppressWarnings("unused")
 		public ConversionNotSupportedException() {
 			super();
 		}
 
+		@SuppressWarnings("unused")
 		public ConversionNotSupportedException(String pMessage, Throwable pCause) {
 			super(pMessage, pCause);
 		}
@@ -125,6 +127,7 @@ public class BeanConverterManager {
 			super(pMessage);
 		}
 
+		@SuppressWarnings("unused")
 		public ConversionNotSupportedException(Throwable pCause) {
 			super(pCause);
 		}

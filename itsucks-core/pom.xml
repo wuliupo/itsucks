@@ -17,26 +17,6 @@
 
 	<build>
 
-		<!-- include the source code - ->
-			<resources>
-			<resource>
-			<directory>src/main/java</directory>
-			<targetPath>/src</targetPath>
-			<includes>
-			<include>**/*.java</include>
-			</includes>
-			</resource>
-			
-			<!- -
-			<resource>
-			<directory>resources</directory>
-			<targetPath>/</targetPath>
-			<includes>
-			<include>**/*</include>
-			</includes>
-			</resource> 
-			</resources> -->
-
 		<plugins>
 
 			<plugin>
@@ -67,30 +47,6 @@
 				</configuration>
 			</plugin>
 
-<!--
-			<plugin>
-				<groupId>com.sun.tools.jxc.maven2</groupId>
-				<artifactId>maven-jaxb-schemagen-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<generatePackage>de.phleisch.app.itsucks.persistence.jaxb</generatePackage>
-					<includeSchemas>
-						<includeSchema>DownloadJobSchema.xsd</includeSchema>
-					</includeSchemas>
-					<!- - <generateDirectory>${basedir}/src/main/java</generateDirectory>  - ->
-					<strict>false</strict>
-					<verbose>false</verbose>
-				</configuration>
-
-
-			</plugin>
--->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

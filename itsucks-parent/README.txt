@@ -7,3 +7,5 @@ Build and install ItSucks Core Libs
 Generate Java Doc for core libs
   mvn -D maven.test.skip=true -P core package javadoc:javadoc 
   
+Build release
+  mvn package assembly:assembly

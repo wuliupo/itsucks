@@ -17,26 +17,6 @@
 
 	<build>
 
-		<!-- include the source code - ->
-			<resources>
-			<resource>
-			<directory>src/main/java</directory>
-			<targetPath>/src</targetPath>
-			<includes>
-			<include>**/*.java</include>
-			</includes>
-			</resource>
-			
-			<!- -
-			<resource>
-			<directory>resources</directory>
-			<targetPath>/</targetPath>
-			<includes>
-			<include>**/*</include>
-			</includes>
-			</resource> 
-			</resources> -->
-
 		<plugins>
 
 			<plugin>

@@ -27,6 +27,8 @@ import de.phleisch.app.itsucks.gui.util.SwingUtils;
  */
 public abstract class EditListPanel extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = -4425901826906512008L;
+	
 	protected ExtendedListModel mListModel = new ExtendedListModel();
 	protected ListElement mElementInEditMode;
 
