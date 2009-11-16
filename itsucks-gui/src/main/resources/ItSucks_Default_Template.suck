@@ -51,6 +51,7 @@
         <name>HttpRetrieverConfiguration</name>
         <serializedHttpRetrieverConfiguration>
             <maxConnectionsPerServer>2</maxConnectionsPerServer>
+            <sendReferer>true</sendReferer>
             <proxyEnabled>false</proxyEnabled>
             <proxyServer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             <proxyPort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>

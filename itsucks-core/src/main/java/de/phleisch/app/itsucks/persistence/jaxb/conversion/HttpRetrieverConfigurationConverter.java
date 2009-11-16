@@ -36,6 +36,7 @@ public class HttpRetrieverConfigurationConverter extends AbstractBeanConverter {
 		
 		configuration.setMaxConnectionsPerServer(pBean.getMaxConnectionsPerServer());
 		configuration.setBandwidthLimit(pBean.getBandwidthLimit());
+		configuration.setSendReferer(pBean.isSendReferer());
 		
 		configuration.setProxyEnabled(pBean.isProxyEnabled());
 		configuration.setProxyServer(pBean.getProxyServer());
@@ -69,6 +70,8 @@ public class HttpRetrieverConfigurationConverter extends AbstractBeanConverter {
 		
 		serializedConfiguration.setMaxConnectionsPerServer(
 				pClass.getMaxConnectionsPerServer());
+		
+		serializedConfiguration.setSendReferer(pClass.isSendReferer());
 		
 		serializedConfiguration.setBandwidthLimit(
 				pClass.getBandwidthLimit());

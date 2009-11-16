@@ -23,6 +23,8 @@ include_once('include/header.php.inc');
 		- Bug 2680409
 		- Build source jars
 		
+		- Am besten html dateien nicht resumen!
+		
 	</p>
 	<p>
 		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=617192"> ChangeLog 0.3.2</a>

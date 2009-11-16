@@ -54,26 +54,8 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 								.getMaxConnectionsPerServer()));
 			}
 			
-			if (httpRetrieverConfiguration.getBandwidthLimit() != null) {
-				
-				final int kbytes = 1024;
-				final int mbytes = 1024 * 1024;
-				
-				int limit = httpRetrieverConfiguration.getBandwidthLimit();
-				int index = 0;
-				
-				if((limit % mbytes) == 0) {
-					limit /= mbytes;
-					index = 2;
-				} else if((limit % kbytes) == 0) {
-					limit /= kbytes;
-					index = 1;
-				} 
-				
-				this.enableBandwidthLimitCheckBox.setSelected(true);
-				this.bandwidthLimitComboBox.setSelectedIndex(index);
-				this.bandwidthLimitTextField.setText(String.valueOf(limit));
-			}
+			this.sendReferralCheckBox.setSelected(
+					httpRetrieverConfiguration.isSendReferer());
 
 			if (httpRetrieverConfiguration.isProxyEnabled()) {
 				this.enableProxyCheckBox
@@ -100,6 +82,27 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 					.setSelected(true);
 				this.userAgentTextField
 					.setText(httpRetrieverConfiguration.getUserAgent());
+			}
+			
+			if (httpRetrieverConfiguration.getBandwidthLimit() != null) {
+				
+				final int kbytes = 1024;
+				final int mbytes = 1024 * 1024;
+				
+				int limit = httpRetrieverConfiguration.getBandwidthLimit();
+				int index = 0;
+				
+				if((limit % mbytes) == 0) {
+					limit /= mbytes;
+					index = 2;
+				} else if((limit % kbytes) == 0) {
+					limit /= kbytes;
+					index = 1;
+				} 
+				
+				this.enableBandwidthLimitCheckBox.setSelected(true);
+				this.bandwidthLimitComboBox.setSelectedIndex(index);
+				this.bandwidthLimitTextField.setText(String.valueOf(limit));
 			}
 		}
 		
@@ -233,6 +236,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
         maxConnectionsTextField = new javax.swing.JTextField();
         maxRetriesLabel = new javax.swing.JLabel();
         maxRetriesTextField = new javax.swing.JTextField();
+        sendReferralCheckBox = new javax.swing.JCheckBox();
         proxySettingsPanel = new javax.swing.JPanel();
         enableProxyCheckBox = new javax.swing.JCheckBox();
         proxyServerLabel = new javax.swing.JLabel();
@@ -262,11 +266,14 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 
         maxConnectionsTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         maxRetriesLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         maxRetriesLabel.setText("Max. retries before giving up:");
 
         maxRetriesTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        sendReferralCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        sendReferralCheckBox.setText("Send referral");
 
         javax.swing.GroupLayout connectionSettingsPanelLayout = new javax.swing.GroupLayout(connectionSettingsPanel);
         connectionSettingsPanel.setLayout(connectionSettingsPanelLayout);
@@ -274,13 +281,16 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
             connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connectionSettingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(maxConnectionsLabel)
-                    .addComponent(maxRetriesLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(maxConnectionsTextField)
-                    .addComponent(maxRetriesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+                .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(connectionSettingsPanelLayout.createSequentialGroup()
+                        .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(maxRetriesLabel)
+                            .addComponent(maxConnectionsLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(maxConnectionsTextField)
+                            .addComponent(maxRetriesTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)))
+                    .addComponent(sendReferralCheckBox))
                 .addContainerGap(198, Short.MAX_VALUE))
         );
         connectionSettingsPanelLayout.setVerticalGroup(
@@ -288,12 +298,14 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
             .addGroup(connectionSettingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(maxConnectionsLabel)
-                    .addComponent(maxConnectionsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(maxConnectionsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maxConnectionsLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(connectionSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maxRetriesLabel)
                     .addComponent(maxRetriesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sendReferralCheckBox)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -509,7 +521,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 560, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -584,6 +596,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
     private javax.swing.JLabel proxyServerLabel;
     private javax.swing.JTextField proxyServerTextField;
     private javax.swing.JPanel proxySettingsPanel;
+    private javax.swing.JCheckBox sendReferralCheckBox;
     private javax.swing.JCheckBox userAgentCheckBox;
     private javax.swing.JLabel userAgentLabel;
     private javax.swing.JPanel userAgentPanel;
