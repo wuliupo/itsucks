@@ -147,11 +147,14 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	public DataChunk process(DataChunk pDataChunk) throws ProcessingException {
 		
 		try {
-			if(mBufferedOut == null) {
+			
+			if(mBufferedOut == null && ((DownloadJob)getProcessorChain().getJob()).isSaveToDisk()) {
 				prepareOutputStream();
 			}
 		
-			mBufferedOut.write(pDataChunk.getData(), 0, pDataChunk.getSize());
+			if(mBufferedOut != null) {
+				mBufferedOut.write(pDataChunk.getData(), 0, pDataChunk.getSize());
+			}
 			
 		} catch (IOException e) {
 			throw new ProcessingException(e);

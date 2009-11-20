@@ -8,13 +8,16 @@
 
 package de.phleisch.app.itsucks.job.download.http.impl;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.phleisch.app.itsucks.context.Context;
+import de.phleisch.app.itsucks.io.ResumeUrlDataRetriever;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.impl.Cookie;
+import de.phleisch.app.itsucks.io.http.impl.HttpFileResumeUrlRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetriever;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
@@ -30,6 +33,7 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 	protected static final String DEFAULT_USER_AGENT = "Mozilla/5.0";
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public UrlDataRetriever createDataRetriever(URL pUrl, Context pGroupContext,
 			List<JobParameter> pParameterList) {
 		
@@ -108,6 +112,13 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 		
 		return null;
 	}
+	
+	@Override
+	public ResumeUrlDataRetriever createResumeDataRetriever(
+			UrlDataRetriever pDataRetriever, File pFile) {
+		
+		return new HttpFileResumeUrlRetriever(pDataRetriever, pFile);
+	}
 
 	protected HttpRetrieverConfiguration getHttpRetrieverConfigurationFromContext(
 			Context jobContext) {
@@ -125,5 +136,5 @@ public class HttpRetrieverFactory implements DataRetrieverFactory {
 					HttpRetrieverConfiguration.CONTEXT_PARAMETER_HTTP_RETRIEVER_CONFIGURATION,
 					pConfiguration);
 	}
-	
+
 }

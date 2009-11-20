@@ -103,6 +103,10 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 			}
 			
 			addNewJobs(urlList.toArray(new URI[urlList.size()]));
+			
+			//do not save the page
+			job.setSaveToDisk(false);
+			
 		}
 		
 	}

@@ -23,8 +23,8 @@ import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.io.Metadata;
+import de.phleisch.app.itsucks.io.ResumeUrlDataRetriever;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
-import de.phleisch.app.itsucks.io.impl.FileResumeUrlRetriever;
 import de.phleisch.app.itsucks.io.impl.ProgressInputStream;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobParameter;
@@ -83,7 +83,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	protected transient DataRetrieverManager mDataRetrieverManager;
 	
 	protected transient UrlDataRetriever mDataRetriever;
-	protected transient FileResumeUrlRetriever mFileResumeRetriever;
+	protected transient ResumeUrlDataRetriever mFileResumeRetriever;
 	protected transient ProgressInputStream mProgressInputStream;
 	
 	protected float mProgress = -1;
@@ -181,7 +181,8 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 					
 					//ok, it seems the file already exists partially/completely
 					//try to resume the file
-					mFileResumeRetriever = new FileResumeUrlRetriever(mDataRetriever, file);
+					mFileResumeRetriever = retrieverFactoryForProtocol.createResumeDataRetriever(mDataRetriever, file);
+//					mFileResumeRetriever = new HttpFileResumeUrlRetriever(mDataRetriever, file);
 					mDataRetriever = mFileResumeRetriever;
 				}
 			}
@@ -309,7 +310,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 			//set skipped bytes when resuming
 			if(mFileResumeRetriever != null) {
-				mProgressInputStream.setDataRead(mFileResumeRetriever.getBytesSkipped());
+				mProgressInputStream.setDataRead(mFileResumeRetriever.getResumeOffset());
 			}
 			
 			stream = mProgressInputStream;
@@ -344,7 +345,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			dataProcessorChain.resumeAt(resumeOffset);
 			
 			//data from disk is not needed, resume retriever can pipe the data through
-			mFileResumeRetriever.setReadFromFile(false);
+			mFileResumeRetriever.setBytesToSkip(resumeOffset);
 
 		} else {
 			
@@ -368,7 +369,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			}
 
 			//instruct resume retriever to read data from disk
-			mFileResumeRetriever.setReadFromFile(true);
+			mFileResumeRetriever.setBytesToSkip(0);
 		}
 	}
 	

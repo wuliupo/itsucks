@@ -279,7 +279,8 @@ public class FileResumeRetriever implements DataRetriever {
 				length += mDataRetriever.getContentLenght() - mOverlap;
 			}
 		} else {
-			length = mDataRetriever.getContentLenght() - mOverlap + mResumeOffset;
+			//file is not used
+			length = mDataRetriever.getContentLenght() + mResumeOffset;
 		}
 
 		return length;

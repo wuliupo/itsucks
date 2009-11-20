@@ -12,6 +12,8 @@ import java.net.URL;
 
 public interface UrlDataRetriever extends DataRetriever {
 
+	public final static Integer RESULT_RETRIEVAL_UNKNOWN = 0;
+	
 	/**
 	 * This value is returned if the download was not started yet.
 	 */
