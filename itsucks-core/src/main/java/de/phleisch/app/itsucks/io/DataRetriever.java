@@ -33,6 +33,13 @@ public interface DataRetriever {
 	public void connect() throws IOException;
 	
 	/**
+	 * Returns true if the retriever is connected.
+	 * 
+	 * @throws IOException
+	 */
+	public boolean isConnected() throws IOException;
+	
+	/**
 	 * Returns true if the data source contains any data to be read.
 	 * 
 	 * @return

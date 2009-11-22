@@ -17,4 +17,10 @@ package de.phleisch.app.itsucks.io;
  */
 public interface Metadata {
 
+	/**
+	 * Returns the filename of the url object.
+	 * @return
+	 */
+	public String getFilename();
+	
 }

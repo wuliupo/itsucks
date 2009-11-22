@@ -18,17 +18,22 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.contrib.ssl.EasySSLProtocolSocketFactory;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.io.UrlUtils;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.Action;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour.ResponseCodeRange;
 import de.phleisch.app.itsucks.io.impl.AbstractUrlDataRetriever;
@@ -88,6 +93,10 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 			throw new IllegalStateException("Retriever is aborted.");
 		}
 		
+		if(isConnected()) {
+			throw new IllegalStateException("Already connected");
+		}
+		
 		HttpClient client = getHttpClientFromConfiguration();
 		
 		mGet = new GZIPAwareGetMethod(mUrl.toString());
@@ -122,6 +131,13 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		client.executeMethod(mGet);
 		mLog.debug("Connected to: " + mUrl + " Status: " + mGet.getStatusCode());
 		
+		buildMetadata();
+		analyzeResultCode();
+		
+	}
+
+	private void buildMetadata() {
+		
 		//build metadata
 		mMetadata = new HttpMetadata();
 		
@@ -131,13 +147,34 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		} else {
 			mMetadata.setContentType("undefined");
 		}
-		
-		buildMetadata();
-		analyzeResultCode();
-		
-	}
 
-	private void buildMetadata() {
+		//try to get the filename from the content disposition header field
+		String filename = null;
+		Header contentDisposition = mGet.getResponseHeader("Content-Disposition");
+		if(contentDisposition != null) {
+			HeaderElement[] elements = contentDisposition.getElements();
+			for (HeaderElement headerElement : elements) {
+				if(headerElement.getName().equals("filename")) {
+					filename = headerElement.getValue();
+				}
+			}
+		}
+		
+		//try to get it from the url
+		if(filename == null) {
+			filename = UrlUtils.getFilenameFromUrl(getUrl());
+		}
+		
+		//try defaults
+		if(filename == null) {
+			if(mMetadata.getContentType().startsWith("text/html")) {
+				filename = "index.html";
+			} else {
+				filename = "unknown";
+			}
+		}
+		mMetadata.setFilename(filename);
+		
 		mMetadata.setContentLength(mGet.getResponseContentLength());
 		mMetadata.setStatusCode(mGet.getStatusCode());
 		mMetadata.setStatusText(mGet.getStatusText());
@@ -190,6 +227,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
       		new MultiThreadedHttpConnectionManager();
      	
      	HttpClient httpClient = new HttpClient(connectionManager);
+     	
+     	//disabled ssl certificate check
+     	Protocol easyhttps = new Protocol("https", 
+     			(ProtocolSocketFactory)new EasySSLProtocolSocketFactory(), 443);
+     	Protocol.registerProtocol("https", easyhttps);
      	
      	if(pConfiguration != null) {
      		
@@ -280,6 +322,11 @@ public class HttpRetriever extends AbstractUrlDataRetriever {
 		
 		return mGet.getStatusCode() < 300;
 	}
+	
+	@Override
+	public boolean isConnected() throws IOException {
+		return mGet != null;
+	}	
 	
 	public InputStream getDataAsInputStream() throws IOException {
 		

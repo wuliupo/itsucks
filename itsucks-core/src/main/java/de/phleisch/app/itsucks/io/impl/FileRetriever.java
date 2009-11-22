@@ -81,6 +81,11 @@ public class FileRetriever implements DataRetriever {
 		}
 		
 	}
+	
+	@Override
+	public boolean isConnected() throws IOException {
+		return mIn != null;
+	}	
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.io.DataRetriever#disconnect()
@@ -141,4 +146,5 @@ public class FileRetriever implements DataRetriever {
 		
 		return mFileSize;
 	}
+
 }

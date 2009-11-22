@@ -13,12 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.phleisch.app.itsucks.io.FileManager;
+import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.download.DownloadJob;
 import de.phleisch.app.itsucks.processing.DataChunk;
@@ -77,8 +77,11 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 		
 		FileManager fileManager = new FileManager(target_path);
 		
-		URL url = downloadJob.getDataRetriever().getUrl();
-		mFile = fileManager.buildSavePath(url);
+		UrlDataRetriever dataRetriever = (UrlDataRetriever) downloadJob.getDataRetriever();
+		
+		mFile = fileManager.buildSavePath(
+				dataRetriever.getUrl(), 
+				dataRetriever.getMetadata().getFilename());
 	}
 
 	private void prepareOutputStream() throws IOException, FileNotFoundException {

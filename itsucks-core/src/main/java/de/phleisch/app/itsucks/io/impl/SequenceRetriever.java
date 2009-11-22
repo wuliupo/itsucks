@@ -48,6 +48,11 @@ public class SequenceRetriever extends FilterDataRetriever {
 		mFirst.connect();
 		mSecond.connect();
 	}
+	
+	@Override
+	public boolean isConnected() throws IOException {
+		return mDataRetriever.isConnected();
+	}	
 
 	@Override
 	public void disconnect() throws IOException {
@@ -74,5 +79,6 @@ public class SequenceRetriever extends FilterDataRetriever {
 	public boolean isDataAvailable() throws IOException {
 		return mFirst.isDataAvailable() | mSecond.isDataAvailable();
 	}
+
 
 }

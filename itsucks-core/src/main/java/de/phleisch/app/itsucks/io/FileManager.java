@@ -59,23 +59,16 @@ public class FileManager {
 	 * @param mUrl
 	 * @return
 	 */
-	public File buildSavePath(final URL mUrl) {
+	public File buildSavePath(final URL mUrl, final String pFilename) {
 		
 		String hostname_part = mUrl.getHost();
 		if(mUrl.getPort() != -1) {
 			hostname_part += ":" + mUrl.getPort();
 		}
 		
-		String full_path = mUrl.getPath();
-		if(mUrl.getQuery() != null) full_path += "?" + mUrl.getQuery();
-
 		String path = mUrl.getPath();
-		String filename = "index.html"; //FIXME this should depend on the protocol type
-		if(!full_path.endsWith("/") && full_path.lastIndexOf('/') != -1) {
-		
-			path = 
-				full_path.substring(0, full_path.lastIndexOf('/'));
-			filename = full_path.substring(mUrl.getPath().lastIndexOf('/') + 1);
+		if(!path.endsWith("/") && path.lastIndexOf('/') != -1) {
+			path = path.substring(0, path.lastIndexOf('/'));
 		}
 		
 		//replace all invalid characters with a white list
@@ -87,7 +80,7 @@ public class FileManager {
 			+ path + File.separator);
 
 		//replace all invalid characters with a white list
-		filename = filterString(filename, ALLOWED_FILENAME_CHARS);
+		String filename = filterString(pFilename, ALLOWED_FILENAME_CHARS);
 		
 		return new File(local_path + File.separator + filename);
 	}

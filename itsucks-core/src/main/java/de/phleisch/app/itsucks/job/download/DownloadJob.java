@@ -10,8 +10,8 @@ package de.phleisch.app.itsucks.job.download;
 
 import java.io.File;
 
+import de.phleisch.app.itsucks.io.DataRetriever;
 import de.phleisch.app.itsucks.io.Metadata;
-import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.job.Job;
 
 public interface DownloadJob extends Job {
@@ -37,7 +37,7 @@ public interface DownloadJob extends Job {
 	/**
 	 * @return the data retriever used to download from the url.
 	 */
-	public abstract UrlDataRetriever getDataRetriever();
+	public abstract DataRetriever getDataRetriever();
 
 	/**
 	 * Returns the current download progress.

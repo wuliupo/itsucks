@@ -59,68 +59,106 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 
 	public void connect() throws IOException {
 		
-		if(mOperatingState != OperatingState.NOT_CONNECTED && mOperatingState != OperatingState.ABORTED) {
+		if(isConnected()) {
 			throw new IllegalStateException("Already connected");
 		}
 		reset();
 		
+		if(mWrappedUrlDataRetriever.isConnected() && mWrappedUrlDataRetriever.getBytesSkipped() > 0) {
+			throw new IllegalStateException("The wrapped data retriever is already connected and resuming.");
+		}
+		
+		
 		if(!mLocalFile.exists() || mLocalFile.length() == 0) {
 			mLog.debug("local file is not usable, do an normal download");
-			mDataRetriever = mWrappedUrlDataRetriever;
-			mOperatingState = OperatingState.ONLY_DELEGATE;
-			
-			//connect the retriever
-			mDataRetriever.connect();
-			
+			doDelgateDownload();
+		
 		} else {
 			
 			long bytesOnDisk = mLocalFile.length();
-			mWrappedUrlDataRetriever.setBytesToSkip(bytesOnDisk);
 			
-			mWrappedUrlDataRetriever.connect();
-			
-			int statusCode = ((HttpMetadata)mWrappedUrlDataRetriever.getMetadata()).getStatusCode();
-			if(statusCode == HttpResponseCodes.PARTIAL_CONTENT_206) {
-				//resume was successful
-				mLog.debug("Resume successful, " + bytesOnDisk + " bytes skipped");
+			//optimization: check if the retriever is already connected and sent the content length
+			if(mWrappedUrlDataRetriever.isConnected()) {
+				long contentLenght = mWrappedUrlDataRetriever.getContentLenght();
 				
-				FileRetriever fileRetriever = new FileRetriever(mLocalFile);
-				
-				//connect the file retriever
-				fileRetriever.connect();
-				
-				//build resume retriever sequence
-				mDataRetriever = new SequenceRetriever(mWrappedUrlDataRetriever, fileRetriever, mWrappedUrlDataRetriever);
-				mOperatingState = OperatingState.RESUME_FILE;
-				mResumeOffset = bytesOnDisk;
-				
-			} else if(statusCode == HttpResponseCodes.REQUESTED_RANGE_NOT_SATISFIABLE_416) {
-				//file seems completely on disk
-				mLog.debug("File is completely on disk, no download needed");
-				
-				//set fileretriever
-				FileRetriever fileRetriever = new FileRetriever(mLocalFile);
-				
-				//connect the file retriever
-				fileRetriever.connect();
-				
-				mDataRetriever = fileRetriever;
-				mOperatingState = OperatingState.ONLY_FILE;
-				mResumeOffset = bytesOnDisk;
+				if(bytesOnDisk == contentLenght) {
+					//file is completely on disk, only read the file
+					doReadOnlyFile(bytesOnDisk);
+				} else if(bytesOnDisk > contentLenght) {
+					//uhoh, do normal download, something is ok here
+					doDelgateDownload();
+				} else if(bytesOnDisk < contentLenght) {
+					//do normal resume, local file is smaller than the server one
+					mWrappedUrlDataRetriever.disconnect();
+					connectResume();
+				}
 				
 			} else {
-				//something went wrong with resuming, do a normal download
-				mLog.debug("Unknown response code " + statusCode + " received, falling back to normal download");
-				
-				mWrappedUrlDataRetriever.disconnect();
-				mWrappedUrlDataRetriever.setBytesToSkip(0);
-				mWrappedUrlDataRetriever.connect(); //reconnect
-				
-				mDataRetriever = mWrappedUrlDataRetriever;
-				mOperatingState = OperatingState.ONLY_DELEGATE;
-				mResumeOffset = 0;
+				//wrapper is not connected, do normal resume
+				connectResume();
 			}
+		}
+	}
+
+	private void connectResume() throws IOException {
+		
+		long bytesOnDisk = mLocalFile.length();
+		
+		mWrappedUrlDataRetriever.setBytesToSkip(bytesOnDisk);
+		mWrappedUrlDataRetriever.connect();
+		
+		int statusCode = ((HttpMetadata)mWrappedUrlDataRetriever.getMetadata()).getStatusCode();
+		if(statusCode == HttpResponseCodes.PARTIAL_CONTENT_206) {
+			//resume was successful
+			mLog.debug("Resume successful, " + bytesOnDisk + " bytes skipped");
+			doResumeDownload(bytesOnDisk);
 			
+		} else if(statusCode == HttpResponseCodes.REQUESTED_RANGE_NOT_SATISFIABLE_416) {
+			//file seems completely on disk
+			mLog.debug("File is completely on disk, no download needed");
+			doReadOnlyFile(bytesOnDisk);
+			
+		} else {
+			//something went wrong with resuming, do a normal download
+			mLog.debug("Unknown response code " + statusCode + " received, falling back to normal download");
+			
+			mWrappedUrlDataRetriever.disconnect();
+			mWrappedUrlDataRetriever.setBytesToSkip(0);
+			doDelgateDownload();
+		}
+	}
+
+	protected void doResumeDownload(long bytesOnDisk) throws IOException {
+		FileRetriever fileRetriever = new FileRetriever(mLocalFile);
+		
+		//connect the file retriever
+		fileRetriever.connect();
+		
+		//build resume retriever sequence
+		mDataRetriever = new SequenceRetriever(mWrappedUrlDataRetriever, fileRetriever, mWrappedUrlDataRetriever);
+		mOperatingState = OperatingState.RESUME_FILE;
+		mResumeOffset = bytesOnDisk;
+	}
+
+	protected void doReadOnlyFile(long bytesOnDisk) throws IOException {
+		//set fileretriever
+		FileRetriever fileRetriever = new FileRetriever(mLocalFile);
+		
+		//connect the file retriever
+		fileRetriever.connect();
+		
+		mDataRetriever = fileRetriever;
+		mOperatingState = OperatingState.ONLY_FILE;
+		mResumeOffset = bytesOnDisk;
+	}	
+	
+	protected void doDelgateDownload() throws IOException {
+		mDataRetriever = mWrappedUrlDataRetriever;
+		mOperatingState = OperatingState.ONLY_DELEGATE;
+		
+		//connect the retriever
+		if(!mDataRetriever.isConnected()) {
+			mDataRetriever.connect();
 		}
 	}
 
@@ -198,6 +236,11 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 		if(mOperatingState == OperatingState.NOT_CONNECTED) {
 			throw new IllegalStateException("Not connected");
 		}
+	}
+
+	@Override
+	public boolean isConnected() throws IOException {
+		return mOperatingState != OperatingState.NOT_CONNECTED && mOperatingState != OperatingState.ABORTED;
 	}
 
 }

@@ -60,7 +60,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	public static final String JOB_PROGRESS_PROPERTY = "Progress";
 	
-	public static final String JOB_PARAMETER_SKIP_DOWNLOADED_FILE = "job.download.skip_when_existing";
+	public static final String JOB_PARAMETER_SKIP_DOWNLOADED_FILE = "not implemented";
 	
 	public static enum RetryBehaviour {
 		DIRECTLY_WAIT_FOR_RETRY_TIMEOUT,
@@ -158,50 +158,32 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mDataRetriever = retrieverFactoryForProtocol.createDataRetriever(
 			url, getGroupContext(), getParameterList());
 		
-		boolean skip = false;
+//		//check if this file could be resumed
+//		if(isSaveToDisk()) {
+//			
+//			FileManager fileManager = new FileManager(this.getSavePath());
+//			File file = fileManager.buildSavePath(url);
+//			
+//			if(file.exists()) {
+//			
+//				mLog.info("Try to resume job: " + this);
+//				
+//				//ok, it seems the file already exists partially/completely
+//				//try to resume the file
+//				mFileResumeRetriever = retrieverFactoryForProtocol.createResumeDataRetriever(mDataRetriever, file);
+//				mDataRetriever = mFileResumeRetriever;
+//			}
+//		}
 		
-		//check if this file could be resumed
-		if(isSaveToDisk()) {
-			
-			FileManager fileManager = new FileManager(this.getSavePath());
-			File file = fileManager.buildSavePath(url);
-			
-			if(file.exists()) {
-			
-				JobParameter skipParameter = getParameter(JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
-				
-				if(skipParameter != null && Boolean.TRUE.equals(skipParameter.getValue())) {
-					
-					mLog.info("Skip job: " + this);
-					skip = true;
-					
-				} else {
-				
-					mLog.info("Try to resume job: " + this);
-					
-					//ok, it seems the file already exists partially/completely
-					//try to resume the file
-					mFileResumeRetriever = retrieverFactoryForProtocol.createResumeDataRetriever(mDataRetriever, file);
-//					mFileResumeRetriever = new HttpFileResumeUrlRetriever(mDataRetriever, file);
-					mDataRetriever = mFileResumeRetriever;
-				}
-			}
-		}
-		
-		if(!skip) {
 
-			//retry connect until job is no longer in state retry
-			
-			while(true) {
-				executeDownload();
-				if(getState() != Job.STATE_IN_PROGRESS_RETRY) {
-					break;
-				}
+		//retry connect until job is no longer in state retry
+		while(true) {
+			executeDownload();
+			if(getState() != Job.STATE_IN_PROGRESS_RETRY) {
+				break;
 			}
-			
-		} else  {
-			setState(Job.STATE_IGNORED);
 		}
+			
 		
 		mDataRetriever = null;
 		mFileResumeRetriever = null;
@@ -240,11 +222,20 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			
 			//if retrieval was ok, process the data
 			if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_OK) {
+				
+				//prepare resume if possible 
+				tryResume();
+
+				//process data
 				executeProcessorChain();
 			}
 			
 		} finally {
-			mDataRetriever.disconnect();
+			try {
+				mDataRetriever.disconnect();
+			} catch(Exception ex) {
+				mLog.warn("Error disconnecting", ex);
+			}
 			mTryCount ++;
 		}
 		
@@ -279,6 +270,30 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			setState(Job.STATE_IGNORED);
 		} else {
 			setState(Job.STATE_ERROR);
+		}
+	}
+
+	protected void tryResume() throws IOException {
+		//check if this file could be resumed
+		if(isSaveToDisk()) {
+			
+			FileManager fileManager = new FileManager(this.getSavePath());
+			File file = fileManager.buildSavePath(getUrl(), mMetadata.getFilename());
+			
+			if(file.exists()) {
+			
+				mLog.info("Try to resume job: " + this);
+				
+				//ok, it seems the file already exists partially/completely
+				//try to resume the file
+				DataRetrieverFactory retrieverFactoryForProtocol = 
+					mDataRetrieverManager.getRetrieverFactoryForProtocol(getUrl().getProtocol());
+				
+				mFileResumeRetriever = retrieverFactoryForProtocol.createResumeDataRetriever(mDataRetriever, file);
+				mDataRetriever = mFileResumeRetriever;
+				
+				mFileResumeRetriever.connect();
+			}
 		}
 	}
 

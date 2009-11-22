@@ -143,6 +143,11 @@ public class FileResumeRetriever implements DataRetriever {
 
 		mConnected = true;
 	}
+	
+	@Override
+	public boolean isConnected() throws IOException {
+		return mConnected;
+	}
 
 	protected void prepareResume() throws IOException {
 

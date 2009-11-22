@@ -26,6 +26,7 @@ public class HttpMetadata implements Metadata {
 	private String mStatusText;
 	private Map<String, String[]> mResponseParameters;
 	private String mEncoding;
+	private String mFilename;
 	
 	/**
 	 * Gets the content type of the file.
@@ -125,6 +126,18 @@ public class HttpMetadata implements Metadata {
 
 	public void setResponseHeader(Map<String, String[]> pHeaders) {
 		mResponseParameters = pHeaders;
+	}
+
+	/**
+	 * Returns the filename of the url object.
+	 * @return
+	 */
+	public String getFilename() {
+		return mFilename;
+	}
+
+	public void setFilename(String pFilename) {
+		mFilename = pFilename;
 	}
 
 }
