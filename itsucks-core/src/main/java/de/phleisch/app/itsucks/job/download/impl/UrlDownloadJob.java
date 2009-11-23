@@ -303,6 +303,24 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		DataProcessorChain dataProcessorChain =
 			mDataProcessorManager.getProcessorChainForJob(this);
 		
+		//set up processor chain
+		long contentLength = mDataRetriever.getContentLenght();
+		InputStream stream;
+		
+		//use progress input stream to track progress when content length is known
+		if(contentLength > 0) {
+			mProgressInputStream = 
+				new ProgressInputStream(mDataRetriever.getDataAsInputStream(), contentLength);
+			mProgressInputStream.addPropertyChangeListener(new ProgressListener());
+			stream = mProgressInputStream;
+		} else {
+			stream = mDataRetriever.getDataAsInputStream();
+		}
+		
+		dataProcessorChain.setInputStream(stream);
+		dataProcessorChain.setJobManager(mJobManager);
+		
+		
 		//if resuming from file, configure the resume retriever
 		if(mFileResumeRetriever != null) {
 			
@@ -313,28 +331,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			}
 		}
 		
-		//set up processor chain
-		long contentLength = mDataRetriever.getContentLenght();
-		InputStream stream;
-		
-		//use progress input stream to track progress when content length is known
-		if(contentLength > 0) {
-			mProgressInputStream = 
-				new ProgressInputStream(mDataRetriever.getDataAsInputStream(), contentLength);
-			mProgressInputStream.addPropertyChangeListener(new ProgressListener());
-			
-			//set skipped bytes when resuming
-			if(mFileResumeRetriever != null) {
-				mProgressInputStream.setDataRead(mFileResumeRetriever.getResumeOffset());
-			}
-			
-			stream = mProgressInputStream;
-		} else {
-			stream = mDataRetriever.getDataAsInputStream();
-		}
-		
-		dataProcessorChain.setInputStream(stream);
-		dataProcessorChain.setJobManager(mJobManager);
 		
 		try {
 			dataProcessorChain.init();
@@ -352,15 +348,14 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	}
 
 	protected void prepareResume(DataProcessorChain dataProcessorChain,
-			long resumeOffset) {
+			long resumeOffset) throws IOException {
 		if (dataProcessorChain.canResume()) {
 			// ok, resume of chain is possible, advise every processor to resume at
 			// the given position.
-
 			dataProcessorChain.resumeAt(resumeOffset);
 			
 			//data from disk is not needed, resume retriever can pipe the data through
-			mFileResumeRetriever.setBytesToSkip(resumeOffset);
+			dataProcessorChain.getInputStream().skip(resumeOffset);
 
 		} else {
 			
@@ -383,8 +378,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 				}
 			}
 
-			//instruct resume retriever to read data from disk
-			mFileResumeRetriever.setBytesToSkip(0);
 		}
 	}
 	
