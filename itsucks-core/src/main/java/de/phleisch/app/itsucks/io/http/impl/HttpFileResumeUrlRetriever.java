@@ -83,12 +83,15 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 				
 				if(bytesOnDisk == contentLenght) {
 					//file is completely on disk, only read the file
+					mLog.debug("File is completely on disk, " + bytesOnDisk + " bytes");
 					doReadOnlyFile(bytesOnDisk);
 				} else if(bytesOnDisk > contentLenght) {
-					//uhoh, do normal download, something is ok here
+					//uhoh, do normal download, something isn't ok here
+					mLog.debug("File on disk is larger than servers, bytes on disk: " + bytesOnDisk + ", bytes on server: " + contentLenght + ", drop data on disk and redownload file."); 
 					doDelgateDownload();
 				} else if(bytesOnDisk < contentLenght) {
 					//do normal resume, local file is smaller than the server one
+					mLog.debug("File on disk is smaller than servers, bytes on disk: " + bytesOnDisk + ", bytes on server: " + contentLenght + ", do normal resume.");
 					mWrappedUrlDataRetriever.disconnect();
 					connectResume();
 				}

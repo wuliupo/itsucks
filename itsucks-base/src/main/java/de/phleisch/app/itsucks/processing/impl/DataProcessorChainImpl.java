@@ -190,7 +190,7 @@ public class DataProcessorChainImpl implements DataProcessorChain {
 	protected void pumpData() throws IOException, ProcessingException {
 		//TODO move this to another class?
 		
-		final int BUFFER_SIZE = 102400; //100k buffer
+		final int BUFFER_SIZE = 65536; //65k buffer
 		
 		byte[] buffer = new byte[BUFFER_SIZE];
 		int bytesRead;
