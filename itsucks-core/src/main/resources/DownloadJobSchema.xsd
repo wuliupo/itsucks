@@ -21,6 +21,7 @@
 						<xs:element name="saveToDisk" type="xs:boolean" />
 						<xs:element name="savePath" type="xs:string"
 							nillable="true" />
+						<xs:element name="tryResume" type="xs:boolean" />
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

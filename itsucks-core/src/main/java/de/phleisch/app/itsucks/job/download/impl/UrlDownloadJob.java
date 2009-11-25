@@ -60,8 +60,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	 */
 	public static final String JOB_PROGRESS_PROPERTY = "Progress";
 	
-	public static final String JOB_PARAMETER_SKIP_DOWNLOADED_FILE = "not implemented";
-	
 	public static enum RetryBehaviour {
 		DIRECTLY_WAIT_FOR_RETRY_TIMEOUT,
 		MOVE_JOB_BACK_INTO_QUEUE
@@ -71,6 +69,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	private static Log mLog = LogFactory.getLog(UrlDownloadJob.class);
 	
 	protected boolean mSaveToDisk = true;
+	protected boolean mTryResume = true;
 	protected boolean mAbort = false; //indicates if the download has been aborted
 	protected File mSavePath = null;
 	
@@ -99,10 +98,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 	}
 
 	/* (non-Javadoc)
-	 * @see de.phleisch.app.chaoscrawler.refactoring.Job#run()
-	 */
-	/* (non-Javadoc)
-	 * @see de.phleisch.app.itsucks.job.download.impl.DownloadJob#run()
+	 * @see de.phleisch.app.itsucks.job.impl.AbstractJob#run()
 	 */
 	@Override
 	public void run() throws Exception {
@@ -157,24 +153,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		//create data retriever
 		mDataRetriever = retrieverFactoryForProtocol.createDataRetriever(
 			url, getGroupContext(), getParameterList());
-		
-//		//check if this file could be resumed
-//		if(isSaveToDisk()) {
-//			
-//			FileManager fileManager = new FileManager(this.getSavePath());
-//			File file = fileManager.buildSavePath(url);
-//			
-//			if(file.exists()) {
-//			
-//				mLog.info("Try to resume job: " + this);
-//				
-//				//ok, it seems the file already exists partially/completely
-//				//try to resume the file
-//				mFileResumeRetriever = retrieverFactoryForProtocol.createResumeDataRetriever(mDataRetriever, file);
-//				mDataRetriever = mFileResumeRetriever;
-//			}
-//		}
-		
 
 		//retry connect until job is no longer in state retry
 		while(true) {
@@ -223,8 +201,10 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			//if retrieval was ok, process the data
 			if(resultCode == UrlDataRetriever.RESULT_RETRIEVAL_OK) {
 				
-				//prepare resume if possible 
-				tryResume();
+				if(isTryResume()) {
+					//prepare resume if possible 
+					tryResume();
+				}
 
 				//process data
 				executeProcessorChain();
@@ -496,6 +476,7 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mDepth = pParent.getDepth() + 1;
 		setSavePath(pParent.getSavePath());
 		setMaxRetryCount(pParent.getMaxRetryCount());
+		setTryResume(pParent.isTryResume());
 		setParameter(new JobParameter("RefererURL", pParent.getUrl()));
 	}
 
@@ -530,6 +511,19 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 		mSavePath = pSavePath;
 	}
 
+	public boolean isTryResume() {
+		return mTryResume;
+	}
+
+	/**
+	 * Set if this job should try to resume partial downloaded files.
+	 * Default is true.
+	 * @param pTryResume
+	 */
+	public void setTryResume(boolean pTryResume) {
+		mTryResume = pTryResume;
+	}	
+	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.download.impl.DownloadJob#getDataRetriever()
 	 */
@@ -608,5 +602,6 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			throw new RuntimeException(e);
 		}
 	}
+
 	
 }

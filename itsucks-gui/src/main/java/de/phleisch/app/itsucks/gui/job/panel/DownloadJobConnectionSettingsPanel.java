@@ -106,7 +106,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 			}
 		}
 		
-		
+		this.resumeFilesCheckBox.setSelected(job.isTryResume());
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
@@ -176,6 +176,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 		for (Job job : pJobPackage.getJobs()) {
 			UrlDownloadJob downloadJob = (UrlDownloadJob) job;
 			downloadJob.setMaxRetryCount(maxRetryCount);
+			downloadJob.setTryResume(this.resumeFilesCheckBox.isSelected());
 		}
 
 		pJobPackage
@@ -257,6 +258,8 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
         bandwidthLimitTextField = new javax.swing.JTextField();
         bandwidthLimitComboBox = new javax.swing.JComboBox();
         enableBandwidthLimitCheckBox = new javax.swing.JCheckBox();
+        fileDownloadPanel = new javax.swing.JPanel();
+        resumeFilesCheckBox = new javax.swing.JCheckBox();
 
         connectionSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Connection Settings"));
 
@@ -266,13 +269,13 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 
         maxConnectionsTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        maxRetriesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         maxRetriesLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         maxRetriesLabel.setText("Max. retries before giving up:");
 
         maxRetriesTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        sendReferralCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        sendReferralCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         sendReferralCheckBox.setText("Send referral");
 
         javax.swing.GroupLayout connectionSettingsPanelLayout = new javax.swing.GroupLayout(connectionSettingsPanel);
@@ -415,7 +418,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
 
         userAgentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User Agent"));
 
-        userAgentCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        userAgentCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         userAgentCheckBox.setText("Override User Agent");
         userAgentCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -504,35 +507,60 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        fileDownloadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Download"));
+
+        resumeFilesCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        resumeFilesCheckBox.setText("Resume partial downloaded files");
+        resumeFilesCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                resumeFilesCheckBoxStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fileDownloadPanelLayout = new javax.swing.GroupLayout(fileDownloadPanel);
+        fileDownloadPanel.setLayout(fileDownloadPanelLayout);
+        fileDownloadPanelLayout.setHorizontalGroup(
+            fileDownloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileDownloadPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(resumeFilesCheckBox)
+                .addContainerGap())
+        );
+        fileDownloadPanelLayout.setVerticalGroup(
+            fileDownloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileDownloadPanelLayout.createSequentialGroup()
+                .addComponent(resumeFilesCheckBox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 475, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(bandwidthLimitPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userAgentPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(connectionSettingsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(proxySettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bandwidthLimitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userAgentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connectionSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(proxySettingsPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fileDownloadPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(connectionSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(proxySettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(userAgentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(bandwidthLimitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(connectionSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(proxySettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userAgentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bandwidthLimitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fileDownloadPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -572,6 +600,10 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
         bandwidthLimitTextField.setEnabled(enabled);
         bandwidthLimitComboBox.setEnabled(enabled);
     }//GEN-LAST:event_enableBandwidthLimitCheckBoxStateChanged
+
+    private void resumeFilesCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_resumeFilesCheckBoxStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resumeFilesCheckBoxStateChanged
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -587,6 +619,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
     private javax.swing.JCheckBox enableAuthenticationCheckBox;
     private javax.swing.JCheckBox enableBandwidthLimitCheckBox;
     private javax.swing.JCheckBox enableProxyCheckBox;
+    private javax.swing.JPanel fileDownloadPanel;
     private javax.swing.JLabel maxConnectionsLabel;
     private javax.swing.JTextField maxConnectionsTextField;
     private javax.swing.JLabel maxRetriesLabel;
@@ -596,6 +629,7 @@ public class DownloadJobConnectionSettingsPanel extends JPanel implements EditJo
     private javax.swing.JLabel proxyServerLabel;
     private javax.swing.JTextField proxyServerTextField;
     private javax.swing.JPanel proxySettingsPanel;
+    private javax.swing.JCheckBox resumeFilesCheckBox;
     private javax.swing.JCheckBox sendReferralCheckBox;
     private javax.swing.JCheckBox userAgentCheckBox;
     private javax.swing.JLabel userAgentLabel;

@@ -104,6 +104,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		job.setPriority(pJob.getPriority());
 		job.setSavePath(pJob.getSavePath() != null ? new File(pJob.getSavePath()) : null);
 		job.setSaveToDisk(pJob.isSaveToDisk());
+		job.setTryResume(pJob.isTryResume());
 		job.setState(pJob.getState());
 		job.setUrl(new URL(pJob.getUrl()));
 		
@@ -359,6 +360,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		serializedJob.setIgnoreFilter(pJob.isIgnoreFilter());
 		serializedJob.setSaveToDisk(pJob.isSaveToDisk());
 		serializedJob.setSavePath(pJob.getSavePath().toString());
+		serializedJob.setTryResume(pJob.isTryResume());
 		
 		//download job specific fields
 		serializedJob.setUrl(pJob.getUrl().toExternalForm());

@@ -4,6 +4,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
@@ -57,7 +58,7 @@
                   <Component id="regExpFilterPane" min="0" pref="0" max="32767" attributes="2"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="editRegExpFilterPanel" pref="341" max="32767" attributes="0"/>
+              <Component id="editRegExpFilterPanel" pref="336" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -320,19 +321,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="editRegExpFilterMatchAssumeFinishedFileCheckBox" alignment="0" pref="229" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="editRegExpFilterMatchStatusChangeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="editRegExpFilterMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="editRegExpFilterMatchPrioChangeLabel" linkSize="7" min="-2" max="-2" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="editRegExpFilterMatchPrioChangeTextField" max="32767" attributes="0"/>
-                              </Group>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="editRegExpFilterMatchStatusChangeLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="editRegExpFilterMatchStatusChangeComboBox" min="-2" pref="128" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="editRegExpFilterMatchPrioChangeLabel" linkSize="7" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="editRegExpFilterMatchPrioChangeTextField" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -352,8 +350,6 @@
                           <Component id="editRegExpFilterMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="editRegExpFilterMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editRegExpFilterMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -394,22 +390,6 @@
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterMatchPrioChangeTextFieldFocusLost"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="editRegExpFilterMatchAssumeFinishedFileCheckBox">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Assume file is already downloaded completely when found on disk.&lt;/html&gt;"/>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                    <EmptyBorder bottom="0" left="0" right="0" top="0"/>
-                  </Border>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="editRegExpFilterNoMatchPanel">
@@ -427,18 +407,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="editRegExpFilterNoMatchAssumeFinishedFileCheckBox" alignment="0" pref="229" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="editRegExpFilterNoMatchPrioChangeLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="editRegExpFilterNoMatchStatusChangeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="editRegExpFilterNoMatchPrioChangeTextField" max="32767" attributes="1"/>
-                                  <Component id="editRegExpFilterNoMatchStatusChangeComboBox" alignment="0" min="-2" pref="128" max="-2" attributes="1"/>
-                              </Group>
-                          </Group>
+                          <Component id="editRegExpFilterNoMatchPrioChangeLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="editRegExpFilterNoMatchStatusChangeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="editRegExpFilterNoMatchPrioChangeTextField" max="32767" attributes="1"/>
+                          <Component id="editRegExpFilterNoMatchStatusChangeComboBox" alignment="0" min="-2" pref="128" max="-2" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -457,8 +432,6 @@
                           <Component id="editRegExpFilterNoMatchPrioChangeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="editRegExpFilterNoMatchPrioChangeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editRegExpFilterNoMatchAssumeFinishedFileCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -497,22 +470,6 @@
               </Properties>
               <Events>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="editRegExpFilterNoMatchPrioChangeTextFieldFocusLost"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="editRegExpFilterNoMatchAssumeFinishedFileCheckBox">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Assume file is already downloaded completely when found on disk.&lt;/html&gt;"/>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                    <EmptyBorder bottom="0" left="0" right="0" top="0"/>
-                  </Border>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

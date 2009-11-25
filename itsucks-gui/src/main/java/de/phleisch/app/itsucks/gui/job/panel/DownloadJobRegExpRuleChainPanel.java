@@ -19,8 +19,6 @@ import de.phleisch.app.itsucks.gui.common.EditRegularExpressionDialog;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.ExtendedListModel;
 import de.phleisch.app.itsucks.gui.util.SwingUtils;
-import de.phleisch.app.itsucks.job.JobParameter;
-import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 
 /**
@@ -193,12 +191,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 						.valueOf(matchAction.getPriorityChange()));
 			}
 
-			matchAction
-					.addJobParameter(new JobParameter(
-							UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-							Boolean
-									.valueOf(editRegExpFilterMatchAssumeFinishedFileCheckBox
-											.isSelected())));
 		}
 
 		//no match Action
@@ -218,12 +210,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 						.valueOf(noMatchAction.getPriorityChange()));
 			}
 
-			noMatchAction
-					.addJobParameter(new JobParameter(
-							UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE,
-							Boolean
-									.valueOf(editRegExpFilterNoMatchAssumeFinishedFileCheckBox
-											.isSelected())));
 		}
 
 		//notify list
@@ -263,13 +249,11 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
         editRegExpFilterMatchStatusChangeComboBox = new javax.swing.JComboBox();
         editRegExpFilterMatchPrioChangeLabel = new javax.swing.JLabel();
         editRegExpFilterMatchPrioChangeTextField = new javax.swing.JTextField();
-        editRegExpFilterMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
         editRegExpFilterNoMatchPanel = new javax.swing.JPanel();
         editRegExpFilterNoMatchStatusChangeLabel = new javax.swing.JLabel();
         editRegExpFilterNoMatchStatusChangeComboBox = new javax.swing.JComboBox();
         editRegExpFilterNoMatchPrioChangeLabel = new javax.swing.JLabel();
         editRegExpFilterNoMatchPrioChangeTextField = new javax.swing.JTextField();
-        editRegExpFilterNoMatchAssumeFinishedFileCheckBox = new javax.swing.JCheckBox();
 
         regExpFilterChainLabel.setText("Regular Expression Chain");
 
@@ -390,32 +374,21 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
             }
         });
 
-        editRegExpFilterMatchAssumeFinishedFileCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        editRegExpFilterMatchAssumeFinishedFileCheckBox.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-        editRegExpFilterMatchAssumeFinishedFileCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        editRegExpFilterMatchAssumeFinishedFileCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout editRegExpFilterMatchPanelLayout = new org.jdesktop.layout.GroupLayout(editRegExpFilterMatchPanel);
         editRegExpFilterMatchPanel.setLayout(editRegExpFilterMatchPanelLayout);
         editRegExpFilterMatchPanelLayout.setHorizontalGroup(
             editRegExpFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(editRegExpFilterMatchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(editRegExpFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(editRegExpFilterMatchAssumeFinishedFileCheckBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                    .add(editRegExpFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, editRegExpFilterMatchPanelLayout.createSequentialGroup()
-                            .add(editRegExpFilterMatchStatusChangeLabel)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                            .add(editRegExpFilterMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, editRegExpFilterMatchPanelLayout.createSequentialGroup()
-                            .add(editRegExpFilterMatchPrioChangeLabel)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                            .add(editRegExpFilterMatchPrioChangeTextField))))
+                .add(editRegExpFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, editRegExpFilterMatchPanelLayout.createSequentialGroup()
+                        .add(editRegExpFilterMatchStatusChangeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editRegExpFilterMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, editRegExpFilterMatchPanelLayout.createSequentialGroup()
+                        .add(editRegExpFilterMatchPrioChangeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(editRegExpFilterMatchPrioChangeTextField)))
                 .addContainerGap())
         );
 
@@ -432,8 +405,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
                 .add(editRegExpFilterMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(editRegExpFilterMatchPrioChangeLabel)
                     .add(editRegExpFilterMatchPrioChangeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editRegExpFilterMatchAssumeFinishedFileCheckBox)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -459,15 +430,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
             }
         });
 
-        editRegExpFilterNoMatchAssumeFinishedFileCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        editRegExpFilterNoMatchAssumeFinishedFileCheckBox.setText("<html>Assume file is already downloaded completely when found on disk.</html>");
-        editRegExpFilterNoMatchAssumeFinishedFileCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        editRegExpFilterNoMatchAssumeFinishedFileCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout editRegExpFilterNoMatchPanelLayout = new org.jdesktop.layout.GroupLayout(editRegExpFilterNoMatchPanel);
         editRegExpFilterNoMatchPanel.setLayout(editRegExpFilterNoMatchPanelLayout);
         editRegExpFilterNoMatchPanelLayout.setHorizontalGroup(
@@ -475,15 +437,12 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
             .add(editRegExpFilterNoMatchPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(editRegExpFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(editRegExpFilterNoMatchAssumeFinishedFileCheckBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                    .add(editRegExpFilterNoMatchPanelLayout.createSequentialGroup()
-                        .add(editRegExpFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(editRegExpFilterNoMatchPrioChangeLabel)
-                            .add(editRegExpFilterNoMatchStatusChangeLabel))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(editRegExpFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(editRegExpFilterNoMatchPrioChangeTextField)
-                            .add(editRegExpFilterNoMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                    .add(editRegExpFilterNoMatchPrioChangeLabel)
+                    .add(editRegExpFilterNoMatchStatusChangeLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editRegExpFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(editRegExpFilterNoMatchPrioChangeTextField)
+                    .add(editRegExpFilterNoMatchStatusChangeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         editRegExpFilterNoMatchPanelLayout.setVerticalGroup(
@@ -497,8 +456,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
                 .add(editRegExpFilterNoMatchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(editRegExpFilterNoMatchPrioChangeLabel)
                     .add(editRegExpFilterNoMatchPrioChangeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editRegExpFilterNoMatchAssumeFinishedFileCheckBox)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -595,7 +552,7 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
                         .add(regExpFilterMoveDownButton))
                     .add(regExpFilterPane, 0, 0, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editRegExpFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                .add(editRegExpFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -625,14 +582,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 		}
 	}//GEN-LAST:event_editRegExpFilterOpenRegExpEditorButtonActionPerformed
 
-	//GEN-FIRST:event_editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
-	private void editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed(
-			java.awt.event.ActionEvent evt) {
-
-		updateAdvancedFilter();
-
-	}//GEN-LAST:event_editRegExpFilterNoMatchAssumeFinishedFileCheckBoxActionPerformed
-
 	//GEN-FIRST:event_editRegExpFilterNoMatchPrioChangeTextFieldFocusLost
 	private void editRegExpFilterNoMatchPrioChangeTextFieldFocusLost(
 			java.awt.event.FocusEvent evt) {
@@ -648,14 +597,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 		updateAdvancedFilter();
 
 	}//GEN-LAST:event_editRegExpFilterNoMatchStatusChangeComboBoxActionPerformed
-
-	//GEN-FIRST:event_editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed
-	private void editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed(
-			java.awt.event.ActionEvent evt) {
-
-		updateAdvancedFilter();
-
-	}//GEN-LAST:event_editRegExpFilterMatchAssumeFinishedFileCheckBoxActionPerformed
 
 	//GEN-FIRST:event_editRegExpFilterMatchPrioChangeTextFieldFocusLost
 	private void editRegExpFilterMatchPrioChangeTextFieldFocusLost(
@@ -739,12 +680,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 				editRegExpFilterMatchPrioChangeTextField.setText(String
 						.valueOf(matchAction.getPriorityChange()));
 
-				JobParameter assumeCompleteMatchParameter = matchAction
-						.getJobParameter(UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
-				editRegExpFilterMatchAssumeFinishedFileCheckBox
-						.setSelected(assumeCompleteMatchParameter != null
-								&& assumeCompleteMatchParameter.getValue()
-										.equals(Boolean.TRUE));
 			}
 
 			//no match action
@@ -765,12 +700,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 				editRegExpFilterNoMatchPrioChangeTextField.setText(String
 						.valueOf(noMatchAction.getPriorityChange()));
 
-				JobParameter assumeCompleteNoMatchParameter = noMatchAction
-						.getJobParameter(UrlDownloadJob.JOB_PARAMETER_SKIP_DOWNLOADED_FILE);
-				editRegExpFilterNoMatchAssumeFinishedFileCheckBox
-						.setSelected(assumeCompleteNoMatchParameter != null
-								&& assumeCompleteNoMatchParameter.getValue()
-										.equals(Boolean.TRUE));
 			}
 
 			mRuleInEditMode = rule;
@@ -787,12 +716,9 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
 
 			editRegExpFilterMatchStatusChangeComboBox.setSelectedIndex(0);
 			editRegExpFilterMatchPrioChangeTextField.setText(null);
-			editRegExpFilterMatchAssumeFinishedFileCheckBox.setSelected(false);
 
 			editRegExpFilterNoMatchStatusChangeComboBox.setSelectedIndex(0);
 			editRegExpFilterNoMatchPrioChangeTextField.setText(null);
-			editRegExpFilterNoMatchAssumeFinishedFileCheckBox
-					.setSelected(false);
 
 		}
 
@@ -862,7 +788,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
     protected javax.swing.JLabel editRegExpFilterDescriptionLabel;
     protected javax.swing.JScrollPane editRegExpFilterDescriptionPane;
     protected javax.swing.JTextArea editRegExpFilterDescriptionTextArea;
-    protected javax.swing.JCheckBox editRegExpFilterMatchAssumeFinishedFileCheckBox;
     protected javax.swing.JPanel editRegExpFilterMatchPanel;
     protected javax.swing.JLabel editRegExpFilterMatchPrioChangeLabel;
     protected javax.swing.JTextField editRegExpFilterMatchPrioChangeTextField;
@@ -870,7 +795,6 @@ public class DownloadJobRegExpRuleChainPanel extends JPanel implements EditJobCa
     protected javax.swing.JLabel editRegExpFilterMatchStatusChangeLabel;
     protected javax.swing.JTextField editRegExpFilterNameField;
     protected javax.swing.JLabel editRegExpFilterNameLabel;
-    protected javax.swing.JCheckBox editRegExpFilterNoMatchAssumeFinishedFileCheckBox;
     protected javax.swing.JPanel editRegExpFilterNoMatchPanel;
     protected javax.swing.JLabel editRegExpFilterNoMatchPrioChangeLabel;
     protected javax.swing.JTextField editRegExpFilterNoMatchPrioChangeTextField;

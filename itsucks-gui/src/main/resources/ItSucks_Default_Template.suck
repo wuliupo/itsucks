@@ -13,6 +13,7 @@
         <minTimeBetweenRetry>5000</minTimeBetweenRetry>
         <saveToDisk>true</saveToDisk>
         <savePath></savePath>
+        <tryResume>true</tryResume>
     </serializedDownloadJob>
     <serializedDownloadJobFilter>
         <maxRecursionDepth>-1</maxRecursionDepth>
