@@ -311,13 +311,19 @@ public class UrlDownloadJob extends AbstractJob implements DownloadJob, Cloneabl
 			}
 		}
 		
-		
 		try {
 			dataProcessorChain.init();
 			dataProcessorChain.run();
 			
 		} catch(IOException ioex) {
-			throw ioex;
+			
+			if(mAbort) {
+				mLog.info("Download was aborted");
+				mLog.debug("Aborting exception", ioex);
+			} else {
+				throw ioex;	
+			}
+			
 		} catch(AbortProcessingException ex) {
 			mLog.info("Chain was aborted.");
 		} catch(ProcessingException ex) {
