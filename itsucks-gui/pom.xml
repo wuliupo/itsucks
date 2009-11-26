@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>itsucks</groupId>
 		<artifactId>itsucks-parent</artifactId>
-		<version>0.3.2</version>
+		<version>0.4.0</version>
 		<relativePath>../itsucks-parent</relativePath>
 	</parent>
 
