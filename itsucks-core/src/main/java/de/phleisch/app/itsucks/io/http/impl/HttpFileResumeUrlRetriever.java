@@ -15,7 +15,6 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.ResumeUrlDataRetriever;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.io.http.HttpResponseCodes;
@@ -68,7 +67,6 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 			throw new IllegalStateException("The wrapped data retriever is already connected and resuming.");
 		}
 		
-		
 		if(!mLocalFile.exists() || mLocalFile.length() == 0) {
 			mLog.debug("local file is not usable, do an normal download");
 			doDelgateDownload();
@@ -81,13 +79,22 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 			if(mWrappedUrlDataRetriever.isConnected()) {
 				long contentLenght = mWrappedUrlDataRetriever.getContentLenght();
 				
-				if(bytesOnDisk == contentLenght) {
+				if(contentLenght < 1) {
+					mLog.debug("Content length not given, do normal download");
+					doDelgateDownload();
+				} else if(getMetadata().getContentType().startsWith("text")) {
+					mLog.debug("File is of type text, not resumed.");
+					doDelgateDownload();
+				} else if(bytesOnDisk == contentLenght) {
 					//file is completely on disk, only read the file
 					mLog.debug("File is completely on disk, " + bytesOnDisk + " bytes");
 					doReadOnlyFile(bytesOnDisk);
 				} else if(bytesOnDisk > contentLenght) {
 					//uhoh, do normal download, something isn't ok here
 					mLog.debug("File on disk is larger than servers, bytes on disk: " + bytesOnDisk + ", bytes on server: " + contentLenght + ", drop data on disk and redownload file."); 
+					doDelgateDownload();
+				} else if(contentLenght < 65535) {
+					mLog.debug("Server file is too small < 65k, do normal download");
 					doDelgateDownload();
 				} else if(bytesOnDisk < contentLenght) {
 					//do normal resume, local file is smaller than the server one
@@ -110,7 +117,7 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 		mWrappedUrlDataRetriever.setBytesToSkip(bytesOnDisk);
 		mWrappedUrlDataRetriever.connect();
 		
-		int statusCode = ((HttpMetadata)mWrappedUrlDataRetriever.getMetadata()).getStatusCode();
+		int statusCode = getMetadata().getStatusCode();
 		if(statusCode == HttpResponseCodes.PARTIAL_CONTENT_206) {
 			//resume was successful
 			mLog.debug("Resume successful, " + bytesOnDisk + " bytes skipped");
@@ -230,15 +237,8 @@ public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements R
 	}
 
 	@Override
-	public Metadata getMetadata() {
-		return mWrappedUrlDataRetriever.getMetadata();
-	}
-
-	
-	private void assertConnected() {
-		if(mOperatingState == OperatingState.NOT_CONNECTED) {
-			throw new IllegalStateException("Not connected");
-		}
+	public HttpMetadata getMetadata() {
+		return (HttpMetadata) mWrappedUrlDataRetriever.getMetadata();
 	}
 
 	@Override
