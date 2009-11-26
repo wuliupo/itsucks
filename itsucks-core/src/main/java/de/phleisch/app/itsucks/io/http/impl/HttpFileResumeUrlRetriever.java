@@ -22,6 +22,14 @@ import de.phleisch.app.itsucks.io.impl.FileRetriever;
 import de.phleisch.app.itsucks.io.impl.FilterDataRetriever;
 import de.phleisch.app.itsucks.io.impl.SequenceRetriever;
 
+/**
+ * This retriever is used to resume partial downloaded files. It creates an
+ * additional retriever, the file retriever, and combine it with the original
+ * data retriever. It can send the complete data through the processing chain
+ * without receiving it completly from the data retriever.
+ * 
+ * @author olli
+ */
 public class HttpFileResumeUrlRetriever extends FilterDataRetriever implements ResumeUrlDataRetriever {
 
 	private static Log mLog = LogFactory.getLog(HttpFileResumeUrlRetriever.class);
