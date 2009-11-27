@@ -35,8 +35,8 @@
   <div class="body">
     <div class="sidebar">
       <ul>
-        <li><a class="down" href="http://sourceforge.net/project/showfiles.php?group_id=186141"><img style=
-        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.3.1</a></li>
+        <li><a class="down" href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download"><img style=
+        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.4.0</a></li>
       </ul>
 
       <div>

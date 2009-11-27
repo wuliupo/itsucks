@@ -52,7 +52,7 @@ include_once('include/header.php.inc');
         	    &lt;dependency&gt;<br>
 			      &lt;groupId&gt;itsucks&lt;/groupId&gt;<br>
       			  &lt;artifactId&gt;itsucks-core&lt;/artifactId&gt;<br>
-			      &lt;version&gt;0.3.1&lt;/version&gt;<br>
+			      &lt;version&gt;0.4.0&lt;/version&gt;<br>
     			&lt;/dependency&gt;<br>
         	</div>
         </p>        

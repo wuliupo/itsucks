@@ -6,28 +6,24 @@ include_once('include/header.php.inc');
 
     <div class="main">
 
-
       <p class="text">
-        <h2>Version 0.3.2 is released</h2>
-        <div class='date'>2009-11-??</div>
+        <h2>Version 0.4.0 is released</h2>
+        <div class='date'>2009-11-26</div>
         <p>
-		This release contains support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)
-		Also a issue is fixed with parameters in redirects (403). (Thanks to Anonymous for reporting this, Bug 2680409)
-		
+		This release contains a complete rewrite of the resume logic. Resuming can be disabled over the GUI.<br>
+		New is also the support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)<br>
+		Also a issue is fixed with parameters in redirects (403). (Bug 2680409, thanks for the detailed bug report)
+		</p>
 		Other changes:
-		- Switched to JAXB 2.0
-		- Fixed Maven build
-		- Supports now only Java6 (due JAXB 2.0 integration)
-		- Refactoring HttpRetriever Interface
-		- Referer
-		- Bug 2680409
-		- Build source jars
-		
-		- Am besten html dateien nicht resumen!
-		
+		<ul>
+		<li>Switched to JAXB 2.0</li>
+		<li>Updated Maven configuration (2.2)</li>
+		<li>Refactoring HttpRetriever Interface</li>
+		<li>Build source jars</li>
+		</ul>		
 	</p>
 	<p>
-		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?group_id=186141&release_id=617192"> ChangeLog 0.3.2</a>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
 	</p>
       </p>
 
