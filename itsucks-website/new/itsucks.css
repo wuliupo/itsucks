@@ -1,0 +1,57 @@
+/* General styles */
+img {
+	border:none;
+}
+
+a { 
+	color: #0000ff;
+}
+a:visited { 
+	color: #0000ff;
+}
+
+body { 
+	min-width: 40em;
+	font-family: "Helvetica","Arial","sans-serif";
+}
+
+div#header {
+	border: 1px dashed;
+	clear: both;
+}
+
+div#content {
+}
+
+div#main {
+	margin: 0 12em 0 13em;
+	padding: 0 1em;
+	border: 1px dashed;
+}
+
+div#navigation {
+	float: left; width: 12em;
+	border: 1px dashed;
+}
+
+div#info1 {
+	font-size: 0.91em;
+	float: right; width: 12em;
+	border: 1px dashed;
+}
+
+div#info2 {
+	font-size: 0.91em;
+	clear: left;
+	float: left; width: 12em;
+	border: 1px dashed;
+}
+
+div#footer {
+	border: 1px dashed;
+	clear: both;
+}
+
+h3 {
+	color:#A43909;
+}
