@@ -26,9 +26,22 @@
 </head>
 
 <body>
+  <div id="page">
   <div id="header">
-    <div class="logo">
-      <img src="img/itsucks.png" alt="Logo" />
+    <div id="headerImage">
+      <img src="img/stormy.png" alt="Logo" />
+    </div>
+    <div id="downloadLatest">
+    <p>
+      Suck it NOW!<br/>
+      Version 0.4.0
+    </p>
+    </div>
+    
+    
+    <div id="headerText">
+      <p id="titleText">ItSucks</p>
+      <p id="titleText2">Welcome to the official homepage of ItSucks.</p>
     </div>
   </div>
 
