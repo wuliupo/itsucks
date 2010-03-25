@@ -14,17 +14,18 @@ body {
 	min-width: 40em;
 	font-family: "Helvetica","Arial","sans-serif";
 }
-
+/*
 div {
 	border: 1px dashed;
 }
 
 p {
 	border: 1px dotted;
-}
+}*/
 
 div#page { 
 	max-width: 63em;
+	min-height: 1150px;
 	margin-left: auto;
 	margin-right: auto;
 
@@ -56,15 +57,28 @@ div#downloadLatest {
 	margin-top: 3em;
 	float: right;
 	background-image: url("img/down2.png");
+	background-repeat: no-repeat;
 	width: 206px;
 	height: 122px;
 	text-align: center;
-	display: table-cell;
 }
 
-div#downloadLatest p {
+div#downloadLatest div {
+	color: #ffffff;
+	padding-top: 1.7em;
 	text-align: center;
-	vertical-align:middle;	
+}
+
+div#downloadLatest h1 {
+	color: #ffffff;
+	font-size: 1.6em;
+	margin: 0em;
+	text-align: center;
+}
+
+div#downloadLatest span {
+	font-size: 0.8em;
+	font-weight: bold;
 }
 
 div#headerText {
@@ -116,6 +130,7 @@ div#info2 {
 	font-size: 0.8em;
 	clear: left;
 	float: left; width: 12em;
+	margin-top: 2em;
 }
 
 div#footer {
@@ -132,6 +147,7 @@ h2 {
 
 h3 {
 	color:#A43909;
+	margin-bottom: 0em;
 }
 
 span.subHeader {

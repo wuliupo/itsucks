@@ -32,12 +32,11 @@
       <img src="img/stormy.png" alt="Logo" />
     </div>
     <div id="downloadLatest">
-    <p>
-      Suck it NOW!<br/>
-      Version 0.4.0
-    </p>
+    	<div id="downloadLatestText">
+      		<h1>Suck it NOW!</h1>
+      		<span>Version 0.4.0</span>
+    	</div>
     </div>
-    
     
     <div id="headerText">
       <p id="titleText">ItSucks</p>

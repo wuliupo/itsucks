@@ -23,8 +23,9 @@ include_once('include/header.php.inc');
 		<ul>
     </div>
     <div id="info2">
-    	Info2alsjdflajdlf laksdjf lasjdf lasjd flajsdf lasjdf laksf alskdfj asdlkfj asldfj<br/>
-    	Info2alsjdflajdlf laksdjf lasjdf lasjd flajsdf lasjdf laksf alskdfj asdlkfj asldfj  
+    	<h3>ItSucks system requirements:</h3>
+		Java JRE 1.6 or better.<br>
+		min. 256 MB RAM 
     </div>
     
     <div id="main">
