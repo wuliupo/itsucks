@@ -26,7 +26,12 @@
 </head>
 
 <body>
+
   <div id="page">
+  <div id="leftBorder">
+  <div id="rightBorder">
+  <div id="contentArea">
+  
   <div id="header">
     <div id="headerImage">
       <img src="img/stormy.png" alt="Logo" />

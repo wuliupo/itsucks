@@ -1,7 +1,7 @@
   </div>
   
   <div id="footer">
-    <div style="float: left;padding:5px 0px">
+    <div>
     <!--
       <a href="http://www.dreamcounter.de" target="_top"><img
       border="0" title="kostenloser Dreamcounter" alt="Counter"
@@ -12,6 +12,10 @@
     "http://sflogo.sourceforge.net/sflogo.php?group_id=186141&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
     -->         
     <span>Last edited November 27th, 2009<br />by Oliver Mihatsch</span>
+  </div>
+  
+  </div>
+  </div>
   </div>
   </div>
 </body>

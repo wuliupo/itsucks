@@ -13,6 +13,8 @@ a:visited {
 body { 
 	min-width: 40em;
 	font-family: "Helvetica","Arial","sans-serif";
+	margin: 0px;
+	padding: 0px;
 }
 /*
 div {
@@ -21,17 +23,30 @@ div {
 
 p {
 	border: 1px dotted;
-}*/
-
+}
+*/
 div#page { 
-	max-width: 63em;
-	min-height: 1150px;
 	margin-left: auto;
 	margin-right: auto;
+	max-width: 63em;
 
 	background-image: url("img/background.png");
 	background-position: center 10em;
 	background-repeat: no-repeat;
+}
+
+div#leftBorder {
+	background: url("img/left_border.png") 0 0 repeat-y;
+}
+
+div#rightBorder {
+	background: url("img/right_border.png") 100% 0 repeat-y;
+}
+
+div#contentArea { 
+	min-height: 1150px;
+	padding-left:10px; /* fuer den verlauf rechts und links */
+	padding-right:10px;
 }
 
 div#header {
@@ -100,6 +115,8 @@ p#titleText2 {
 }
 
 div#content {
+	margin-left: 1em;
+	margin-right: 1em;
 }
 
 div#main {
@@ -134,7 +151,10 @@ div#info2 {
 }
 
 div#footer {
+	margin-left: 1em;
+	margin-right: 1em;
 	clear: both;
+	font-size: 0.5em;
 }
 
 h1 {
