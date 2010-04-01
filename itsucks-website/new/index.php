@@ -31,7 +31,9 @@ include_once('include/header.php.inc');
     <div id="main">
         <h3>About ItSucks</h3>
         <p>This project is a java web spider (web crawler) with the ability to download (and resume) files. It is also highly customizable with regular expressions and download templates.</p>
-        <p>The application also provides a swing GUI and a console interface. All backend functionalities are also available in a separate library, they can be easily used for other projects.</p>
+        <p>The application also provides a swing GUI and a console interface. All backend functionalities are also available in a separate library, they can be easily used for other projects.
+        <br/><a class="small" href="about.php">[About]</a><a style="margin-left: 1.2em;" class="small" href="http://sourceforge.net/project/showfiles.php?group_id=186141.php">[Download]</a>
+        </p>
         
         <div class="recentNews">
           <p class="text">
@@ -53,6 +55,7 @@ include_once('include/header.php.inc');
 		<p>
 			Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
 		</p>
+		<a class="small" href="news.php">[previous releases]</a>
         </div>
     </div>
     

@@ -51,7 +51,7 @@ div#contentArea {
 
 div#header {
 	clear: both;
-	background-color: #c1c7ff;
+	background-color: #bad7fe;
 	background-image: url("img/blue_background2.png");
 	background-repeat: repeat-x;
 	background-position: top;
@@ -130,7 +130,28 @@ div#navigation {
 }
 
 div#navigation ul {
-	padding-left: 1.5em;
+	padding: 0em;
+	padding-top: 1.5em;
+	list-style: none;
+	margin: 0em; 
+}
+
+div#navigation li {
+	margin-top: 0.6em;
+}
+
+a.menu {
+	font-size: 1.1em;
+	color:#A43909;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.current {
+	font-size: 1.1em;
+	color:blue;
+	text-decoration: none;
+	font-weight: bold;
 }
 
 div#info1 {
@@ -174,3 +195,14 @@ span.subHeader {
 	color:#A43909;
 	font-weight: bold;
 }
+
+div.code {
+	font-family: monospace;
+	padding-left:1em;
+	border:1px solid #ddd;
+}
+
+.small {
+	font-size: 0.8em;
+}
+ 

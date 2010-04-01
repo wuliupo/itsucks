@@ -36,12 +36,14 @@
     <div id="headerImage">
       <img src="img/stormy.png" alt="Logo" />
     </div>
+    <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download">
     <div id="downloadLatest">
     	<div id="downloadLatestText">
       		<h1>Suck it NOW!</h1>
       		<span>Version 0.4.0</span>
     	</div>
     </div>
+    </a>
     
     <div id="headerText">
       <p id="titleText">ItSucks</p>
@@ -51,9 +53,6 @@
 
   <div id="content">
     <div id="navigation"> <!-- start navigation -->
-      <div>
-        <h3>Main</h3>
-      </div>
       <ul>
         <li><a class="<? selectMenuEntry('home'); ?>" href="index.php">Home</a></li>
         <li><a class="<? selectMenuEntry('news'); ?>" href="news.php">News</a></li>
@@ -63,17 +62,11 @@
         <li><a class="<? selectMenuEntry('downloads'); ?>" href="http://sourceforge.net/project/showfiles.php?group_id=186141">Download</a></li>
       </ul>
 
-      <div>
-        <h3>Documentation</h3>
-      </div>
       <ul>
       	<li><a class="<? selectMenuEntry('api'); ?>" href="apidocs/">Core API</a></li>
       	<li><a class="<? selectMenuEntry('examples'); ?>" href="examples.php">Examples</a></li>
       </ul>
 
-      <div>
-        <h3>Support</h3>
-      </div>
       <ul>
         <li><a class="menu" href="http://sourceforge.net/forum/?group_id=186141">Forums</a></li>
         <li><a class="menu" href="http://sourceforge.net/tracker/?atid=916088&amp;group_id=186141&amp;func=browse">Bug Reports</a></li>
