@@ -5,7 +5,6 @@ include_once('include/header.php.inc');
 ?>
 
     <div id="main">
-      <p class="text">
       
         <h2>Requirements to run ItSucks</h2>
           <ul>
@@ -126,7 +125,6 @@ include_once('include/header.php.inc');
           </li>
         </ul>
         
-      </p>    
     </div>
 <?
 include_once('include/footer.php.inc');

@@ -16,7 +16,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-/*
+/* debug
 div {
 	border: 1px dashed;
 }
@@ -121,7 +121,13 @@ div#content {
 
 div#main {
 	max-width: 30em;
-	margin: 0 14em 0 14em;
+	margin: 2em 14em 0 14em;
+	padding: 0 1em;
+}
+
+div#main2Column {
+	max-width: 59em;
+	margin: 2em 14em 0 14em;
 	padding: 0 1em;
 }
 
@@ -196,10 +202,15 @@ span.subHeader {
 	font-weight: bold;
 }
 
-div.code {
+p.code {
 	font-family: monospace;
 	padding-left:1em;
 	border:1px solid #ddd;
+}
+
+div.screenshot {
+	float: left;
+	margin: 0.5em;
 }
 
 .small {
