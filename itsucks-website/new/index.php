@@ -20,13 +20,13 @@ include_once('include/header.php.inc');
 			<li>Configurable behaviour for HTTP response codes</li>
 			<li>Bandwidth limitation</li>
 			<li>GZip compression</li>
-		<ul>
+		</ul>
     </div>
     <div id="info2">
     	<h3>ItSucks system requirements:</h3>
 		Java JRE 1.6 or better.<br>
 		min. 256 MB RAM 
-    </div>
+    </div>    
     
     <div id="main">
         <h3>About ItSucks</h3>

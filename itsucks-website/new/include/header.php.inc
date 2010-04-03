@@ -50,6 +50,11 @@
       <p id="titleText2">Welcome to the official homepage of ItSucks.</p>
     </div>
   </div>
+	<div id="headerShadow">
+		<div id="headerShadowLeft"></div>
+		<div id="headerShadowRight"></div>
+		<div id="headerShadowMiddle"></div>
+	</div>
 
   <div id="content">
     <div id="navigation"> <!-- start navigation -->

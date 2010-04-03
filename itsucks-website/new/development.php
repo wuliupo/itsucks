@@ -10,7 +10,7 @@ include_once('include/header.php.inc');
 	    
 	    <h3>Requirements</h3>
 	    <p>
-	    	To build and use ItSucks you need Java 1.6, Maven2 and an Subversion client.
+	    	To build and use the ItSucks library you need Java 1.6, Maven2 and an Subversion client.
 	    </p>
 	    
 	    <h3>Load ItSucks from SVN repository</h3>

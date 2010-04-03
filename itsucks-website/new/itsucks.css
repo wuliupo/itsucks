@@ -101,6 +101,35 @@ div#headerText {
 	padding-left: 14em;
 }
 
+div#headerShadow {
+	clear: both;
+	margin-bottom: -0.5em;
+}
+
+div#headerShadowLeft {
+	background-image: url("img/balken_links.png");
+	background-repeat: no-repeat;
+	width: 140px;
+	height: 36px;
+	float: left;
+}
+
+div#headerShadowMiddle {
+	background-image: url("img/balken_mitte.png");
+	background-repeat: repeat-x;
+	height: 36px;
+	margin-left: 140px;
+	margin-right: 140px;
+}
+
+div#headerShadowRight {
+	background-image: url("img/balken_rechts.png");
+	background-repeat: no-repeat;
+	width: 140px;
+	height: 36px;
+	float: right;
+}
+
 p#titleText {
 	font-size: 4em;
 	margin: 0em;
@@ -121,13 +150,13 @@ div#content {
 
 div#main {
 	max-width: 30em;
-	margin: 2em 14em 0 14em;
+	margin: 0em 14em 0 14em;
 	padding: 0 1em;
 }
 
 div#main2Column {
 	max-width: 59em;
-	margin: 2em 14em 0 14em;
+	margin: 2em 0em 0 14em;
 	padding: 0 1em;
 }
 
@@ -155,7 +184,7 @@ a.menu {
 
 a.current {
 	font-size: 1.1em;
-	color:blue;
+	color:#3f78ca;
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -178,9 +207,10 @@ div#info2 {
 }
 
 div#footer {
+	clear: both;
 	margin-left: 1em;
 	margin-right: 1em;
-	clear: both;
+	padding-top: 3em;
 	font-size: 0.5em;
 }
 
@@ -210,7 +240,7 @@ p.code {
 
 div.screenshot {
 	float: left;
-	margin: 0.5em;
+	margin: 0.4em;
 }
 
 .small {
