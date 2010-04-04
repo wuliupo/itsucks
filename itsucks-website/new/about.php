@@ -6,13 +6,14 @@ include_once('include/header.php.inc');
 
 
     <div id="info1">
-		<h3>Features</h3>
+    	<div class="small">
+		<span class="subHeader">Features</span>
 		<ul>
 			<li><a href="#f_1">General Features</a></li>
 			<li><a href="#f_2">HTTP Connection Features</a></li>
 		</ul>
 		
-		<h3>Rules</h3>
+		<span class="subHeader">Rules</span>
 		<ul>
 			<li><a href="#r_1">Simple rules</a></li>
 			<li><a href="#r_2">Special rules</a></li>
@@ -20,17 +21,17 @@ include_once('include/header.php.inc');
 			<li><a href="#r_4">Content filter</a></li>
 		</ul>
 		
-		<h3>Console</h3>
+		<span class="subHeader">Console</span>
 		<ul>
 			<li><a href="#c_1">Console</a></li>
 		</ul>
 		
-		<h3>Core library and API</h3>
+		<span class="subHeader">Core library and API</span>
 		<ul>
 			<li><a href="#l_1">General Features</a></li>
 			<li><a href="#l_2">Event Handling</a></li>
 		</ul>		
-		
+		</div>
     </div>
 
 

@@ -5,7 +5,8 @@ include_once('include/header.php.inc');
 ?>
 
     <div id="info1">
-		<h3>Features:</h3>
+    	<div class="small">
+		<span class="subHeader">Features:</span>
 		<ul>
 			<li>Multithreading</li>
 			<li>Regular Expressions</li>
@@ -21,6 +22,7 @@ include_once('include/header.php.inc');
 			<li>Bandwidth limitation</li>
 			<li>GZip compression</li>
 		</ul>
+		</div>
     </div>
     
     <div id="main">
