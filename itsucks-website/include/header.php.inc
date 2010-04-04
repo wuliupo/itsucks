@@ -36,7 +36,7 @@
     <div id="headerImage">
       <img src="img/stormy.png" alt="Logo" />
     </div>
-    <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download">
+    <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download" class="nodecoration">
     <div id="downloadLatest">
     	<div id="downloadLatestText">
       		<h1>Suck it NOW!</h1>
