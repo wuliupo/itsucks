@@ -26,22 +26,39 @@
 </head>
 
 <body>
-  <div class="header">
-    <div class="logo">
-      <img src="img/itsucks.png" alt="Logo" />
+
+  <div id="page">
+  <div id="leftBorder">
+  <div id="rightBorder">
+  <div id="contentArea">
+  
+  <div id="header">
+    <div id="headerImage">
+      <img src="img/stormy.png" alt="Logo" />
+    </div>
+    <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download">
+    <div id="downloadLatest">
+    	<div id="downloadLatestText">
+      		<h1>Suck it NOW!</h1>
+      		<span>Version 0.4.0</span>
+    	</div>
+    </div>
+    </a>
+    
+    <div id="headerText">
+      <p id="titleText">ItSucks</p>
+      <p id="titleText2">Welcome to the official homepage of ItSucks.</p>
     </div>
   </div>
+	<div id="headerShadow">
+		<div id="headerShadowLeft"></div>
+		<div id="headerShadowRight"></div>
+		<div id="headerShadowMiddle"></div>
+	</div>
 
-  <div class="body">
-    <div class="sidebar">
-      <ul>
-        <li><a class="down" href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-0.4.0.zip/download"><img style=
-        "float: left; padding-left: 1ex;" alt="down" src="img/down.png" /> Suck latest version 0.4.0</a></li>
-      </ul>
-
-      <div>
-        Main
-      </div>
+  <div id="content">
+  	<div id="leftColumn">
+    <div id="navigation"> <!-- start navigation -->
       <ul>
         <li><a class="<? selectMenuEntry('home'); ?>" href="index.php">Home</a></li>
         <li><a class="<? selectMenuEntry('news'); ?>" href="news.php">News</a></li>
@@ -51,20 +68,22 @@
         <li><a class="<? selectMenuEntry('downloads'); ?>" href="http://sourceforge.net/project/showfiles.php?group_id=186141">Download</a></li>
       </ul>
 
-      <div>
-        Documentation
-      </div>
       <ul>
       	<li><a class="<? selectMenuEntry('api'); ?>" href="apidocs/">Core API</a></li>
       	<li><a class="<? selectMenuEntry('examples'); ?>" href="examples.php">Examples</a></li>
       </ul>
 
-      <div>
-        Support
-      </div>
       <ul>
         <li><a class="menu" href="http://sourceforge.net/forum/?group_id=186141">Forums</a></li>
         <li><a class="menu" href="http://sourceforge.net/tracker/?atid=916088&amp;group_id=186141&amp;func=browse">Bug Reports</a></li>
         <li><a class="menu" href="http://sourceforge.net/tracker/?atid=916091&amp;group_id=186141&amp;func=browse">Feature Requests</a></li>
       </ul>
+    </div> <!-- end navigation -->
+
+    <div id="info2">
+    	<h3>ItSucks system requirements:</h3>
+		Java JRE 1.6 or better.<br/>
+		min. 256 MB RAM 
     </div>
+    </div> 
+    

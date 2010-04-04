@@ -4,8 +4,7 @@ $selected_menu_entry = 'examples';
 include_once('include/header.php.inc');
 ?>
 
-    <div class="main">
-      <p class="text">
+    <div id="main">
       
         <h2>Download Examples</h2>
         
@@ -16,7 +15,6 @@ include_once('include/header.php.inc');
         <small>(Right click and select 'save as' to download)</small></p>
         
         
-      </p>    
     </div>
 <?
 include_once('include/footer.php.inc');

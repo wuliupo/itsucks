@@ -4,18 +4,42 @@ $selected_menu_entry = 'about';
 include_once('include/header.php.inc');
 ?>
 
-    <div class="main">
-      <p class="text">
-      
-        <h2>Requirements to run ItSucks</h2>
-          <ul>
-          <li>Java JRE 1.6 or better. 
-          You can get it at <a href="http://java.sun.com">http://java.sun.com</a>.</li>
-          <li>min. 256 MB RAM (the more the better, java craves for memory)</li>
-        </ul>
+
+    <div id="info1">
+    	<div class="small">
+		<span class="subHeader">Features</span>
+		<ul>
+			<li><a href="#f_1">General Features</a></li>
+			<li><a href="#f_2">HTTP Connection Features</a></li>
+		</ul>
+		
+		<span class="subHeader">Rules</span>
+		<ul>
+			<li><a href="#r_1">Simple rules</a></li>
+			<li><a href="#r_2">Special rules</a></li>
+			<li><a href="#r_3">Advanced Regular Expression Rules</a></li>
+			<li><a href="#r_4">Content filter</a></li>
+		</ul>
+		
+		<span class="subHeader">Console</span>
+		<ul>
+			<li><a href="#c_1">Console</a></li>
+		</ul>
+		
+		<span class="subHeader">Core library and API</span>
+		<ul>
+			<li><a href="#l_1">General Features</a></li>
+			<li><a href="#l_2">Event Handling</a></li>
+		</ul>		
+		</div>
+    </div>
+
+
+    <div id="main">
       
         <h2>Features</h2>
-
+		
+		<a name="f_1" ></a>
         <h3>General Features</h3>
         <ul>
           <li>Multithreaded, configurable count of working threads</li>
@@ -24,6 +48,7 @@ include_once('include/header.php.inc');
           <li>Online Help</li>
         </ul>
         
+        <a name="f_2" ></a>
         <h3>HTTP Connection Features</h3>
         <ul>
           <li>HTTP/HTTPS supported</li>
@@ -43,6 +68,7 @@ include_once('include/header.php.inc');
           ItSucks offers a large variety of filters which can be used to isolate a specific
           part of an website.  
         </p>
+        <a name="r_1" ></a>
         <h3>Simple rules:</h3>
         <ul>
           <li>Limitation of link depth<br>
@@ -57,12 +83,14 @@ include_once('include/header.php.inc');
           Example: Define '.*jpg|.*png' to save only files which ends with 'jpg' or 'png'.</li>
         </ul>
         
+        <a name="r_2" ></a>
         <h3>Special rules:</h3>
         <ul>
           <li>File Size filter<br>
           Example: Only save files on disk which are larger than 100kb.</li>
         </ul>
 
+		<a name="r_3" ></a>
         <h3>Advanced Regular Expression Rules:</h3>
         <ul>
           <li>A highly customizable filter chain can hold multiple regular expressions. 
@@ -72,23 +100,26 @@ include_once('include/header.php.inc');
           follow the URL (Accept), do not follow the URL (Reject), change the priority of the URL</li>
         </ul>
 
+		<a name="r_4" ></a>
         <h3>Content filter:</h3>
         <ul>
           <li>Content filter for text/html files (regular expression)<br>
           Example: Only download link if the content contains 'New mail.*arrived'.</li>
         </ul>
       
+      	<a name="c_1" ></a>
         <h2>Console</h2>
         <ul>
           <li>Start your download templates on the console after creating it with the GUI.</li>
         </ul>         
-      
+
         <h2>Core library and API</h2>
         <p>
         	ItSucks is splitted into an backend (core) and frontend part. The backend can be used to implement
         	own web crawler/spider. License is GPL.
         </p>
-        
+
+		<a name="l_1" ></a>        
         <h3>General Features</h3>
         <ul>
           <li>Designed to support multiple protocols. At this time only http/https is implemented.</li>
@@ -99,13 +130,14 @@ include_once('include/header.php.inc');
           <li>Fully programmed with Java 1.5 features (generics etc.).</li>
         </ul>
         
+        <a name="l_2" ></a>
         <h3>Event Handling</h3>
         <ul>
           <li>Support to observe every event fired by the framework.</li>
           <li>Possibility to filter events by category and type.</li>
         </ul>
   
-        <h2>External libraries/tools used</h2>
+        <h2>External libraries/tools used in development</h2>
         <ul>
           <li><a href="http://www.springframework.org/">Spring Application Framework</a></li>
           <li><a href="http://maven.apache.org/">Maven2</a></li>
@@ -126,7 +158,6 @@ include_once('include/header.php.inc');
           </li>
         </ul>
         
-      </p>    
     </div>
 <?
 include_once('include/footer.php.inc');
