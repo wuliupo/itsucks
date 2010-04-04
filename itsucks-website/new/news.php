@@ -21,7 +21,6 @@ include_once('include/header.php.inc');
 		<li>Refactoring HttpRetriever Interface</li>
 		<li>Build source jars</li>
 		</ul>		
-	</p>
 	<p>
 		Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
 	</p>

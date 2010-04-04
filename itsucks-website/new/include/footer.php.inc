@@ -5,7 +5,7 @@
     
       <a href="http://www.dreamcounter.de" target="_top"><img
       border="0" title="kostenloser Dreamcounter" alt="Counter"
-      src="http://dreamcounter.de/dc11816.gif"></a>
+      src="http://dreamcounter.de/dc11816.gif"/></a>
      
     </div>
     <a style="float: right;" href="http://sourceforge.net"><img src=
