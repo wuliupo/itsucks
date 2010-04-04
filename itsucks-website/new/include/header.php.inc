@@ -57,6 +57,7 @@
 	</div>
 
   <div id="content">
+  	<div id="leftColumn">
     <div id="navigation"> <!-- start navigation -->
       <ul>
         <li><a class="<? selectMenuEntry('home'); ?>" href="index.php">Home</a></li>
@@ -78,3 +79,11 @@
         <li><a class="menu" href="http://sourceforge.net/tracker/?atid=916091&amp;group_id=186141&amp;func=browse">Feature Requests</a></li>
       </ul>
     </div> <!-- end navigation -->
+
+    <div id="info2">
+    	<h3>ItSucks system requirements:</h3>
+		Java JRE 1.6 or better.<br>
+		min. 256 MB RAM 
+    </div>
+    </div> 
+    

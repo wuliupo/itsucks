@@ -23,8 +23,8 @@ div {
 
 p {
 	border: 1px dotted;
-}
-*/
+}*/
+
 div#page { 
 	margin-left: auto;
 	margin-right: auto;
@@ -103,7 +103,6 @@ div#headerText {
 
 div#headerShadow {
 	clear: both;
-	margin-bottom: -0.5em;
 }
 
 div#headerShadowLeft {
@@ -150,18 +149,23 @@ div#content {
 
 div#main {
 	max-width: 30em;
-	margin: 0em 14em 0 14em;
+	margin: 1.5em 14em 0 14em;
 	padding: 0 1em;
 }
 
 div#main2Column {
 	max-width: 59em;
-	margin: 2em 0em 0 14em;
+	margin: 1.5em 0em 0 14em;
 	padding: 0 1em;
 }
 
+div#leftColumn {
+	padding-top: 1.5em;
+	float: left; 
+}
+
 div#navigation {
-	float: left; width: 10em;
+	width: 10em;
 }
 
 div#navigation ul {
@@ -201,8 +205,10 @@ div#info1 ul {
 
 div#info2 {
 	font-size: 0.8em;
-	clear: left;
-	float: left; width: 12em;
+/*	clear: left;
+	float: left;*/ 
+	
+	width: 12em;
 	margin-top: 2em;
 }
 

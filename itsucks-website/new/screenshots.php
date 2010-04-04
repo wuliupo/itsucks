@@ -5,7 +5,6 @@ include_once('include/header.php.inc');
 ?>
 
     <div id="main2Column">
-  
        <div class="screenshot">
          <h3>Add download</h3>
          <a href="img/main-0.3.0-pre7.png">
@@ -61,7 +60,6 @@ include_once('include/header.php.inc');
             <img src="img/thmb_help-0.3.0-pre7.png"/>
          </a>
        </div>    
-    
     </div>
     
 <?
