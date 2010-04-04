@@ -32,28 +32,28 @@ include_once('include/header.php.inc');
         <br/><a class="small" href="about.php">[About]</a><a style="margin-left: 1.2em;" class="small" href="http://sourceforge.net/project/showfiles.php?group_id=186141.php">[Download]</a>
         </p>
         
-        <div class="recentNews">
-          <p class="text">
-	        <h3 style="margin-bottom: 0;">Version 0.4.0 is released</h3>
-	        <span class="subHeader">2009-11-26</span>
-	        <p>
-			This release contains a complete rewrite of the resume logic. Resuming can be disabled over the GUI.<br>
-			New is also the support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)<br>
-			Also a issue is fixed with parameters in redirects (403). (Bug 2680409, thanks for the detailed bug report)
-			</p>
-			Other changes:
-			<ul>
-			<li>Switched to JAXB 2.0</li>
-			<li>Updated Maven configuration (2.2)</li>
-			<li>Refactoring HttpRetriever Interface</li>
-			<li>Build source jars</li>
-			</ul>		
+    <div class="news">
+        <h3>Version 0.4.0 is released</h3>
+        <span class="subHeader">2009-11-26</span>
+        <p>
+		This release contains a complete rewrite of the resume logic. Resuming can be disabled over the GUI.<br/>
+		New is also the support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)<br/>
+		Also a issue is fixed with parameters in redirects (403). (Bug 2680409, thanks for the detailed bug report)
 		</p>
-		<p>
-			Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
-		</p>
+		Other changes:
+		<ul>
+		<li>Switched to JAXB 2.0</li>
+		<li>Updated Maven configuration (2.2)</li>
+		<li>Refactoring HttpRetriever Interface</li>
+		<li>Build source jars</li>
+		</ul>		
+	</p>
+	<p>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
+	</p>
+	</div>
+        
 		<a class="small" href="news.php">[previous releases]</a>
-        </div>
     </div>
     
 <?

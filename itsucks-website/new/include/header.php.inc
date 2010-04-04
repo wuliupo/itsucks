@@ -82,7 +82,7 @@
 
     <div id="info2">
     	<h3>ItSucks system requirements:</h3>
-		Java JRE 1.6 or better.<br>
+		Java JRE 1.6 or better.<br/>
 		min. 256 MB RAM 
     </div>
     </div> 

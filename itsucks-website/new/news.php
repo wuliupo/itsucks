@@ -10,8 +10,8 @@ include_once('include/header.php.inc');
         <h3>Version 0.4.0 is released</h3>
         <span class="subHeader">2009-11-26</span>
         <p>
-		This release contains a complete rewrite of the resume logic. Resuming can be disabled over the GUI.<br>
-		New is also the support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)<br>
+		This release contains a complete rewrite of the resume logic. Resuming can be disabled over the GUI.<br/>
+		New is also the support for referrals. Many sites use them to ensure you are not using deeplinks. (They can be disabled over the GUI though.)<br/>
 		Also a issue is fixed with parameters in redirects (403). (Bug 2680409, thanks for the detailed bug report)
 		</p>
 		Other changes:
@@ -47,8 +47,8 @@ include_once('include/header.php.inc');
         <h3>Version 0.3.0 is released</h3>
         <span class="subHeader">2008-08-01</span>
         <p>
-		This release is finally a stable one. :-)<br>
-		It includes major memory usage improvements both in GUI and Console mode.<br>
+		This release is finally a stable one. :-)<br/>
+		It includes major memory usage improvements both in GUI and Console mode.<br/>
 		Console mode now use less memory than the GUI mode.
 		</p>
 		<p>
