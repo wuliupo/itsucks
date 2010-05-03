@@ -138,6 +138,7 @@ p#titleText {
 	font-size: 4em;
 	margin: 0em;
 	margin-bottom: -0.2em;
+	margin-left: -0.07em;
 }
 
 p#titleText2 {
@@ -154,13 +155,13 @@ div#content {
 
 div#main {
 	max-width: 30em;
-	margin: 0em 14em 0em 14em;
+	margin: 0em 12em 0em 12em;
 	padding: 0 1em;
 }
 
 div#main2Column {
 	max-width: 59em;
-	margin: 0em 0em 0 14em;
+	margin: 0em 0em 0 12em;
 	padding: 0 1em;
 }
 
@@ -248,8 +249,8 @@ p.code {
 
 div.screenshot {
 	float: left;
-	margin-left: 0.4em;
-	margin-right: 0.4em;
+	margin-left: 0.0em;
+	margin-right: 0.8em;
 	margin-top: 0em;
 	margin-bottom: 0.4em;
 }
