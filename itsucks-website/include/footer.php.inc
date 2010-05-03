@@ -1,7 +1,8 @@
   </div>
   
   <div id="footer">
-    <div>
+  	<div id="footerBackground">
+    <div id="counter" style="float: left;">
     
       <a href="http://www.dreamcounter.de" target="_top"><img
       border="0" title="kostenloser Dreamcounter" alt="Counter"
@@ -9,17 +10,20 @@
      
     </div>
     <a style="float: right;" href="http://sourceforge.net"><img src=
-    "http://sflogo.sourceforge.net/sflogo.php?group_id=186141&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
+    "http://sflogo.sourceforge.net/sflogo.php?group_id=1861410000&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
     
     <div class="footerText">
-    	Last edited April 04th, 2010<br />by Oliver Mihatsch<br/>
+    	Last edited April 04th, 2010 by Oliver Mihatsch,
     	Design by <a href="http://pierini.de">Anna Pierini</a>
     </div>
+    <div>
   </div>
   
-  </div>
-  </div>
-  </div>
-  </div>
+  </div> <!-- content Area -->
+  </div> <!-- right border --> 
+  </div> <!-- left border -->
+  
+  
+  </div> <!-- page -->
 </body>
 </html>

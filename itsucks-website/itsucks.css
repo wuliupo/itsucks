@@ -48,7 +48,7 @@ div#rightBorder {
 }
 
 div#contentArea { 
-	min-height: 1150px;
+	/*min-height: 1150px;*/
 	padding-left:10px; /* fuer den verlauf rechts und links */
 	padding-right:10px;
 }
@@ -214,13 +214,33 @@ div#info2 {
 
 div#footer {
 	clear: both;
+	/*
 	margin-left: 1em;
 	margin-right: 1em;
+	*/
 	padding-top: 3em;
+}
+
+div#footerBackground {
+	background-color: #bad7fe;
+	/*
+	margin-left: 1em;
+	margin-right: 1em;
+	*/
+	padding-left: 1em;
+	padding-right: 1em;
+	min-height: 31px;
 }
 
 div.footerText {
 	font-size: 0.6em;
+	vertical-align: middle;
+	text-align: center;
+	padding-top: 1.1em; 
+}
+
+div#counter {
+	padding-top: 0.58em;
 }
 
 h1 {
