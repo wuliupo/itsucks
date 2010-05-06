@@ -3,7 +3,7 @@
 
 <log4j:configuration>
 	<appender name="LogFile" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="crawl.log" />
+		<param name="File" value="${user.home}/.itsucks/crawl.log" />
 		<param name="MaxFileSize" value="5MB" />
 		
 		<layout class="org.apache.log4j.PatternLayout">
