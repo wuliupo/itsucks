@@ -40,6 +40,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	@SuppressWarnings("unused")
 	private ApplicationContext mSpringApplicationContext;
 	
+	private final Object SYNC_LOCK = new Object();
 	private String mName;
 	private EventContext mContext;
 	private FilterJobManagerImpl mJobManager;
@@ -52,7 +53,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 
 	private boolean mPause;
 	
-	private static Log mLog = LogFactory.getLog(DispatcherImpl.class);
+	private static final Log mLog = LogFactory.getLog(DispatcherImpl.class);
 	
 	public DispatcherImpl() {
 		super();
@@ -77,7 +78,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 */
 	public void processJobs() {
 
-		synchronized(this) {
+		synchronized(SYNC_LOCK) {
 			if(isRunning()) {
 				return;
 			} else {
@@ -173,11 +174,11 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		
 		try {
 		
-			while(mPause) {
-				synchronized (this) {
-					if(mPause) { //check again
-						this.wait(); // wait until unpause notify
-					}
+			synchronized (SYNC_LOCK) {
+				while(mPause) {
+					mLog.trace("Switch in pause.");
+					SYNC_LOCK.wait(); // wait until unpause notify
+					mLog.trace("Got wakeup event.");
 				}
 			}
 		
@@ -193,8 +194,9 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 * @see de.phleisch.app.itsucks.Dispatcher#stop()
 	 */
 	public void stop() {
-		unpause();
 		mStop = true;
+		mLog.info("Stopping dispatcher.");
+		unpause();
 		mWorkerPool.abortBusyWorker();
 	}
 	
@@ -202,19 +204,24 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 * @see de.phleisch.app.itsucks.Dispatcher#pause()
 	 */
 	public void pause() {
-		mPause = true;
+		mLog.info("Pausing dispatcher");
+		synchronized (SYNC_LOCK) {
+			if(!mStop) {
+				mPause = true;
+			}
+		}
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#unpause()
 	 */
 	public void unpause() {
-		if(mPause) {
-			synchronized (this) {
-				if(mPause) {
-					mPause = false;
-					this.notifyAll();
-				}
+		mLog.warn("Unpausing, sending wakeup event.");
+		synchronized (SYNC_LOCK) {
+			if(mPause) {
+				mPause = false;
+				mLog.trace("Notify pause listener.");
+				SYNC_LOCK.notifyAll();
 			}
 		}
 	}
