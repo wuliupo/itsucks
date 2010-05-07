@@ -265,7 +265,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
 
         limitsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Limits"));
 
-        limitsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        limitsLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         limitsLabel.setText("<html>Set a limit to stop crawling when the limit is reached. To disable a limit, enter -1 as value.</html>");
 
         recursionDepthLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -297,7 +297,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
             .add(limitsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(limitsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(limitsLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                    .add(limitsLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                     .add(limitsPanelLayout.createSequentialGroup()
                         .add(limitsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(recursionDepthLabel)
@@ -322,7 +322,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
         limitsPanelLayout.setVerticalGroup(
             limitsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(limitsPanelLayout.createSequentialGroup()
-                .add(limitsLabel)
+                .add(limitsLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(limitsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(recursionDepthLabel)
@@ -334,7 +334,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
                     .add(limitsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                         .add(linksToFollowLabel)
                         .add(linksToFollowTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jLabel1))
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -366,7 +366,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
             .add(urlPrefixFilterPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(urlPrefixFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(urlPrefixFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                    .add(urlPrefixFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
                     .add(urlPrefixFilterPanelLayout.createSequentialGroup()
                         .add(urlPrefixFieldLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -377,7 +377,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
         urlPrefixFilterPanelLayout.setVerticalGroup(
             urlPrefixFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(urlPrefixFilterPanelLayout.createSequentialGroup()
-                .add(urlPrefixFilterLabel)
+                .add(urlPrefixFilterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(14, 14, 14)
                 .add(urlPrefixCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -389,8 +389,8 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
 
         hostnameFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Hostname Filter"));
 
-        hostnameFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        hostnameFilterLabel.setText("<html>Enter an regular expression which fully matches the hostname. Default is to allow all hostnames. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com.</html>");
+        hostnameFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        hostnameFilterLabel.setText("<html>Enter a regular expression which fully matches the hostname. Removing all list entries results in no hostname being allowed. Double click an item to edit.<br>Example: Enter \".*example\\.com\" to match all subdomains from examples.com or \".*\" to allow all hostnames.</html>");
 
         hostnameFilterTable.setModel(hostnameFilterTableModel);
         hostnameFilterScrollPane.setViewportView(hostnameFilterTable);
@@ -419,12 +419,12 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
                 .addContainerGap()
                 .add(hostnameFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, hostnameFilterPanelLayout.createSequentialGroup()
-                        .add(hostnameFilterScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                        .add(hostnameFilterScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(hostnameFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(hostnameFilterRemoveButton)
                             .add(hostnameFilterAddButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .add(hostnameFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                    .add(hostnameFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -433,7 +433,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
         hostnameFilterPanelLayout.setVerticalGroup(
             hostnameFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(hostnameFilterPanelLayout.createSequentialGroup()
-                .add(hostnameFilterLabel)
+                .add(hostnameFilterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(hostnameFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(hostnameFilterPanelLayout.createSequentialGroup()
@@ -448,8 +448,8 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
 
         saveToDiskFilterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("'Save to Disk' Filter"));
 
-        saveToDiskFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        saveToDiskFilterLabel.setText("<html>Enter an regular expression which fully matches the files you want to save on your disk. Default is to save all files. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's.</html>");
+        saveToDiskFilterLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        saveToDiskFilterLabel.setText("<html>Enter a regular expression which fully matches the files you want to save on your disk. Removing all list entries results in no file being saved. Double click an item to edit.<br>Example: Enter \".*jpg\" to save all jpeg's or \".*\" to save all files.</html>");
 
         saveToDiskTable.setModel(saveToDiskFilterTabelModel);
         saveToDiskPane.setViewportView(saveToDiskTable);
@@ -478,12 +478,12 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
                 .addContainerGap()
                 .add(saveToDiskFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, saveToDiskFilterPanelLayout.createSequentialGroup()
-                        .add(saveToDiskPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                        .add(saveToDiskPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(saveToDiskFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(saveToDiskRemoveButton)
                             .add(saveToDiskAddButton)))
-                    .add(saveToDiskFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                    .add(saveToDiskFilterLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -492,7 +492,7 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
         saveToDiskFilterPanelLayout.setVerticalGroup(
             saveToDiskFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(saveToDiskFilterPanelLayout.createSequentialGroup()
-                .add(saveToDiskFilterLabel)
+                .add(saveToDiskFilterLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(saveToDiskFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(saveToDiskFilterPanelLayout.createSequentialGroup()
@@ -522,14 +522,14 @@ public class DownloadJobSimpleRulesPanel extends JPanel implements EditJobCapabl
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(limitsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 126, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(limitsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(urlPrefixFilterPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(hostnameFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(saveToDiskFilterPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(12, 12, 12))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

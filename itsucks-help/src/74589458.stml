@@ -36,7 +36,9 @@ Example: http://www.example.com/section1/
 
 :h1 Hostname Filter
 A host filter can be set if ItSucks should follow only links whose hostname matches an regular expression. 
-To do so, remove the ".*" entry from the "Allowed Hostname" box and add something like ".*google\.de". In this case ItSucks will only retrieve files from an host like "images.google.de", "google.de" or "http:\/\/www.google.de". 
+To do so, remove the ".*" entry from the "Allowed Hostname" box and add something like ".*google\.de". In this case ItSucks will only retrieve files from an host like "images.google.de", "google.de" or "http:\/\/www.google.de".
+Be careful to not remove all entries from the filter list. In this case no hostname is allowed. 
 
 :h1 "Save to Disk" Filter
 To control which filetypes should be saved on disk, this filter can be used. Only files matching one of the regular expressions are saved on disk. As an example to accept only jpegs, remove the ".*" entry from the list and add ".*jpg$". 
+When removing all entries from the filter list, no files will be saved on disk.
