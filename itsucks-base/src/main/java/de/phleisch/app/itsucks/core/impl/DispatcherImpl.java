@@ -216,7 +216,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 * @see de.phleisch.app.itsucks.Dispatcher#unpause()
 	 */
 	public void unpause() {
-		mLog.warn("Unpausing, sending wakeup event.");
+		mLog.trace("Unpausing, sending wakeup event.");
 		synchronized (SYNC_LOCK) {
 			if(mPause) {
 				mPause = false;
