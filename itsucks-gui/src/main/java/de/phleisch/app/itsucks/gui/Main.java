@@ -20,8 +20,9 @@ public class Main {
 	
 	/**
 	 * Launches this application
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		Log log = LogFactory.getLog(Main.class);
 		
@@ -45,12 +46,18 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				DownloadJobOverviewFrame frame = new DownloadJobOverviewFrame();
-				frame.setVisible(true);
-			}
-		});
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					DownloadJobOverviewFrame frame = new DownloadJobOverviewFrame();
+					frame.setVisible(true);
+				}
+			});
+		} catch (Exception e) {
+			log.fatal(e);
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 }
