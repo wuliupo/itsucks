@@ -12,4 +12,4 @@ A link http://blabla.test.de/uiuiu///%20/test.html in the text
 JS commands
 <a href="javascript:alert(document.links[0].x)">JS</a>
 </pre>
-
+<a href="http://somewhere.com/doAction.cgi?param1=4772&amp;param2=&lt;text&gt;">click here</a>

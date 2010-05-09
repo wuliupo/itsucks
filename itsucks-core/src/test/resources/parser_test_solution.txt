@@ -2,3 +2,4 @@ http://blabla.test.de/uiuiu///%20/test.html
 mailto:test
 http://test.de/img/img2/img3/img.jpg
 http://blabla.test.de/uiuiu///%20/test.html
+http://somewhere.com/doAction.cgi?param1=4772&param2=%3Ctext%3E

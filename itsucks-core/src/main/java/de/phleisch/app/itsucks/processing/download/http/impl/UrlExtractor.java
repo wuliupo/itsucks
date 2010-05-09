@@ -65,7 +65,7 @@ public class UrlExtractor {
 				URI uri = null;
 				try {
 					match = match.trim(); //remove trailing spaces
-					match = match.replaceAll(" ", "%20"); //try to fix broken url's
+					match = prepareLink(match);
 					
 					//allocate new array to prevent reuse of the string which the data is from. 
 					match = new String(match.toCharArray());
@@ -89,7 +89,28 @@ public class UrlExtractor {
 		return urlList.toArray(new URI[urlList.size()]);
 	}
 	
-	
+	/**
+	 * http://www.ietf.org/rfc/rfc2396.txt
+	 * @param pMatch
+	 * @return
+	 */
+	private String prepareLink(String pMatch) {
+		String result = pMatch;
+
+		//try to fix broken url's
+		//space is not allowed in URI's, replace them with %20
+		result = result.replaceAll(" ", "%20"); 
+		
+		//replace html codes
+		result = result.replaceAll("&amp;", "&");
+		result = result.replaceAll("&lt;", "%3C"); //<
+		result = result.replaceAll("&gt;", "%3E"); //>
+		result = result.replaceAll("&quot;", "%22"); //"
+		
+		return result;
+	}
+
+
 	protected Pattern[] loadPatterns(String propertyName) {
 		
 		mLog.debug("Reading Patterns from file: " + propertyName);
