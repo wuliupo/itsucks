@@ -10,9 +10,9 @@
         <parentJobId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
         <depth>0</depth>
         <maxRetryCount>3</maxRetryCount>
-        <minTimeBetweenRetry>5000</minTimeBetweenRetry>
         <saveToDisk>true</saveToDisk>
         <savePath>/tmp/crawl</savePath>
+        <tryResume>false</tryResume>
     </serializedDownloadJob>
     <serializedDownloadJobFilter>
         <maxRecursionDepth>-1</maxRecursionDepth>
@@ -21,14 +21,14 @@
         <saveToDisk>.*(jpg|png|gif)</saveToDisk>
     </serializedDownloadJobFilter>
     <serializedMaxLinksToFollowFilter>
-        <maxLinksToFollow>200</maxLinksToFollow>
+        <maxLinksToFollow>2000</maxLinksToFollow>
     </serializedMaxLinksToFollowFilter>
     <serializedRegExpJobFilter>
         <letUnfilteredJobsPass>true</letUnfilteredJobsPass>
         <serializedRegExpJobFilterRule>
             <name>Allow images and google</name>
             <description>Accept images from any server and urls containing &quot;google.com&quot;.</description>
-            <pattern>google\.com|png|gif|jpg</pattern>
+            <pattern>images\.google\.com\/images|png|gif|jpg</pattern>
             <matchAction>
                 <priorityChange>0</priorityChange>
                 <accept>true</accept>
@@ -72,6 +72,8 @@
         <name>HttpRetrieverConfiguration</name>
         <serializedHttpRetrieverConfiguration>
             <maxConnectionsPerServer>2</maxConnectionsPerServer>
+            <sendReferer>false</sendReferer>
+            <bandwidthLimit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             <proxyEnabled>false</proxyEnabled>
             <proxyServer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             <proxyPort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
@@ -79,6 +81,7 @@
             <proxyUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             <proxyPassword xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
             <proxyRealm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <userAgent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
         </serializedHttpRetrieverConfiguration>
     </serializedContextParameter>
     <serializedDispatcherConfiguration>
