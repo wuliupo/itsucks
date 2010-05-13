@@ -1,6 +1,6 @@
 <pre>
 A href links:
-<a href="img/img2/img3/img.jpg">Img</a>
+<a href="img/img2/img3/img 5.jpg">Img</a>
 <a href="mailto:test">Mail</a>
 </pre>
 
@@ -13,3 +13,8 @@ JS commands
 <a href="javascript:alert(document.links[0].x)">JS</a>
 </pre>
 <a href="http://somewhere.com/doAction.cgi?param1=4772&amp;param2=&lt;text&gt;">click here</a>
+
+More exotic URL's
+<a href="http://localhost/_ylt=A03uv8Y9fOxLXscAQLMzCQx./SIG=13u7een6c/EXP=1273875901/**http%3a//localhost/search%3fei=UTF-8%26fr=yfp-t-708%26p=playback%2bdownload%26rs=0%26fr2=rs-bottom">More Results</a>
+<a href="http://localhost/-_.!~*'(|)">Link</a>
+<a href='http://localhost/-_.!~*'(|)" " | "<" | ">" | "#" | "%" | <"> | "{" | "}" | "|" | "\" | "^" | "[" | "]" | "`"'>Bad Link</a>

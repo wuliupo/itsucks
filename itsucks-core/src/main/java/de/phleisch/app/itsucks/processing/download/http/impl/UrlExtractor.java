@@ -97,6 +97,9 @@ public class UrlExtractor {
 	private String prepareLink(String pMatch) {
 		String result = pMatch;
 
+		//TODO, folgende ersetzen:
+		// " " | "<" | ">" | "#" | "%" | <"> | "{" | "}" | "|" | "\" | "^" | "[" | "]" | "`"
+		
 		//try to fix broken url's
 		//space is not allowed in URI's, replace them with %20
 		result = result.replaceAll(" ", "%20"); 
@@ -104,7 +107,9 @@ public class UrlExtractor {
 		//replace html codes
 		result = result.replaceAll("&amp;", "&");
 		result = result.replaceAll("&lt;", "%3C"); //<
+		result = result.replaceAll("<", "%3C"); //<
 		result = result.replaceAll("&gt;", "%3E"); //>
+		result = result.replaceAll(">", "%3E"); //>
 		result = result.replaceAll("&quot;", "%22"); //"
 		
 		return result;
