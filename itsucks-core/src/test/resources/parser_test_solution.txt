@@ -1,5 +1,4 @@
-mailto:test
 http://test.de/img/img2/img3/img%205.jpg
 http://blabla.test.de/uiuiu///%20/test.html
-http://somewhere.com/doAction.cgi?param1=4772&param2=%3Ctext%3E
+http://somewhere.com/doAction.cgi?param1=4%22772&param2=%3Ctext%3E
 http://localhost/_ylt=A03uv8Y9fOxLXscAQLMzCQx./SIG=13u7een6c/EXP=1273875901/**http%3a//localhost/search%3fei=UTF-8%26fr=yfp-t-708%26p=playback%2bdownload%26rs=0%26fr2=rs-bottom
