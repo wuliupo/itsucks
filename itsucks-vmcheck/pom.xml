@@ -41,9 +41,10 @@
               <addExtensions/>
               <!-- <classpathPrefix>lib/</classpathPrefix>  -->
             </manifest>
+			<manifestEntries>
+				<Build-Time>${build.time}</Build-Time>
+			</manifestEntries>                    
 
-            <manifestEntries>
-            </manifestEntries>
           </archive>
         </configuration>
       </plugin>

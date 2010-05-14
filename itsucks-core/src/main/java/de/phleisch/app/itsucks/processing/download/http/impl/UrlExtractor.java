@@ -87,7 +87,7 @@ public class UrlExtractor {
 					
 					uri = mBaseURI.resolve(new URI(match));
 				} catch(URISyntaxException se) {
-					mLog.error("Error parsing URI: " + match, se);
+					mLog.warn("Error parsing URI: " + match);
 				} catch(Exception ex) {
 					mLog.warn("Resolving of base url failed: " +
 							"Match: " + match + " BaseURI: " + mBaseURI);
