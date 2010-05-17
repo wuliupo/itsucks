@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -33,10 +34,19 @@ public class UrlExtractor {
 	protected static final Log mLog = LogFactory.getLog(UrlExtractor.class);
 	protected static PatternConfig[] mSearchPatterns = null;
 	protected static Pattern[] mExcludePatterns = null;
+	
 	//From http://www.ietf.org/rfc/rfc2396.txt
-	protected static final Pattern mAllowedURICharsPattern = 
-		Pattern.compile("[a-z0-9;/?:@&=+$,\\-_\\.!~*'\\(\\)%]", Pattern.CASE_INSENSITIVE);
-
+	protected static final char[] ALLOWED_URI_CHARS;
+	static {
+		ALLOWED_URI_CHARS = new char[] {
+			'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+			'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+			'0','1','2','3','4','5','6','7','8','9',
+			';','/','?',':','@','&','=','+','$','-','_','.','!','~','*','\'','(',')','%',
+		};
+		Arrays.sort(ALLOWED_URI_CHARS);
+	}
+	
 	protected URI mBaseURI;
 	
 	public UrlExtractor(URI pBaseURI) {
@@ -151,16 +161,15 @@ public class UrlExtractor {
 		link.getChars(0, link.length(), linkChars, 0);
 		
 		for(char linkChar : linkChars) {
-			String linkChunk = String.valueOf(linkChar);
 			
-			if(mAllowedURICharsPattern.matcher(linkChunk).find()) {
+			if(Arrays.binarySearch(ALLOWED_URI_CHARS, linkChar) > -1) {
 				//char is allowed
 				url.append(linkChar);
 			} else {
 				//encode char
 				byte[] charBytes;
 				try {
-					charBytes = linkChunk.getBytes("ASCII");
+					charBytes = String.valueOf(linkChar).getBytes("ASCII");
 				} catch (UnsupportedEncodingException e) {
 					mLog.error(e);
 					throw new IllegalStateException(e);
