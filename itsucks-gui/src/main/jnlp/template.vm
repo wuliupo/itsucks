@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.5+" codebase="$project.Url/ws" href="$outputFile">
+	<information>
+		<title>ItSucks - $project.Version</title>
+		<vendor>Oliver Mihatsch</vendor>
+		<homepage href="$project.Url"/>
+		<description>$project.Description</description>
+		<offline-allowed/>
+	</information>
+	<security>
+		<all-permissions/>
+	</security>
+	<resources>
+		<j2se version="1.5+" initial-heap-size="32m" max-heap-size="512m"/>
+     		$dependencies
+	</resources>
+	<application-desc main-class="$mainClass" />
+</jnlp>

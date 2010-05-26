@@ -13,7 +13,10 @@
 	<artifactId>itsucks-gui</artifactId>
 	<groupId>itsucks</groupId>
 	<packaging>jar</packaging>
+
 	<name>ItSucks-GUI</name>
+	<description>ItSucks WebSpider</description>
+	<url>http://itsucks.sourceforge.net</url>
 
 	<build>
 

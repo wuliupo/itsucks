@@ -137,6 +137,7 @@ public class UrlExtractor {
 
 	protected String decodeHtmlExpressions(String link) {
 		//replace html codes
+		//http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
 		link = link.replaceAll("&amp;", "&");
 		link = link.replaceAll("&lt;", "<"); //<
 		link = link.replaceAll("&gt;", ">"); //>

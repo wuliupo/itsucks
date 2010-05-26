@@ -6,7 +6,7 @@
 	<name>ItSucks-Build</name>
 	<artifactId>itsucks-parent</artifactId>
 	<groupId>itsucks</groupId>
-	<url>http://itsucks.sf.net</url>
+	<url>http://itsucks.sourceforge.net</url>
 	<version>0.4.1</version>
 	<packaging>pom</packaging>
 
