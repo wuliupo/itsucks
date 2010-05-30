@@ -58,6 +58,7 @@
 			</plugin>
 
 			<!-- sign jars for webstart -->
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo.webstart</groupId>
 				<artifactId>webstart-maven-plugin</artifactId>
@@ -69,7 +70,7 @@
 							de.phleisch.app.itsucks.gui.Main
 						</mainClass>
 					</jnlp>
-					<!--<libPath>app</libPath>-->
+					<!- -<libPath>app</libPath>- ->
 					<sign>
 						<keystore>${basedir}/security/itsucks_keystore</keystore>
 						<storepass>todo</storepass>
@@ -90,7 +91,7 @@
 				</executions>
 				
 			</plugin>
-
+-->
 		</plugins>
 	</build>
 

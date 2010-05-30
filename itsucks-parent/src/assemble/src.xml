@@ -50,14 +50,12 @@
 		</fileSet>
 
 		<!-- Copy itsucks-help.jar -->
-		<!-- 
 		<fileSet>
-			<directory>../itsucks-gui/lib</directory>
+			<directory>../itsucks-help/lib</directory>
 			<fileMode>774</fileMode>
 			<filtered>true</filtered>
 			<outputDirectory>itsucks/lib</outputDirectory>
 		</fileSet>
-		 -->
 
 	</fileSets>
 </assembly>
