@@ -7,6 +7,19 @@ include_once('include/header.php.inc');
     <div id="main">
 
     <div class="news">
+        <h3>Version 0.4.1 is released</h3>
+        <span class="subHeader">2010-05-30</span>
+        <p>
+		This release contains improved link search patterns and improved handling of encoded links. (special thank to Vaiko)
+		</p>
+		<p>
+		Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.1.txt/view"> ChangeLog 0.4.1</a>
+		</p>
+	</div>
+
+
+
+    <div class="news">
         <h3>Version 0.4.0 is released</h3>
         <span class="subHeader">2009-11-26</span>
         <p>
@@ -16,14 +29,14 @@ include_once('include/header.php.inc');
 		</p>
 		Other changes:
 		<ul>
-		<li>Switched to JAXB 2.0</li>
-		<li>Updated Maven configuration (2.2)</li>
-		<li>Refactoring HttpRetriever Interface</li>
-		<li>Build source jars</li>
-		</ul>		
-	<p>
+			<li>Switched to JAXB 2.0</li>
+			<li>Updated Maven configuration (2.2)</li>
+			<li>Refactoring HttpRetriever Interface</li>
+			<li>Build source jars</li>
+		</ul>
+		<p>
 		Detailed changelog can be found here: <a href="https://sourceforge.net/projects/itsucks/files/itsucks/itsucks-releasenotes-0.4.0.txt/view"> ChangeLog 0.4.0</a>
-	</p>
+		</p>
 	</div>
 
 
@@ -34,10 +47,10 @@ include_once('include/header.php.inc');
         <span class="subHeader">2008-08-29</span>
         <p>
 		Fixed VM Version check.
-	</p>
-	<p>
+		</p>
+		<p>
 		Detailed changelog can be found here: <a href="http://sourceforge.net/project/shownotes.php?release_id=622855"> ChangeLog 0.3.1</a>
-	</p>
+		</p>
     </div>
 
  

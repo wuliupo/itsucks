@@ -13,7 +13,7 @@
     "http://sflogo.sourceforge.net/sflogo.php?group_id=1861410000&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
     
     <div class="footerText">
-    	Last edited April 04th, 2010 by Oliver Mihatsch,
+    	Last edited May 30th, 2010 by Oliver Mihatsch,
     	Design by <a href="http://pierini.de">Anna Pierini</a>
     </div>
     <div>
