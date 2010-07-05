@@ -41,8 +41,9 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	public static final int COLUMN_PROGRESS 	= 3;
 	public static final int COLUMN_KILOBYTES 	= 4;
 	public static final int COLUMN_PRIORITY 	= 5;
-	public static final int COLUMN_RESULT 		= 6;
-	private static final int COLUMN_COUNT 		= 7;
+	public static final int COLUMN_DEPTH	 	= 6;
+	public static final int COLUMN_RESULT 		= 7;
+	private static final int COLUMN_COUNT 		= 8;
 	
 	private static final int JOB_PROGRESS_UPDATE_FREQUENCY = 250; //ms
 
@@ -89,7 +90,11 @@ public class DownloadJobTableModel extends AbstractTableModel {
 			
 		case COLUMN_KILOBYTES:
 			name = "Downloaded";
-			break;			
+			break;
+
+		case COLUMN_DEPTH:
+			name = "Depth";
+			break;
 			
 		case COLUMN_RESULT:
 			name = "Http Response";
@@ -185,6 +190,10 @@ public class DownloadJobTableModel extends AbstractTableModel {
 					val = "-";
 				}
 				break;
+				
+			case COLUMN_DEPTH:
+				val = String.valueOf(pJob.getDepth());
+				break;				
 			
 			case COLUMN_RESULT:
 				HttpMetadata metadata = (HttpMetadata) pJob.getMetadata();
