@@ -62,14 +62,16 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 						.getPropertyChangeEvent();
 
 				if (Job.JOB_STATE_PROPERTY.equals(propertyChangeEvent
-						.getPropertyName()) 
-					&& Integer.valueOf(Job.STATE_FINISHED).equals(
-							propertyChangeEvent.getNewValue())) {
+						.getPropertyName())) {
 					
-					mLog.debug("Remove finished job: " + jobChangedEvent.getJob());
+					if((Integer)propertyChangeEvent.getNewValue() >= Job.STATE_CLOSED) {
 					
-					//remove this job from the list
-					removeJob(jobChangedEvent.getJob());
+						mLog.debug("Remove finished job: " + jobChangedEvent.getJob());
+						
+						//remove this job from the list
+						removeJob(jobChangedEvent.getJob());
+					
+					}
 					
 				}
 

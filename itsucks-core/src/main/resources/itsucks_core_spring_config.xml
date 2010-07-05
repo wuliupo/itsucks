@@ -62,7 +62,7 @@
 	
 	<bean 
 		id="JobManager" 
-		class="de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl" 
+		class="de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl" 
 		singleton="false">
 
 		<property name="jobList">
