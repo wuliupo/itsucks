@@ -43,7 +43,8 @@ public class DownloadJobStatusTablePanel extends JPanel {
 		columnModel.getColumn(DownloadJobTableModel.COLUMN_STATE).setPreferredWidth(25);
 		columnModel.getColumn(DownloadJobTableModel.COLUMN_PROGRESS).setPreferredWidth(20);
 		columnModel.getColumn(DownloadJobTableModel.COLUMN_KILOBYTES).setPreferredWidth(30);
-		columnModel.getColumn(DownloadJobTableModel.COLUMN_PRIORITY).setPreferredWidth(20);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_PRIORITY).setPreferredWidth(10);
+		columnModel.getColumn(DownloadJobTableModel.COLUMN_DEPTH).setPreferredWidth(10);
 		columnModel.getColumn(DownloadJobTableModel.COLUMN_RESULT).setPreferredWidth(40);
 	}
 	
