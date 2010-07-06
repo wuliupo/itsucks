@@ -19,25 +19,43 @@ import de.phleisch.app.itsucks.event.EventDispatcher;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobList;
 import de.phleisch.app.itsucks.job.event.JobChangedEvent;
+import de.phleisch.app.itsucks.job.event.JobEvent;
 
 public class CleanJobManagerImpl extends FilterJobManagerImpl {
 	
 	private static Log mLog = LogFactory.getLog(CleanJobManagerImpl.class);
 	
-	private EventObserver mListObserver;
+	private EventObserver mJobManagerObserver;
+	private EventObserver mJobListObserver;
 
 	public CleanJobManagerImpl() {
 		super();
-		mListObserver = new JobEventObserver();
+		mJobManagerObserver = new JobEventObserver();
+		mJobListObserver = new JobListObserver();
 	}
+	
+	@Override
+	public void setJobList(JobList pJobList) {
+		if(getJobList() != null) {
+			getJobList().unregisterObserver(mJobListObserver);
+		}
+		
+		super.setJobList(pJobList);
+		
+		if(getJobList() != null) {
+			//register to new job list
+			getJobList().registerObserver(mJobListObserver);
+		}
+	}	
 
 	public void setContext(EventContext pContext) {
 		
 		//deregister from old event dispatcher
 		EventDispatcher oldEventDispatcher = getEventDispatcher();
 		if(oldEventDispatcher != null) {
-			oldEventDispatcher.unregisterObserver(mListObserver);
+			oldEventDispatcher.unregisterObserver(mJobManagerObserver);
 		}
 		
 		super.setContext(pContext);
@@ -45,15 +63,34 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 		//register to new event dispatcher
 		EventDispatcher newEventDispatcher = getEventDispatcher();
 		if(newEventDispatcher != null) {
-			newEventDispatcher.registerObserver(mListObserver);
+			newEventDispatcher.registerObserver(mJobManagerObserver);
 		}
 		
 	}
 
-	private class JobEventObserver implements EventObserver {
+	private class JobListObserver implements EventObserver {
 
 		public void processEvent(Event pEvent) {
 
+			if (pEvent.equals(JobList.EVENT_JOB_ADDED)) {
+				JobEvent jobAddedEvent = (JobEvent) pEvent;
+				
+				if(jobAddedEvent.getJob().getState() == Job.STATE_IGNORED) {
+					
+					mLog.debug("Remove ignored job: " + jobAddedEvent.getJob());
+					
+					//remove this job from the list
+					removeJob(jobAddedEvent.getJob());
+					
+				}
+			}
+		}
+	}
+	
+	private class JobEventObserver implements EventObserver {
+
+		public void processEvent(Event pEvent) {
+			
 			if (pEvent.equals(CoreEvents.EVENT_JOBMANAGER_JOB_CHANGED)) {
 
 				JobChangedEvent jobChangedEvent = (JobChangedEvent) pEvent;
@@ -69,7 +106,7 @@ public class CleanJobManagerImpl extends FilterJobManagerImpl {
 						mLog.debug("Remove finished job: " + jobChangedEvent.getJob());
 						
 						//remove this job from the list
-						removeJob(jobChangedEvent.getJob());
+						//removeJob(jobChangedEvent.getJob());
 					
 					}
 					
