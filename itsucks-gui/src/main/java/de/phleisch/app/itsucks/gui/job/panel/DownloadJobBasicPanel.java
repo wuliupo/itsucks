@@ -23,6 +23,7 @@ import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
 import de.phleisch.app.itsucks.job.Job;
+import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 import de.phleisch.app.itsucks.persistence.SerializableDispatcherConfiguration;
@@ -91,6 +92,17 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 		if(dispatcherConfiguration == null) {
 			dispatcherConfiguration = new SerializableDispatcherConfiguration();
 		}
+		
+		JobManagerConfiguration jobManagerConfiguration = (JobManagerConfiguration) pJobPackage
+			.getContextParameter(JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION);
+		if(jobManagerConfiguration == null) {
+			jobManagerConfiguration = new JobManagerConfiguration();
+			pJobPackage.putContextParameter(
+					JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION, jobManagerConfiguration);
+		}
+		//TODO fill from gui
+		jobManagerConfiguration.setDropIgnoredJobs(true);
+		
 
 		basicJob.setName(this.nameTextField.getText());
 
@@ -202,6 +214,9 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
         connectionSettingsPanel = new javax.swing.JPanel();
         workingThreadsLabel = new javax.swing.JLabel();
         workingThreadsTextField = new javax.swing.JTextField();
+        memorySettingsPanel = new javax.swing.JPanel();
+        dropIgnoredLinksCheckbox = new javax.swing.JCheckBox();
+        dropFinishedLinksCheckbox = new javax.swing.JCheckBox();
 
         basicParametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic Parameters"));
 
@@ -281,7 +296,7 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 
         connectionSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Concurrency Settings"));
 
-        workingThreadsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        workingThreadsLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         workingThreadsLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         workingThreadsLabel.setText("Working Threads:");
 
@@ -308,15 +323,49 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        memorySettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Memory Settings"));
+
+        dropIgnoredLinksCheckbox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        dropIgnoredLinksCheckbox.setText("Drop Ignored Links");
+        dropIgnoredLinksCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropIgnoredLinksCheckboxActionPerformed(evt);
+            }
+        });
+
+        dropFinishedLinksCheckbox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        dropFinishedLinksCheckbox.setText("Drop Finished Links");
+
+        org.jdesktop.layout.GroupLayout memorySettingsPanelLayout = new org.jdesktop.layout.GroupLayout(memorySettingsPanel);
+        memorySettingsPanel.setLayout(memorySettingsPanelLayout);
+        memorySettingsPanelLayout.setHorizontalGroup(
+            memorySettingsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(memorySettingsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(memorySettingsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(dropIgnoredLinksCheckbox)
+                    .add(dropFinishedLinksCheckbox))
+                .addContainerGap(329, Short.MAX_VALUE))
+        );
+        memorySettingsPanelLayout.setVerticalGroup(
+            memorySettingsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(memorySettingsPanelLayout.createSequentialGroup()
+                .add(dropIgnoredLinksCheckbox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(dropFinishedLinksCheckbox)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, connectionSettingsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, basicParametersPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(connectionSettingsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(basicParametersPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, memorySettingsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -326,10 +375,10 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
                 .add(basicParametersPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(connectionSettingsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(memorySettingsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        connectionSettingsPanel.getAccessibleContext().setAccessibleName("Concurrency Settings");
     }// </editor-fold>//GEN-END:initComponents
 
 	//GEN-FIRST:event_moreUrlsButtonActionPerformed
@@ -374,9 +423,16 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 
 	}//GEN-LAST:event_savePathButtonActionPerformed
 
+        private void dropIgnoredLinksCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropIgnoredLinksCheckboxActionPerformed
+            // TODO add your handling code here:
+        }//GEN-LAST:event_dropIgnoredLinksCheckboxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JPanel basicParametersPanel;
     protected javax.swing.JPanel connectionSettingsPanel;
+    protected javax.swing.JCheckBox dropFinishedLinksCheckbox;
+    protected javax.swing.JCheckBox dropIgnoredLinksCheckbox;
+    protected javax.swing.JPanel memorySettingsPanel;
     protected javax.swing.JButton moreUrlsButton;
     protected javax.swing.JLabel nameLabel;
     protected javax.swing.JTextField nameTextField;

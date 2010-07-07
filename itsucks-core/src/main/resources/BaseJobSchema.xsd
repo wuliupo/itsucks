@@ -64,6 +64,13 @@
 		</xs:complexType>
 	</xs:element>
 
-
+	<xs:element name="serializedJobManagerConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="dropIgnoredJobs" type="xs:boolean"></xs:element>					
+				<xs:element name="dropFinishedJobs" type="xs:boolean"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 </xs:schema>

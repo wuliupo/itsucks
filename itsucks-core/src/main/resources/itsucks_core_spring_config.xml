@@ -232,6 +232,7 @@
 				<ref bean="DownloadJobConverter"/>
 				<ref bean="DispatcherConfigurationConverter"/>
 				<ref bean="HttpRetrieverConfigurationConverter"/>
+				<ref bean="JobManagerConfigurationConverter"/>
 			</list>
 		</property>
 	</bean>
@@ -255,6 +256,12 @@
 	<bean
 		id="HttpRetrieverConfigurationConverter"
 		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.HttpRetrieverConfigurationConverter"
+		singleton="false">
+	</bean>	
+	
+	<bean
+		id="JobManagerConfigurationConverter"
+		class="de.phleisch.app.itsucks.persistence.jaxb.conversion.JobManagerConfigurationConverter"
 		singleton="false">
 	</bean>	
 	
