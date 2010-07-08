@@ -74,6 +74,13 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 			}
 		}
 		
+		//memory settings
+		JobManagerConfiguration jobManagerConfiguration = (JobManagerConfiguration) pJobPackage
+			.getContextParameter(JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION);
+		if(jobManagerConfiguration != null) {
+			this.dropFinishedLinksCheckbox.setSelected(jobManagerConfiguration.isDropFinishedJobs());
+			this.dropIgnoredLinksCheckbox.setSelected(jobManagerConfiguration.isDropIgnoredJobs());
+		}
 	}
 
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
@@ -92,7 +99,8 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 		if(dispatcherConfiguration == null) {
 			dispatcherConfiguration = new SerializableDispatcherConfiguration();
 		}
-		
+
+		//memory settings
 		JobManagerConfiguration jobManagerConfiguration = (JobManagerConfiguration) pJobPackage
 			.getContextParameter(JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION);
 		if(jobManagerConfiguration == null) {
@@ -100,9 +108,8 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 			pJobPackage.putContextParameter(
 					JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION, jobManagerConfiguration);
 		}
-		//TODO fill from gui
-		jobManagerConfiguration.setDropIgnoredJobs(true);
-		
+		jobManagerConfiguration.setDropFinishedJobs(this.dropFinishedLinksCheckbox.isSelected());
+		jobManagerConfiguration.setDropIgnoredJobs(this.dropIgnoredLinksCheckbox.isSelected());
 
 		basicJob.setName(this.nameTextField.getText());
 
