@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
+import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
@@ -47,6 +48,18 @@ public class ConsoleMain {
 		if (jobList != null) {
 			DispatcherBuilder.buildDispatcherFromJobPackage(dispatcher, jobList);
 		}
+		
+		//memory settings
+		//drop all finished/ignored links to save memory in console mode
+		JobManagerConfiguration jobManagerConfiguration = (JobManagerConfiguration) dispatcher.getContext()
+			.getContextParameter(JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION);
+		if(jobManagerConfiguration == null) {
+			jobManagerConfiguration = new JobManagerConfiguration();
+			dispatcher.getContext().setContextParameter(JobManagerConfiguration.CONTEXT_PARAMETER_JOB_MANAGER_CONFIGURATION, 
+					jobManagerConfiguration);
+		}
+		jobManagerConfiguration.setDropFinishedJobs(true);
+		jobManagerConfiguration.setDropIgnoredJobs(true);
 		
 		//start dispatcher thread
 		try {
