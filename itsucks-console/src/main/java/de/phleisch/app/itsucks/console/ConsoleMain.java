@@ -32,7 +32,7 @@ public class ConsoleMain {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				ApplicationConstants.CORE_SPRING_CONFIG_FILE);
 
-		Dispatcher dispatcher = (Dispatcher) context.getBean("DispatcherWithClean");
+		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
 
 		JobSerialization serializationManager = (JobSerialization) context
 				.getBean("JobSerialization");
