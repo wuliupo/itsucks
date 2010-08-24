@@ -14,9 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
@@ -30,10 +27,7 @@ import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
  */
 public class BinaryObjectJobSerialization
 		extends AbstractJobSerialization
-		implements ApplicationContextAware, JobSerialization {
-
-	@SuppressWarnings("unused")
-	private ApplicationContext mContext;
+		implements JobSerialization {
 	
 	public BinaryObjectJobSerialization() {
 	}
@@ -63,10 +57,6 @@ public class BinaryObjectJobSerialization
 		
 		
 		return jobList;
-	}
-	
-	public void setApplicationContext(ApplicationContext pContext) {
-		mContext = pContext;
 	}
 
 }

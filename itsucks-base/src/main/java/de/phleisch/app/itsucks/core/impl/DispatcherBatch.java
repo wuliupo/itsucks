@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
@@ -189,7 +190,7 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 		}
 		
 
-		protected void finishDispatcher(DispatcherThread pDispatcher) {
+		protected void finishDispatcher(Dispatcher pDispatcher) {
 			mLog.debug("Finish dispatcher: " + pDispatcher);
 
 			DispatcherListElement element = null;
@@ -233,8 +234,7 @@ public class DispatcherBatch extends SimpleDirectEventSource {
 					mLog.debug("Got event dispatcher is starting.");
 				} else if(pEvent.equals(CoreEvents.EVENT_DISPATCHER_FINISH)) {
 					mLog.debug("Got event dispatcher is stopping.");
-					finishDispatcher((DispatcherThread) 
-							((DispatcherEvent)pEvent).getDispatcher());
+					finishDispatcher(((DispatcherEvent)pEvent).getDispatcher());
 				}
 			}
 		}

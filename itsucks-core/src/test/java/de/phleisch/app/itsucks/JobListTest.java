@@ -11,9 +11,9 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.job.Job;
@@ -32,15 +32,17 @@ public class JobListTest extends TestCase {
 
 	public void testJobList() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
 		assertNotNull(dispatcher);
 		
 		DownloadJobFilter filter = new DownloadJobFilter();
 		dispatcher.addJobFilter(filter);
-		
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+
+	    DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
 		
 		UrlDownloadJob job1 = jobFactory.createDownloadJob();
 		UrlDownloadJob job2 = jobFactory.createDownloadJob();

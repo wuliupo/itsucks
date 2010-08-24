@@ -14,9 +14,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
@@ -52,10 +52,12 @@ public class AppTest extends TestCase {
 
 	public void testContentFilter() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
+	    DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
 
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setMaxRecursionDepth(1);
@@ -82,11 +84,13 @@ public class AppTest extends TestCase {
 	
 	public void testSimpleApp() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
 
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
+	    DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
+		
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setMaxRecursionDepth(1);
 		dispatcher.addJobFilter(filter);		
@@ -104,9 +108,11 @@ public class AppTest extends TestCase {
 	
 	public void testFullApp() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
 		assertNotNull(dispatcher);
 
 		DefaultEventFilter eventFilter = new DefaultEventFilter();
@@ -123,7 +129,7 @@ public class AppTest extends TestCase {
 		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		dispatcher.addJobFilter(filter);		
 		
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+	    DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
 		assertNotNull(jobFactory);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();

@@ -119,6 +119,16 @@
 				<artifactId>spring-context</artifactId>
 				<version>2.5</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.inject.extensions</groupId>
+				<artifactId>guice-multibindings</artifactId>
+				<version>2.0</version>
+			</dependency>				
 
 			<dependency>
 				<groupId>commons-logging</groupId>

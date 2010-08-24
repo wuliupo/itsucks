@@ -11,6 +11,9 @@ package de.phleisch.app.itsucks.persistence.jaxb.conversion;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.inject.Inject;
 
 public class BeanConverterManager {
 
@@ -61,7 +64,8 @@ public class BeanConverterManager {
 	 * Register all supported convert abilities from the converter.
 	 * @param pConverer
 	 */
-	public void setConverters(List<BeanConverter> pConverterList) {
+	@Inject
+	public void setConverters(Set<BeanConverter> pConverterList) {
 		for (BeanConverter beanConverter : pConverterList) {
 			registerConverter(beanConverter);
 		}

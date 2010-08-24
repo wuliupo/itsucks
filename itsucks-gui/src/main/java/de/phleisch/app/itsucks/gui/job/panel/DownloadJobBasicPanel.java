@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.gui.common.EditUrlListDialog;
 import de.phleisch.app.itsucks.gui.job.ifc.EditJobCapable;
 import de.phleisch.app.itsucks.gui.util.FieldValidator;
@@ -86,8 +86,7 @@ public class DownloadJobBasicPanel extends JPanel implements EditJobCapable {
 	public void saveJobPackage(SerializableJobPackage pJobPackage) {
 		
 		//build download job
-		DownloadJobFactory jobFactory = (DownloadJobFactory) SpringContextSingelton
-				.getApplicationContext().getBean("JobFactory");
+		DownloadJobFactory jobFactory = GuiceContextSingelton.getInjector().getInstance(DownloadJobFactory.class);
 		UrlDownloadJob basicJob = jobFactory.createDownloadJob();
 		basicJob.setIgnoreFilter(true);
 		basicJob.setState(UrlDownloadJob.STATE_OPEN);

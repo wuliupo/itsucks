@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.gui.main.DownloadJobOverviewFrame;
 
@@ -30,8 +30,8 @@ public class Main {
 		log.info("Current JVM memory usage: " + Runtime.getRuntime().totalMemory() / 1024 / 1024 + "MB");
 		log.info("Max JVM memory usage: " + Runtime.getRuntime().maxMemory() / 1024 / 1024 + "MB");
 		
-		//prepare spring
-		SpringContextSingelton.getApplicationContext();
+		//prepare guice
+		GuiceContextSingelton.getInjector();
 		
 		try {
 //			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());

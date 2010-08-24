@@ -4,9 +4,8 @@ import java.io.File;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.ItSucksBuilder;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.job.JobManagerConfiguration;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
@@ -22,20 +21,17 @@ public class ConsoleMain {
 	 */
 	public static void main(String[] pArgs) {
 
-		if(pArgs.length == 0) {
+		if(pArgs.length != 1) {
 			showUsage();
 			System.exit(1);
 		}
 		
 		File serializedJob = new File(pArgs[0]);
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				ApplicationConstants.CORE_SPRING_CONFIG_FILE);
+		ItSucksBuilder builder = new ItSucksBuilder();
+	    Dispatcher dispatcher = builder.buildDispatcher();
 
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
-
-		JobSerialization serializationManager = (JobSerialization) context
-				.getBean("JobSerialization");
+	    JobSerialization serializationManager = builder.getInstance(JobSerialization.class);
 
 		SerializableJobPackage jobList = null;
 		try {

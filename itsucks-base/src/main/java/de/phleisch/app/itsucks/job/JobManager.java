@@ -8,8 +8,11 @@
 
 package de.phleisch.app.itsucks.job;
 
+import java.util.List;
+
 import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.EventSource;
+import de.phleisch.app.itsucks.filter.JobFilter;
 
 
 public interface JobManager extends EventSource {
@@ -27,4 +30,9 @@ public interface JobManager extends EventSource {
 	public abstract EventContext getContext();
 
 	public abstract void setContext(EventContext pContext);
+	
+	public void addJobFilter(JobFilter pJobFilter);
+	public void addJobFilter(List<JobFilter> pJobFilter);
+	public boolean removeJobFilter(JobFilter pJobFilter);
+
 }

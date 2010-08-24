@@ -8,9 +8,7 @@
 
 package de.phleisch.app.itsucks.job.download.impl;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
@@ -26,19 +24,11 @@ import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
  * @author olli
  *
  */
-public class DownloadJobFactory implements ApplicationContextAware {
+public class DownloadJobFactory {
 
-	private ApplicationContext mContext;
-
-	final static String BEAN_REF_DATAPROCESSOR_MANAGER = "DataProcessorManager";
-
-	final static String BEAN_REF_DATARETRIEVER_MANAGER = "DataRetrieverManager";
-
-	public void setApplicationContext(ApplicationContext pContext)
-			throws BeansException {
-		mContext = pContext;
-	}
-
+	private DataProcessorManager mDataProcessorManager;
+	private DataRetrieverManager mDataRetrieverManager;
+	
 	public UrlDownloadJob createDownloadJob() {
 
 		UrlDownloadJob downloadJob = new UrlDownloadJob();
@@ -58,25 +48,19 @@ public class DownloadJobFactory implements ApplicationContextAware {
 	
 	public void injectDependencies(UrlDownloadJob pDownloadJob) {
 
-		DataProcessorManager dataProcessorMgr = (DataProcessorManager) mContext
-				.getBean(BEAN_REF_DATAPROCESSOR_MANAGER);
-		DataRetrieverManager dataRetrieverMgr = (DataRetrieverManager) mContext
-				.getBean(BEAN_REF_DATARETRIEVER_MANAGER);
-
-		if (dataProcessorMgr == null) {
-			throw new RuntimeException("Could not find bean: "
-					+ BEAN_REF_DATAPROCESSOR_MANAGER);
-		}
-		if (dataRetrieverMgr == null) {
-			throw new RuntimeException("Could not find bean: "
-					+ BEAN_REF_DATARETRIEVER_MANAGER);
-		}
-
-		pDownloadJob.setDataProcessorManager(dataProcessorMgr);
-		pDownloadJob.setDataRetrieverManager(dataRetrieverMgr);
+		pDownloadJob.setDataProcessorManager(mDataProcessorManager);
+		pDownloadJob.setDataRetrieverManager(mDataRetrieverManager);
 
 	}
 
+	@Inject
+	public void setDataProcessorManager(DataProcessorManager pDataProcessorManager) {
+		mDataProcessorManager = pDataProcessorManager;
+	}
 
+	@Inject
+	public void setDataRetrieverManager(DataRetrieverManager pDataRetrieverManager) {
+		mDataRetrieverManager = pDataRetrieverManager;
+	}
 
 }

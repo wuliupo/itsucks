@@ -10,9 +10,9 @@ package de.phleisch.app.itsucks;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.impl.DispatcherBatch;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 
@@ -21,15 +21,17 @@ public class DispatcherBatchTest extends TestCase {
 	
 	public void testBatch() throws InterruptedException {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
-		DispatcherThread dispatcher = (DispatcherThread) context.getBean("DispatcherThread");
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
+	    DispatcherThread dispatcher = injector.getInstance(DispatcherThread.class);
 		assertNotNull(dispatcher);
 		
-		DispatcherThread dispatcher2 = (DispatcherThread) context.getBean("DispatcherThread");
+		DispatcherThread dispatcher2 = injector.getInstance(DispatcherThread.class);
 		assertNotNull(dispatcher2);
 		
-		DispatcherThread dispatcher3 = (DispatcherThread) context.getBean("DispatcherThread");
+		DispatcherThread dispatcher3 = injector.getInstance(DispatcherThread.class);
 		assertNotNull(dispatcher3);
 		
 		DispatcherBatch batch = new DispatcherBatch();

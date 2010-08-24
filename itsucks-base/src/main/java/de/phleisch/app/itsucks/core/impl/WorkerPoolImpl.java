@@ -16,6 +16,9 @@ import java.util.Stack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import de.phleisch.app.itsucks.core.WorkerPool;
 import de.phleisch.app.itsucks.core.WorkerThread;
 import de.phleisch.app.itsucks.job.Job;
@@ -103,7 +106,8 @@ public class WorkerPoolImpl implements WorkerPool {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.IWorkerPool#setSize(int)
 	 */
-	public synchronized void setSize(int pSize) {
+	@Inject
+	public synchronized void setSize(@Named("workerPool.size") int pSize) {
 		
 		if(pSize == mDesiredSize) return;
 		mDesiredSize = pSize;

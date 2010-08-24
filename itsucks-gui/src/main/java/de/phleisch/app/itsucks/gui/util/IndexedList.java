@@ -21,10 +21,9 @@ public class IndexedList<E> implements List<E> {
 //	private Map<E, Integer> mHashIndex;
 //	private boolean mIndexIsValid;
 
-	@SuppressWarnings("unchecked")
 	public IndexedList() {
 //		mRows = new TreeList();
-		mRows = new ArrayList();
+		mRows = new ArrayList<E>();
 	}
 	
 	public IndexedList(Collection<? extends E> pCollection) {

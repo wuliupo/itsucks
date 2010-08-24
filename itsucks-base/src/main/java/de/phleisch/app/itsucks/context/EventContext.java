@@ -8,6 +8,8 @@
 
 package de.phleisch.app.itsucks.context;
 
+import com.google.inject.Inject;
+
 import de.phleisch.app.itsucks.event.EventDispatcher;
 
 public class EventContext extends Context {
@@ -18,6 +20,7 @@ public class EventContext extends Context {
 		return mEventDispatcher;
 	}
 
+	@Inject
 	public void setEventDispatcher(EventDispatcher pEventDispatcher) {
 		mEventDispatcher = pEventDispatcher;
 	}

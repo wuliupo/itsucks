@@ -13,9 +13,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.core.Dispatcher;
@@ -25,7 +24,7 @@ import de.phleisch.app.itsucks.event.dispatcher.DispatcherEvent;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
 import de.phleisch.app.itsucks.filter.JobFilter;
 import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl;
+import de.phleisch.app.itsucks.job.JobManager;
 
 /**
  * The dispatcher is the central class to start an job.
@@ -35,17 +34,12 @@ import de.phleisch.app.itsucks.job.impl.FilterJobManagerImpl;
  * @author olli
  *
  */
-public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
-	
-	@SuppressWarnings("unused")
-	private ApplicationContext mSpringApplicationContext;
+public class DispatcherImpl implements Dispatcher {
 	
 	private final Object SYNC_LOCK = new Object();
 	private String mName;
-	private EventContext mContext;
-	private FilterJobManagerImpl mJobManager;
+	private JobManager mJobManager;
 	private WorkerPool mWorkerPool;
-	private EventDispatcher mEventManager;
 	
 	private int mDispatchDelay = 0;
 	private boolean mRunning;
@@ -86,9 +80,11 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 			}
 		}
 		
+		EventDispatcher eventManager = getEventManager();
+		
 		mLog.info("Start processing jobs");
-		mEventManager.init();
-		mEventManager.fireEvent(
+		eventManager.init();
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_START, this));
 		
 		startup();
@@ -147,9 +143,9 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		setRunning(false);
 		
 		mLog.info("Finished processing jobs");
-		mEventManager.fireEvent(
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_FINISH, this));
-		mEventManager.shutdown();
+		eventManager.shutdown();
 	}
 
 	/**
@@ -169,7 +165,9 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 
 	protected void doPauseLoop() {
 		
-		mEventManager.fireEvent(
+		EventDispatcher eventManager = getEventManager();
+		
+		eventManager.fireEvent(
 				new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_PAUSE, this));
 		
 		try {
@@ -185,7 +183,7 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		} catch (InterruptedException e) {
 			mLog.warn("Interrupted in pause loop");
 		} finally {
-			mEventManager.fireEvent(
+			eventManager.fireEvent(
 					new DispatcherEvent(CoreEvents.EVENT_DISPATCHER_UNPAUSE, this));
 		}
 	}
@@ -234,7 +232,6 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	}
 	
 	private void startup() {
-		mJobManager.setContext(mContext);
 		mWorkerPool.initialize();
 	}
 	
@@ -245,13 +242,13 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#getJobManager()
 	 */
-	public FilterJobManagerImpl getJobManager() {
+	public JobManager getJobManager() {
 		return mJobManager;
 	}
 
-	public void setFilterJobManager(FilterJobManagerImpl pJobManager) {
+	@Inject
+	public void setFilterJobManager(JobManager pJobManager) {
 		mJobManager = pJobManager;
-		mJobManager.setContext(mContext);
 	}
 
 	/* (non-Javadoc)
@@ -261,19 +258,16 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 		return mWorkerPool;
 	}
 
+	@Inject
 	public void setWorkerPool(WorkerPool pWorkerPool) {
 		mWorkerPool = pWorkerPool;
-	}
-	
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mSpringApplicationContext = pContext;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.Dispatcher#getEventManager()
 	 */
 	public EventDispatcher getEventManager() {
-		return mEventManager;
+		return getContext().getEventDispatcher();
 	}
 	
 	/* (non-Javadoc)
@@ -281,10 +275,6 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 */
 	public EventContext getContext() {
 		return mJobManager.getContext();
-	}
-	
-	public void setContext(EventContext pContext) {
-		mContext = pContext;
 	}
 	
 	/* (non-Javadoc)
@@ -333,16 +323,6 @@ public class DispatcherImpl implements ApplicationContextAware, Dispatcher {
 	 */
 	public void addJobFilter(List<JobFilter> pJobFilter) {
 		mJobManager.addJobFilter(pJobFilter);
-	}
-	
-	public void setEventManager(EventDispatcher pEventManager) {
-		
-		if(mContext == null) {
-			throw new IllegalStateException("Context is not set!");
-		}
-		
-		mEventManager = pEventManager;
-		mContext.setEventDispatcher(mEventManager);
 	}
 
 }

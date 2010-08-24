@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import com.google.inject.Inject;
+
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.persistence.JobSerialization;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
@@ -49,6 +51,7 @@ public abstract class AbstractJobSerialization implements JobSerialization {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.persistence.JobSerialization#setJobFactory(de.phleisch.app.itsucks.JobFactory)
 	 */
+	@Inject
 	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}

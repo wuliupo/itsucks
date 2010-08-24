@@ -11,7 +11,8 @@ package de.phleisch.app.itsucks.gui.main.helper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
+import de.phleisch.app.itsucks.ItSucksBuilder;
 import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.persistence.SerializableJobPackage;
 import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
@@ -19,13 +20,14 @@ import de.phleisch.app.itsucks.persistence.util.DispatcherBuilder;
 public class DispatcherHelper {
 
 	private static Log mLog = LogFactory.getLog(DispatcherHelper.class);
+	private ItSucksBuilder mItSucksBuilder;
 	
 	public DispatcherHelper() {
+		mItSucksBuilder = new ItSucksBuilder(GuiceContextSingelton.getInjector());
 	}
 
 	public DispatcherThread createDispatcher(SerializableJobPackage pJobList) {
-		DispatcherThread dispatcher = (DispatcherThread) SpringContextSingelton
-			.getApplicationContext().getBean("DispatcherThread");
+		DispatcherThread dispatcher = mItSucksBuilder.buildDispatcherThread();
 
 		DispatcherBuilder.buildDispatcherFromJobPackage(dispatcher, pJobList);
 		

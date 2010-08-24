@@ -17,15 +17,14 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.core.impl.DispatcherList;
-import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.core.impl.DispatcherList.DispatcherListEvent;
+import de.phleisch.app.itsucks.core.impl.DispatcherThread;
 import de.phleisch.app.itsucks.event.Event;
 import de.phleisch.app.itsucks.event.EventObserver;
 import de.phleisch.app.itsucks.event.impl.CoreEvents;
@@ -52,11 +51,13 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private Map<Dispatcher, EventObserver> mEventObserver = new HashMap<Dispatcher, EventObserver>();
 
 	private DispatcherList mDispatcherList;
+	DispatcherHelper mDispatcherHelper;
 
 	/** Creates new form DownloadJobOverviewFrame */
 	public DownloadJobOverviewFrame() {
 		mDispatcherList = new DispatcherList();
 		mDispatcherList.registerObserver(this);
+		mDispatcherHelper = new DispatcherHelper();
 
 		initComponents();
 		registerHelp();
@@ -65,22 +66,24 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 	private void registerHelp() {
 		
 		//register help
-		HelpBroker helpBroker = HelpManager.getInstance().getHelpBroker();
-		
-		helpBroker.enableHelpOnButton(contentsMenuItem, "main", helpBroker.getHelpSet());
-		helpBroker.enableHelpKey(this.getRootPane(), "main", helpBroker.getHelpSet());
+		try {
+			HelpBroker helpBroker = HelpManager.getInstance().getHelpBroker();
+			
+			helpBroker.enableHelpOnButton(contentsMenuItem, "main", helpBroker.getHelpSet());
+			helpBroker.enableHelpKey(this.getRootPane(), "main", helpBroker.getHelpSet());
+		} catch(RuntimeException ex) {
+			mLog.error("Error initalizing help, help not available!");
+		}
 	}
 
 	public void addDownload(SerializableJobPackage pJobList) {
 
-		DispatcherHelper helper = new DispatcherHelper();
-
-		DispatcherThread dispatcher = helper.createDispatcher(pJobList);
+		DispatcherThread dispatcher = mDispatcherHelper.createDispatcher(pJobList);
 
 		//add the dispatcher to the list, the panel will be added by the event
 		mDispatcherList.addDispatcher(dispatcher);
 
-		helper.startDispatcher(dispatcher);
+		mDispatcherHelper.startDispatcher(dispatcher);
 
 	}
 
@@ -550,11 +553,7 @@ public class DownloadJobOverviewFrame extends javax.swing.JFrame implements
 
 	protected void saveConfiguration() {
 		
-		ApplicationContext applicationContext = SpringContextSingelton
-			.getApplicationContext();
-		
-		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
-			.getBean("ApplicationConfiguration");
+		ApplicationConfiguration configuration = GuiceContextSingelton.getInjector().getInstance(ApplicationConfiguration.class);
 		
 		configuration.setValue("title", ApplicationConstants.APPLICATION_TITLE);
 		configuration.setValue("version",

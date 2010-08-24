@@ -79,6 +79,8 @@ public class AsynchronEventDispatcherImpl implements EventDispatcher {
 	public synchronized void init() {
 		if(initialized) return;
 		
+		mLog.debug("Start up dispatcher Thread, queue size: " + mEventDequeue.size());
+		
 		mEventThread = new EventDispatcherThread();
 		mEventThread.start();
 		initialized = true;
@@ -209,6 +211,8 @@ public class AsynchronEventDispatcherImpl implements EventDispatcher {
 				handleSystemCmd(pEvent);
 				return;
 			}
+			
+			mLog.debug("Dispatch event: " + pEvent);
 			
 			//create a local copy to hold synchronized part as small as possible
 			mLocalObserverCopy.clear();

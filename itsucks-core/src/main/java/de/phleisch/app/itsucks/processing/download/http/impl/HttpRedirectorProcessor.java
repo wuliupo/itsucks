@@ -16,9 +16,8 @@ import java.util.HashSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
@@ -40,11 +39,11 @@ import de.phleisch.app.itsucks.processing.impl.AbstractDataProcessor;
  * @author olli
  *
  */
-public class HttpRedirectorProcessor extends AbstractDataProcessor implements ApplicationContextAware {
+public class HttpRedirectorProcessor extends AbstractDataProcessor {
 
 	private static Log mLog = LogFactory.getLog(HttpRedirectorProcessor.class);
 	
-	private ApplicationContext mContext;
+	private DownloadJobFactory mDownloadJobFactory;
 	
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.AbstractDataProcessor#supports(de.phleisch.app.itsucks.Job)
@@ -130,22 +129,14 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 				continue;
 			}
 			
-			DownloadJobFactory jobFactory = (DownloadJobFactory) mContext.getBean("JobFactory");
 			DataProcessorChain processorChain = getProcessorChain();
 			
-			UrlDownloadJob job = jobFactory.createDownloadJob();
+			UrlDownloadJob job = mDownloadJobFactory.createDownloadJob();
 			
 			job.setUrl(url);
 			job.setParent((UrlDownloadJob)processorChain.getJob());
 			processorChain.getJobManager().addJob(job);
 		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
-	 */
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mContext = pContext;
 	}
 
 	/* (non-Javadoc)
@@ -164,6 +155,11 @@ public class HttpRedirectorProcessor extends AbstractDataProcessor implements Ap
 				DataProcessorInfo.ProcessorType.FILTER,
 				DataProcessorInfo.StreamingSupport.STREAMING_SUPPORTED
 		);
+	}
+
+	@Inject
+	public void setDownloadJobFactory(DownloadJobFactory pDownloadJobFactory) {
+		mDownloadJobFactory = pDownloadJobFactory;
 	}
 	
 }

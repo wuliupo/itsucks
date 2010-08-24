@@ -1,4 +1,4 @@
-#Fri May 23 17:39:08 GMT 2008
+#Thu Jul 08 18:30:59 CEST 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.codeComplete.argumentPrefixes=p
 org.eclipse.jdt.core.codeComplete.argumentSuffixes=
@@ -12,4 +12,5 @@ org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.6
 org.eclipse.jdt.core.compiler.compliance=1.6
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning
 org.eclipse.jdt.core.compiler.source=1.6

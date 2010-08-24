@@ -22,9 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
 
-import de.phleisch.app.itsucks.SpringContextSingelton;
+import de.phleisch.app.itsucks.GuiceContextSingelton;
 import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.gui.job.ifc.AddDownloadJobCapable;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
@@ -50,9 +49,7 @@ public class EditDownloadJobHelper {
 	
 	public JDialog openAddDownloadDialog(AddDownloadJobCapable pAddDownloadJobCapable) {
 
-		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
-		JobSerialization serializationManager = (JobSerialization) applicationContext
-			.getBean("JobSerialization");
+		JobSerialization serializationManager = GuiceContextSingelton.getInjector().getInstance(JobSerialization.class);
 		
 		SerializableJobPackage jobList = null;
 		try {
@@ -115,8 +112,7 @@ public class EditDownloadJobHelper {
 		int result = fc.showOpenDialog(mParentComponent);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
-			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
-					.getApplicationContext().getBean("JobSerialization");
+			JobSerialization serializationManager = GuiceContextSingelton.getInjector().getInstance(JobSerialization.class);
 
 			for (File selectedFile : fc.getSelectedFiles()) {
 			
@@ -196,9 +192,8 @@ public class EditDownloadJobHelper {
 		int result = fc.showSaveDialog(mParentComponent);
 		if (result == JFileChooser.APPROVE_OPTION) {
 
-			JobSerialization serializationManager = (JobSerialization) SpringContextSingelton
-					.getApplicationContext().getBean("JobSerialization");
-
+			JobSerialization serializationManager = GuiceContextSingelton.getInjector().getInstance(JobSerialization.class);
+			
 			try {
 				serializationManager.serialize(pDownloadJobList, fc
 						.getSelectedFile());
@@ -224,18 +219,14 @@ public class EditDownloadJobHelper {
 	
 	public String getLastDirectory() {
 		
-		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
-		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
-			.getBean("ApplicationConfiguration");
+		ApplicationConfiguration configuration = GuiceContextSingelton.getInjector().getInstance(ApplicationConfiguration.class);
 		
 		return configuration.getValue("last_directory");
 	}
 
 	public void setLastDirectory(String pPath) {
 		
-		ApplicationContext applicationContext = SpringContextSingelton.getApplicationContext();
-		ApplicationConfiguration configuration = (ApplicationConfiguration) applicationContext
-			.getBean("ApplicationConfiguration");
+		ApplicationConfiguration configuration = GuiceContextSingelton.getInjector().getInstance(ApplicationConfiguration.class);
 		
 		configuration.setValue("last_directory", pPath + File.separator);
 	}

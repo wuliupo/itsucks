@@ -71,8 +71,10 @@ public class EditDownloadJobTreeDialog extends javax.swing.JDialog {
         
 		//register help
 		HelpBroker helpBroker = HelpManager.getInstance().getHelpBroker();
-		helpBroker.enableHelpKey(this.getRootPane(), 
-				"job configuration", helpBroker.getHelpSet());
+		if(helpBroker != null) {
+			helpBroker.enableHelpKey(this.getRootPane(), 
+					"job configuration", helpBroker.getHelpSet());
+		}
 	}
     
     protected void registerTreeNodes() {

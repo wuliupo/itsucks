@@ -16,18 +16,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.inject.Inject;
+
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
+import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.http.impl.CookieFilter;
 import de.phleisch.app.itsucks.filter.download.http.impl.HttpAuthenticationFilter;
-import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter.HttpResponseCodeBehaviourHostConfig;
 import de.phleisch.app.itsucks.filter.download.impl.ContentFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.filter.download.impl.FileSizeFilter;
 import de.phleisch.app.itsucks.filter.download.impl.MaxLinksToFollowFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter;
-import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterAction;
 import de.phleisch.app.itsucks.filter.download.impl.RegExpJobFilter.RegExpFilterRule;
+import de.phleisch.app.itsucks.filter.download.impl.TimeLimitFilter;
 import de.phleisch.app.itsucks.io.http.impl.Cookie;
 import de.phleisch.app.itsucks.io.http.impl.HttpAuthenticationCredentials;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverResponseCodeBehaviour;
@@ -599,7 +601,7 @@ public class DownloadJobConverter extends AbstractBeanConverter {
 		return serializedAuthenticationFilter;
 	}
 	
-	
+	@Inject
 	public void setJobFactory(DownloadJobFactory pJobFactory) {
 		mJobFactory = pJobFactory;
 	}

@@ -62,6 +62,13 @@
             <proxyRealm xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
         </serializedHttpRetrieverConfiguration>
     </serializedContextParameter>
+    <serializedContextParameter>
+        <name>JobManagerConfiguration</name>
+        <serializedJobManagerConfiguration>
+            <dropIgnoredJobs>true</dropIgnoredJobs>
+            <dropFinishedJobs>false</dropFinishedJobs>
+        </serializedJobManagerConfiguration>
+    </serializedContextParameter>
     <serializedDispatcherConfiguration>
         <workerThreads>5</workerThreads>
         <dispatchDelay xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>

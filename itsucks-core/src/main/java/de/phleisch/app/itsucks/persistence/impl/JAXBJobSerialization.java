@@ -10,16 +10,15 @@ package de.phleisch.app.itsucks.persistence.impl;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.filter.JobFilter;
@@ -45,11 +44,8 @@ import de.phleisch.app.itsucks.persistence.jaxb.conversion.BeanConverterManager;
  */
 public class JAXBJobSerialization
 		extends AbstractJobSerialization
-		implements ApplicationContextAware, JobSerialization {
+		implements JobSerialization {
 
-	@SuppressWarnings("unused")
-	private ApplicationContext mContext;
-	
 	private BeanConverterManager mBeanConverterManager;
 	
 	public JAXBJobSerialization() {
@@ -187,15 +183,12 @@ public class JAXBJobSerialization
 		
 		return deserializedJobList;
 	}
-	
-	public void setApplicationContext(ApplicationContext pContext) {
-		mContext = pContext;
-	}
 
 	public BeanConverterManager getBeanConverterManager() {
 		return mBeanConverterManager;
 	}
 
+	@Inject
 	public void setBeanConverterManager(BeanConverterManager pBeanConverterManager) {
 		mBeanConverterManager = pBeanConverterManager;
 	}

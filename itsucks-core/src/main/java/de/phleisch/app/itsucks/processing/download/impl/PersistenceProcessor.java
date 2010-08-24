@@ -17,6 +17,9 @@ import java.io.OutputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import de.phleisch.app.itsucks.io.FileManager;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
 import de.phleisch.app.itsucks.job.Job;
@@ -231,7 +234,9 @@ public class PersistenceProcessor extends AbstractDataProcessor implements DataP
 	 * 
 	 * @param pPreserveDataWhenRollback
 	 */
-	public void setPreserveDataOnRollback(boolean pPreserveDataOnRollback) {
+	@Inject
+	public void setPreserveDataOnRollback(
+			@Named("persistenceProcessor.preservePartialDownloadedFile") boolean pPreserveDataOnRollback) {
 		mPreserveDataOnRollback = pPreserveDataOnRollback;
 	}
 

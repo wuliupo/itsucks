@@ -13,9 +13,9 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.http.impl.ChangeHttpResponseCodeBehaviourFilter;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
@@ -29,10 +29,12 @@ public class FullFilterTest extends TestCase {
 	
 	public void testChangeHttpResponseCodeBehaviourFilter() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
 		//create dispatcher
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
+		Dispatcher dispatcher = injector.getInstance(Dispatcher.class);
 		assertNotNull(dispatcher);
 		
 		//configure download job filter
@@ -51,7 +53,7 @@ public class FullFilterTest extends TestCase {
 		dispatcher.addJobFilter(behaviourFilter);
 
 		//build job
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
 		assertNotNull(jobFactory);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();

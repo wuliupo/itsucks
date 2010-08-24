@@ -16,9 +16,8 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.io.Metadata;
 import de.phleisch.app.itsucks.io.UrlDataRetriever;
@@ -35,16 +34,13 @@ import de.phleisch.app.itsucks.processing.ProcessingException;
 import de.phleisch.app.itsucks.processing.impl.AbstractDataParser;
 
 
-public class HtmlParser extends AbstractDataParser implements ApplicationContextAware, DataProcessor {
+public class HtmlParser extends AbstractDataParser implements DataProcessor {
 	
 	private static Log mLog = LogFactory.getLog(HtmlParser.class);
 	
-	private ApplicationContext mContext;
+	private DownloadJobFactory mDownloadJobFactory;
 	private URI mBaseURI;
-	//private StringBuilder mData;
-
 	private String mEncoding;
-
 	private UrlExtractor mUrlExtractor;
 	
 	public HtmlParser() {
@@ -59,7 +55,7 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 			Metadata metadata = downloadJob.getDataRetriever().getMetadata();
 			
 			if(metadata instanceof HttpMetadata &&
-					((HttpMetadata)metadata).getContentType().startsWith("text/html")) {
+					((HttpMetadata)metadata).getContentType().startsWith("text/")) {
 				return true;
 			}
 		}
@@ -116,10 +112,9 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 				continue;
 			}
 			
-			DownloadJobFactory jobFactory = (DownloadJobFactory) mContext.getBean("JobFactory");
 			DataProcessorChain processorChain = getProcessorChain();
 			
-			UrlDownloadJob job = jobFactory.createDownloadJob();
+			UrlDownloadJob job = mDownloadJobFactory.createDownloadJob();
 			
 			job.setUrl(url);
 			job.setParent((UrlDownloadJob)processorChain.getJob());
@@ -149,10 +144,6 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 		return pDataChunk;
 	}
 
-	public void setApplicationContext(ApplicationContext pContext) throws BeansException {
-		mContext = pContext;
-	}
-
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.processing.DataProcessor#resumeAt(long)
 	 */
@@ -170,6 +161,11 @@ public class HtmlParser extends AbstractDataParser implements ApplicationContext
 				DataProcessorInfo.ProcessorType.CONSUMER,
 				DataProcessorInfo.StreamingSupport.DATA_AS_WHOLE_CHUNK_NEEDED
 		);
+	}
+
+	@Inject
+	public void setDownloadJobFactory(DownloadJobFactory pDownloadJobFactory) {
+		mDownloadJobFactory = pDownloadJobFactory;
 	}
 
 }

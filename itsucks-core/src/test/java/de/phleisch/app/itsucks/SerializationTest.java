@@ -13,9 +13,9 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
@@ -26,14 +26,16 @@ public class SerializationTest extends TestCase {
 	
 	public void testSerialization() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+	    
 		DownloadJobFilter filter = new DownloadJobFilter();
 		filter.setAllowedHostNames(new String[] {".*"});
 		filter.setMaxRecursionDepth(1);
 		filter.setSaveToDisk(new String[] {".*[Jj][Pp][Gg]", ".*[Pp][Nn][Gg]", ".*[Gg][Ii][Ff]"});
 		
-		DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+		DownloadJobFactory jobFactory = injector.getInstance(DownloadJobFactory.class);
 		
 		UrlDownloadJob job = jobFactory.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
@@ -44,8 +46,8 @@ public class SerializationTest extends TestCase {
 		serializedObject.addJob(job);
 		
 		File file = File.createTempFile("itsucks_junit_", "_test");
-		
-		JobSerialization serializator = (JobSerialization) context.getBean("JobSerialization");
+
+		JobSerialization serializator = injector.getInstance(JobSerialization.class);
 		serializator.serialize(serializedObject, file);
 		
 		SerializableJobPackage deserializedList = serializator.deserialize(file);

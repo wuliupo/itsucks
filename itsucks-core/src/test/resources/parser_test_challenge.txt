@@ -19,3 +19,12 @@ More exotic URL's
 <a href="http://localhost/-_.!~*'(|)">Link</a>
 <a href='http://localhost/-_.!~*(|)" " | "<" | ">" | "#" | "" | <"> | "{" | "}" | "|" | "\" | "^" | "[" | "]" | "`"'>Bad Link</a>
 
+CSS
+url(/img/test1.png)
+url("/img/test2.png")
+url('/img/test3.png')
+
+div#leftBorder {
+	background: url("img/left_border.png") 0 0 repeat-y;
+}
+

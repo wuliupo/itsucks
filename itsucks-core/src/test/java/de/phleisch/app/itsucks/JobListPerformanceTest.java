@@ -12,9 +12,9 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
 import de.phleisch.app.itsucks.job.Job;
 import de.phleisch.app.itsucks.job.JobList;
 import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
@@ -31,14 +31,16 @@ public class JobListPerformanceTest extends TestCase {
 	
 	public void testJobListPerformance() throws Exception {
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
+	    Injector injector = Guice.createInjector(
+	    		new BaseModule(), 
+	    		new CoreModule());
+
 		String beans[] = new String[] { "SimpleJobListImpl", "SimpleJobListImpl", "SimpleJobListImpl"};
 		
 		for (String jobListName : beans) {
 			
 			long startUltraShort = System.currentTimeMillis();
-			testJobList(context, jobListName, 1000, 100000);
+			testJobList(injector, jobListName, 1000, 100000);
 			long endUltraShort = System.currentTimeMillis();
 			
 			System.out.println("Ultra Short Test for '" + jobListName + "' took: " + (endUltraShort - startUltraShort) + " ms");
@@ -66,8 +68,8 @@ public class JobListPerformanceTest extends TestCase {
 		
 	}
 
-	private void testJobList(ClassPathXmlApplicationContext context, String pBeanName, int JOB_AMOUNT, int CHANGE_COUNT) {
-		JobList jobList = (JobList) context.getBean(pBeanName);
+	private void testJobList(Injector context, String pBeanName, int JOB_AMOUNT, int CHANGE_COUNT) {
+		JobList jobList = context.getInstance(JobList.class);
 		
 		Random random = new Random(7777777);
 		
@@ -76,7 +78,7 @@ public class JobListPerformanceTest extends TestCase {
 		
 		for (int i = 0; i < JOB_AMOUNT; i++) {
 			
-			DownloadJobFactory jobFactory = (DownloadJobFactory) context.getBean("JobFactory");
+			DownloadJobFactory jobFactory = context.getInstance(DownloadJobFactory.class);
 			
 			testJob = jobFactory.createDownloadJob();
 			testJob.setState(random.nextInt(999));

@@ -6,15 +6,13 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.ItSucksBuilder;
 import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.core.Dispatcher;
 import de.phleisch.app.itsucks.filter.download.impl.DownloadJobFilter;
 import de.phleisch.app.itsucks.io.http.impl.HttpRetrieverConfiguration;
 import de.phleisch.app.itsucks.job.Job;
-import de.phleisch.app.itsucks.job.download.impl.DownloadJobFactory;
 import de.phleisch.app.itsucks.job.download.impl.UrlDownloadJob;
 
 public class ExampleMain {
@@ -29,14 +27,10 @@ public class ExampleMain {
 	 */
 	public static void main(String[] pArgs) throws Exception {
 
-		//load spring application context 
-		ClassPathXmlApplicationContext context = 
-			new ClassPathXmlApplicationContext(
-					ApplicationConstants.CORE_SPRING_CONFIG_FILE);
-		
 		//load dispatcher from spring
-		Dispatcher dispatcher = (Dispatcher) context.getBean("Dispatcher");
-
+		ItSucksBuilder builder = new ItSucksBuilder();
+		Dispatcher dispatcher = builder.buildDispatcher();
+		
 		//set default user agent and send referer (optional)
 		HttpRetrieverConfiguration retrieverConfiguration = new HttpRetrieverConfiguration();
 		retrieverConfiguration.setSendReferer(true);
@@ -48,22 +42,20 @@ public class ExampleMain {
 		
 		//configure an download job filter which downloads all images from the website
 		DownloadJobFilter filter = new DownloadJobFilter();
-		filter.setAllowedHostNames(new String[] {".*"});
-		filter.setMaxRecursionDepth(1);
+		filter.setAllowedHostNames(new String[] {"itsucks.sourceforge.net"});
 		filter.setSaveToDisk(new String[] {
 				".*jpg", 
 				".*png", 
 				".*gif"});
+
+		//set depth to two levels for this example
+		filter.setMaxRecursionDepth(2);
 		
 		//add the filter to the dispatcher
 		dispatcher.addJobFilter(filter);		
 		
-		//create an job factory
-		DownloadJobFactory jobFactory = (DownloadJobFactory) 
-			context.getBean("JobFactory");
-		
 		//create an initial job
-		UrlDownloadJob job = jobFactory.createDownloadJob();
+		UrlDownloadJob job = builder.createDownloadJob();
 		job.setUrl(new URL("http://itsucks.sourceforge.net/"));
 		
 		//create an temporary directory

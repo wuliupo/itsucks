@@ -10,6 +10,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 
 public class PropertyFileConfigurationImpl implements ApplicationConfiguration {
@@ -153,7 +156,9 @@ public class PropertyFileConfigurationImpl implements ApplicationConfiguration {
 		return mSaveConfigurationPath;
 	}
 
-	public void setSaveConfigurationPath(String pSaveConfigurationPath) {
+	@Inject
+	public void setSaveConfigurationPath(
+			@Named("propertyFileConfiguration.saveConfigurationPath") String pSaveConfigurationPath) {
 		
 		//replace home directory
 		pSaveConfigurationPath = 
@@ -166,7 +171,9 @@ public class PropertyFileConfigurationImpl implements ApplicationConfiguration {
 		return mDefaultConfigurationPath;
 	}
 
-	public void setDefaultConfigurationPath(String pDefaultConfigurationPath) {
+	@Inject
+	public void setDefaultConfigurationPath(
+			@Named("propertyFileConfiguration.defaultConfigurationPath") String pDefaultConfigurationPath) {
 		mDefaultConfigurationPath = pDefaultConfigurationPath;
 	}
 
@@ -174,7 +181,8 @@ public class PropertyFileConfigurationImpl implements ApplicationConfiguration {
 		return mComment;
 	}
 
-	public void setComment(String pComment) {
+	@Inject
+	public void setComment(@Named("propertyFileConfiguration.comment") String pComment) {
 		mComment = pComment;
 	}
 

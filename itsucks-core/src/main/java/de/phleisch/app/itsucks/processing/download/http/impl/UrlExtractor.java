@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 
 import de.phleisch.app.itsucks.constants.ApplicationConstants;
+import de.phleisch.app.itsucks.util.StringUtils;
 
 public class UrlExtractor {
 

@@ -10,8 +10,12 @@ package de.phleisch.app.itsucks.job.impl;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.google.inject.Inject;
 
 import de.phleisch.app.itsucks.context.EventContext;
 import de.phleisch.app.itsucks.event.Event;
@@ -129,6 +133,7 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 	/* (non-Javadoc)
 	 * @see de.phleisch.app.itsucks.job.impl.JobManager#setJobList(de.phleisch.app.itsucks.job.JobList)
 	 */
+	@Inject
 	public void setJobList(JobList pJobList) {
 		
 		if(mJobList != null) {
@@ -162,13 +167,20 @@ public class FilterJobManagerImpl implements JobManager, EventSource {
 		return mJobFilterChain;
 	}
 
+	@Inject
 	public void setJobFilterChain(JobFilterChain pJobFilterChain) {
 		mJobFilterChain = pJobFilterChain;
 	}
 
+	@Inject
 	public void setContext(EventContext pContext) {
 		mGroupContext = pContext;
 		mEventDispatcher = mGroupContext.getEventDispatcher();
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
+		//propagate group context to filter chain
 		mJobFilterChain.setContext(mGroupContext);
 	}
 	

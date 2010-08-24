@@ -126,19 +126,15 @@ public class DownloadJobTableModel extends AbstractTableModel {
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(int pRowIndex, int pColumnIndex) {
-		
 		UrlDownloadJob job = mRows.get(pRowIndex);
-		
 		return getColumnValue(job, pColumnIndex);
 	}
 	
 	public void addDownloadJob(UrlDownloadJob pJob) {
-		
 		mJobObserver.queueJobAdd(pJob);
 	}
 	
 	public void removeDownloadJob(UrlDownloadJob pJob) {
-		
 		mJobObserver.queueJobRemove(pJob);
 	}
 
@@ -513,7 +509,7 @@ public class DownloadJobTableModel extends AbstractTableModel {
 					
 					int indexRemove = mRows.indexOf(job);
 					if(indexRemove < 0) {
-						throw new IllegalStateException("Tried to remove nonexisting entry!");
+						throw new IllegalStateException("Tried to remove nonexisting entry! JobId: " + job.getId());
 					}
 						
 					job.removePropertyChangeListener(mJobObserver);
