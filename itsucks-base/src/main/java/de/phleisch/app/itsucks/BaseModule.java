@@ -1,13 +1,7 @@
 package de.phleisch.app.itsucks;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
 import com.google.inject.multibindings.MapBinder;
-import com.google.inject.name.Names;
 
 import de.phleisch.app.itsucks.context.Context;
 import de.phleisch.app.itsucks.context.EventContext;
@@ -26,13 +20,14 @@ import de.phleisch.app.itsucks.job.impl.CleanJobManagerImpl;
 import de.phleisch.app.itsucks.job.impl.SimpleJobListImpl;
 import de.phleisch.app.itsucks.processing.DataProcessor;
 import de.phleisch.app.itsucks.processing.impl.DataProcessorManager;
+import de.phleisch.app.itsucks.util.GuiceUtils;
 
 public class BaseModule extends AbstractModule {
 	@Override 
 	protected void configure() {
 		
 		//load default properties
-		loadProperties(binder());
+		GuiceUtils.loadProperties("base_default_settings.properties", binder());
 		
 		//base
 		bind(Context.class).to(EventContext.class);
@@ -53,18 +48,4 @@ public class BaseModule extends AbstractModule {
 			= MapBinder.newMapBinder(binder(), Integer.class, DataProcessor.class);
 		bind(DataProcessorManager.class);
 	}
-
-	private void loadProperties(Binder binder) {
-		InputStream stream = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream("base_default_settings.properties");
-		Properties appProperties = new Properties();
-		try {
-			appProperties.load(stream);
-			Names.bindProperties(binder, appProperties);
-		} catch (IOException e) {
-			// This is the preferred way to tell Guice something went wrong
-			binder.addError(e);
-		}
-	}
-
 }

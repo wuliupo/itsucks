@@ -104,6 +104,11 @@
 
 		<dependency>
 			<groupId>itsucks</groupId>
+			<artifactId>itsucks-plugins</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>itsucks</groupId>
 			<artifactId>itsucks-help</artifactId>
 		</dependency>
 

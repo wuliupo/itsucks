@@ -57,6 +57,7 @@
 			<modules>
 				<module>../itsucks-base</module>
 				<module>../itsucks-core</module>
+				<module>../itsucks-plugins</module>
 				<module>../itsucks-gui/starter</module>
 				<module>../itsucks-help</module>
 				<module>../itsucks-gui</module>
@@ -93,6 +94,12 @@
 			<dependency>
 				<groupId>itsucks</groupId>
 				<artifactId>itsucks-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>itsucks</groupId>
+				<artifactId>itsucks-plugins</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

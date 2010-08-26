@@ -23,6 +23,7 @@ public class ItSucksModule  extends AbstractModule {
 		
 		install(new BaseModule());
 		install(new CoreModule());
+		install(new PluginModule());
 		
 	}
 }

@@ -8,15 +8,9 @@
 
 package de.phleisch.app.itsucks;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import com.google.inject.AbstractModule;
-import com.google.inject.Binder;
 import com.google.inject.multibindings.MapBinder;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Names;
 
 import de.phleisch.app.itsucks.configuration.ApplicationConfiguration;
 import de.phleisch.app.itsucks.configuration.impl.PropertyFileConfigurationImpl;
@@ -36,13 +30,14 @@ import de.phleisch.app.itsucks.processing.download.http.impl.FilterFileSizeProce
 import de.phleisch.app.itsucks.processing.download.http.impl.HtmlParser;
 import de.phleisch.app.itsucks.processing.download.http.impl.HttpRedirectorProcessor;
 import de.phleisch.app.itsucks.processing.download.impl.PersistenceProcessor;
+import de.phleisch.app.itsucks.util.GuiceUtils;
 
 public class CoreModule extends AbstractModule {
 	@Override 
 	protected void configure() {
 		
 		//load default properties
-		loadProperties(binder());
+		GuiceUtils.loadProperties("core_default_settings.properties", binder());
 
 		//register retriever factories for protocols 
 		MapBinder<String, DataRetrieverFactory> mapbinder
@@ -73,18 +68,4 @@ public class CoreModule extends AbstractModule {
 		bind(ApplicationConfiguration.class).to(PropertyFileConfigurationImpl.class);
 
 	}
-
-	private void loadProperties(Binder binder) {
-		InputStream stream = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream("core_default_settings.properties");
-		Properties appProperties = new Properties();
-		try {
-			appProperties.load(stream);
-			Names.bindProperties(binder, appProperties);
-		} catch (IOException e) {
-			// This is the preferred way to tell Guice something went wrong
-			binder.addError(e);
-		}
-	}
-
 }

@@ -33,9 +33,7 @@ public class GuiceContextSingelton {
 		
 		if(isInitialized()) return;
 		
-	    mInjector = Guice.createInjector(
-	    		new BaseModule(), 
-	    		new CoreModule());
+	    mInjector = Guice.createInjector(new ItSucksModule());
 		
 
 		mInitialized = true;
