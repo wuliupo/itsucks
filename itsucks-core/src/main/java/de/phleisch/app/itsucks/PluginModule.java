@@ -40,7 +40,7 @@ public class PluginModule extends AbstractModule {
 		try {
 			Iterable<Class<?>> classes = getClasses(packagePath);
 			for (Class<?> clazz : classes) {
-				if(clazz.isAssignableFrom(Plugin.class) && !clazz.isInterface()) {
+				if(Plugin.class.isAssignableFrom(clazz) && !clazz.isInterface()) {
 					loadPlugin((Class<Plugin>) clazz);
 				}
 			}
