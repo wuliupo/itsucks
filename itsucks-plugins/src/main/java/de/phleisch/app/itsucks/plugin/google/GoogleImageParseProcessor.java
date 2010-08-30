@@ -10,6 +10,7 @@ public class GoogleImageParseProcessor extends AbstractDataParser {
 
 	@Override
 	public void resumeAt(long pByteOffset) {
+		throw new IllegalStateException("Resume not supported.");
 	}
 
 	@Override
@@ -19,7 +20,11 @@ public class GoogleImageParseProcessor extends AbstractDataParser {
 
 	@Override
 	public DataProcessorInfo getInfo() {
-		return null;
+		return new DataProcessorInfo(
+				DataProcessorInfo.ResumeSupport.RESUME_NOT_SUPPORTED,
+				DataProcessorInfo.ProcessorType.CONSUMER,
+				DataProcessorInfo.StreamingSupport.DATA_AS_WHOLE_CHUNK_NEEDED
+		);
 	}
 
 	@Override
